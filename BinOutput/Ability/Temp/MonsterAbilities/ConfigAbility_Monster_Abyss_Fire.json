@@ -1,0 +1,2704 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Abyss_Alert",
+            "onAbilityStart": [
+                {
+                    "$type": "SetPoseBool",
+                    "boolID": "Sacrifice"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Abyss_SpecialsState",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        9013
+                    ],
+                    "modifierName": "SpecialsState"
+                }
+            ],
+            "modifiers": {
+                "SpecialsState": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Entity_MassRatio": 9999.0,
+                        "Entity_WeightRatio": 5.0
+                    },
+                    "onBeingHit": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "Sacrifice"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Abyss_ActionPointRegister",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        9013
+                    ],
+                    "modifierName": "ActionPointRegister_Preach"
+                }
+            ],
+            "modifiers": {
+                "ActionPointRegister_Preach": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "RegisterAIActionPoint",
+                            "pointType": "PreachPoint"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ReleaseAIActionPoint",
+                            "pointType": "PreachPoint"
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "ReleaseAIActionPoint",
+                            "pointType": "PreachPoint"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Abyss_TurnToSacrifice",
+            "onAbilityStart": [
+                {
+                    "$type": "SetPoseBool",
+                    "boolID": "Sacrifice",
+                    "value": true
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Abyss_OutOfSacrifice",
+            "onAbilityStart": [
+                {
+                    "$type": "SetPoseBool",
+                    "boolID": "Sacrifice"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Abyss_Sacrifice_NeuronBroadcaster",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "Sacrifice"
+                    ],
+                    "modifierName": "NeuronBroadcast_Surround"
+                }
+            ],
+            "modifiers": {
+                "NeuronBroadcast_Surround": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "BroadcastNeuronStimulate",
+                            "neuronName": "SURROUND",
+                            "stimulate": true,
+                            "range": 50.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "BroadcastNeuronStimulate",
+                            "neuronName": "SURROUND",
+                            "range": 50.0
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "BroadcastNeuronStimulate",
+                            "neuronName": "SURROUND",
+                            "range": 50.0
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Abyss_Sacrifice_Effect",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "Sacrifice"
+                    ],
+                    "modifierName": "Sacrifice_Effect"
+                }
+            ],
+            "modifiers": {
+                "Sacrifice_Effect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Abyss_Common_Preach"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_Disappear",
+            "onAbilityStart": [
+                {
+                    "$type": "SetCanDieImmediately",
+                    "dieImmediately": true
+                },
+                {
+                    "$type": "KillSelf",
+                    "banDrop": true,
+                    "banExp": true,
+                    "banHPPercentageDrop": true
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Abyss_Fire_SpecialsState",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionByStateIDMixin",
+                    "stateIDs": [
+                        "Sacrifice",
+                        "TurnToSacrifice"
+                    ],
+                    "enterPredicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ABILITY_ABYSS_FIRE_ELEMENTSHIELD",
+                            "value": 1.0,
+                            "forceByCaster": true
+                        }
+                    ],
+                    "exitPredicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ABILITY_ABYSS_FIRE_ELEMENTSHIELD",
+                            "value": 0.0,
+                            "forceByCaster": true
+                        }
+                    ],
+                    "enterActions": [
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "Abyss_Fire_ElementShield_Remove_NoBroken"
+                        }
+                    ],
+                    "exitActions": [
+                        {
+                            "$type": "SetPoseInt",
+                            "intID": "ElementState",
+                            "value": 2
+                        },
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "Abyss_Fire_ElementShield"
+                        },
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "Abyss_Fire_ElementShield_Effect"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_ElementShield_Remove_NoBroken",
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Abyss_Fire_ElementShield"
+                },
+                {
+                    "$type": "SetPoseInt",
+                    "intID": "ElementState",
+                    "value": 2
+                },
+                {
+                    "$type": "ResetAnimatorTrigger",
+                    "triggerID": "ShiledBrokenTrigger"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_SacrificeAlert",
+            "onAbilityStart": [
+                {
+                    "$type": "SetPoseInt",
+                    "intID": "ElementState",
+                    "value": 2
+                },
+                {
+                    "$type": "TriggerAbility",
+                    "abilityName": "Abyss_Fire_ElementShield"
+                },
+                {
+                    "$type": "TriggerAbility",
+                    "abilityName": "Abyss_Fire_ElementShield_Effect"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_WeaponElement",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        201,
+                        300,
+                        301
+                    ],
+                    "modifierName": "WeaponEffect"
+                }
+            ],
+            "modifiers": {
+                "WeaponEffect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Abyss_Fire_WeaponElement"
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "WeaponEffect"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_ElementShield",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        300,
+                        301,
+                        302
+                    ],
+                    "modifierName": "Abyss_Fire_ElementShield_RecoverHandler"
+                }
+            ],
+            "abilitySpecials": {
+                "ElementShield_DurabilityImprove": 0.0
+            },
+            "modifiers": {
+                "Abyss_Fire_ElementShield_RecoverHandler": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onReconnect": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Abyss_Fire_ElementShield"
+                        }
+                    ]
+                },
+                "UNIQUE_MonsterEliteAffix_DefaultState": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "UseSkillEliteSet",
+                            "skillEliteSetID": 1
+                        }
+                    ]
+                },
+                "UNIQUE_Abyss_Fire_ElementShield": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementType": "Fire",
+                    "elementDurability": [
+                        300.0,
+                        "ElementShield_DurabilityImprove",
+                        "Mul",
+                        300.0,
+                        "Add"
+                    ],
+                    "modifierMixins": [
+                        {
+                            "$type": "ElementShieldMixin",
+                            "elementType": "Fire",
+                            "showDamageText": "",
+                            "shieldAngle": 360.0,
+                            "shieldHPRatio": 1.0,
+                            "damageRatio": 0.20000000298023224,
+                            "onShieldSuccess": [
+                                {
+                                    "$type": "Predicated",
+                                    "target": "Target",
+                                    "targetPredicates": [
+                                        {
+                                            "$type": "ByEntityTypes",
+                                            "entityTypes": [
+                                                "Avatar"
+                                            ]
+                                        }
+                                    ],
+                                    "successActions": [
+                                        {
+                                            "$type": "SetGlobalDir",
+                                            "target": "Target",
+                                            "key": "_ABILITY_ABYSS_FIRE_ELEMENTSHIELD_HIT",
+                                            "born": {
+                                                "$type": "ConfigBornBySelf",
+                                                "direction": {
+                                                    "$type": "ConfigDirectionByLookAtEntity"
+                                                }
+                                            },
+                                            "setTarget": false
+                                        }
+                                    ],
+                                    "failActions": [
+                                        {
+                                            "$type": "SetGlobalDir",
+                                            "target": "TargetOriginOwner",
+                                            "key": "_ABILITY_ABYSS_FIRE_ELEMENTSHIELD_HIT",
+                                            "born": {
+                                                "$type": "ConfigBornBySelf",
+                                                "direction": {
+                                                    "$type": "ConfigDirectionByLookAtEntity"
+                                                }
+                                            },
+                                            "setTarget": false
+                                        }
+                                    ]
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Monster_Abyss_Fire_ElementShield_Hit_Invalid",
+                                    "born": {
+                                        "$type": "ConfigBornByTarget",
+                                        "direction": {
+                                            "$type": "ConfigDirectionByGlobalValue",
+                                            "directionKey": "_ABILITY_ABYSS_FIRE_ELEMENTSHIELD_HIT"
+                                        }
+                                    }
+                                },
+                                {
+                                    "$type": "SendEffectTrigger",
+                                    "parameter": "BeHitInvalid",
+                                    "effectPattern": "Eff_Monster_Abyss_Fire_ElementShield_BS"
+                                }
+                            ],
+                            "onShieldFailed": [
+                                {
+                                    "$type": "Predicated",
+                                    "target": "Target",
+                                    "targetPredicates": [
+                                        {
+                                            "$type": "ByEntityTypes",
+                                            "entityTypes": [
+                                                "Avatar"
+                                            ]
+                                        }
+                                    ],
+                                    "successActions": [
+                                        {
+                                            "$type": "SetGlobalDir",
+                                            "target": "Target",
+                                            "key": "_ABILITY_ABYSS_FIRE_ELEMENTSHIELD_HIT",
+                                            "born": {
+                                                "$type": "ConfigBornBySelf",
+                                                "direction": {
+                                                    "$type": "ConfigDirectionByLookAtEntity"
+                                                }
+                                            },
+                                            "setTarget": false
+                                        }
+                                    ],
+                                    "failActions": [
+                                        {
+                                            "$type": "SetGlobalDir",
+                                            "target": "TargetOriginOwner",
+                                            "key": "_ABILITY_ABYSS_FIRE_ELEMENTSHIELD_HIT",
+                                            "born": {
+                                                "$type": "ConfigBornBySelf",
+                                                "direction": {
+                                                    "$type": "ConfigDirectionByLookAtEntity"
+                                                }
+                                            },
+                                            "setTarget": false
+                                        }
+                                    ]
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Monster_Abyss_Fire_ElementShield_Hit",
+                                    "born": {
+                                        "$type": "ConfigBornByTarget",
+                                        "direction": {
+                                            "$type": "ConfigDirectionByGlobalValue",
+                                            "directionKey": "_ABILITY_ABYSS_FIRE_ELEMENTSHIELD_HIT"
+                                        }
+                                    }
+                                },
+                                {
+                                    "$type": "SendEffectTrigger",
+                                    "parameter": "BeHit",
+                                    "effectPattern": "Eff_Monster_Abyss_Fire_ElementShield_BS"
+                                }
+                            ],
+                            "useMutiPlayerFixData": true
+                        },
+                        {
+                            "$type": "VelocityForceMixin",
+                            "excludeForces": [
+                                "WindZoneType"
+                            ]
+                        }
+                    ],
+                    "properties": {
+                        "Actor_EndureDelta": 0.0
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_ABILITY_ABYSS_FIRE_ELEMENTSHIELD",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "EnableMonsterMoveOnWater",
+                            "enable": true
+                        },
+                        {
+                            "$type": "AttachAbilityStateResistance",
+                            "resistanceListID": 14001
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "ShiledBrokenTrigger"
+                        },
+                        {
+                            "$type": "SetPoseInt",
+                            "intID": "ElementState"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "_ABILITY_ABYSS_FIRE_ELEMENTSHIELD",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "EnableMonsterMoveOnWater"
+                        },
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Abyss_Fire_ElementShield_Effect"
+                        }
+                    ],
+                    "onBeingHit": [
+                        {
+                            "$type": "DamageByAttackValue",
+                            "target": "Target",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ELITEAFFIX_DEFENCE_ENHANCE",
+                                    "value": 1.0,
+                                    "forceByCaster": true
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Avatar"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByAnimatorFloat",
+                                    "target": "Caster",
+                                    "logic": "GreaterOrEqual",
+                                    "value": 301.0,
+                                    "parameter": "PoseID"
+                                }
+                            ],
+                            "attackInfo": {
+                                "attackTag": "",
+                                "attenuationTag": "",
+                                "attenuationGroup": "default",
+                                "attackProperty": {
+                                    "damagePercentage": 0.0,
+                                    "damagePercentageRatio": 0.0,
+                                    "elementType": "Fire",
+                                    "elementDurability": 25.0,
+                                    "enBreak": 0.0
+                                },
+                                "hitPattern": {
+                                    "onHitEffectName": "none",
+                                    "hitImpulseType": "LV0",
+                                    "muteHitText": true
+                                }
+                            }
+                        },
+                        {
+                            "$type": "DamageByAttackValue",
+                            "target": "TargetOwner",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ELITEAFFIX_DEFENCE_ENHANCE",
+                                    "value": 1.0,
+                                    "forceByCaster": true
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Avatar"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByAnimatorFloat",
+                                    "target": "Caster",
+                                    "logic": "GreaterOrEqual",
+                                    "value": 301.0,
+                                    "parameter": "PoseID"
+                                }
+                            ],
+                            "attackInfo": {
+                                "attackTag": "",
+                                "attenuationTag": "",
+                                "attenuationGroup": "default",
+                                "attackProperty": {
+                                    "damagePercentage": 0.0,
+                                    "damagePercentageRatio": 0.0,
+                                    "elementType": "Fire",
+                                    "elementDurability": 25.0,
+                                    "enBreak": 0.0
+                                },
+                                "hitPattern": {
+                                    "onHitEffectName": "none",
+                                    "hitImpulseType": "LV0",
+                                    "muteHitText": true
+                                }
+                            }
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Abyss_Fire_ElementShield"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValueToOverrideMap",
+                    "globalValueKey": "_MONSTERAFFIX_ELEMENTSHIELD_DURABILITYIMPROVE",
+                    "overrideMapKey": "ElementShield_DurabilityImprove"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ELITEAFFIX_TAG",
+                            "value": 0.0,
+                            "compareType": "NoneOrEqual"
+                        }
+                    ],
+                    "modifierName": "UNIQUE_MonsterEliteAffix_DefaultState"
+                },
+                {
+                    "$type": "SetPoseInt",
+                    "intID": "ElementState",
+                    "value": 2
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "UNIQUE_Abyss_Fire_ElementShield"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "SetPoseInt",
+                    "intID": "ElementState",
+                    "value": 2
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "UNIQUE_Abyss_Fire_ElementShield"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_ElementShield_Effect",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        300,
+                        301,
+                        302
+                    ],
+                    "modifierName": "Abyss_Fire_ElementShield_Effect_RecoverHandler"
+                }
+            ],
+            "modifiers": {
+                "Abyss_Fire_ElementShield_Effect_RecoverHandler": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onReconnect": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Abyss_Fire_ElementShield_Effect"
+                        }
+                    ]
+                },
+                "UNIQUE_Abyss_Fire_ElementShield_Effect": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "EnableHitBoxByName",
+                            "hitBoxNames": [
+                                "HitBox_ElementShield"
+                            ],
+                            "setEnable": true
+                        },
+                        {
+                            "$type": "EnableHitBoxByName",
+                            "hitBoxNames": [
+                                "HitBox",
+                                "HeadBox"
+                            ]
+                        },
+                        {
+                            "$type": "EnablePushColliderName",
+                            "pushColliderNames": [
+                                "PushCollider_ElementShield"
+                            ],
+                            "setEnable": true
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Abyss_Fire_ElementShield_BS"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "EnableHitBoxByName",
+                            "hitBoxNames": [
+                                "HitBox_ElementShield"
+                            ]
+                        },
+                        {
+                            "$type": "EnableHitBoxByName",
+                            "hitBoxNames": [
+                                "HitBox",
+                                "HeadBox"
+                            ],
+                            "setEnable": true
+                        },
+                        {
+                            "$type": "EnablePushColliderName",
+                            "pushColliderNames": [
+                                "PushCollider_ElementShield"
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "ApplyModifier",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ABILITY_ABYSS_FIRE_ELEMENTSHIELD",
+                            "value": 1.0
+                        }
+                    ],
+                    "modifierName": "UNIQUE_Abyss_Fire_ElementShield_Effect"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_ElementShield_Remove",
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Abyss_Fire_ElementShield"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_DizzyTimer",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        100,
+                        101
+                    ],
+                    "modifierName": "Abyss_Fire_DizzyTimer_Handler"
+                }
+            ],
+            "abilitySpecials": {
+                "ElementShield_GapReduce": 0.0
+            },
+            "modifiers": {
+                "Abyss_Fire_DizzyTimer_Handler": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Abyss_Fire_DizzyTimer"
+                        }
+                    ],
+                    "onReconnect": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Abyss_Fire_DizzyTimer"
+                        }
+                    ]
+                },
+                "UNIQUE_Abyss_Fire_DizzyTimer": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": [
+                        12.0,
+                        "ElementShield_GapReduce",
+                        "Mul",
+                        12.0,
+                        "Add"
+                    ],
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_EndureDelta": 3.0
+                    },
+                    "onRemoved": [
+                        {
+                            "$type": "SetPoseInt",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_ABYSS_FIRE_ELEMENTSHIELD",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "intID": "ElementState",
+                            "value": 1
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValueToOverrideMap",
+                    "globalValueKey": "_MONSTERAFFIX_ELEMENTSHIELD_GAPREDUCE",
+                    "overrideMapKey": "ElementShield_GapReduce"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_GatherStart",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "GatherStart",
+                        "GatherLoop",
+                        "GatherSuccess_Alert"
+                    ],
+                    "modifierName": "GatherState"
+                },
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        201
+                    ],
+                    "modifierName": "GatherEndure"
+                }
+            ],
+            "modifiers": {
+                "GatherEndure": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_EndureDelta": 0.4000000059604645
+                    }
+                },
+                "GatherState": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_GATHERFAILEDSTATE_",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 1.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetPoseInt",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_ABYSS_FIRE_ELEMENTSHIELD",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "intID": "ElementState"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_GatherLoop",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "GatherLoop"
+                    ],
+                    "modifierName": "GatherLoop_Effect"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "GatherLoop"
+                    ],
+                    "modifierName": "Gather_FireImpulse_Default"
+                }
+            ],
+            "modifiers": {
+                "GatherLoop_Effect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Abyss_Fire_Gather"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Abyss_Fire_WeaponElement"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "_ABILITY_FIREIMPULSE_HIT",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "_ABILITY_FIREIMPULSE_TARGET",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "CreateGadget",
+                            "born": {
+                                "$type": "ConfigBornByTarget"
+                            },
+                            "gadgetID": 42201008,
+                            "campID": 4001,
+                            "campTargetType": "Enemy"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "CreateGadget",
+                            "target": "SelfAttackTarget",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_FIREIMPULSE_HIT",
+                                    "value": 0.0,
+                                    "forceByCaster": true
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_FIREIMPULSE_TARGET",
+                                    "value": 1.0,
+                                    "forceByCaster": true
+                                }
+                            ],
+                            "born": {
+                                "$type": "ConfigBornByPredicatePoint",
+                                "onGround": true,
+                                "timeForPredictive": 0.75
+                            },
+                            "gadgetID": 42201007,
+                            "campID": 4001,
+                            "campTargetType": "Enemy"
+                        }
+                    ]
+                },
+                "Gather_FireImpulse_Default": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.75,
+                    "onThinkInterval": [
+                        {
+                            "$type": "SetGlobalPos",
+                            "key": "Gather_BornPos",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "bornRandom": {
+                                    "$type": "BornRandomFromCenter",
+                                    "minRandomRange": 2.0,
+                                    "maxRandomRange": 7.0
+                                }
+                            }
+                        },
+                        {
+                            "$type": "CreateGadget",
+                            "born": {
+                                "$type": "ConfigBornByGlobalValue",
+                                "positionKey": "Gather_BornPos",
+                                "directionKey": ""
+                            },
+                            "checkGround": {
+                                "enable": true,
+                                "raycastDownHeight": 10.0
+                            },
+                            "gadgetID": 42201007,
+                            "campID": 4001,
+                            "campTargetType": "Enemy"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_GatherAlert",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "GatherSuccess_Alert"
+                    ],
+                    "modifierName": "GatherAlert"
+                }
+            ],
+            "modifiers": {
+                "GatherAlert": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Abyss_Fire_Gather_Alert"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_GatherSuccess",
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Abyss_Fire_DizzyTimer"
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Abyss_Fire_Gather_AS_Hor",
+                    "born": {
+                        "$type": "ConfigBornByTarget",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        }
+                    }
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackCircle",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.75,
+                                    "z": 0.0
+                                }
+                            },
+                            "radius": 5.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 1.5,
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Fire",
+                                "elementDurability": 50.0,
+                                "strikeType": "Default",
+                                "enBreak": 200.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "default",
+                                "hitImpulseType": "LV5",
+                                "hitHaltTimeScale": 0.05000000074505806
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Abyss_Fire_Gather_AS_Ver",
+                    "born": {
+                        "$type": "ConfigBornByTarget",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackBox",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 5.0,
+                                    "z": -0.5
+                                }
+                            },
+                            "size": {
+                                "x": 1.0,
+                                "y": 10.0,
+                                "z": 1.0
+                            }
+                        },
+                        "attackInfo": {
+                            "attackTag": "",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 2.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Fire",
+                                "elementDurability": 50.0,
+                                "strikeType": "Default",
+                                "enBreak": 200.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "default",
+                                "hitImpulseType": "LV5",
+                                "hitHaltTimeScale": 0.05000000074505806
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "ActCameraShake",
+                    "cameraShake": {
+                        "shakeType": "CustomVector",
+                        "shakeRange": 0.1599999964237213,
+                        "shakeTime": 0.30000001192092896,
+                        "shakeDistance": 25.0,
+                        "shakeDir": {
+                            "y": 1.0
+                        },
+                        "extension": {
+                            "rangeAttenuation": 0.8999999761581421
+                        }
+                    }
+                },
+                {
+                    "$type": "AddGlobalValue",
+                    "value": 0.0,
+                    "key": "_GATHERFAILEDSTATE_",
+                    "useLimitRange": true,
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "onKill": [
+                {
+                    "$type": "DoWatcherSystemAction",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "target": "Self",
+                            "key": "_GATHERFAILEDSTATE_",
+                            "value": 1.0
+                        }
+                    ],
+                    "watcherId": 82006,
+                    "inThreatListOnly": true
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_Impulse",
+            "modifiers": {
+                "FireImpulse": {
+                    "modifierName": "",
+                    "duration": 0.6000000238418579,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Abyss_Fire_Impulse"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Abyss_Fire_Impulse_Alert"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "FireImpulse_Damage"
+                        }
+                    ]
+                },
+                "FireImpulse_Damage": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackCircle",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    },
+                                    "height": 3.0,
+                                    "radius": 0.75
+                                },
+                                "attackInfo": {
+                                    "attackTag": "",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 1.5,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Fire",
+                                        "elementDurability": 50.0,
+                                        "strikeType": "Default",
+                                        "enBreak": 100.0,
+                                        "attackType": "Range"
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV7",
+                                        "hitHaltTimeScale": 0.05000000074505806
+                                    },
+                                    "forceCameraShake": true,
+                                    "cameraShake": {
+                                        "shakeType": "CustomVector",
+                                        "shakeRange": 0.03999999910593033,
+                                        "shakeTime": 0.11999999731779099,
+                                        "shakeDir": {
+                                            "y": 1.0
+                                        },
+                                        "extension": {}
+                                    }
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ],
+                    "onAttackLanded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "target": "Owner",
+                            "value": 1.0,
+                            "key": "_ABILITY_FIREIMPULSE_HIT",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "FireImpulse_HitDelay"
+                        }
+                    ]
+                },
+                "FireImpulse_HitDelay": {
+                    "modifierName": "",
+                    "duration": 1.5,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "target": "Owner",
+                            "value": -1.0,
+                            "key": "_ABILITY_FIREIMPULSE_HIT",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "FireImpulse"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_ImpulseArea",
+            "onFieldEnter": [
+                {
+                    "$type": "AddGlobalValue",
+                    "target": "Owner",
+                    "value": 1.0,
+                    "key": "_ABILITY_FIREIMPULSE_TARGET",
+                    "useLimitRange": true,
+                    "maxValue": 1.0,
+                    "minValue": 0.0
+                }
+            ],
+            "onFieldExit": [
+                {
+                    "$type": "AddGlobalValue",
+                    "target": "Owner",
+                    "value": -1.0,
+                    "key": "_ABILITY_FIREIMPULSE_TARGET",
+                    "useLimitRange": true,
+                    "maxValue": 1.0,
+                    "minValue": 0.0
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_BlinkEffect",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "Blink"
+                    ],
+                    "modifierName": "Blink_State"
+                }
+            ],
+            "modifiers": {
+                "Blink_State": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Blink_Shield"
+                        },
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Blink_Actions"
+                        }
+                    ]
+                },
+                "UNIQUE_Blink_Shield": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Abyss_Fire_ElementShield_Effect"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerAbility",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_ABYSS_FIRE_ELEMENTSHIELD",
+                                    "value": 1.0
+                                }
+                            ],
+                            "abilityName": "Abyss_Fire_ElementShield_Effect"
+                        }
+                    ]
+                },
+                "UNIQUE_Blink_Actions": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ELITEAFFIX_AGILITY_ENHANCE",
+                                    "value": 1.0
+                                }
+                            ],
+                            "effectPattern": "Eff_Monster_Abyss_Fire_Blink_AS",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.6499999761581421,
+                                    "z": 0.0
+                                }
+                            }
+                        },
+                        {
+                            "$type": "TriggerAbility",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ELITEAFFIX_AGILITY_ENHANCE",
+                                    "value": 1.0
+                                }
+                            ],
+                            "abilityName": "Abyss_Fire_DoBlink_Damage"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "Blink_Invincible"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "Blink_DenyLockOn"
+                        },
+                        {
+                            "$type": "TriggerSetVisible"
+                        },
+                        {
+                            "$type": "TriggerHideWeapon",
+                            "partNames": [
+                                "equip01"
+                            ]
+                        },
+                        {
+                            "$type": "HideUIBillBoard",
+                            "hide": true
+                        },
+                        {
+                            "$type": "EnableHitBoxByName",
+                            "hitBoxNames": [
+                                "HitBox",
+                                "HeadBox"
+                            ]
+                        },
+                        {
+                            "$type": "EnablePushColliderName",
+                            "pushColliderNames": [
+                                "PushCollider"
+                            ]
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "EnableHitBoxByName",
+                            "hitBoxNames": [
+                                "HitBox",
+                                "HeadBox"
+                            ],
+                            "setEnable": true
+                        },
+                        {
+                            "$type": "EnablePushColliderName",
+                            "pushColliderNames": [
+                                "PushCollider"
+                            ],
+                            "setEnable": true
+                        },
+                        {
+                            "$type": "TriggerSetVisible",
+                            "visible": true
+                        },
+                        {
+                            "$type": "TriggerHideWeapon",
+                            "visible": true,
+                            "partNames": [
+                                "equip01"
+                            ]
+                        },
+                        {
+                            "$type": "HideUIBillBoard"
+                        }
+                    ]
+                },
+                "Blink_Invincible": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "Invincible"
+                },
+                "Blink_DenyLockOn": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "DenyLockOn"
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "UNIQUE_Blink_Shield"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "UNIQUE_Blink_Actions"
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Abyss_Fire_Blink_BS"
+                },
+                {
+                    "$type": "ClearLockTarget",
+                    "target": "CurLocalAvatar"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_BlinkPoint",
+            "onAbilityStart": [
+                {
+                    "$type": "TryFindBlinkPoint",
+                    "target": "SelfAttackTarget",
+                    "forwardAngle": 60.0,
+                    "minRange": 5.0,
+                    "maxRange": 7.0
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Abyss_Fire_Blink",
+                    "born": {
+                        "$type": "ConfigBornByTeleportToPoint"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_DoBlink",
+            "onAbilityStart": [
+                {
+                    "$type": "DoBlink"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_DoBlink_Visible",
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Abyss_Fire_Blink_AS",
+                    "born": {
+                        "$type": "ConfigBornByTarget",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.6499999761581421,
+                            "z": 0.0
+                        }
+                    }
+                },
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Blink_Actions"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_DoBlink_Damage",
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackCircle",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
+                            },
+                            "height": 2.0,
+                            "radius": 2.5
+                        },
+                        "attackInfo": {
+                            "attackTag": "",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 1.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Fire",
+                                "elementDurability": 50.0,
+                                "strikeType": "Default",
+                                "enBreak": 50.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "default",
+                                "hitImpulseType": "LV2",
+                                "hitHaltTimeScale": 0.05000000074505806
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_Blink_AS",
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Blink_Shield"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_ForceDefend",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        101
+                    ],
+                    "modifierName": "ForceDefend"
+                }
+            ],
+            "modifiers": {
+                "ForceDefend": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "MonsterDefendMixin",
+                            "stateIDs": [
+                                "BeHit",
+                                "BeHitThrow"
+                            ],
+                            "defendTriggerID": "DefendTrigger",
+                            "defendProbability": 0.20000000298023224,
+                            "defendProbabilityDelta": 0.0,
+                            "defendTimeInterval": 8.0,
+                            "alwaysRecover": false,
+                            "defendCountInterval": 0,
+                            "onDefendSucceded": [
+                                {
+                                    "$type": "TriggerAbility",
+                                    "abilityName": "Abyss_Fire_ForceBlink"
+                                },
+                                {
+                                    "$type": "ClearLockTarget",
+                                    "target": "CurLocalAvatar"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_ForceBlink",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "ForceBlink"
+                    ],
+                    "modifierName": "ForceBlink_State"
+                }
+            ],
+            "modifiers": {
+                "ForceBlink_State": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Blink_Actions"
+                        }
+                    ]
+                },
+                "UNIQUE_ForceBlink_Actions": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "ForceBlink_Invincible"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "ForceBlink_DenyLockOn"
+                        },
+                        {
+                            "$type": "TriggerSetVisible"
+                        },
+                        {
+                            "$type": "TriggerHideWeapon",
+                            "partNames": [
+                                "equip01"
+                            ]
+                        },
+                        {
+                            "$type": "HideUIBillBoard",
+                            "hide": true
+                        },
+                        {
+                            "$type": "EnableHitBoxByName",
+                            "hitBoxNames": [
+                                "HitBox",
+                                "HeadBox"
+                            ]
+                        },
+                        {
+                            "$type": "EnablePushColliderName",
+                            "pushColliderNames": [
+                                "PushCollider"
+                            ]
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "EnableHitBoxByName",
+                            "hitBoxNames": [
+                                "HitBox",
+                                "HeadBox"
+                            ],
+                            "setEnable": true
+                        },
+                        {
+                            "$type": "EnablePushColliderName",
+                            "pushColliderNames": [
+                                "PushCollider"
+                            ],
+                            "setEnable": true
+                        },
+                        {
+                            "$type": "TriggerSetVisible",
+                            "visible": true
+                        },
+                        {
+                            "$type": "TriggerHideWeapon",
+                            "visible": true,
+                            "partNames": [
+                                "equip01"
+                            ]
+                        },
+                        {
+                            "$type": "HideUIBillBoard"
+                        }
+                    ]
+                },
+                "ForceBlink_Invincible": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "Invincible"
+                },
+                "ForceBlink_DenyLockOn": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "DenyLockOn"
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Abyss_Fire_DizzyTimer"
+                },
+                {
+                    "$type": "TryFindBlinkPoint",
+                    "target": "SelfAttackTarget",
+                    "forwardAngle": 30.0,
+                    "minRange": 9.0,
+                    "maxRange": 12.0
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "UNIQUE_ForceBlink_Actions"
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Abyss_Fire_Blink_BS"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_ForceBlink_DoBlink",
+            "onAbilityStart": [
+                {
+                    "$type": "DoBlink"
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Abyss_Fire_Blink_AS",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "RootNode"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_ForceBlink_Visible",
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_ForceBlink_Actions"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_ForceBlink_AS",
+            "onAbilityStart": [
+                {
+                    "$type": "SetPoseInt",
+                    "intID": "ElementState",
+                    "value": 1
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_ReturnToBorn",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "ReturnToBorn"
+                    ],
+                    "modifierName": "ReturnToBorn_Disappear"
+                }
+            ],
+            "modifiers": {
+                "ReturnToBorn_Disappear": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_ReturnToBorn_Shield"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_ReturnToBorn_Actions"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_ReturnToBorn_Dizzy"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Abyss_Fire_Blink_BS"
+                        }
+                    ]
+                },
+                "UNIQUE_ReturnToBorn_Shield": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Abyss_Fire_ElementShield"
+                        },
+                        {
+                            "$type": "ResetAnimatorTrigger",
+                            "triggerID": "ShiledBrokenTrigger"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "ReturnToBorn_Invincible"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "ReturnToBorn_DenyLockOn"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetPoseInt",
+                            "intID": "ElementState",
+                            "value": 2
+                        },
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "Abyss_Fire_ElementShield_Effect"
+                        }
+                    ]
+                },
+                "UNIQUE_ReturnToBorn_Dizzy": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Abyss_Fire_DizzyTimer"
+                        },
+                        {
+                            "$type": "SetPoseInt",
+                            "intID": "ElementState",
+                            "value": 2
+                        },
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "Abyss_Fire_ElementShield"
+                        }
+                    ]
+                },
+                "UNIQUE_ReturnToBorn_Actions": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerSetVisible"
+                        },
+                        {
+                            "$type": "TriggerHideWeapon",
+                            "partNames": [
+                                "equip01"
+                            ]
+                        },
+                        {
+                            "$type": "HideUIBillBoard",
+                            "hide": true
+                        },
+                        {
+                            "$type": "EnableHitBoxByName",
+                            "hitBoxNames": [
+                                "HitBox",
+                                "HeadBox",
+                                "HitBox_ElementShield"
+                            ]
+                        },
+                        {
+                            "$type": "EnablePushColliderName",
+                            "pushColliderNames": [
+                                "PushCollider",
+                                "PushCollider_ElementShield"
+                            ]
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerSetVisible",
+                            "visible": true
+                        },
+                        {
+                            "$type": "TriggerHideWeapon",
+                            "visible": true,
+                            "partNames": [
+                                "equip01"
+                            ]
+                        },
+                        {
+                            "$type": "HideUIBillBoard"
+                        },
+                        {
+                            "$type": "EnableHitBoxByName",
+                            "hitBoxNames": [
+                                "HitBox",
+                                "HeadBox"
+                            ],
+                            "setEnable": true
+                        },
+                        {
+                            "$type": "EnablePushColliderName",
+                            "pushColliderNames": [
+                                "PushCollider"
+                            ],
+                            "setEnable": true
+                        }
+                    ]
+                },
+                "ReturnToBorn_Invincible": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "Invincible"
+                },
+                "ReturnToBorn_DenyLockOn": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "DenyLockOn"
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_ReturnToBorn_AS",
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Abyss_Fire_Blink_AS",
+                    "born": {
+                        "$type": "ConfigBornByTarget",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.6499999761581421,
+                            "z": 0.0
+                        }
+                    }
+                },
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_ReturnToBorn_Dizzy"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_ReturnToBorn_Visible",
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_ReturnToBorn_Actions"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_ReturnToBorn_ElementShield",
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_ReturnToBorn_Shield"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_Cyclone",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "NormalAtk"
+                    ],
+                    "modifierName": "Normal_WeaponEffect"
+                }
+            ],
+            "modifiers": {
+                "Normal_WeaponEffect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Abyss_Fire_Normal_WeaponElement"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Abyss_Fire_WeaponElement"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveModifier",
+                    "modifierName": "Normal_WeaponEffect"
+                },
+                {
+                    "$type": "TriggerBullet",
+                    "bulletID": 42201006,
+                    "born": {
+                        "$type": "ConfigBornByTarget",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.6000000238418579,
+                            "z": 1.5
+                        },
+                        "onGround": true,
+                        "direction": {
+                            "$type": "ConfigDirectionByAttackTarget"
+                        },
+                        "alongGround": true
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_Cyclone_Loop",
+            "modifiers": {
+                "Cyclone_Loop": {
+                    "modifierName": "",
+                    "elementType": "Fire",
+                    "elementDurability": 50.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Abyss_Fire_Cyclone"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "Cyclone_Loop"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveModifier",
+                    "modifierName": "Cyclone_Loop"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_Cyclone_Collide",
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackSphere",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornByCollisionPoint"
+                            },
+                            "radius": 0.25
+                        },
+                        "attackInfo": {
+                            "attackTag": "",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 0.75,
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Fire",
+                                "elementDurability": 50.0,
+                                "strikeType": "Default",
+                                "enBreak": 80.0,
+                                "attackType": "Range"
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "default",
+                                "hitImpulseType": "LV2",
+                                "hitHaltTimeScale": 0.05000000074505806
+                            },
+                            "cameraShake": {
+                                "shakeType": "HitVector",
+                                "shakeRange": 0.05999999865889549,
+                                "shakeTime": 0.11999999731779099,
+                                "shakeDir": {
+                                    "z": 1.0
+                                }
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_FireEnergy",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "SpecialAtk"
+                    ],
+                    "modifierName": "UNIQUE_Special_WeaponEffect"
+                }
+            ],
+            "modifiers": {
+                "UNIQUE_Special_WeaponEffect": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Abyss_Fire_Special_WeaponElement"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Abyss_Fire_WeaponElement"
+                        }
+                    ]
+                },
+                "Abyss_Fire_AttackEnhance": {
+                    "modifierName": "",
+                    "duration": 4.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "CDReset",
+                            "value": true
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "CDReset"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "CreateGadget",
+                    "target": "SelfAttackTarget",
+                    "born": {
+                        "$type": "ConfigBornByTarget",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        },
+                        "onGround": true
+                    },
+                    "gadgetID": 42201003,
+                    "campID": 4001,
+                    "campTargetType": "Enemy"
+                },
+                {
+                    "$type": "CreateGadget",
+                    "target": "SelfAttackTarget",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ELITEAFFIX_ATTACK_ENHANCE",
+                            "value": 1.0,
+                            "forceByCaster": true
+                        }
+                    ],
+                    "born": {
+                        "$type": "ConfigBornByTarget",
+                        "offset": {
+                            "x": -4.329999923706055,
+                            "y": 1.0,
+                            "z": 7.5
+                        },
+                        "onGround": true
+                    },
+                    "gadgetID": 42201003,
+                    "campID": 4001,
+                    "campTargetType": "Enemy"
+                },
+                {
+                    "$type": "CreateGadget",
+                    "target": "SelfAttackTarget",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ELITEAFFIX_ATTACK_ENHANCE",
+                            "value": 1.0,
+                            "forceByCaster": true
+                        }
+                    ],
+                    "born": {
+                        "$type": "ConfigBornByTarget",
+                        "offset": {
+                            "x": 4.329999923706055,
+                            "y": 1.0,
+                            "z": 7.5
+                        },
+                        "onGround": true
+                    },
+                    "gadgetID": 42201003,
+                    "campID": 4001,
+                    "campTargetType": "Enemy"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ELITEAFFIX_ATTACK_ENHANCE",
+                            "value": 1.0
+                        }
+                    ],
+                    "modifierName": "Abyss_Fire_AttackEnhance"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_FireEnergy_Surround",
+            "modifiers": {
+                "FireEnergy_Surround_Timer": {
+                    "modifierName": "",
+                    "duration": 1.5,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Abyss_Fire_Spray_BS",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 1.0,
+                                    "z": -4.0
+                                },
+                                "onGround": true,
+                                "direction": {
+                                    "$type": "ConfigDirectionByLookAtEntity"
+                                }
+                            }
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Abyss_Fire_Spray_BS",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": -3.4639999866485596,
+                                    "y": 1.0,
+                                    "z": 2.0
+                                },
+                                "onGround": true,
+                                "direction": {
+                                    "$type": "ConfigDirectionByLookAtEntity"
+                                }
+                            }
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Abyss_Fire_Spray_BS",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 3.4639999866485596,
+                                    "y": 1.0,
+                                    "z": 2.0
+                                },
+                                "onGround": true,
+                                "direction": {
+                                    "$type": "ConfigDirectionByLookAtEntity"
+                                }
+                            }
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "target": "Owner",
+                            "modifierName": "UNIQUE_Special_WeaponEffect"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "FireEnergy_Surround_Spray"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "FireEnergy_Surround_SprayTimer"
+                        }
+                    ]
+                },
+                "FireEnergy_Surround_SprayTimer": {
+                    "modifierName": "",
+                    "duration": 6.0,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "FireEnergy_Surround_Spray"
+                        }
+                    ]
+                },
+                "FireEnergy_Surround_Spray": {
+                    "modifierName": "",
+                    "duration": 0.3499999940395355,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "Abyss_Fire_FireEnergy_Damage"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "FireEnergy_Surround_Timer"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_FireEnergy_Damage",
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackBox",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 1.0,
+                                    "z": -4.0
+                                },
+                                "onGround": true,
+                                "direction": {
+                                    "$type": "ConfigDirectionByLookAtEntity"
+                                }
+                            },
+                            "size": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 5.0
+                            }
+                        },
+                        "attackInfo": {
+                            "attackTag": "Abyss_Fire_FireEnergy",
+                            "attenuationTag": "Abyss_Fire_FireEnergy",
+                            "attenuationGroup": "Abyss_Fire_FireEnergy_Attenuation",
+                            "attackProperty": {
+                                "damagePercentage": 1.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Fire",
+                                "elementDurability": 50.0,
+                                "strikeType": "Default",
+                                "attackType": "Range"
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "default",
+                                "hitImpulseType": "LV4",
+                                "hitHaltTimeScale": 0.05000000074505806
+                            },
+                            "cameraShake": {
+                                "shakeType": "HitVector",
+                                "shakeRange": 0.1599999964237213,
+                                "shakeTime": 0.15000000596046448,
+                                "shakeDistance": 25.0,
+                                "shakeDir": {
+                                    "z": 1.0
+                                }
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackBox",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": -3.4639999866485596,
+                                    "y": 1.0,
+                                    "z": 2.0
+                                },
+                                "onGround": true,
+                                "direction": {
+                                    "$type": "ConfigDirectionByLookAtEntity"
+                                }
+                            },
+                            "size": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 5.0
+                            }
+                        },
+                        "attackInfo": {
+                            "attackTag": "Abyss_Fire_FireEnergy",
+                            "attenuationTag": "Abyss_Fire_FireEnergy",
+                            "attenuationGroup": "Abyss_Fire_FireEnergy_Attenuation",
+                            "attackProperty": {
+                                "damagePercentage": 1.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Fire",
+                                "elementDurability": 50.0,
+                                "strikeType": "Default"
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "default",
+                                "hitImpulseType": "LV4",
+                                "hitHaltTimeScale": 0.05000000074505806
+                            },
+                            "cameraShake": {
+                                "shakeType": "HitVector",
+                                "shakeRange": 0.1599999964237213,
+                                "shakeTime": 0.15000000596046448,
+                                "shakeDistance": 25.0,
+                                "shakeDir": {
+                                    "z": 1.0
+                                }
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackBox",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": 3.4639999866485596,
+                                    "y": 1.0,
+                                    "z": 2.0
+                                },
+                                "onGround": true,
+                                "direction": {
+                                    "$type": "ConfigDirectionByLookAtEntity"
+                                }
+                            },
+                            "size": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 5.0
+                            }
+                        },
+                        "attackInfo": {
+                            "attackTag": "Abyss_Fire_FireEnergy",
+                            "attenuationTag": "Abyss_Fire_FireEnergy",
+                            "attenuationGroup": "Abyss_Fire_FireEnergy_Attenuation",
+                            "attackProperty": {
+                                "damagePercentage": 1.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Fire",
+                                "elementDurability": 50.0,
+                                "strikeType": "Default"
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "default",
+                                "hitImpulseType": "LV4",
+                                "hitHaltTimeScale": 0.05000000074505806
+                            },
+                            "cameraShake": {
+                                "shakeType": "HitVector",
+                                "shakeRange": 0.1599999964237213,
+                                "shakeTime": 0.15000000596046448,
+                                "shakeDistance": 25.0,
+                                "shakeDir": {
+                                    "z": 1.0
+                                }
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Abyss_Fire_AnimationSteer",
+            "abilityMixins": [
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "NormalAtk"
+                    ],
+                    "angularSpeed": 180.0,
+                    "attackTrigger": "",
+                    "attackDistance": 12.0
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "SpecialAtk"
+                    ],
+                    "angularSpeed": 180.0,
+                    "attackTrigger": "",
+                    "attackDistance": 12.0
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "RandomAction"
+                    ],
+                    "angularSpeed": 180.0,
+                    "attackTrigger": "",
+                    "attackDistance": 12.0
+                }
+            ]
+        }
+    }
+]

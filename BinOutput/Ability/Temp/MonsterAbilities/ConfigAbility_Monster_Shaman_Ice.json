@@ -1,0 +1,913 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Shaman_Ice_IceBurst",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "NormalAttack",
+                        "NormalAttack_BS"
+                    ],
+                    "modifierName": "Monster_Shaman_Ice_WeaponEffectLoop"
+                }
+            ],
+            "modifiers": {
+                "Monster_Shaman_Ice_WeaponEffectLoop": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Shaman_Ice_WeaponLoop"
+                        }
+                    ]
+                },
+                "Shamam_Ice_IceBurt_Damage": {
+                    "modifierName": "",
+                    "duration": 1.2000000476837158,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "NormalAttackOver"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Shaman_Ice_WeaponBS"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackCircle",
+                                    "born": {
+                                        "$type": "ConfigBornByGlobalValue",
+                                        "positionKey": "_MONSTER_SHAMAN_ICE_ICEBURST_POS",
+                                        "directionKey": ""
+                                    },
+                                    "height": 3.0,
+                                    "radius": 1.5
+                                },
+                                "attackInfo": {
+                                    "attackTag": "",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 1.0,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Ice",
+                                        "elementDurability": 50.0,
+                                        "strikeType": "Blunt",
+                                        "enBreak": 101.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV4"
+                                    },
+                                    "forceCameraShake": true,
+                                    "cameraShake": {
+                                        "shakeRange": 1.0,
+                                        "shakeTime": 0.20000000298023224
+                                    }
+                                }
+                            },
+                            "targetType": "Enemy"
+                        },
+                        {
+                            "$type": "CreateGadget",
+                            "born": {
+                                "$type": "ConfigBornByGlobalValue",
+                                "positionKey": "_MONSTER_SHAMAN_ICE_ICEBURST_POS",
+                                "directionKey": ""
+                            },
+                            "gadgetID": 42103014,
+                            "campID": 4001,
+                            "byServer": true
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "SetGlobalPos",
+                    "target": "SelfAttackTarget",
+                    "key": "_MONSTER_SHAMAN_ICE_ICEBURST_POS",
+                    "born": {
+                        "$type": "ConfigBornByPredicatePoint",
+                        "onGround": true,
+                        "alongGround": true,
+                        "timeForPredictive": 0.699999988079071
+                    },
+                    "setTarget": false
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Shaman_Ice_NormalAttack",
+                    "born": {
+                        "$type": "ConfigBornByGlobalValue",
+                        "onGround": true,
+                        "positionKey": "_MONSTER_SHAMAN_ICE_ICEBURST_POS",
+                        "directionKey": ""
+                    }
+                },
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "Shamam_Ice_IceBurt_Damage"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Shaman_Ice_ContinuousIceBurst",
+            "modifiers": {
+                "Monster_Shaman_Ice_NormalAttackPowerDamage": {
+                    "modifierName": "",
+                    "duration": 1.2999999523162842,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalPos",
+                            "target": "SelfAttackTarget",
+                            "key": "_MONSTER_SHAMAN_ICE_ICEBURST_POS",
+                            "born": {
+                                "$type": "ConfigBornByPredicatePoint",
+                                "onGround": true,
+                                "alongGround": true,
+                                "timeForPredictive": 0.4000000059604645
+                            },
+                            "setTarget": false
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Shaman_Ice_NormalAttack",
+                            "born": {
+                                "$type": "ConfigBornByGlobalValue",
+                                "positionKey": "_MONSTER_SHAMAN_ICE_ICEBURST_POS",
+                                "directionKey": ""
+                            }
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackCircle",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornByGlobalValue",
+                                        "positionKey": "_MONSTER_SHAMAN_ICE_ICEBURST_POS",
+                                        "directionKey": ""
+                                    },
+                                    "height": 3.0,
+                                    "radius": 1.5
+                                },
+                                "attackInfo": {
+                                    "attackTag": "",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 1.0,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Ice",
+                                        "elementDurability": 50.0,
+                                        "strikeType": "Blunt",
+                                        "enBreak": 101.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV4"
+                                    },
+                                    "forceCameraShake": true,
+                                    "cameraShake": {
+                                        "shakeRange": 1.0,
+                                        "shakeTime": 0.20000000298023224
+                                    }
+                                }
+                            },
+                            "targetType": "Enemy"
+                        },
+                        {
+                            "$type": "CreateGadget",
+                            "born": {
+                                "$type": "ConfigBornByGlobalValue",
+                                "positionKey": "_MONSTER_SHAMAN_ICE_ICEBURST_POS",
+                                "directionKey": ""
+                            },
+                            "gadgetID": 42103014,
+                            "campID": 4001,
+                            "byServer": true
+                        }
+                    ]
+                },
+                "Monster_Shaman_Ice_NormalAttackPowerDamageDelay": {
+                    "modifierName": "",
+                    "duration": 7.0,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.7000000476837158,
+                    "onRemoved": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "NormalAttackOver"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Monster_Shaman_Ice_NormalAttackPowerDamage"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Monster_Shaman_Ice_NormalAttackPowerDamageDelay"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Shaman_NormalAttack_SlowDownArea",
+            "modifiers": {
+                "SlowDownArea_ElementDamage": {
+                    "modifierName": "",
+                    "duration": 5.0,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Shaman_Ice_NormalAttack_IceArea"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackCircle",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf"
+                                    },
+                                    "height": 3.0,
+                                    "radius": 1.5
+                                },
+                                "attackInfo": {
+                                    "attackTag": "",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 0.30000001192092896,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Ice",
+                                        "elementDurability": 50.0,
+                                        "strikeType": "Blunt",
+                                        "enBreak": 20.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV2"
+                                    }
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "SlowDownArea_ElementDamage"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Shaman_Ice_EscapeState",
+            "modifiers": {
+                "Shaman_Escape": {
+                    "modifierName": "",
+                    "duration": 2.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "EscapeState",
+                            "value": true
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "EscapeState"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "Shaman_Escape"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Shaman_Ice_AnimationSteer",
+            "abilityMixins": [
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "NormalAttack_BS"
+                    ],
+                    "angularSpeed": 180.0,
+                    "attackTrigger": "",
+                    "attackDistance": 12.0
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "SupportAttack_BS"
+                    ],
+                    "angularSpeed": 180.0,
+                    "attackTrigger": "",
+                    "attackDistance": 12.0
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "MeleeAttack"
+                    ],
+                    "endNormalizedTime": 0.15000000596046448,
+                    "angularSpeed": 180.0,
+                    "attackTrigger": "",
+                    "attackDistance": 12.0
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "Turn"
+                    ],
+                    "startNormalizedTime": 0.20000000298023224,
+                    "endNormalizedTime": 0.75,
+                    "angularSpeed": 120.0,
+                    "attackTrigger": "",
+                    "attackDistance": 12.0
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Shaman_Ice_WeaponEffect"
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Shaman_Ice_ClearPillarOnHitThrow",
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Shaman_Create_IcePillar"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Shaman_Ice_CreatePillar",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_MONSTER_SHAMAN_ICE_HASPILLAR",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5
+                    ],
+                    "modifierNameSteps": [
+                        "Monster_Shaman_Ice_HasNoPillar",
+                        "Monster_Shaman_Ice_HasPillar"
+                    ]
+                }
+            ],
+            "modifiers": {
+                "Monster_Shaman_Ice_HasNoPillar": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "OnPillar"
+                        },
+                        {
+                            "$type": "SetAnimatorInt",
+                            "intID": "IcePillarSum",
+                            "value": 0.0
+                        }
+                    ]
+                },
+                "Monster_Shaman_Ice_HasPillar": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_Shaman_Create_IcePillar"
+                        }
+                    ]
+                },
+                "UNIQUE_Shaman_Create_IcePillar": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "CreateGadget",
+                            "lifeByOwnerIsAlive": true,
+                            "born": {
+                                "$type": "ConfigBornBySelf"
+                            },
+                            "gadgetID": 42103015,
+                            "campID": 4001,
+                            "byServer": true
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "OnPillar",
+                            "value": true
+                        },
+                        {
+                            "$type": "SetAnimatorInt",
+                            "intID": "IcePillarSum",
+                            "value": 1.0
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_WATCHER_82068_",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Shaman_Ice_IcePillar_LifeOver",
+                            "born": {
+                                "$type": "ConfigBornBySelf"
+                            }
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByChildren",
+                                "configID": 42103015
+                            },
+                            "modifierName": "Monster_Shaman_Ice_KillPillar"
+                        },
+                        {
+                            "$type": "SetAnimatorInt",
+                            "intID": "IcePillarSum",
+                            "value": 0.0
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "OnPillar"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -2.0,
+                            "key": "_MONSTER_SHAMAN_ICE_HASPILLAR",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "OnPillar"
+                        },
+                        {
+                            "$type": "SetAnimatorInt",
+                            "intID": "IcePillarSum",
+                            "value": 0.0
+                        }
+                    ]
+                },
+                "Monster_Shaman_Ice_KillPillar": {
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": 1.0,
+                    "key": "_MONSTER_SHAMAN_ICE_HASPILLAR",
+                    "useLimitRange": true,
+                    "maxValue": 1.0,
+                    "minValue": 0.0
+                }
+            ],
+            "onKill": [
+                {
+                    "$type": "DoWatcherSystemAction",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "target": "Self",
+                            "key": "_WATCHER_82068_",
+                            "value": 0.0,
+                            "compareType": "NoneOrEqual"
+                        }
+                    ],
+                    "watcherId": 82068,
+                    "inThreatListOnly": true
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Shaman_Ice_CreatePillar_Effect",
+            "modifiers": {
+                "Monster_Shaman_Ice_CreatePillarEffect": {
+                    "modifierName": "",
+                    "duration": 2.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Shaman_Ice_WeaponLoop"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Shaman_Ice_IcePillar_CreateBS",
+                            "born": {
+                                "$type": "ConfigBornBySelf"
+                            }
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Monster_Shaman_Ice_CreatePillarEffect"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Shaman_IcePillar_Create",
+            "modifiers": {
+                "IcePillar_Element": {
+                    "modifierName": "",
+                    "elementType": "Frozen",
+                    "elementDurability": 300.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ElementShieldMixin",
+                            "elementType": "Ice",
+                            "showDamageText": "",
+                            "shieldAngle": 360.0,
+                            "shieldHPRatio": 1.0,
+                            "damageRatio": 0.20000000298023224,
+                            "onShieldBroken": [
+                                {
+                                    "$type": "SetPoseBool",
+                                    "target": "Owner",
+                                    "boolID": "OnPillar"
+                                },
+                                {
+                                    "$type": "RemoveModifier",
+                                    "modifierName": "IcePillar_Element"
+                                }
+                            ],
+                            "onShieldSuccess": [
+                                {
+                                    "$type": "Predicated",
+                                    "target": "Target",
+                                    "targetPredicates": [
+                                        {
+                                            "$type": "ByEntityTypes",
+                                            "entityTypes": [
+                                                "Avatar"
+                                            ]
+                                        }
+                                    ],
+                                    "successActions": [
+                                        {
+                                            "$type": "SetGlobalDir",
+                                            "target": "Target",
+                                            "key": "_MONSTER_SHAMAN_ICE_ELEMENTSHIELD_HIT",
+                                            "born": {
+                                                "$type": "ConfigBornBySelf",
+                                                "direction": {
+                                                    "$type": "ConfigDirectionByLookAtEntity"
+                                                }
+                                            },
+                                            "setTarget": false
+                                        }
+                                    ],
+                                    "failActions": [
+                                        {
+                                            "$type": "SetGlobalDir",
+                                            "target": "TargetOriginOwner",
+                                            "key": "_MONSTER_SHAMAN_ICE_ELEMENTSHIELD_HIT",
+                                            "born": {
+                                                "$type": "ConfigBornBySelf",
+                                                "direction": {
+                                                    "$type": "ConfigDirectionByLookAtEntity"
+                                                }
+                                            },
+                                            "setTarget": false
+                                        }
+                                    ]
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Monster_Shaman_Ice_IcePillar_BeHitFailed",
+                                    "born": {
+                                        "$type": "ConfigBornByTarget",
+                                        "direction": {
+                                            "$type": "ConfigDirectionByGlobalValue",
+                                            "directionKey": "_MONSTER_SHAMAN_ICE_ELEMENTSHIELD_HIT"
+                                        }
+                                    }
+                                }
+                            ],
+                            "onShieldFailed": [
+                                {
+                                    "$type": "Predicated",
+                                    "target": "Target",
+                                    "targetPredicates": [
+                                        {
+                                            "$type": "ByEntityTypes",
+                                            "entityTypes": [
+                                                "Avatar"
+                                            ]
+                                        }
+                                    ],
+                                    "successActions": [
+                                        {
+                                            "$type": "SetGlobalDir",
+                                            "target": "Target",
+                                            "key": "_MONSTER_SHAMAN_ICE_ELEMENTSHIELD_HIT",
+                                            "born": {
+                                                "$type": "ConfigBornBySelf",
+                                                "direction": {
+                                                    "$type": "ConfigDirectionByLookAtEntity"
+                                                }
+                                            },
+                                            "setTarget": false
+                                        }
+                                    ],
+                                    "failActions": [
+                                        {
+                                            "$type": "SetGlobalDir",
+                                            "target": "TargetOriginOwner",
+                                            "key": "_MONSTER_SHAMAN_ICE_ELEMENTSHIELD_HIT",
+                                            "born": {
+                                                "$type": "ConfigBornBySelf",
+                                                "direction": {
+                                                    "$type": "ConfigDirectionByLookAtEntity"
+                                                }
+                                            },
+                                            "setTarget": false
+                                        }
+                                    ]
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Monster_Shaman_Ice_IcePillar_BeHitSuccess",
+                                    "born": {
+                                        "$type": "ConfigBornByTarget",
+                                        "direction": {
+                                            "$type": "ConfigDirectionByGlobalValue",
+                                            "directionKey": "_MONSTER_SHAMAN_ICE_ELEMENTSHIELD_HIT"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "AttachModifierToElementDurabilityMixin",
+                            "valueSteps": [
+                                0.0,
+                                150.0,
+                                301.0
+                            ],
+                            "modifierNameSteps": [
+                                "Monster_Shaman_Ice_PillarLowD",
+                                "Empty"
+                            ]
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Shaman_Ice_IcePillar_Create",
+                            "born": {
+                                "$type": "ConfigBornBySelf"
+                            }
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Shaman_Ice_IcePillar_LifeOver",
+                            "born": {
+                                "$type": "ConfigBornBySelf"
+                            }
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "Owner",
+                            "modifierName": "Watcher_82069"
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "target": "Owner",
+                            "boolID": "OnPillar"
+                        },
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "target": "Owner",
+                            "modifierName": "UNIQUE_Shaman_Create_IcePillar"
+                        },
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ]
+                },
+                "Empty": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "Monster_Shaman_Ice_PillarLowD": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "Damaged",
+                            "effectPattern": "Eff_Monster_Shaman_Ice_IcePillar_Create"
+                        }
+                    ]
+                },
+                "Watcher_82069": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "DoWatcherSystemAction",
+                            "watcherId": 82069,
+                            "inThreatListOnly": true
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "IcePillar_Element"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Shaman_Ice_PillarAoe",
+            "modifiers": {
+                "Ice_PillarAoeDamage": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 4.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Monster_Shaman_Ice_PillarStorageEffect"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Monster_Shaman_Ice_PillarStorageEffect"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Shaman_Ice_IcePillar_IceBurst",
+                            "born": {
+                                "$type": "ConfigBornBySelf"
+                            }
+                        },
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackCircle",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf"
+                                    },
+                                    "height": 1.0,
+                                    "radius": 3.0
+                                },
+                                "attackInfo": {
+                                    "attackTag": "",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 0.30000001192092896,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Ice",
+                                        "elementDurability": 50.0,
+                                        "strikeType": "Blunt",
+                                        "enBreak": 20.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV3"
+                                    }
+                                }
+                            },
+                            "targetType": "Enemy"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Monster_Shaman_Ice_PillarStorageEffectDelay"
+                        }
+                    ]
+                },
+                "Monster_Shaman_Ice_PillarStorageEffect": {
+                    "modifierName": "",
+                    "duration": 10.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Shaman_Ice_IceBurst_Storage",
+                            "born": {
+                                "$type": "ConfigBornBySelf"
+                            }
+                        }
+                    ]
+                },
+                "Monster_Shaman_Ice_PillarStorageEffectDelay": {
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Monster_Shaman_Ice_PillarStorageEffect"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "Ice_PillarAoeDamage"
+                }
+            ]
+        }
+    }
+]

@@ -1,0 +1,307 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Oceanid_Wigeon_AreaDamage",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_AREADAMAGE_STATE_",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5
+                    ],
+                    "modifierNameSteps": [
+                        "Empty",
+                        "Wigeon_Water_AreaDamage"
+                    ]
+                },
+                {
+                    "$type": "AttachToAbilityStateMixin",
+                    "abilityStates": [
+                        "ElementFrozen",
+                        "ElementPetrifaction"
+                    ],
+                    "modifierName": "SpecialStateDetect"
+                },
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        1,
+                        2,
+                        3,
+                        4
+                    ],
+                    "modifierName": "AreaDamageHandler"
+                }
+            ],
+            "abilitySpecials": {
+                "AreaDamageRatio": 0.25
+            },
+            "modifiers": {
+                "Wigeon_Water_AreaDamage": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.75,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Oceanid_Wigeon_WaterAuraLoop"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Oceanid_Wigeon_WaterAuraAS"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "DamageByAttackValue",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR4",
+                                "campTargetType": "Enemy",
+                                "sizeRatio": 1.0
+                            },
+                            "attackInfo": {
+                                "attackTag": "",
+                                "attenuationTag": "",
+                                "attenuationGroup": "default",
+                                "attackProperty": {
+                                    "damagePercentage": 0.5,
+                                    "damagePercentageRatio": 0.0,
+                                    "elementType": "Water",
+                                    "elementDurability": 25.0,
+                                    "strikeType": "Default",
+                                    "enBreak": 1.0
+                                },
+                                "hitPattern": {
+                                    "onHitEffectName": "Eff_Monster_Oceanid_AnimalHit",
+                                    "hitImpulseType": "LV1",
+                                    "hitHaltTimeScale": 0.05000000074505806
+                                }
+                            }
+                        }
+                    ]
+                },
+                "SpecialStateDetect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 0.0,
+                            "key": "_AREADAMAGE_STATE_",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_MONSTERAFFIX_OCEANID_ANIMAL_SPMASK",
+                                            "value": 1.0
+                                        }
+                                    ]
+                                }
+                            ],
+                            "value": 1.0,
+                            "key": "_AREADAMAGE_STATE_",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 1.0
+                        }
+                    ]
+                },
+                "AreaDamageHandler": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 0.0,
+                            "key": "_AREADAMAGE_STATE_",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_MONSTERAFFIX_OCEANID_ANIMAL_SPMASK",
+                                            "value": 1.0
+                                        }
+                                    ]
+                                }
+                            ],
+                            "value": 1.0,
+                            "key": "_AREADAMAGE_STATE_",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 1.0
+                        }
+                    ]
+                },
+                "Empty": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Oceanid_Wigeon_Steer",
+            "abilityMixins": [
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "Turn"
+                    ],
+                    "endNormalizedTime": 0.800000011920929,
+                    "angularSpeed": 180.0,
+                    "attackTrigger": "",
+                    "attackDistance": 1.5
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "Peck"
+                    ],
+                    "endNormalizedTime": 0.5,
+                    "angularSpeed": 120.0,
+                    "attackTrigger": "",
+                    "attackDistance": 1.5
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "NormalMove"
+                    ],
+                    "angularSpeed": 300.0,
+                    "attackTrigger": "",
+                    "attackDistance": 1.5
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Oceanid_Wigeon_ElementState",
+            "modifiers": {
+                "UNIQUE_ElementState": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementType": "Water",
+                    "elementDurability": 100.0,
+                    "isElementDurabilityMutable": false
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "UNIQUE_ElementState"
+                },
+                {
+                    "$type": "AttachAbilityStateResistance",
+                    "resistanceBuffDebuffs": [
+                        "ElementWet",
+                        "Struggle"
+                    ]
+                },
+                {
+                    "$type": "AttachEffect",
+                    "effectPattern": "Eff_Monster_Oceanid_Wigeon_CommonEffectLoop"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Animal_Wigeon_EscapeRandom",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToNormalizedTimeMixin",
+                    "stateID": "EscapeBS",
+                    "modifierName": "Animal_Wigeon_EscapeTurn",
+                    "normalizeStart": 0.75
+                }
+            ],
+            "modifiers": {
+                "Animal_Wigeon_EscapeTurn": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "Randomed",
+                            "chance": 0.5,
+                            "successActions": [
+                                {
+                                    "$type": "TurnDirectionToPos",
+                                    "toPos": {
+                                        "$type": "ConfigBornBySelf",
+                                        "offset": {
+                                            "x": 3.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    }
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "TurnDirectionToPos",
+                                    "toPos": {
+                                        "$type": "ConfigBornBySelf",
+                                        "offset": {
+                                            "x": -3.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Oceanid_Wigeon_FreeAlert",
+            "onAbilityStart": [
+                {
+                    "$type": "SetPoseBool",
+                    "boolID": "FreeAlert",
+                    "value": true
+                },
+                {
+                    "$type": "SetPoseBool",
+                    "boolID": "Free"
+                }
+            ]
+        }
+    }
+]

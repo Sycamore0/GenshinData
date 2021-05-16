@@ -1,0 +1,528 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "DropLight_Interact",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMutexMixin",
+                    "gadgetStates": [
+                        0,
+                        201
+                    ],
+                    "modifierNames": [
+                        [
+                            "Fire_Off"
+                        ],
+                        [
+                            "Fire_On"
+                        ]
+                    ]
+                }
+            ],
+            "modifiers": {
+                "Trigger_Bullet": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_WoodenObject_Broken",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "EffectPoint"
+                            }
+                        },
+                        {
+                            "$type": "TriggerBullet",
+                            "bulletID": 70950002,
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "ShootPoint"
+                            }
+                        },
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ]
+                },
+                "Trigger_Bullet02": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_WoodenObject_Broken",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "EffectPoint"
+                            }
+                        },
+                        {
+                            "$type": "TriggerBullet",
+                            "bulletID": 70950003,
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "ShootPoint"
+                            }
+                        },
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ]
+                },
+                "Fire_Off": {
+                    "modifierName": "",
+                    "elementType": "Grass",
+                    "elementDurability": 1.0,
+                    "onBeingHit": [
+                        {
+                            "$type": "ExecuteGroupTrigger",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitBoxName",
+                                    "hitBoxNames": [
+                                        "LightHitbox"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHitElement",
+                                    "element": "Fire"
+                                },
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHasElement",
+                                            "element": "Water"
+                                        },
+                                        {
+                                            "$type": "ByHasElement",
+                                            "element": "Ice"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "sourceName": "FireSourceChange",
+                            "param1": 1
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitBoxName",
+                                    "hitBoxNames": [
+                                        "RopeHitbox"
+                                    ]
+                                }
+                            ],
+                            "modifierName": "Trigger_Bullet02"
+                        }
+                    ]
+                },
+                "Fire_On": {
+                    "modifierName": "",
+                    "elementType": "Fire",
+                    "elementDurability": 1.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "Burning"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Burning"
+                        }
+                    ],
+                    "onBeingHit": [
+                        {
+                            "$type": "RemoveModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitBoxName",
+                                    "hitBoxNames": [
+                                        "LightHitBox"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHitElement",
+                                    "element": "Wind"
+                                }
+                            ],
+                            "modifierName": "Burning"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitBoxName",
+                                    "hitBoxNames": [
+                                        "RopeHitbox"
+                                    ]
+                                }
+                            ],
+                            "modifierName": "Trigger_Bullet"
+                        }
+                    ]
+                },
+                "Burning": {
+                    "modifierName": "",
+                    "elementType": "Fire",
+                    "elementDurability": 15.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_FireBasin_01"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ExecuteGroupTrigger",
+                            "sourceName": "FireSourceChange"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "DropLight_Bullet",
+            "modifiers": {
+                "DropLight_Bullet": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.05000000074505806,
+                    "onThinkInterval": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_SceneObj_BombBarrel_01_Explode"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "DropLight_Bullet"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "DropLight_Crash",
+            "modifiers": {
+                "DropLight_Crash": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "Owner",
+                            "modifierName": "UnlockIntee"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_SceneObj_BombBarrel_01_Explode"
+                        },
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackSphere",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf"
+                                    },
+                                    "radius": 2.0
+                                },
+                                "attackInfo": {
+                                    "attackTag": "",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 1.0,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Fire",
+                                        "elementDurability": 20.0,
+                                        "strikeType": "Default",
+                                        "enBreak": 200.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV6",
+                                        "overrideHitImpulse": {
+                                            "hitLevel": "Air",
+                                            "hitImpulseX": 700.0,
+                                            "hitImpulseY": 400.0
+                                        },
+                                        "hitHaltTimeScale": 0.05000000074505806
+                                    }
+                                }
+                            },
+                            "targetType": "All"
+                        },
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ]
+                },
+                "UnlockIntee": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "EnableGadgetIntee",
+                            "enable": true
+                        },
+                        {
+                            "$type": "ExecuteGadgetLua",
+                            "param1": 1
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "DropLight_Crash"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "DropLight_Crash02",
+            "modifiers": {
+                "DropLight_Crash": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_SceneObj_WoodenObject_Broken",
+                            "born": {
+                                "$type": "ConfigBornByTarget"
+                            }
+                        },
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackSphere",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf"
+                                    },
+                                    "radius": 0.5
+                                },
+                                "attackInfo": {
+                                    "attackTag": "",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 1.0,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Fire",
+                                        "elementDurability": 20.0,
+                                        "strikeType": "Default",
+                                        "enBreak": 200.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV6",
+                                        "overrideHitImpulse": {
+                                            "hitLevel": "Air",
+                                            "hitImpulseX": 700.0,
+                                            "hitImpulseY": 400.0
+                                        },
+                                        "hitHaltTimeScale": 0.05000000074505806
+                                    }
+                                }
+                            },
+                            "targetType": "All"
+                        },
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "DropLight_Crash"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "GearWater_Interact",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "modifierName": "Switch_Close"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "Swtich_Open"
+                }
+            ],
+            "modifiers": {
+                "Switch_Close": {
+                    "modifierName": "",
+                    "elementType": "Grass",
+                    "elementDurability": 1.0,
+                    "onBeingHit": [
+                        {
+                            "$type": "ExecuteGroupTrigger",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitElement",
+                                    "element": "Water"
+                                }
+                            ],
+                            "sourceName": "SwithcDisable"
+                        }
+                    ]
+                },
+                "Swtich_Open": {
+                    "modifierName": "",
+                    "elementType": "Water",
+                    "elementDurability": 1.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "Burning"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Burning"
+                        }
+                    ],
+                    "onBeingHit": [
+                        {
+                            "$type": "RemoveModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitElement",
+                                    "element": "Fire"
+                                }
+                            ],
+                            "modifierName": "Burning"
+                        }
+                    ]
+                },
+                "Burning": {
+                    "modifierName": "",
+                    "elementType": "Fire",
+                    "elementDurability": 15.0,
+                    "thinkInterval": 1.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_FireBasin_01"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ExecuteGroupTrigger",
+                            "sourceName": "SwithcDisable"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_FIRE_GADGET_ATTACK",
+                                    "value": 1.0
+                                }
+                            ],
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackBox",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "checkHitLayerType": "Both",
+                                    "born": {
+                                        "$type": "ConfigBornByAttachPoint",
+                                        "offset": {
+                                            "z": -0.5
+                                        },
+                                        "attachPointName": "attachPoint"
+                                    },
+                                    "size": {
+                                        "x": 1.0,
+                                        "y": 1.0,
+                                        "z": 1.0
+                                    }
+                                },
+                                "attackInfo": {
+                                    "attackTag": "",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 1.0,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Fire",
+                                        "elementDurability": 100.0,
+                                        "strikeType": "Default"
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "none",
+                                        "hitImpulseType": "LV1",
+                                        "hitHaltTimeScale": 0.5
+                                    }
+                                }
+                            },
+                            "targetType": "All"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": 0.0,
+                    "key": "_FIRE_GADGET_ATTACK",
+                    "useLimitRange": true,
+                    "maxValue": 1.0,
+                    "minValue": -1.0
+                }
+            ],
+            "onFieldEnter": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": 2.0,
+                    "key": "_FIRE_GADGET_ATTACK",
+                    "useLimitRange": true,
+                    "maxValue": 1.0,
+                    "minValue": -1.0
+                }
+            ],
+            "onFieldExit": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": -2.0,
+                    "key": "_FIRE_GADGET_ATTACK",
+                    "useLimitRange": true,
+                    "maxValue": 1.0,
+                    "minValue": -1.0
+                }
+            ]
+        }
+    }
+]

@@ -1,0 +1,2107 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Event_ElementTrack",
+            "modifiers": {
+                "ElementTrack": {
+                    "modifierName": "",
+                    "elementType": "Grass",
+                    "elementDurability": 50.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_ElementFootprint_Wind01"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_ElementFootprint_Wind02"
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "ElementTrack"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "ElementTrack"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Event_TargetPoint",
+            "modifiers": {
+                "Effect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Quest_SiteInteract_Event"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Effect"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Event_DuckEat",
+            "modifiers": {
+                "DuckEat": {
+                    "modifierName": "",
+                    "duration": 30.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "BroadcastNeuronStimulate",
+                            "neuronName": "SURROUND",
+                            "stimulate": true,
+                            "range": 30.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "BroadcastNeuronStimulate",
+                            "neuronName": "SURROUND",
+                            "range": 30.0
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "BroadcastNeuronStimulate",
+                            "neuronName": "SURROUND",
+                            "range": 30.0
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "DuckEat"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Event_Fish",
+            "modifiers": {
+                "DisappearTimer": {
+                    "modifierName": "",
+                    "duration": 2.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "StartDither",
+                            "duration": 3.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "Disappear",
+                            "value": true
+                        },
+                        {
+                            "$type": "KillSelf",
+                            "banDrop": true,
+                            "banExp": true
+                        }
+                    ]
+                },
+                "fishModify": {
+                    "modifierName": "",
+                    "duration": 12.0,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onAdded": [
+                        {
+                            "$type": "BroadcastNeuronStimulate",
+                            "neuronName": "SURROUND",
+                            "stimulate": true,
+                            "range": 30.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "BroadcastNeuronStimulate",
+                            "neuronName": "SURROUND",
+                            "range": 30.0
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "DisappearTimer"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "BroadcastNeuronStimulate",
+                            "neuronName": "SURROUND",
+                            "stimulate": true,
+                            "range": 30.0
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "BroadcastNeuronStimulate",
+                            "neuronName": "SURROUND",
+                            "range": 30.0
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "DisappearTimer"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "fishModify"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Event_RoadBlock05",
+            "modifiers": {
+                "RoadBlock_Burning": {
+                    "modifierName": "",
+                    "elementType": "Grass",
+                    "elementDurability": 30.0,
+                    "isElementDurabilityMutable": false,
+                    "modifierMixins": [
+                        {
+                            "$type": "DoActionByEventMixin",
+                            "type": "Current",
+                            "onAbilityStateAdded": [
+                                {
+                                    "abilityState": "ElementBurning",
+                                    "actions": [
+                                        {
+                                            "$type": "AttachModifier",
+                                            "modifierName": "Burning_Effect"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "onAbilityStateRemoved": [
+                                {
+                                    "abilityState": "ElementBurning",
+                                    "actions": [
+                                        {
+                                            "$type": "RemoveModifier",
+                                            "modifierName": "Burning_Effect"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Burning_Effect"
+                        }
+                    ]
+                },
+                "Burning_Effect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Element_Burning"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": 2.0,
+                    "key": "_CUSTOM_ATTACK_SHAPE_TYPE",
+                    "useLimitRange": true,
+                    "maxValue": 2.0,
+                    "minValue": 2.0
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "RoadBlock_Burning"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Event_RoadBlock",
+            "modifiers": {
+                "RoadBlock_Burning": {
+                    "modifierName": "",
+                    "elementType": "Grass",
+                    "elementDurability": 30.0,
+                    "isElementDurabilityMutable": false,
+                    "modifierMixins": [
+                        {
+                            "$type": "DoActionByEventMixin",
+                            "type": "Current",
+                            "onAbilityStateAdded": [
+                                {
+                                    "abilityState": "ElementBurning",
+                                    "actions": [
+                                        {
+                                            "$type": "AttachModifier",
+                                            "modifierName": "Burning_Effect"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "onAbilityStateRemoved": [
+                                {
+                                    "abilityState": "ElementBurning",
+                                    "actions": [
+                                        {
+                                            "$type": "RemoveModifier",
+                                            "modifierName": "Burning_Effect"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Burning_Effect"
+                        }
+                    ]
+                },
+                "Burning_Effect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Element_Burning"
+                        }
+                    ]
+                },
+                "Normal": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onKill": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Hili_House_03_Destory",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "attachPoint1"
+                            }
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Hili_House_03_Destory",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "attachPoint2"
+                            }
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Hili_House_03_Destory",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "attachPoint3"
+                            }
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": 2.0,
+                    "key": "_CUSTOM_ATTACK_SHAPE_TYPE",
+                    "useLimitRange": true,
+                    "maxValue": 2.0,
+                    "minValue": 2.0
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Normal"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "RoadBlock_Burning"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Event_RoadBlock02_Attack",
+            "onAbilityStart": [
+                {
+                    "$type": "DamageByAttackValue",
+                    "target": "Target",
+                    "attackInfo": {
+                        "attackTag": "_Bramble_Attack",
+                        "attenuationTag": "",
+                        "attenuationGroup": "default",
+                        "attackProperty": {
+                            "damagePercentage": 1.0,
+                            "damagePercentageRatio": 0.0,
+                            "elementType": "Grass",
+                            "elementDurability": 10.0,
+                            "strikeType": "Default",
+                            "enBreak": 100.0,
+                            "ignoreLevelDiff": true
+                        },
+                        "hitPattern": {
+                            "onHitEffectName": "",
+                            "hitImpulseType": "LV4",
+                            "hitHaltTimeScale": 0.009999999776482582
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Event_RoadBlock06",
+            "modifiers": {
+                "RoadBlock_Burning": {
+                    "modifierName": "",
+                    "elementType": "Grass",
+                    "elementDurability": 30.0,
+                    "isElementDurabilityMutable": false,
+                    "modifierMixins": [
+                        {
+                            "$type": "DoActionByEventMixin",
+                            "type": "Current",
+                            "onAbilityStateAdded": [
+                                {
+                                    "abilityState": "ElementBurning",
+                                    "actions": [
+                                        {
+                                            "$type": "AttachModifier",
+                                            "modifierName": "Burning_Effect"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "onAbilityStateRemoved": [
+                                {
+                                    "abilityState": "ElementBurning",
+                                    "actions": [
+                                        {
+                                            "$type": "RemoveModifier",
+                                            "modifierName": "Burning_Effect"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Burning_Effect"
+                        }
+                    ]
+                },
+                "Burning_Effect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Element_Burning"
+                        }
+                    ]
+                },
+                "Normal": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onKill": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Hili_House_03_Destory",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "attachPoint1"
+                            }
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": 2.0,
+                    "key": "_CUSTOM_ATTACK_SHAPE_TYPE",
+                    "useLimitRange": true,
+                    "maxValue": 2.0,
+                    "minValue": 2.0
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Normal"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "RoadBlock_Burning"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Event_StableCart",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "Taunting"
+                }
+            ],
+            "modifiers": {
+                "Taunting": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 2.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "TriggerTaunt",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR25",
+                                "campTargetType": "Enemy",
+                                "sizeRatio": 1.0
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "careValue": 10.0
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Event_Kelee_Seal",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "FireEffect"
+                }
+            ],
+            "modifiers": {
+                "FireEffect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Stage_SealBorder03"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Event_Kelee_SealR110_Ability",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "FireEffect"
+                }
+            ],
+            "modifiers": {
+                "FireEffect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Stage_SealBorder03_R110"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Quest_GamblingRockCreate_1",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "modifierName": "Default"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "Destroy"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 203,
+                    "modifierName": "ShowGamblingRock"
+                }
+            ],
+            "modifiers": {
+                "Default": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "CreateGadget",
+                            "lifeByOwnerIsAlive": true,
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "direction": {
+                                    "$type": "ConfigBornDirectionType",
+                                    "randomAngleHor": 10.0,
+                                    "randomAngleVer": 10.0
+                                }
+                            },
+                            "gadgetID": 70710045,
+                            "byServer": true
+                        }
+                    ]
+                },
+                "ShowGamblingRock": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ExecuteGadgetLua",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByChildren",
+                                "configID": 70710045
+                            },
+                            "param1": 204
+                        }
+                    ]
+                },
+                "Destroy": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "KillGadget",
+                            "gadgetInfo": {
+                                "sortType": "Reversed",
+                                "configID": 70710045
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Quest_GamblingRockCreate_2",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "modifierName": "Default"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "Destroy"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 203,
+                    "modifierName": "ShowGamblingRock"
+                }
+            ],
+            "modifiers": {
+                "Default": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "CreateGadget",
+                            "lifeByOwnerIsAlive": true,
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "direction": {
+                                    "$type": "ConfigBornDirectionType",
+                                    "randomAngleHor": 180.0,
+                                    "randomAngleVer": 70.0
+                                }
+                            },
+                            "gadgetID": 70710046,
+                            "byServer": true
+                        }
+                    ]
+                },
+                "ShowGamblingRock": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ExecuteGadgetLua",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByChildren",
+                                "configID": 70710046
+                            },
+                            "param1": 204
+                        }
+                    ]
+                },
+                "Destroy": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "KillGadget",
+                            "gadgetInfo": {
+                                "sortType": "Reversed",
+                                "configID": 70710046
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Quest_GamblingRockCreate_3",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "modifierName": "Default"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "Destroy"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 203,
+                    "modifierName": "ShowGamblingRock"
+                }
+            ],
+            "modifiers": {
+                "Default": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "CreateGadget",
+                            "lifeByOwnerIsAlive": true,
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "direction": {
+                                    "$type": "ConfigBornDirectionType",
+                                    "randomAngleHor": 180.0,
+                                    "randomAngleVer": 70.0
+                                }
+                            },
+                            "gadgetID": 70710047,
+                            "byServer": true
+                        }
+                    ]
+                },
+                "ShowGamblingRock": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ExecuteGadgetLua",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByChildren",
+                                "configID": 70710047
+                            },
+                            "param1": 204
+                        }
+                    ]
+                },
+                "Destroy": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "KillGadget",
+                            "gadgetInfo": {
+                                "sortType": "Reversed",
+                                "configID": 70710047
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Event_Stain",
+            "modifiers": {
+                "Default": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_GroundDirty_01"
+                        }
+                    ],
+                    "onBeingHit": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitElement",
+                                    "element": "Wind"
+                                }
+                            ],
+                            "value": 1.0,
+                            "key": "_WIND_HIT_COUNT",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_WIND_HIT_COUNT",
+                                    "value": 1.0
+                                }
+                            ],
+                            "parameter": "HalfDirty",
+                            "effectPattern": "Eff_SceneObj_GroundDirty_01"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitElement",
+                                    "element": "Wind"
+                                }
+                            ],
+                            "effectPattern": "Eff_SceneObj_GroundDirty_Blow"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitElement",
+                                    "element": "Wind"
+                                }
+                            ],
+                            "modifierName": "CameraFog"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitElement",
+                                    "element": "Water"
+                                }
+                            ],
+                            "effectPattern": "Eff_SceneObj_GroundDirty_Wash"
+                        },
+                        {
+                            "$type": "KillSelf",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitElement",
+                                    "element": "Water"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "KillSelf",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_WIND_HIT_COUNT",
+                                    "value": 3.0
+                                }
+                            ]
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "NoDirty",
+                            "effectPattern": "Eff_SceneObj_GroundDirty_01"
+                        }
+                    ]
+                },
+                "CameraFog": {
+                    "modifierName": "",
+                    "duration": 1.5,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "TriggerPostProcessEffectMixin",
+                            "postEffectAssetName": "PostEffect_Scene_Dust",
+                            "duration": 1.5
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_GroundDirty_01"
+                        }
+                    ],
+                    "onBeingHit": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitElement",
+                                    "element": "Wind"
+                                }
+                            ],
+                            "value": 1.0,
+                            "key": "_WIND_HIT_COUNT",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_WIND_HIT_COUNT",
+                                    "value": 1.0
+                                }
+                            ],
+                            "parameter": "HalfDirty",
+                            "effectPattern": "Eff_SceneObj_GroundDirty_01"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitElement",
+                                    "element": "Wind"
+                                }
+                            ],
+                            "effectPattern": "Eff_SceneObj_GroundDirty_Blow"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitElement",
+                                    "element": "Wind"
+                                }
+                            ],
+                            "modifierName": "CameraFog"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitElement",
+                                    "element": "Water"
+                                }
+                            ],
+                            "effectPattern": "Eff_SceneObj_GroundDirty_Wash"
+                        },
+                        {
+                            "$type": "KillSelf",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitElement",
+                                    "element": "Water"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "KillSelf",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_WIND_HIT_COUNT",
+                                    "value": 3.0
+                                }
+                            ]
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "NoDirty",
+                            "effectPattern": "Eff_SceneObj_GroundDirty_01"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Default"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Quest_ChargePot",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "modifierName": "DefaultPhase"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "Phase2"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 202,
+                    "modifierName": "Phase3"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 204,
+                    "modifierName": "Start"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 203,
+                    "modifierName": "EndPhase"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 901,
+                    "modifierName": "Phase2_Protect_EFF"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 902,
+                    "modifierName": "Phase3_Protect_EFF"
+                }
+            ],
+            "modifiers": {
+                "DefaultPhase": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Pot_Boil_Water"
+                        }
+                    ]
+                },
+                "Start": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Controller"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Pot_Boil_Water"
+                        }
+                    ]
+                },
+                "Controller": {
+                    "modifierName": "",
+                    "elementType": "AntiFire",
+                    "elementDurability": 300.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToElementDurabilityMixin",
+                            "valueSteps": [
+                                0.5,
+                                100.0,
+                                200.0,
+                                300.5
+                            ],
+                            "modifierNameSteps": [
+                                "Phase3_Protect",
+                                "Phase2_Protect",
+                                "Phase1"
+                            ]
+                        },
+                        {
+                            "$type": "ShieldBarMixin",
+                            "revert": true,
+                            "showDamageText": ""
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ExecuteGadgetLua",
+                            "param1": 203
+                        }
+                    ]
+                },
+                "Phase1": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Pot_Boil_Water"
+                        }
+                    ]
+                },
+                "Phase2": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Pot_Boil_Water"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "IsOn",
+                            "type": "Bool",
+                            "value": 1,
+                            "effectPattern": "Eff_Pot_NightBerth_L"
+                        }
+                    ]
+                },
+                "Phase2_Protect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ExecuteGadgetLua",
+                            "param1": 901
+                        }
+                    ]
+                },
+                "Phase2_Protect_EFF": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Pot_Boil_Water"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "IsOn",
+                            "type": "Bool",
+                            "value": 1,
+                            "effectPattern": "Eff_Pot_NightBerth_L"
+                        }
+                    ]
+                },
+                "Phase3": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Pot_Boil_Water"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "Boil",
+                            "type": "Bool",
+                            "value": 1,
+                            "effectPattern": "Eff_Pot_Boil_Water"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "IsOn",
+                            "type": "Bool",
+                            "value": 1,
+                            "effectPattern": "Eff_Pot_NightBerth_N"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "IsOn",
+                            "type": "Bool",
+                            "value": 1,
+                            "effectPattern": "Eff_Pot_NightBerth_L"
+                        }
+                    ]
+                },
+                "Phase3_Protect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ExecuteGadgetLua",
+                            "param1": 902
+                        }
+                    ]
+                },
+                "Phase3_Protect_EFF": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Pot_Boil_Water"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "Boil",
+                            "type": "Bool",
+                            "value": 1,
+                            "effectPattern": "Eff_Pot_Boil_Water"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "IsOn",
+                            "type": "Bool",
+                            "value": 1,
+                            "effectPattern": "Eff_Pot_NightBerth_N"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "IsOn",
+                            "type": "Bool",
+                            "value": 1,
+                            "effectPattern": "Eff_Pot_NightBerth_L"
+                        }
+                    ]
+                },
+                "EndPhase": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "IsOn",
+                            "type": "Bool",
+                            "value": 1,
+                            "effectPattern": "Eff_Pot_NightBerth_H"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "IsOn",
+                            "type": "Bool",
+                            "value": 1,
+                            "effectPattern": "Eff_Pot_NightBerth_N"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "IsOn",
+                            "type": "Bool",
+                            "value": 1,
+                            "effectPattern": "Eff_Pot_NightBerth_L"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Pot_Boil_Water"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "Boil",
+                            "type": "Bool",
+                            "value": 1,
+                            "effectPattern": "Eff_Pot_Boil_Water"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachEffect",
+                    "effectPattern": "Eff_Pot_NightBerth_N",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "EffectPoint2"
+                    }
+                },
+                {
+                    "$type": "AttachEffect",
+                    "effectPattern": "Eff_Pot_NightBerth_L",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "EffectPoint3"
+                    }
+                },
+                {
+                    "$type": "AttachEffect",
+                    "effectPattern": "Eff_Pot_NightBerth_H",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "EffectPoint1"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Item_Property_MaterialTable",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 204,
+                    "modifierName": "EffectActivation"
+                }
+            ],
+            "modifiers": {
+                "EffectActivation": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SecenObj_Burner_Smoke",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "EffectPoint"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Environment_ElementFootprint_Trail",
+            "modifiers": {
+                "Default": {
+                    "modifierName": "",
+                    "elementType": "Wind",
+                    "elementDurability": 50.0
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "Default"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Environment_Cure_Wind",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "modifierName": "SetBoolFalse"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 202,
+                    "modifierName": "SetBoolTrue"
+                }
+            ],
+            "modifiers": {
+                "Effect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Cure_Wind_01"
+                        }
+                    ]
+                },
+                "SetBoolFalse": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "End",
+                            "type": "Bool",
+                            "effectPattern": "Eff_Cure_Wind_01"
+                        }
+                    ]
+                },
+                "SetBoolTrue": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "End",
+                            "type": "Bool",
+                            "value": 1,
+                            "effectPattern": "Eff_Cure_Wind_01"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Effect"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Environment_Mona_Door_Sealed",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "modifierName": "SetBoolFalse"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "SetBoolTrue"
+                }
+            ],
+            "modifiers": {
+                "Effect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Mona_Door_Sealed"
+                        }
+                    ]
+                },
+                "SetBoolFalse": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "State",
+                            "type": "Bool",
+                            "effectPattern": "Eff_Mona_Door_Sealed"
+                        }
+                    ]
+                },
+                "SetBoolTrue": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "State",
+                            "type": "Bool",
+                            "value": 1,
+                            "effectPattern": "Eff_Mona_Door_Sealed"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Effect"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Gather_Burner01",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "EffectActivation"
+                }
+            ],
+            "modifiers": {
+                "EffectActivation": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SecenObj_Burner_Smoke",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "EffectPoint"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Quest_WoodenBoard",
+            "onAdded": [
+                {
+                    "$type": "AttachEffect",
+                    "effectPattern": "Eff_SceneObj_Common_AppearMask_01"
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_SceneObj_Common_AppearMask_01"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Quest_Statue01",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "modifierName": "Default"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "EffectActivation"
+                }
+            ],
+            "modifiers": {
+                "Default": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SecenObj_Statue_Notice",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "EffectPoint"
+                            }
+                        }
+                    ]
+                },
+                "EffectActivation": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SecenObj_Statue_Raise",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "RootNode"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Quest_PetPot_Cat01",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "EffectActivation"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 202,
+                    "modifierName": "Protect"
+                }
+            ],
+            "modifiers": {
+                "EffectActivation": {
+                    "modifierName": "",
+                    "duration": 165.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SearchPoint_Active",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "AttachPoint"
+                            }
+                        },
+                        {
+                            "$type": "BroadcastNeuronStimulate",
+                            "neuronName": "HUNGRY",
+                            "stimulate": true,
+                            "range": 30.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ExecuteGadgetLua",
+                            "param1": 202
+                        },
+                        {
+                            "$type": "BroadcastNeuronStimulate",
+                            "neuronName": "HUNGRY",
+                            "range": 30.0
+                        }
+                    ]
+                },
+                "Protect": {
+                    "modifierName": "",
+                    "duration": 15.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "ExecuteGadgetLua"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Quest_PetPot_Dog01",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "modifierName": "OpenInteract"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "EffectActivation"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 202,
+                    "modifierName": "Protect"
+                }
+            ],
+            "modifiers": {
+                "OpenInteract": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ExecuteGadgetLua",
+                            "param2": 1,
+                            "param3": 70710111
+                        }
+                    ]
+                },
+                "EffectActivation": {
+                    "modifierName": "",
+                    "duration": 30.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SearchPoint_Active",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "AttachPoint"
+                            }
+                        },
+                        {
+                            "$type": "BroadcastNeuronStimulate",
+                            "neuronName": "HUNGRY",
+                            "stimulate": true,
+                            "range": 30.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ExecuteGadgetLua",
+                            "param1": 202
+                        },
+                        {
+                            "$type": "BroadcastNeuronStimulate",
+                            "neuronName": "HUNGRY",
+                            "range": 30.0
+                        }
+                    ]
+                },
+                "Protect": {
+                    "modifierName": "",
+                    "duration": 10.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "ExecuteGadgetLua"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Quest_WoodenCage01",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "Door_Open"
+                }
+            ],
+            "modifiers": {
+                "Door_Open": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_CoverSmoke_Mini_01",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "LockPosition"
+                            }
+                        },
+                        {
+                            "$type": "ExecuteGadgetLua",
+                            "param1": 202
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Item_PathNode_Red",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "modifierName": "Default"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "Disappear"
+                }
+            ],
+            "modifiers": {
+                "Default": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_PathNode_Red"
+                        }
+                    ]
+                },
+                "Disappear": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Default"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_PathNode_Disappear"
+                        }
+                    ]
+                }
+            },
+            "onKill": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_SceneObj_PathNode_Disappear"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Item_PathNode_Yellow",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "modifierName": "Default"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "Disappear"
+                }
+            ],
+            "modifiers": {
+                "Default": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_PathNode_Yellow"
+                        }
+                    ]
+                },
+                "Disappear": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Default"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_PathNode_Disappear"
+                        }
+                    ]
+                }
+            },
+            "onKill": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_SceneObj_PathNode_Disappear"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Item_PathNode_Green",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "modifierName": "Default"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "Disappear"
+                }
+            ],
+            "modifiers": {
+                "Default": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_PathNode_Green"
+                        }
+                    ]
+                },
+                "Disappear": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Default"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_PathNode_Disappear"
+                        }
+                    ]
+                }
+            },
+            "onKill": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_SceneObj_PathNode_Disappear"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Item_Immortaldungeonbarrier",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "modifierName": "Idle"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "Disappear"
+                }
+            ],
+            "modifiers": {
+                "Disappear": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_Immortaldungeonbarrier_01_Disappear",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "RootNode"
+                            }
+                        }
+                    ]
+                },
+                "Idle": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_Immortaldungeonbarrier_01",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "RootNode"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Item_WindRingEmitter_Element",
+            "modifiers": {
+                "BeHit": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onBeingHit": [
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByHitElement",
+                                    "element": "Wind"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "value": 1.0,
+                                    "key": "HitCount",
+                                    "useLimitRange": true,
+                                    "maxValue": 999.0,
+                                    "minValue": 0.0
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "HitCount",
+                                    "value": 1.0,
+                                    "compareType": "MoreThanAndEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ExecuteGadgetLua",
+                                    "param1": 201
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "PushForceModifier": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.5,
+                    "onThinkInterval": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackCircle",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    },
+                                    "height": 6.0,
+                                    "radius": 3.0
+                                },
+                                "attackInfo": {
+                                    "attackTag": "",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 1.0,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Wind",
+                                        "elementDurability": 20.0,
+                                        "strikeType": "Pierce",
+                                        "enBreak": 200.0,
+                                        "ignoreLevelDiff": true
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV4",
+                                        "overrideHitImpulse": {
+                                            "hitLevel": "Heavy",
+                                            "hitImpulseX": 1000.0,
+                                            "hitImpulseY": 0.0
+                                        },
+                                        "retreatType": "ByHitDirection",
+                                        "hitHaltTimeScale": 0.05000000074505806
+                                    }
+                                }
+                            },
+                            "targetType": "AllExceptSelf"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "PushForceModifier"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "BeHit"
+                },
+                {
+                    "$type": "AttachEffect",
+                    "effectPattern": "Eff_MD_ElemViewWindClot"
+                },
+                {
+                    "$type": "AddGlobalValue",
+                    "value": -1.0,
+                    "key": "HitCount",
+                    "useLimitRange": true,
+                    "maxValue": 999.0,
+                    "minValue": 0.0
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Item_ElemViewWindClotS_01",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "ReturnToDefault"
+                }
+            ],
+            "modifiers": {
+                "ReturnToDefault": {
+                    "modifierName": "",
+                    "duration": 10.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "ExecuteGadgetLua"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachEffect",
+                    "effectPattern": "Eff_Stage_WindCannon_Element"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Property_Ani_Stages_Prop_Diary_01",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "modifierName": "Appear"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "Disappear"
+                }
+            ],
+            "modifiers": {
+                "Disappear": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_SceneObj_Diary_Particle"
+                        }
+                    ]
+                },
+                "Appear": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_SceneObj_Diary_Particle"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+]

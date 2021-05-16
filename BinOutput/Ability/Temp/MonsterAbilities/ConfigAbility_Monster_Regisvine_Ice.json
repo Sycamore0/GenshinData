@@ -1,0 +1,1522 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Regisvine_Ice_Standy_Effect",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        1001,
+                        1002,
+                        1011,
+                        1012,
+                        1021,
+                        1022,
+                        1031,
+                        1032
+                    ],
+                    "modifierName": "StandbyEffect"
+                }
+            ],
+            "modifiers": {
+                "StandbyEffect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Regisvine_Ice_Standby_01"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Regisvine_Ice_BeHitEffect",
+            "modifiers": {
+                "UNIQUE_Regisvine_Ice_BeHitEffect": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onBeingHit": [
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByHitBoxName",
+                                    "hitBoxNames": [
+                                        "HitBox_Core_Critical"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_MONSTER_REGISVINE_CORE",
+                                    "value": 0.0,
+                                    "compareType": "LessAndEqual"
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_MONSTER_REGISVINE_CORE_ISSHATTERED",
+                                    "value": 1.0,
+                                    "compareType": "MoreThanAndEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Monster_Regisvine_Ice_Hit_Weakness",
+                                    "born": {
+                                        "$type": "ConfigBornByHitPoint",
+                                        "direction": {
+                                            "$type": "ConfigDirectionByBackToHitBoxCenter"
+                                        }
+                                    }
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Monster_Regisvine_Ice_Hit_Weakness_NoEffect",
+                                    "born": {
+                                        "$type": "ConfigBornByHitPoint"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "UNIQUE_Regisvine_Ice_BeHitEffect"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Regisvine_Ice_MissileAttack_Effect",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "MissileAttack_Loop"
+                    ],
+                    "modifierName": "Effect"
+                }
+            ],
+            "modifiers": {
+                "Effect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "Shader_Skill_MissileAttack_Loop",
+                            "value": true
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Regisvine_Ice_MissileAttack_02"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "Shader_Skill_MissileAttack_Loop"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Regisvine_Ice_MissileAttack",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "MissileAttack_Loop"
+                    ],
+                    "modifierName": "MissileAttack_Ring01"
+                },
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "MissileAttack_Loop"
+                    ],
+                    "modifierName": "MissileAttack_Ring02"
+                },
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "MissileAttack_Loop"
+                    ],
+                    "modifierName": "MissileAttack_Ring03"
+                }
+            ],
+            "modifiers": {
+                "MissileAttack_Ring01": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "MissileAttack_Ring02": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.2000000476837158,
+                    "onThinkInterval": [
+                        {
+                            "$type": "Repeated",
+                            "repeatTimes": 1,
+                            "actions": [
+                                {
+                                    "$type": "CreateGadget",
+                                    "lifeByOwnerIsAlive": true,
+                                    "born": {
+                                        "$type": "ConfigBornBySelf",
+                                        "bornRandom": {
+                                            "$type": "BornRandomFromCenter",
+                                            "minRandomRange": 16.0,
+                                            "maxRandomRange": 25.0
+                                        },
+                                        "onGround": true,
+                                        "onGroundRaycastUpDist": 0.20000000298023224
+                                    },
+                                    "sightGroupWithOwner": true,
+                                    "gadgetID": 42602006,
+                                    "campID": 4001
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Repeated",
+                            "repeatTimes": 1,
+                            "actions": [
+                                {
+                                    "$type": "CreateGadget",
+                                    "otherTargets": {
+                                        "$type": "SelectTargetsByShape",
+                                        "topLimit": 1,
+                                        "shapeName": "CircleR15",
+                                        "campTargetType": "Enemy",
+                                        "sizeRatio": 1.0
+                                    },
+                                    "predicates": [
+                                        {
+                                            "$type": "ByEntityTypes",
+                                            "entityTypes": [
+                                                "Avatar"
+                                            ]
+                                        },
+                                        {
+                                            "$type": "ByTargetPositionToSelfPosition",
+                                            "logic": "GreaterOrEqual",
+                                            "value": 8.0
+                                        },
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_ABILITY_REGISVINE_ICE_MISSILEATTACK_HIT",
+                                            "value": 0.0,
+                                            "compareType": "NoneOrEqual"
+                                        }
+                                    ],
+                                    "lifeByOwnerIsAlive": true,
+                                    "born": {
+                                        "$type": "ConfigBornByPredicatePoint",
+                                        "bornRandom": {
+                                            "$type": "BornRandomFromCenter",
+                                            "minRandomRange": 0.0,
+                                            "maxRandomRange": 1.0
+                                        },
+                                        "onGround": true,
+                                        "onGroundRaycastUpDist": 0.20000000298023224,
+                                        "timeForPredictive": 0.5
+                                    },
+                                    "sightGroupWithOwner": true,
+                                    "gadgetID": 42602006,
+                                    "campID": 4001
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "MissileAttack_Ring03": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.699999988079071,
+                    "onThinkInterval": [
+                        {
+                            "$type": "Repeated",
+                            "repeatTimes": 1,
+                            "actions": [
+                                {
+                                    "$type": "CreateGadget",
+                                    "otherTargets": {
+                                        "$type": "SelectTargetsByShape",
+                                        "topLimit": 1,
+                                        "shapeName": "CircleR25",
+                                        "campTargetType": "Enemy",
+                                        "sizeRatio": 1.0
+                                    },
+                                    "predicates": [
+                                        {
+                                            "$type": "ByEntityTypes",
+                                            "entityTypes": [
+                                                "Avatar"
+                                            ]
+                                        },
+                                        {
+                                            "$type": "ByTargetPositionToSelfPosition",
+                                            "logic": "GreaterOrEqual",
+                                            "value": 15.0
+                                        },
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_ABILITY_REGISVINE_ICE_MISSILEATTACK_HIT",
+                                            "value": 0.0,
+                                            "compareType": "NoneOrEqual"
+                                        }
+                                    ],
+                                    "lifeByOwnerIsAlive": true,
+                                    "born": {
+                                        "$type": "ConfigBornByPredicatePoint",
+                                        "bornRandom": {
+                                            "$type": "BornRandomFromCenter",
+                                            "minRandomRange": 0.0,
+                                            "maxRandomRange": 1.0
+                                        },
+                                        "onGround": true,
+                                        "onGroundRaycastUpDist": 0.20000000298023224,
+                                        "timeForPredictive": 0.5
+                                    },
+                                    "sightGroupWithOwner": true,
+                                    "gadgetID": 42602006,
+                                    "campID": 4001
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Regisvine_Ice_BlizzardSpit_BlizzardBegin",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "BlizzardSpit_BS",
+                        "BlizzardSpit_Fire",
+                        "BlizzardSpit_Reverse_Fire"
+                    ],
+                    "modifierName": "BlizzardDuration"
+                },
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "BlizzardSpit_Fire"
+                    ],
+                    "modifierName": "UNIQUE_CreateIceFog"
+                },
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "BlizzardSpit_Reverse_Fire"
+                    ],
+                    "modifierName": "UNIQUE_CreateIceFog_Reverse"
+                }
+            ],
+            "modifiers": {
+                "BlizzardDuration": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_WATCHER_82081_",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Blizzard"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_WATCHER_82081_",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Blizzard"
+                        }
+                    ]
+                },
+                "UNIQUE_CreateIceFog": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.25,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Regisvine_Ice_BlizzardSpit_HitGround"
+                        },
+                        {
+                            "$type": "CreateGadget",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 12.0
+                                },
+                                "onGround": true,
+                                "alongGround": true,
+                                "attachPointName": "BulletSourceCore"
+                            },
+                            "sightGroupWithOwner": true,
+                            "gadgetID": 42602015,
+                            "campID": 4001,
+                            "campTargetType": "Enemy"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "CreateGadget",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 12.0
+                                },
+                                "onGround": true,
+                                "alongGround": true,
+                                "attachPointName": "BulletSourceCore"
+                            },
+                            "sightGroupWithOwner": true,
+                            "gadgetID": 42602015,
+                            "campID": 4001,
+                            "campTargetType": "Enemy"
+                        }
+                    ]
+                },
+                "UNIQUE_CreateIceFog_Reverse": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.25,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Regisvine_Ice_BlizzardSpit_Reverse_HitGround"
+                        },
+                        {
+                            "$type": "CreateGadget",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 12.0
+                                },
+                                "onGround": true,
+                                "alongGround": true,
+                                "attachPointName": "BulletSourceCore"
+                            },
+                            "sightGroupWithOwner": true,
+                            "gadgetID": 42602015,
+                            "campID": 4001,
+                            "campTargetType": "Enemy"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "CreateGadget",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 12.0
+                                },
+                                "onGround": true,
+                                "alongGround": true,
+                                "attachPointName": "BulletSourceCore"
+                            },
+                            "sightGroupWithOwner": true,
+                            "gadgetID": 42602015,
+                            "campID": 4001,
+                            "campTargetType": "Enemy"
+                        }
+                    ]
+                },
+                "UNIQUE_Blizzard": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.20000000298023224,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "BlizzardEffect"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "RemoveBlizzardEffect"
+                        },
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "Monster_Regisvine_BlizzardSpitPushColliderOff"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackBox",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "checkHitLayerType": "Both",
+                                    "born": {
+                                        "$type": "ConfigBornByAttachPoint",
+                                        "offset": {
+                                            "x": -0.25,
+                                            "y": 0.0,
+                                            "z": -4.75
+                                        },
+                                        "direction": {
+                                            "$type": "ConfigDirectionByAttachPoint",
+                                            "attachPointName": "BulletSourceCore"
+                                        },
+                                        "attachPointName": "BulletSourceCore"
+                                    },
+                                    "size": {
+                                        "x": 4.0,
+                                        "y": 8.0,
+                                        "z": 30.0
+                                    },
+                                    "muteHitBehindscene": true
+                                },
+                                "attackInfo": {
+                                    "attackTag": "",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 0.5,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Ice",
+                                        "elementDurability": 50.0,
+                                        "strikeType": "Blunt",
+                                        "enBreak": 200.0,
+                                        "attackType": "Melee"
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV4",
+                                        "hitHaltTimeScale": 0.009999999776482582
+                                    },
+                                    "forceCameraShake": true
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "RemoveBlizzardEffect"
+                        },
+                        {
+                            "$type": "EnablePushColliderName",
+                            "pushColliderNames": [
+                                "PushCollider_BlizzardSpit"
+                            ]
+                        },
+                        {
+                            "$type": "EnablePushColliderName",
+                            "pushColliderNames": [
+                                "PushCollider"
+                            ],
+                            "setEnable": true
+                        }
+                    ]
+                },
+                "BlizzardEffect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Regisvine_Ice_BlizzardSpit_Blizzard"
+                        }
+                    ]
+                },
+                "RemoveBlizzardEffect": {
+                    "modifierName": "",
+                    "duration": 0.5,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "Die"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "Deactivate"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "BlizzardEffect"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "UNIQUE_Blizzard"
+                }
+            ],
+            "onKill": [
+                {
+                    "$type": "SendEffectTrigger",
+                    "parameter": "Disappear",
+                    "effectPattern": "Eff_Monster_Regisvine_Ice_BlizzardSpit_HitGround"
+                },
+                {
+                    "$type": "SendEffectTrigger",
+                    "parameter": "Disappear",
+                    "effectPattern": "Eff_Monster_Regisvine_Ice_BlizzardSpit_Reverse_HitGround"
+                },
+                {
+                    "$type": "KillGadget",
+                    "gadgetInfo": {
+                        "configID": 42602015
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Regisvine_Ice_BlizzardSpit_BlizzardEnd",
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Blizzard"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Regisvine_Ice_BlizzardSpit_Hit",
+            "modifiers": {
+                "BlizzardSpit_Hit": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "BlizzardSpit_Hit"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Regisvine_BlizzardSpit_IceFog",
+            "modifiers": {
+                "Ice_Fog": {
+                    "modifierName": "",
+                    "duration": 30.0,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackCircle",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    },
+                                    "radius": 5.199999809265137
+                                },
+                                "attackInfo": {
+                                    "attackTag": "",
+                                    "attenuationTag": "Group1",
+                                    "attenuationGroup": "Regisvine_Common",
+                                    "attackProperty": {
+                                        "damagePercentage": 0.30000001192092896,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Ice",
+                                        "elementDurability": 25.0,
+                                        "enBreak": 0.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "",
+                                        "hitImpulseType": "LV1",
+                                        "hitHaltTimeScale": 0.05000000074505806
+                                    }
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackCircle",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    },
+                                    "radius": 5.199999809265137
+                                },
+                                "attackInfo": {
+                                    "attackTag": "",
+                                    "attenuationTag": "Group1",
+                                    "attenuationGroup": "Regisvine_Common",
+                                    "attackProperty": {
+                                        "damagePercentage": 0.30000001192092896,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Ice",
+                                        "elementDurability": 25.0,
+                                        "enBreak": 0.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "",
+                                        "hitImpulseType": "LV1",
+                                        "hitHaltTimeScale": 0.05000000074505806
+                                    }
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Ice_Fog"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Regisvine_Ice_BlizzardSpit_Activity_BlizzardBegin",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "BlizzardSpit_Activity_BS",
+                        "BlizzardSpit_Activity_Fire",
+                        "BlizzardSpit_Activity_AS"
+                    ],
+                    "modifierName": "BlizzardDuration_Activity"
+                },
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "BlizzardSpit_Activity_Fire"
+                    ],
+                    "modifierName": "UNIQUE_Blizzard_Activity_Fire"
+                },
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "MeleeAttackCombo_Wait",
+                        "MeleeAttack01_03"
+                    ],
+                    "modifierName": "Regisvine_Ice_Activity_MeleeAttackComboSpecial"
+                }
+            ],
+            "modifiers": {
+                "BlizzardDuration_Activity": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetAISkillCDAvailableNow",
+                            "skillIDs": [
+                                205,
+                                241
+                            ]
+                        },
+                        {
+                            "$type": "ShowReminder",
+                            "id": 400022
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 6.0,
+                            "key": "_SERVER_REGISVINE_ICE_ACTIVITY_PHASE",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Blizzard_Activity_Fire": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 5.0,
+                            "key": "_SERVER_REGISVINE_ICE_ACTIVITY_PHASE",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Regisvine_Ice_BlizzardSpit_Activity_Storm"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Regisvine_Ice_BlizzardSpit_Activity_Storm_AS"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "Circle_Regisvine_Ice_ActivityR25",
+                                "campTargetType": "Enemy",
+                                "sizeRatio": 1.0
+                            },
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Avatar"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "_IS_IN_SHIELD_AREA",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "DamageByAttackValue",
+                                    "target": "Target",
+                                    "attackInfo": {
+                                        "attackTag": "Blizzard",
+                                        "attenuationTag": "",
+                                        "attenuationGroup": "default",
+                                        "attackProperty": {
+                                            "damagePercentage": 1.0,
+                                            "damagePercentageRatio": 0.0,
+                                            "elementType": "Ice",
+                                            "elementDurability": 50.0,
+                                            "strikeType": "Blunt",
+                                            "enBreak": 1.0
+                                        },
+                                        "hitPattern": {
+                                            "onHitEffectName": "",
+                                            "hitImpulseType": "LV1"
+                                        },
+                                        "forceCameraShake": true,
+                                        "cameraShake": {
+                                            "shakeRange": 1.5,
+                                            "shakeTime": 0.4000000059604645,
+                                            "shakeDistance": 50.0
+                                        }
+                                    }
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "target": "Target",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_IS_IN_SHIELD_AREA",
+                                            "value": 0.0,
+                                            "compareType": "NoneOrEqual"
+                                        }
+                                    ],
+                                    "effectPattern": "Eff_Monster_Regisvine_Ice_SpecialAttack_DamageOnce",
+                                    "born": {
+                                        "$type": "ConfigBornByAttachPoint",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        },
+                                        "attachPointName": "Neck"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "Regisvine_Ice_Activity_MeleeAttackComboSpecial": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "_SERVER_REGISVINE_ICE_ACTIVITY_PHASE",
+                                    "value": 6.0
+                                }
+                            ],
+                            "value": 4.0,
+                            "key": "_SERVER_REGISVINE_ICE_ACTIVITY_PHASE",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "SetAISkillCDAvailableNow",
+                            "skillIDs": [
+                                412
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Regisvine_Ice_Activity_CombatPhaseManager",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_MONSTERAFFIX_Regisvine_Ice_ActivityBoss",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5
+                    ],
+                    "modifierNameSteps": [
+                        "Blank",
+                        "UNIQUE_Regisvine_Ice_Activity_CombatPhaseManager"
+                    ]
+                },
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        2,
+                        3
+                    ],
+                    "modifierName": "1stPhaseInvicible"
+                },
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        2,
+                        3
+                    ],
+                    "modifierName": "1stPhaseDenyLockOn"
+                }
+            ],
+            "modifiers": {
+                "Blank": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "UNIQUE_Regisvine_Ice_Activity_CombatPhaseManager": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "_SERVER_REGISVINE_ICE_ACTIVITY_PHASE",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                1.5,
+                                10.5
+                            ],
+                            "modifierNameSteps": [
+                                "Regisvine_NoSensing",
+                                "Regisvine_HasSensing"
+                            ]
+                        },
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "_SERVER_REGISVINE_ICE_ACTIVITY_PHASE",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5,
+                                2.5,
+                                3.5,
+                                4.5,
+                                5.5,
+                                6.5,
+                                7.5,
+                                8.5
+                            ],
+                            "modifierNameSteps": [
+                                "Regisvine_Ice_Activity_Phase0",
+                                "Regisvine_Ice_Activity_Phase1",
+                                "Regisvine_Ice_Activity_Phase2",
+                                "Regisvine_Ice_Activity_Phase3",
+                                "Regisvine_Ice_Activity_Phase4",
+                                "Regisvine_Ice_Activity_Phase5",
+                                "Regisvine_Ice_Activity_Phase6",
+                                "Regisvine_Ice_Activity_Phase7",
+                                "Regisvine_Ice_Activity_Phase8"
+                            ]
+                        },
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "_SERVER_REGISVINE_ICE_ACTIVITY_FLAG_PHASE01",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5
+                            ],
+                            "modifierNameSteps": [
+                                "Blank",
+                                "Regisvine_Ice_Activity_SetPhase1"
+                            ]
+                        },
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "_SERVER_REGISVINE_ICE_ACTIVITY_FLAG_PHASE02",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5
+                            ],
+                            "modifierNameSteps": [
+                                "Blank",
+                                "Regisvine_Ice_Activity_SetPhase2"
+                            ]
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "IsActivityBoss",
+                            "value": true
+                        }
+                    ]
+                },
+                "Regisvine_Ice_Activity_SetPhase1": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "_SERVER_REGISVINE_ICE_ACTIVITY_PHASE",
+                                    "value": 0.0,
+                                    "compareType": "LessAndEqual"
+                                }
+                            ],
+                            "value": 1.0,
+                            "key": "_SERVER_REGISVINE_ICE_ACTIVITY_PHASE",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "Regisvine_Ice_Activity_SetPhase2": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "_SERVER_REGISVINE_ICE_ACTIVITY_PHASE",
+                                    "value": 1.0,
+                                    "compareType": "LessAndEqual"
+                                }
+                            ],
+                            "value": 2.0,
+                            "key": "_SERVER_REGISVINE_ICE_ACTIVITY_PHASE",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "Regisvine_Ice_Activity_Phase0": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByChildren",
+                                "configID": 42602029
+                            },
+                            "modifierName": "Regisvine_Ice_DropIce_Activity_KillSelf"
+                        },
+                        {
+                            "$type": "SetPoseInt",
+                            "intID": "ActivityCombatPhase"
+                        }
+                    ]
+                },
+                "Regisvine_Ice_Activity_Phase1": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ServerLuaCall",
+                            "luaCallType": "FromGroup",
+                            "funcName": "MonsterPhaseOneCheck"
+                        },
+                        {
+                            "$type": "CreateGadget",
+                            "lifeByOwnerIsAlive": true,
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "onGround": true,
+                                "alongGround": true
+                            },
+                            "sightGroupWithOwner": true,
+                            "gadgetID": 42602029,
+                            "campID": 4001,
+                            "campTargetType": "Enemy",
+                            "byServer": true
+                        },
+                        {
+                            "$type": "SetPoseInt",
+                            "intID": "ActivityCombatPhase",
+                            "value": 1
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByChildren",
+                                "configID": 42602029
+                            },
+                            "modifierName": "Regisvine_Ice_DropIce_Activity_KillSelf"
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByChildren",
+                                "configID": 42602029
+                            },
+                            "modifierName": "Regisvine_Ice_DropIce_Activity_KillSelf"
+                        }
+                    ]
+                },
+                "Regisvine_Ice_Activity_Phase2": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ServerLuaCall",
+                            "luaCallType": "FromGroup",
+                            "funcName": "MonsterPhaseTwoCheck"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByChildren",
+                                "configID": 42602029
+                            },
+                            "modifierName": "Regisvine_Ice_DropIce_Activity_KillSelf"
+                        },
+                        {
+                            "$type": "ServerLuaCall",
+                            "luaCallType": "FromGroup",
+                            "funcName": "DestoryIceShieldActivated"
+                        },
+                        {
+                            "$type": "ServerLuaCall",
+                            "luaCallType": "FromGroup",
+                            "funcName": "DistoryIceShield"
+                        },
+                        {
+                            "$type": "ServerLuaCall",
+                            "luaCallType": "FromGroup",
+                            "funcName": "CreateIceStorm"
+                        },
+                        {
+                            "$type": "ServerLuaCall",
+                            "luaCallType": "FromGroup",
+                            "funcName": "StartMonsterTide"
+                        },
+                        {
+                            "$type": "SetPoseInt",
+                            "intID": "ActivityCombatPhase",
+                            "value": 2
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -10.0,
+                            "key": "_MONSTER_REGISVINE_FRUIT_BEGIN_DISABLEDONTALERT",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "Regisvine_Fruit_Begin"
+                        }
+                    ]
+                },
+                "Regisvine_Ice_Activity_Phase3": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByChildren",
+                                "configID": 42602029
+                            },
+                            "modifierName": "Regisvine_Ice_DropIce_Activity_KillSelf"
+                        },
+                        {
+                            "$type": "ServerLuaCall",
+                            "luaCallType": "FromGroup",
+                            "funcName": "DestoryIceStorm"
+                        },
+                        {
+                            "$type": "ServerLuaCall",
+                            "luaCallType": "FromGroup",
+                            "funcName": "PauseMonsterTide"
+                        },
+                        {
+                            "$type": "ServerLuaCall",
+                            "luaCallType": "FromGroup",
+                            "funcName": "KillAllMonsters"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Regisvine_Ice_Activity_CreateIceShield_Delayed"
+                        },
+                        {
+                            "$type": "SetPoseInt",
+                            "intID": "ActivityCombatPhase",
+                            "value": 3
+                        },
+                        {
+                            "$type": "ServerLuaCall",
+                            "luaCallType": "FromGroup",
+                            "funcName": "DestoryIceShieldActivated"
+                        },
+                        {
+                            "$type": "ServerLuaCall",
+                            "luaCallType": "FromGroup",
+                            "funcName": "DistoryIceShield"
+                        }
+                    ]
+                },
+                "Regisvine_Ice_Activity_Phase4": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByChildren",
+                                "configID": 42602029
+                            },
+                            "modifierName": "Regisvine_Ice_DropIce_Activity_KillSelf"
+                        },
+                        {
+                            "$type": "ServerLuaCall",
+                            "luaCallType": "FromGroup",
+                            "funcName": "CreateIceShield"
+                        },
+                        {
+                            "$type": "SetPoseInt",
+                            "intID": "ActivityCombatPhase",
+                            "value": 4
+                        }
+                    ]
+                },
+                "Regisvine_Ice_Activity_Phase5": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByChildren",
+                                "configID": 42602029
+                            },
+                            "modifierName": "Regisvine_Ice_DropIce_Activity_KillSelf"
+                        },
+                        {
+                            "$type": "SetPoseInt",
+                            "intID": "ActivityCombatPhase",
+                            "value": 5
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ReTriggerAISkillInitialCD",
+                            "skillIDs": [
+                                412
+                            ]
+                        }
+                    ]
+                },
+                "Regisvine_Ice_Activity_Phase6": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByChildren",
+                                "configID": 42602029
+                            },
+                            "modifierName": "Regisvine_Ice_DropIce_Activity_KillSelf"
+                        },
+                        {
+                            "$type": "ServerLuaCall",
+                            "luaCallType": "FromGroup",
+                            "funcName": "DestoryIceShieldActivated"
+                        }
+                    ]
+                },
+                "Regisvine_Ice_Activity_Phase7": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByChildren",
+                                "configID": 42602029
+                            },
+                            "modifierName": "Regisvine_Ice_DropIce_Activity_KillSelf"
+                        },
+                        {
+                            "$type": "ServerLuaCall",
+                            "luaCallType": "FromGroup",
+                            "funcName": "DestoryIceShieldActivated"
+                        },
+                        {
+                            "$type": "ServerLuaCall",
+                            "luaCallType": "FromGroup",
+                            "funcName": "DistoryIceShield"
+                        },
+                        {
+                            "$type": "SetPoseInt",
+                            "intID": "ActivityCombatPhase",
+                            "value": 7
+                        }
+                    ]
+                },
+                "Regisvine_Ice_Activity_Phase8": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetPoseInt",
+                            "intID": "ActivityCombatPhase",
+                            "value": 8
+                        },
+                        {
+                            "$type": "ServerLuaCall",
+                            "luaCallType": "FromGroup",
+                            "funcName": "DestoryIceShieldActivated"
+                        },
+                        {
+                            "$type": "ServerLuaCall",
+                            "luaCallType": "FromGroup",
+                            "funcName": "DistoryIceShield"
+                        }
+                    ]
+                },
+                "Regisvine_Ice_Activity_CreateIceShield_Delayed": {
+                    "modifierName": "",
+                    "duration": 12.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "_MONSTERAFFIX_Regisvine_Ice_ActivityBoss",
+                                    "value": 1.0,
+                                    "compareType": "MoreThanAndEqual"
+                                }
+                            ],
+                            "value": 4.0,
+                            "key": "_SERVER_REGISVINE_ICE_ACTIVITY_PHASE",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "Regisvine_NoSensing": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "NoSensing",
+                            "value": true
+                        },
+                        {
+                            "$type": "SetAIHitFeeling"
+                        },
+                        {
+                            "$type": "ResetAIThreatBroadcastRange",
+                            "range": 0.0
+                        }
+                    ]
+                },
+                "Regisvine_HasSensing": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "NoSensing"
+                        },
+                        {
+                            "$type": "SetAIHitFeeling",
+                            "enable": true
+                        },
+                        {
+                            "$type": "ResetAIThreatBroadcastRange",
+                            "range": 12.0
+                        }
+                    ]
+                },
+                "1stPhaseInvicible": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "Invincible"
+                },
+                "1stPhaseDenyLockOn": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "DenyLockOn"
+                },
+                "Regisvine_Ice_DropIce_Activity_KillSelf": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Test_ShieldTag",
+            "onAbilityStart": [
+                {
+                    "$type": "Predicated",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "target": "Self",
+                            "key": "_IS_IN_SHIELD_AREA",
+                            "value": 0.0,
+                            "compareType": "NoneOrEqual"
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_IS_IN_SHIELD_AREA",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "failActions": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_IS_IN_SHIELD_AREA",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+]

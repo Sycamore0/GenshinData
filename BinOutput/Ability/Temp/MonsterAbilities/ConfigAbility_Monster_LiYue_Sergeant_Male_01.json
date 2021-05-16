@@ -1,0 +1,350 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Human_Male_Pole_ResetBackSprintCD",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionByStateIDMixin",
+                    "stateIDs": [
+                        "GroupAttack01",
+                        "GroupAttack02"
+                    ],
+                    "exitActions": [
+                        {
+                            "$type": "ReTriggerAISkillInitialCD",
+                            "skillIDs": [
+                                401
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "TestFixedCombatMove",
+            "onAbilityStart": [
+                {
+                    "$type": "SetGlobalPos",
+                    "target": "SelfAttackTarget",
+                    "doOffStage": true,
+                    "key": "_ABILITY_Millelith_Target_Pos",
+                    "born": {
+                        "$type": "ConfigBornByTarget"
+                    },
+                    "setTarget": false
+                },
+                {
+                    "$type": "SetCombatFixedMovePoint",
+                    "toPos": {
+                        "$type": "ConfigBornByGlobalValue",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 4.0
+                        },
+                        "direction": {
+                            "$type": "ConfigDirectionByEntity",
+                            "angleOffset": {
+                                "y": 30.0
+                            }
+                        },
+                        "positionKey": "_ABILITY_Millelith_Target_Pos",
+                        "directionKey": ""
+                    }
+                },
+                {
+                    "$type": "SetPoseBool",
+                    "boolID": "Surround",
+                    "value": true
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Human_Male_Pole_ResetSurroundPosition",
+            "onAdded": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": -10.0,
+                    "key": "_ABILITY_Millelith_SorroundPositionID",
+                    "useLimitRange": true,
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": -10.0,
+                    "key": "_ABILITY_Millelith_SorroundPositionID",
+                    "useLimitRange": true,
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Human_Male_Pole_TurnToSurround",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionByStateIDMixin",
+                    "stateIDs": [
+                        "TurnToSurround"
+                    ],
+                    "enterActions": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "Surround",
+                            "value": true
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Human_Male_Pole_WaitState",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionByStateIDMixin",
+                    "stateIDs": [
+                        "Wait"
+                    ],
+                    "enterActions": [
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "Human_Male_Pole_ResetSurroundPosition"
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "Wait",
+                            "value": true
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "Surround"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "WaitTimer"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR25",
+                                "campTargetType": "AllExceptSelf",
+                                "sizeRatio": 1.0
+                            },
+                            "value": 1.0,
+                            "key": "_ABILITY_Count_WaitingSoldiers",
+                            "useLimitRange": true,
+                            "maxValue": 4.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            ],
+            "modifiers": {
+                "WaitTimer": {
+                    "modifierName": "",
+                    "duration": 5.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "Wait"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Human_Male_Pole_SetSurroundPosition",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Millelith_SorroundPositionID",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5,
+                        2.5,
+                        3.5
+                    ],
+                    "modifierNameSteps": [
+                        "T",
+                        "T",
+                        "T",
+                        "T"
+                    ],
+                    "actionQueues": [
+                        [
+                            {
+                                "$type": "SetCombatFixedMovePoint",
+                                "setPoint": false
+                            }
+                        ],
+                        [
+                            {
+                                "$type": "SetGlobalPos",
+                                "target": "SelfAttackTarget",
+                                "doOffStage": true,
+                                "key": "_ABILITY_Millelith_Target_Pos",
+                                "born": {
+                                    "$type": "ConfigBornByTarget",
+                                    "offset": {
+                                        "x": 2.4000000953674316,
+                                        "y": 0.0,
+                                        "z": 1.5
+                                    }
+                                },
+                                "setTarget": false
+                            },
+                            {
+                                "$type": "SetCombatFixedMovePoint",
+                                "toPos": {
+                                    "$type": "ConfigBornByGlobalValue",
+                                    "positionKey": "_ABILITY_Millelith_Target_Pos",
+                                    "directionKey": ""
+                                }
+                            }
+                        ],
+                        [
+                            {
+                                "$type": "SetGlobalPos",
+                                "target": "SelfAttackTarget",
+                                "doOffStage": true,
+                                "key": "_ABILITY_Millelith_Target_Pos",
+                                "born": {
+                                    "$type": "ConfigBornByTarget",
+                                    "offset": {
+                                        "x": -2.4000000953674316,
+                                        "y": 0.0,
+                                        "z": 1.5
+                                    }
+                                },
+                                "setTarget": false
+                            },
+                            {
+                                "$type": "SetCombatFixedMovePoint",
+                                "toPos": {
+                                    "$type": "ConfigBornByGlobalValue",
+                                    "positionKey": "_ABILITY_Millelith_Target_Pos",
+                                    "directionKey": ""
+                                }
+                            }
+                        ],
+                        [
+                            {
+                                "$type": "SetGlobalPos",
+                                "target": "SelfAttackTarget",
+                                "doOffStage": true,
+                                "key": "_ABILITY_Millelith_Target_Pos",
+                                "born": {
+                                    "$type": "ConfigBornByTarget",
+                                    "offset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": -3.0
+                                    }
+                                },
+                                "setTarget": false
+                            },
+                            {
+                                "$type": "SetCombatFixedMovePoint",
+                                "toPos": {
+                                    "$type": "ConfigBornByGlobalValue",
+                                    "positionKey": "_ABILITY_Millelith_Target_Pos",
+                                    "directionKey": ""
+                                }
+                            }
+                        ]
+                    ],
+                    "removeAppliedModifier": false
+                }
+            ],
+            "modifiers": {
+                "T": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Millelith_TurnToOrdered",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionByStateIDMixin",
+                    "stateIDs": [
+                        "TurnToOrdered"
+                    ],
+                    "enterActions": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_OrderedState"
+                        }
+                    ]
+                }
+            ],
+            "modifiers": {
+                "UNIQUE_OrderedState": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 5.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "Ordered",
+                            "value": true
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "Ordered"
+                        },
+                        {
+                            "$type": "ReTriggerAISkillInitialCD",
+                            "skillIDs": [
+                                201,
+                                202
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Millelith_OutOfOrdered",
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_OrderedState"
+                }
+            ]
+        }
+    }
+]

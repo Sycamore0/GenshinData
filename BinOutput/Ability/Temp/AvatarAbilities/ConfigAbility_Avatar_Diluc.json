@@ -1,0 +1,2616 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Diluc_ExtraAttack",
+            "abilityMixins": [
+                {
+                    "$type": "ButtonHoldChargeMixin",
+                    "skillID": 10160,
+                    "chargeTime": 0.25,
+                    "secondChargeTime": "Max_Dura",
+                    "OnBeginUncharged": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "DoSkill"
+                        },
+                        {
+                            "$type": "SetAnimatorInt",
+                            "intID": "SkillID",
+                            "value": 1.0
+                        },
+                        {
+                            "$type": "ResetAnimatorTrigger",
+                            "triggerID": "EndHoldTrigger"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "SetTrigger"
+                        }
+                    ],
+                    "OnBeginCharged": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "DoSkill"
+                        },
+                        {
+                            "$type": "SetAnimatorInt",
+                            "intID": "SkillID",
+                            "value": 6.0
+                        }
+                    ],
+                    "OnReleaseCharged": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "EndHoldTrigger"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "SetTrigger"
+                        }
+                    ],
+                    "OnBeginSecondCharged": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "EndHoldTrigger"
+                        }
+                    ],
+                    "chargeStateIDs": [
+                        "Attack01_BS",
+                        "Attack01",
+                        "Attack02",
+                        "Attack03",
+                        "Attack04",
+                        "ExtraAttack",
+                        "ExtraAttack1"
+                    ]
+                },
+                {
+                    "$type": "AvatarSteerByCameraMixin",
+                    "stateIDs": [
+                        "ExtraAttack1"
+                    ]
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "ExtraAttack1"
+                    ],
+                    "modifierName": "Cost"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "ExtraAttack",
+                        "ExtraAttack1",
+                        "ExtraAttack2",
+                        "ExtraAttack3"
+                    ],
+                    "modifierName": "Camera"
+                }
+            ],
+            "abilitySpecials": {
+                "Max_Dura": 0.0,
+                "StaminaCost": 0.0
+            },
+            "modifiers": {
+                "SetTrigger": {
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "EndHoldTrigger"
+                        }
+                    ]
+                },
+                "Camera": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "AvatarExitCameraShot",
+                            "doOffStage": true
+                        }
+                    ],
+                    "onAvatarOut": [
+                        {
+                            "$type": "AvatarExitCameraShot",
+                            "doOffStage": true
+                        }
+                    ]
+                },
+                "Cost": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CostStaminaMixin",
+                            "costStaminaDelta": "StaminaCost",
+                            "onStaminaEmpty": [
+                                {
+                                    "$type": "SetAnimatorTrigger",
+                                    "triggerID": "EndHoldTrigger"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Diluc_Fire_Blade",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FireBlade1",
+                        "FireBlade2",
+                        "FireBlade3"
+                    ],
+                    "modifierName": "PushCombo",
+                    "predicates": [
+                        {
+                            "$type": "ByUnlockTalentParam",
+                            "talentParam": "KeepCombo"
+                        }
+                    ]
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FireBlade1A",
+                        "FireBlade2A",
+                        "FireBlade3A"
+                    ],
+                    "modifierName": "PopCombo",
+                    "predicates": [
+                        {
+                            "$type": "ByUnlockTalentParam",
+                            "talentParam": "KeepCombo"
+                        }
+                    ]
+                },
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_DilucFireBlade_COUNT",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -1.5,
+                        0.5,
+                        1.5,
+                        2.5,
+                        3.5
+                    ],
+                    "modifierNameSteps": [
+                        "Blank",
+                        "Switch1To2",
+                        "Switch2To3",
+                        "Switch3To0"
+                    ],
+                    "removeAppliedModifier": false
+                }
+            ],
+            "abilitySpecials": {
+                "GetElementRatio": 1.0,
+                "ComboCount": 0.0
+            },
+            "modifiers": {
+                "PushCombo": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByAnimatorInt",
+                                    "logic": "LesserOrEqual",
+                                    "value": 0,
+                                    "parameter": "ComboCount"
+                                }
+                            ],
+                            "value": 0.0,
+                            "key": "_ABILITY_Diluc_ComboCount",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByAnimatorInt",
+                                    "logic": "Equal",
+                                    "value": 1,
+                                    "parameter": "ComboCount"
+                                }
+                            ],
+                            "value": 1.0,
+                            "key": "_ABILITY_Diluc_ComboCount",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByAnimatorInt",
+                                    "logic": "Equal",
+                                    "value": 2,
+                                    "parameter": "ComboCount"
+                                }
+                            ],
+                            "value": 2.0,
+                            "key": "_ABILITY_Diluc_ComboCount",
+                            "useLimitRange": true,
+                            "maxValue": 2.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByAnimatorInt",
+                                    "logic": "Equal",
+                                    "value": 3,
+                                    "parameter": "ComboCount"
+                                }
+                            ],
+                            "value": 3.0,
+                            "key": "_ABILITY_Diluc_ComboCount",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByAnimatorInt",
+                                    "logic": "GreaterOrEqual",
+                                    "value": 4,
+                                    "parameter": "ComboCount"
+                                }
+                            ],
+                            "value": 0.0,
+                            "key": "_ABILITY_Diluc_ComboCount",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "PopCombo": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValueToOverrideMap",
+                            "globalValueKey": "_ABILITY_Diluc_ComboCount",
+                            "overrideMapKey": "ComboCount"
+                        },
+                        {
+                            "$type": "SetAnimatorInt",
+                            "intID": "ComboCount",
+                            "value": "ComboCount"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetAnimatorInt",
+                            "intID": "ComboCount",
+                            "value": 0.0
+                        }
+                    ]
+                },
+                "Blank": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "Switch1To2": {
+                    "modifierName": "",
+                    "duration": 4.0,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "SwitchSkillIDMixin",
+                            "priority": "AvatarSpecial",
+                            "skillIndex": 1,
+                            "skillID": 10162
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "AvatarSkillStart",
+                            "skillID": 10161,
+                            "cdRatio": 1.0,
+                            "costStaminaRatio": 1.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -4.0,
+                            "key": "_ABILITY_DilucFireBlade_COUNT",
+                            "useLimitRange": true,
+                            "maxValue": -1.0,
+                            "minValue": -1.0
+                        }
+                    ]
+                },
+                "Switch2To3": {
+                    "modifierName": "",
+                    "duration": 4.0,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "SwitchSkillIDMixin",
+                            "priority": "AvatarSpecial",
+                            "skillIndex": 1,
+                            "skillID": 10163
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Switch1To2"
+                        },
+                        {
+                            "$type": "AvatarSkillStart",
+                            "skillID": 10162,
+                            "cdRatio": 1.0,
+                            "costStaminaRatio": 1.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -4.0,
+                            "key": "_ABILITY_DilucFireBlade_COUNT",
+                            "useLimitRange": true,
+                            "maxValue": -1.0,
+                            "minValue": -1.0
+                        }
+                    ]
+                },
+                "Switch3To0": {
+                    "modifierName": "",
+                    "duration": 0.30000001192092896,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Switch2To3"
+                        },
+                        {
+                            "$type": "AvatarSkillStart",
+                            "skillID": 10163,
+                            "cdRatio": 1.0,
+                            "costStaminaRatio": 1.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -4.0,
+                            "key": "_ABILITY_DilucFireBlade_COUNT",
+                            "useLimitRange": true,
+                            "maxValue": -1.0,
+                            "minValue": -1.0
+                        }
+                    ]
+                },
+                "GenerateElemBall_FireBlade": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ANIMAL_ENTITY_TYPE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                },
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "Elemental_Art"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "Ball"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "Ball_Extra"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "Ball": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "duration": 0.30000001192092896,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "GenerateElemBall",
+                            "configID": 2017,
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 1.0
+                                }
+                            },
+                            "ratio": "GetElementRatio",
+                            "baseEnergy": 3.0
+                        }
+                    ]
+                },
+                "Ball_Extra": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "duration": 0.30000001192092896,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "Randomed",
+                            "chance": 0.33000001311302185,
+                            "successActions": [
+                                {
+                                    "$type": "GenerateElemBall",
+                                    "configID": 2017,
+                                    "born": {
+                                        "$type": "ConfigBornByTarget",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 1.0
+                                        }
+                                    },
+                                    "ratio": "GetElementRatio",
+                                    "baseEnergy": 3.0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "GenerateElemBall_FireBlade"
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": -4.0,
+                    "key": "_ABILITY_DilucFireBlade_COUNT",
+                    "useLimitRange": true,
+                    "maxValue": -1.0,
+                    "minValue": -1.0
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Diluc_Fire_BladeSet1",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FireBlade1",
+                        "FireBlade1A"
+                    ],
+                    "modifierName": "Eff_Diluc_FireBlade_Weapon_01"
+                }
+            ],
+            "modifiers": {
+                "Eff_Diluc_FireBlade_Weapon_01": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Diluc_FireBlade_Weapon_01"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": -4.0,
+                    "key": "_ABILITY_DilucFireBlade_COUNT",
+                    "useLimitRange": true,
+                    "maxValue": -1.0,
+                    "minValue": -1.0
+                },
+                {
+                    "$type": "AddGlobalValue",
+                    "value": 3.0,
+                    "key": "_ABILITY_DilucFireBlade_COUNT",
+                    "useLimitRange": true,
+                    "maxValue": 1.0,
+                    "minValue": 1.0
+                },
+                {
+                    "$type": "TriggerAbility",
+                    "predicates": [
+                        {
+                            "$type": "ByUnlockTalentParam",
+                            "talentParam": "AfterFireBlade"
+                        }
+                    ],
+                    "abilityName": "Avatar_Diluc_AfterFireBlade"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Diluc_Fire_BladeSet2",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FireBlade2",
+                        "FireBlade2A"
+                    ],
+                    "modifierName": "Eff_Diluc_FireBlade_Weapon_02"
+                }
+            ],
+            "modifiers": {
+                "Eff_Diluc_FireBlade_Weapon_02": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Diluc_FireBlade_Weapon_02"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": -4.0,
+                    "key": "_ABILITY_DilucFireBlade_COUNT",
+                    "useLimitRange": true,
+                    "maxValue": -1.0,
+                    "minValue": -1.0
+                },
+                {
+                    "$type": "AddGlobalValue",
+                    "value": 3.0,
+                    "key": "_ABILITY_DilucFireBlade_COUNT",
+                    "useLimitRange": true,
+                    "maxValue": 2.0,
+                    "minValue": 2.0
+                },
+                {
+                    "$type": "TriggerAbility",
+                    "predicates": [
+                        {
+                            "$type": "ByUnlockTalentParam",
+                            "talentParam": "AfterFireBlade"
+                        }
+                    ],
+                    "abilityName": "Avatar_Diluc_AfterFireBlade"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Diluc_Fire_BladeSet3",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FireBlade3",
+                        "FireBlade3A"
+                    ],
+                    "modifierName": "Eff_Diluc_FireBlade_Weapon_03"
+                }
+            ],
+            "modifiers": {
+                "Eff_Diluc_FireBlade_Weapon_03": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Diluc_FireBlade_Weapon_03"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Diluc_FireBlade_Weapon_03_01"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": -4.0,
+                    "key": "_ABILITY_DilucFireBlade_COUNT",
+                    "useLimitRange": true,
+                    "maxValue": -1.0,
+                    "minValue": -1.0
+                },
+                {
+                    "$type": "AddGlobalValue",
+                    "value": 4.0,
+                    "key": "_ABILITY_DilucFireBlade_COUNT",
+                    "useLimitRange": true,
+                    "maxValue": 3.0,
+                    "minValue": 3.0
+                },
+                {
+                    "$type": "TriggerAbility",
+                    "predicates": [
+                        {
+                            "$type": "ByUnlockTalentParam",
+                            "talentParam": "AfterFireBlade"
+                        }
+                    ],
+                    "abilityName": "Avatar_Diluc_AfterFireBlade"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Diluc_Fire_Enhancement",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FireCross",
+                        "FireCross_AS"
+                    ],
+                    "modifierName": "Fire_Enhancement_State"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FireCross",
+                        "FireCross_AS"
+                    ],
+                    "modifierName": "WeatherChange"
+                }
+            ],
+            "abilitySpecials": {
+                "Dura": 10.199999809265137,
+                "ElementDurability": 25.0,
+                "FireUp": 0.0
+            },
+            "modifiers": {
+                "WeatherChange": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "TriggerWeatherMixin",
+                            "type": "Skill",
+                            "weatherPattern": "Weather_Diluc_FireCross",
+                            "transDuration": 1.0,
+                            "duration": 2.0
+                        }
+                    ]
+                },
+                "Fire_Enhancement_State": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "Fire_Enhancement_Weapon_Remove": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "duration": 0.6000000238418579,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Eff_Weapon_01"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "Fire_Enhancement_Weapon"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "Eff_Weapon_01"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "Fire_Enhancement_Weapon"
+                        }
+                    ]
+                },
+                "Eff_Weapon_01": {
+                    "modifierName": "",
+                    "duration": 4.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Diluc_FireCross_Weapon_01"
+                        }
+                    ]
+                },
+                "Fire_Enhancement_Weapon": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "duration": "Dura",
+                    "elementType": "Fire",
+                    "elementDurability": "ElementDurability",
+                    "overrideWeaponElement": true,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Diluc_FireCross_Weapon_02"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Eff_Weapon_03"
+                        }
+                    ]
+                },
+                "Eff_Weapon_03": {
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Diluc_FireCross_Weapon_03"
+                        }
+                    ]
+                },
+                "Fire_Enhancement_Diluc": {
+                    "modifierName": "",
+                    "duration": "Dura",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.5,
+                    "properties": {
+                        "Actor_FireAddHurtDelta": "FireUp"
+                    },
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "modifierName": "Fire_Enhancement_Weapon_Remove"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "modifierName": "Fire_Enhancement_Weapon"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "ApplyModifier",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByEquipParts",
+                        "equipPartNames": [
+                            "equip01",
+                            "sheathPoint"
+                        ]
+                    },
+                    "modifierName": "Fire_Enhancement_Weapon"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByEquipParts",
+                        "equipPartNames": [
+                            "equip01",
+                            "sheathPoint"
+                        ]
+                    },
+                    "modifierName": "Eff_Weapon_01"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Fire_Enhancement_Diluc"
+                },
+                {
+                    "$type": "AvatarSkillStart",
+                    "skillID": 10165,
+                    "cdRatio": 1.0,
+                    "costStaminaRatio": 1.0
+                }
+            ],
+            "onKill": [
+                {
+                    "$type": "ApplyModifier",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByEquipParts",
+                        "equipPartNames": [
+                            "equip01",
+                            "sheathPoint"
+                        ]
+                    },
+                    "doOffStage": true,
+                    "modifierName": "Fire_Enhancement_Weapon_Remove"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Diluc_FireCrossCamera",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FireCross"
+                    ],
+                    "modifierName": "isGhost"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FireCross"
+                    ],
+                    "modifierName": "invincible"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FireCross",
+                        "FireCross_AS"
+                    ],
+                    "modifierName": "FireCross_Camera_Handler"
+                }
+            ],
+            "modifiers": {
+                "isGhost": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachAbilityStateResistance",
+                            "resistanceListID": 11002
+                        }
+                    ]
+                },
+                "invincible": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "Invincible"
+                },
+                "FireCross_Camera_Handler": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ControlEmotion",
+                            "toggleEmoSync": false,
+                            "toggleBlink": false,
+                            "toggleEyeKey": false
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AvatarExitCameraShot",
+                            "doOffStage": true
+                        },
+                        {
+                            "$type": "ControlEmotion",
+                            "doOffStage": true
+                        }
+                    ],
+                    "onAvatarOut": [
+                        {
+                            "$type": "AvatarExitCameraShot",
+                            "doOffStage": true
+                        },
+                        {
+                            "$type": "ControlEmotion",
+                            "doOffStage": true
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "AvatarEnterCameraShot",
+                    "predicates": [
+                        {
+                            "$type": "ByAttackNotHitScene",
+                            "attackPattern": {
+                                "$type": "ConfigAttackCircle",
+                                "triggerType": "TriggerNoRepeat",
+                                "born": {
+                                    "$type": "ConfigBornBySelf",
+                                    "offset": {
+                                        "x": 0.0,
+                                        "y": 1.5,
+                                        "z": 0.0
+                                    }
+                                },
+                                "height": 0.20000000298023224,
+                                "fanAngle": 30.0,
+                                "radius": 1.399999976158142
+                            }
+                        },
+                        {
+                            "$type": "ByAvatarInWaterDepth",
+                            "compareType": "LessAndEqual",
+                            "depth": 0.5
+                        }
+                    ],
+                    "cameraMoveCfgPath": "Camera_Diluc_FireCross"
+                },
+                {
+                    "$type": "AvatarCameraParam",
+                    "cameraParam": {
+                        "forceRadius": 5.599999904632568,
+                        "forceRadiusDuration": 0.8999999761581421,
+                        "shouldKeepForceRadius": true
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Diluc_FireCross_Push1",
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Diluc_FireCross_Aoe",
+                    "born": {
+                        "$type": "ConfigBornByTarget",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "alongGround": true
+                    }
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackCircle",
+                            "triggerType": "TriggerNoRepeat",
+                            "ignoreMassive": true,
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
+                            },
+                            "radius": 6.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 0.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementDurability": 1.0,
+                                "enBreak": 400.0,
+                                "attackType": "None"
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "",
+                                "hitImpulseType": "LV3",
+                                "retreatType": "ByHitDirection",
+                                "hitHaltTimeScale": 0.009999999776482582
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Diluc_FireCross_Strike",
+            "abilitySpecials": {
+                "Damage": 0.0
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "ActCameraRadialBlur",
+                    "cameraRadialBlur": {
+                        "power": 0.800000011920929,
+                        "blurTime": 0.25,
+                        "fadeTime": 0.30000001192092896
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Diluc_FireCross_Aoe1"
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackBox",
+                            "triggerType": "TriggerNoRepeat",
+                            "filterByFrame": true,
+                            "ignoreMassive": true,
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 1.0,
+                                    "z": -1.0
+                                }
+                            },
+                            "size": {
+                                "x": 16.0,
+                                "y": 4.0,
+                                "z": 6.0
+                            }
+                        },
+                        "attackInfo": {
+                            "attackTag": "Elemental_Burst",
+                            "attenuationTag": "Elemental_Burst",
+                            "attenuationGroup": "Diluc",
+                            "attackProperty": {
+                                "damagePercentage": "Damage",
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Fire",
+                                "elementRank": 3.0,
+                                "elementDurability": 50.0,
+                                "strikeType": "Blunt",
+                                "enBreak": 100.0,
+                                "attackType": "Melee"
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "Eff_Diluc_FireBlade_Hit_01",
+                                "hitImpulseType": "LV4",
+                                "hitHaltTime": 0.09000000357627869,
+                                "hitHaltTimeScale": 0.009999999776482582,
+                                "canBeDefenceHalt": true
+                            },
+                            "forceCameraShake": true,
+                            "cameraShake": {
+                                "shakeType": "CustomVector",
+                                "shakeRange": 0.20000000298023224,
+                                "shakeTime": 0.4000000059604645,
+                                "shakeDistance": 30.0,
+                                "shakeDir": {
+                                    "x": -1.0,
+                                    "y": 0.20000000298023224
+                                }
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackCircle",
+                            "triggerType": "TriggerNoRepeat",
+                            "filterByFrame": true,
+                            "ignoreMassive": true,
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
+                            },
+                            "radius": 6.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "Elemental_Burst",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 0.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementDurability": 1.0,
+                                "enBreak": 100.0,
+                                "attackType": "None"
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "Eff_Diluc_FireBlade_Hit_01",
+                                "hitImpulseType": "LV5",
+                                "retreatType": "ByHitDirection",
+                                "hitHaltTimeScale": 0.009999999776482582
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Diluc_FireCross",
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerBullet",
+                    "bulletID": 41016001,
+                    "born": {
+                        "$type": "ConfigBornByTarget",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 1.600000023841858,
+                            "z": 1.0
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Diluc_FireCross_Material",
+            "abilitySpecials": {
+                "Damage": 0.0,
+                "TalentRate": 1.0,
+                "Interval": 0.20000000298023224
+            },
+            "modifiers": {
+                "Attack_Box": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": "Interval",
+                    "onThinkInterval": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackBox",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "massiveAttackRatio": 0.15000000596046448,
+                                    "born": {
+                                        "$type": "ConfigBornBySelf",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": -5.0
+                                        }
+                                    },
+                                    "size": {
+                                        "x": 16.0,
+                                        "y": 4.0,
+                                        "z": 8.0
+                                    }
+                                },
+                                "attackInfo": {
+                                    "attackTag": "Elemental_Burst",
+                                    "attenuationTag": "Elemental_Burst",
+                                    "attenuationGroup": "Diluc",
+                                    "attackProperty": {
+                                        "damagePercentage": [
+                                            "Damage",
+                                            "TalentRate",
+                                            "Mul"
+                                        ],
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Fire",
+                                        "elementRank": 3.0,
+                                        "elementDurability": 50.0,
+                                        "strikeType": "Default",
+                                        "enBreak": 100.0,
+                                        "attackType": "Range"
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV4",
+                                        "overrideHitImpulse": {
+                                            "hitLevel": "Heavy",
+                                            "hitImpulseX": 900.0,
+                                            "hitImpulseY": 0.0
+                                        },
+                                        "hitHaltTimeScale": 0.009999999776482582
+                                    },
+                                    "cameraShake": {
+                                        "shakeRange": 0.09000000357627869,
+                                        "shakeTime": 0.05999999865889549,
+                                        "shakeDistance": 30.0
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "Attack_Box"
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Diluc_FireCross_01"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Diluc_FireCross_Explode",
+            "abilitySpecials": {
+                "Damage": 0.0,
+                "TalentRate": 1.0
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackBox",
+                            "triggerType": "TriggerNoRepeat",
+                            "ignoreMassive": true,
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": -1.0,
+                                    "z": -6.0
+                                }
+                            },
+                            "size": {
+                                "x": 16.0,
+                                "y": 6.0,
+                                "z": 10.0
+                            }
+                        },
+                        "attackInfo": {
+                            "attackTag": "Elemental_Burst",
+                            "attenuationTag": "Elemental_Burst",
+                            "attenuationGroup": "Diluc",
+                            "attackProperty": {
+                                "damagePercentage": [
+                                    "Damage",
+                                    "TalentRate",
+                                    "Mul"
+                                ],
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Fire",
+                                "elementRank": 3.0,
+                                "elementDurability": 50.0,
+                                "strikeType": "Default",
+                                "enBreak": 100.0,
+                                "attackType": "Range"
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "Eff_Diluc_FireBlade_Hit_01",
+                                "hitImpulseType": "LV8",
+                                "retreatType": "ByHitDirection",
+                                "hitHaltTimeScale": 0.009999999776482582
+                            },
+                            "cameraShake": {
+                                "shakeRange": 0.11999999731779099,
+                                "shakeTime": 0.09000000357627869
+                            },
+                            "canBeModifiedBy": "OriginOwner"
+                        }
+                    },
+                    "targetType": "Enemy"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Diluc_NormalAttackDamage",
+            "abilityMixins": [
+                {
+                    "$type": "ModifyDamageMixin",
+                    "attackTags": [
+                        "NormalAttack_01"
+                    ],
+                    "damagePercentage": "Attack01",
+                    "damagePercentageRatio": 0.0
+                },
+                {
+                    "$type": "ModifyDamageMixin",
+                    "attackTags": [
+                        "NormalAttack_02"
+                    ],
+                    "damagePercentage": "Attack02",
+                    "damagePercentageRatio": 0.0
+                },
+                {
+                    "$type": "ModifyDamageMixin",
+                    "attackTags": [
+                        "NormalAttack_03"
+                    ],
+                    "damagePercentage": "Attack03",
+                    "damagePercentageRatio": 0.0
+                },
+                {
+                    "$type": "ModifyDamageMixin",
+                    "attackTags": [
+                        "NormalAttack_04"
+                    ],
+                    "damagePercentage": "Attack04",
+                    "damagePercentageRatio": 0.0
+                },
+                {
+                    "$type": "ModifyDamageMixin",
+                    "animEventNames": [
+                        "ExtraAttack1"
+                    ],
+                    "damagePercentage": "ExtraAttack1",
+                    "damagePercentageRatio": 0.0
+                },
+                {
+                    "$type": "ModifyDamageMixin",
+                    "animEventNames": [
+                        "ExtraAttack2"
+                    ],
+                    "damagePercentage": "ExtraAttack2",
+                    "damagePercentageRatio": 0.0
+                }
+            ],
+            "abilitySpecials": {
+                "Attack01": 0.0,
+                "Attack02": 0.0,
+                "Attack03": 0.0,
+                "Attack04": 0.0,
+                "ExtraAttack1": 0.0,
+                "ExtraAttack2": 0.0
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Diluc_ElementArt",
+            "abilityMixins": [
+                {
+                    "$type": "ModifyDamageMixin",
+                    "animEventNames": [
+                        "FB01"
+                    ],
+                    "damagePercentage": "FB01",
+                    "damagePercentageRatio": 0.0
+                },
+                {
+                    "$type": "ModifyDamageMixin",
+                    "animEventNames": [
+                        "FB02"
+                    ],
+                    "damagePercentage": "FB02",
+                    "damagePercentageRatio": 0.0
+                },
+                {
+                    "$type": "ModifyDamageMixin",
+                    "animEventNames": [
+                        "FB03"
+                    ],
+                    "damagePercentage": "FB03",
+                    "damagePercentageRatio": 0.0
+                }
+            ],
+            "abilitySpecials": {
+                "FB01": 0.0,
+                "FB02": 0.0,
+                "FB03": 0.0
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Diluc_GiantKiller",
+            "abilityMixins": [
+                {
+                    "$type": "ModifyDamageMixin",
+                    "ignoreEventInfo": true,
+                    "damagePercentageRatio": "Rate",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetHPRatio",
+                            "logic": "GreaterOrEqual",
+                            "HPRatio": 0.5
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0
+            },
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Diluc_FireHowl",
+            "abilitySpecials": {
+                "AttackRate": 0.0,
+                "SpeedRate": 0.0,
+                "Time": 0.0,
+                "maxStackCount": 0.0,
+                "CDTime": 0.0
+            },
+            "modifiers": {
+                "HowlCheck": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "_ABILITY_DilucTalentHowl_COUNT",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5,
+                                2.5,
+                                3.5,
+                                4.5
+                            ],
+                            "modifierNameSteps": [
+                                "Blank",
+                                "AttackUp1",
+                                "AttackUp2",
+                                "AttackUp3",
+                                "AttackUp4"
+                            ]
+                        }
+                    ],
+                    "onBeingHit": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Howl"
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -4.0,
+                            "key": "_ABILITY_DilucTalentHowl_COUNT",
+                            "useLimitRange": true,
+                            "maxValue": "maxStackCount",
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "Howl": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Buff_Time"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_ABILITY_DilucTalentHowl_COUNT",
+                            "useLimitRange": true,
+                            "maxValue": "maxStackCount",
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "Buff_Time": {
+                    "modifierName": "",
+                    "duration": "Time",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -4.0,
+                            "key": "_ABILITY_DilucTalentHowl_COUNT",
+                            "useLimitRange": true,
+                            "maxValue": "maxStackCount",
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "Blank": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "AttackUp1": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "AttackRate",
+                        "Animator_AttackSpeedRatio": "SpeedRate"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                },
+                "AttackUp2": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "AttackRate",
+                            2.0,
+                            "Mul"
+                        ],
+                        "Animator_AttackSpeedRatio": [
+                            "SpeedRate",
+                            2.0,
+                            "Mul"
+                        ]
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                },
+                "AttackUp3": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "AttackRate",
+                            3.0,
+                            "Mul"
+                        ],
+                        "Animator_AttackSpeedRatio": [
+                            "SpeedRate",
+                            3.0,
+                            "Mul"
+                        ]
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                },
+                "AttackUp4": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "AttackRate",
+                            4.0,
+                            "Mul"
+                        ],
+                        "Animator_AttackSpeedRatio": [
+                            "SpeedRate",
+                            4.0,
+                            "Mul"
+                        ]
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "HowlCheck"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Diluc_AfterFireBlade",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_DilucTalentCritTime_COUNT",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -1.0,
+                        0.5,
+                        4.5
+                    ],
+                    "modifierNameSteps": [
+                        "BlankCritUp",
+                        "NormalCritUp"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Dura": 0.0,
+                "Rate": 0.0,
+                "AtkSpeed": 0.0
+            },
+            "modifiers": {
+                "NormalCritUp_Timer": {
+                    "modifierName": "",
+                    "duration": "Dura",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 0.0,
+                            "key": "_ABILITY_DilucTalentCritTime_COUNT",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "BlankCritUp": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "NormalCritUp": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "animEventNames": [
+                                "ATK01",
+                                "ATK02",
+                                "ATK03",
+                                "ATK04"
+                            ],
+                            "damagePercentageRatio": "Rate"
+                        }
+                    ],
+                    "properties": {
+                        "Animator_AttackSpeedRatio": "AtkSpeed"
+                    },
+                    "isLimitedProperties": true
+                }
+            },
+            "onRemoved": [
+                {
+                    "$type": "AddGlobalValue",
+                    "doOffStage": true,
+                    "value": 0.0,
+                    "key": "_ABILITY_DilucTalentCritTime_COUNT",
+                    "useLimitRange": true,
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": 0.0,
+                    "key": "_ABILITY_DilucTalentCritTime_COUNT",
+                    "useLimitRange": true,
+                    "maxValue": 2.0,
+                    "minValue": 2.0
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "NormalCritUp_Timer"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Diluc_AfterFireBladeCountDown",
+            "onAbilityStart": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": -1.0,
+                    "key": "_ABILITY_DilucTalentCritTime_COUNT",
+                    "useLimitRange": true,
+                    "maxValue": 4.0,
+                    "minValue": 0.0
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Diluc_NextFireBlade1",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_DilucFireBlade_COUNT",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5,
+                        2.5,
+                        3.5
+                    ],
+                    "modifierNameSteps": [
+                        "T",
+                        "T",
+                        "T",
+                        "T"
+                    ],
+                    "actionQueues": [
+                        [],
+                        [],
+                        [
+                            {
+                                "$type": "RemoveModifier",
+                                "modifierName": "Timer2"
+                            }
+                        ],
+                        [
+                            {
+                                "$type": "RemoveModifier",
+                                "modifierName": "Timer2"
+                            }
+                        ]
+                    ],
+                    "removeAppliedModifier": false
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0
+            },
+            "modifiers": {
+                "T": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "Timer2": {
+                    "modifierName": "",
+                    "duration": 3.5999999046325684,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 2.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "NextFireBlade2"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Diluc_Talent_NextFireBlade"
+                        }
+                    ]
+                },
+                "NextFireBlade2": {
+                    "modifierName": "",
+                    "duration": 4.0,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "animEventNames": [
+                                "FB02"
+                            ],
+                            "damagePercentageRatio": "Rate"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "Timer2"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Diluc_NextFireBlade2",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_DilucFireBlade_COUNT",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5,
+                        2.5,
+                        3.5
+                    ],
+                    "modifierNameSteps": [
+                        "T",
+                        "T",
+                        "T",
+                        "T"
+                    ],
+                    "actionQueues": [
+                        [],
+                        [
+                            {
+                                "$type": "RemoveModifier",
+                                "modifierName": "Timer3"
+                            }
+                        ],
+                        [],
+                        [
+                            {
+                                "$type": "RemoveModifier",
+                                "modifierName": "Timer3"
+                            }
+                        ]
+                    ],
+                    "removeAppliedModifier": false
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0
+            },
+            "modifiers": {
+                "T": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "Timer3": {
+                    "modifierName": "",
+                    "duration": 3.5999999046325684,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 2.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "NextFireBlade3"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Diluc_Talent_NextFireBlade"
+                        }
+                    ]
+                },
+                "NextFireBlade3": {
+                    "modifierName": "",
+                    "duration": 4.0,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "animEventNames": [
+                                "FB03"
+                            ],
+                            "damagePercentageRatio": "Rate"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "Timer3"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Diluc_FallingAnthem",
+            "abilityMixins": [
+                {
+                    "$type": "AvatarChangeSkillMixin",
+                    "jumpSkillID": 5016010,
+                    "flySkillID": 5016010
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_BS"
+                    ],
+                    "modifierName": "FallingAnthem_BS_Material"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_Loop"
+                    ],
+                    "modifierName": "FallingAnthem_Loop_Normal"
+                },
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_BS_2",
+                        "FallingAnthem_Loop",
+                        "FallingAnthem_Loop_Low"
+                    ],
+                    "modifierName": "FallingAnthem_LoopDamage"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_BS"
+                    ],
+                    "modifierName": "FallingAnthem_BS_VelocityForce_Initialize"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_BS",
+                        "FallingAnthem_Loop",
+                        "FallingAnthem_AS_1",
+                        "FallingAnthem_AS_2"
+                    ],
+                    "modifierName": "FallingAnthem_Height_Detect"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_BS",
+                        "FallingAnthem_Loop",
+                        "FallingAnthem_AS_1",
+                        "FallingAnthem_AS_2"
+                    ],
+                    "modifierName": "FallingAnthem_FallingDamageImmune_01"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_BS",
+                        "FallingAnthem_Loop"
+                    ],
+                    "modifierName": "Inertia"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_BS",
+                        "FallingAnthem_Loop",
+                        "FallingAnthem_AS_1",
+                        "FallingAnthem_AS_2"
+                    ],
+                    "modifierName": "FallingAnthem_OverHead_Camera"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_BS"
+                    ],
+                    "modifierName": "FallingAnthem_ClearVelocityForce"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_BS",
+                        "FallingAnthem_Loop"
+                    ],
+                    "modifierName": "FallingAnthem_AttachSelfEffect"
+                }
+            ],
+            "abilitySpecials": {
+                "FallingAnthem_Normal_Loop_Damage": 0.0,
+                "FallingAnthem_Normal_Rank_1_Damage": 0.0,
+                "FallingAnthem_Normal_Rank_2_Damage": 0.0,
+                "FallingAnthem_Altitude_Lv0": 20.0,
+                "FallingAnthem_Altitude_Lv1": 40.0,
+                "FallingAnthem_Altitude_Lv2": 60.0,
+                "FallingAnthem_Altitude_Lv3": 100.0,
+                "FallingAnthem_Altitude_Lv4": 200.0,
+                "FallingAnthem_FallingDamageRatio_Lv0": -1.0,
+                "FallingAnthem_FallingDamageRatio_Lv1": -1.0,
+                "FallingAnthem_FallingDamageRatio_Lv2": -0.8999999761581421,
+                "FallingAnthem_FallingDamageRatio_Lv3": -0.800000011920929,
+                "FallingAnthem_FallingDamageRatio_Lv4": -0.6000000238418579,
+                "FallingAnthem_FallingDamageRatio": 0.0
+            },
+            "modifiers": {
+                "FallingAnthem_AttachSelfEffect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Avatar_Claymore_FallAnthem_Self_02"
+                        }
+                    ]
+                },
+                "FallingAnthem_BS_Material": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Claymore_FallAnthem_Self"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Claymore_FallAnthem_BS"
+                        }
+                    ]
+                },
+                "FallingAnthem_BS_VelocityForce_Initialize": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AddGravityScale": -2.0
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "RemoveVelocityForce",
+                            "forces": [
+                                "RushMoveType"
+                            ]
+                        }
+                    ]
+                },
+                "FallingAnthem_LoopDamage": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.30000001192092896,
+                    "onThinkInterval": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackSphere",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 1.0
+                                        }
+                                    },
+                                    "radius": 1.0
+                                },
+                                "attackInfo": {
+                                    "attackTag": "FallingAttack",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": "FallingAnthem_Normal_Loop_Damage",
+                                        "damagePercentageRatio": 0.0,
+                                        "elementDurability": 0.0,
+                                        "overrideByWeapon": true,
+                                        "strikeType": "Slash",
+                                        "enBreak": 35.0,
+                                        "attackType": "Melee"
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV2",
+                                        "hitHaltTimeScale": 0.019999999552965164
+                                    }
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ]
+                },
+                "FallingAnthem_FallingDamageImmune_01": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ClearGlobalValue",
+                            "key": "_ABILITY_FallingAttack_Altitude"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "logic": "LesserOrEqual",
+                                    "value": "FallingAnthem_Altitude_Lv0"
+                                }
+                            ],
+                            "value": "FallingAnthem_FallingDamageRatio_Lv0",
+                            "key": "_ABILITY_FallingAttack_Altitude",
+                            "useLimitRange": true,
+                            "maxValue": "FallingAnthem_FallingDamageRatio_Lv0",
+                            "minValue": "FallingAnthem_FallingDamageRatio_Lv0"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "logic": "LesserOrEqual",
+                                    "value": "FallingAnthem_Altitude_Lv1"
+                                },
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "value": "FallingAnthem_Altitude_Lv0"
+                                }
+                            ],
+                            "value": "FallingAnthem_FallingDamageRatio_Lv1",
+                            "key": "_ABILITY_FallingAttack_Altitude",
+                            "useLimitRange": true,
+                            "maxValue": "FallingAnthem_FallingDamageRatio_Lv1",
+                            "minValue": "FallingAnthem_FallingDamageRatio_Lv1"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "logic": "LesserOrEqual",
+                                    "value": "FallingAnthem_Altitude_Lv2"
+                                },
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "value": "FallingAnthem_Altitude_Lv1"
+                                }
+                            ],
+                            "value": "FallingAnthem_FallingDamageRatio_Lv2",
+                            "key": "_ABILITY_FallingAttack_Altitude",
+                            "useLimitRange": true,
+                            "maxValue": "FallingAnthem_FallingDamageRatio_Lv2",
+                            "minValue": "FallingAnthem_FallingDamageRatio_Lv2"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "logic": "LesserOrEqual",
+                                    "value": "FallingAnthem_Altitude_Lv3"
+                                },
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "value": "FallingAnthem_Altitude_Lv2"
+                                }
+                            ],
+                            "value": "FallingAnthem_FallingDamageRatio_Lv3",
+                            "key": "_ABILITY_FallingAttack_Altitude",
+                            "useLimitRange": true,
+                            "maxValue": "FallingAnthem_FallingDamageRatio_Lv3",
+                            "minValue": "FallingAnthem_FallingDamageRatio_Lv3"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "value": "FallingAnthem_Altitude_Lv3"
+                                }
+                            ],
+                            "value": "FallingAnthem_FallingDamageRatio_Lv4",
+                            "key": "_ABILITY_FallingAttack_Altitude",
+                            "useLimitRange": true,
+                            "maxValue": "FallingAnthem_FallingDamageRatio_Lv4",
+                            "minValue": "FallingAnthem_FallingDamageRatio_Lv4"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "FallingAnthem_FallingDamageImmune_02"
+                        }
+                    ]
+                },
+                "FallingAnthem_FallingDamageImmune_02": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValueToOverrideMap",
+                            "globalValueKey": "_ABILITY_FallingAttack_Altitude",
+                            "overrideMapKey": "FallingAnthem_FallingDamageRatio"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "FallingAnthem_FallingDamageImmune_03"
+                        }
+                    ]
+                },
+                "FallingAnthem_FallingDamageImmune_03": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_FallingDamageRatio": "FallingAnthem_FallingDamageRatio"
+                    }
+                },
+                "FallingAnthem_Loop_Normal": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "_ABILITY_FallingAnthem_UseCamera",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -1.0,
+                                0.5,
+                                1.5
+                            ],
+                            "modifierNameSteps": [
+                                "FallingAnthem_Loop_Normal_Rank_1",
+                                "FallingAnthem_Loop_Normal_Rank_2"
+                            ]
+                        }
+                    ]
+                },
+                "FallingAnthem_Loop_Normal_Rank_1": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Claymore_FallAnthem_Loop_01"
+                        }
+                    ]
+                },
+                "FallingAnthem_Loop_Normal_Rank_2": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Avatar_Claymore_FallAnthem_Loop_02"
+                        }
+                    ]
+                },
+                "Inertia": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ApplyInertiaVelocityMixin",
+                            "useXZ": false,
+                            "useY": false
+                        }
+                    ]
+                },
+                "FallingAnthem_Height_Detect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "logic": "LesserOrEqual",
+                                    "value": 2.4000000953674316
+                                }
+                            ],
+                            "value": 0.0,
+                            "key": "_ABILITY_FallingAnthem_UseCamera",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "value": 2.4000000953674316
+                                }
+                            ],
+                            "value": 5.0,
+                            "key": "_ABILITY_FallingAnthem_UseCamera",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "SetAnimatorFloat",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "logic": "LesserOrEqual",
+                                    "value": 2.4000000953674316
+                                }
+                            ],
+                            "floatID": "FallingAnthem_UseCamera",
+                            "value": 0.0
+                        },
+                        {
+                            "$type": "SetAnimatorFloat",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "value": 2.4000000953674316
+                                }
+                            ],
+                            "floatID": "FallingAnthem_UseCamera",
+                            "value": 1.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetAnimatorFloat",
+                            "floatID": "FallingAnthem_UseCamera",
+                            "value": 0.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 0.0,
+                            "key": "_ABILITY_FallingAnthem_UseCamera",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "FallingAnthem_OverHead_Camera": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AvatarCameraParam",
+                            "predicates": [
+                                {
+                                    "$type": "ByAnimatorFloat",
+                                    "logic": "Equal",
+                                    "value": 1.0,
+                                    "parameter": "FallingAnthem_UseCamera"
+                                }
+                            ],
+                            "cameraParam": {
+                                "forceRadius": 4.5,
+                                "forceRadiusDuration": 0.20000000298023224,
+                                "shouldKeepForceRadius": true
+                            }
+                        }
+                    ]
+                },
+                "FallingAnthem_OverHead_Camera_Remover": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AvatarExitCameraShot",
+                            "doOffStage": true
+                        }
+                    ]
+                },
+                "FallingAnthem_Landed_Camera": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AvatarCameraParam",
+                            "predicates": [
+                                {
+                                    "$type": "ByAnimatorFloat",
+                                    "logic": "Equal",
+                                    "value": 1.0,
+                                    "parameter": "FallingAnthem_UseCamera"
+                                }
+                            ],
+                            "cameraParam": {
+                                "forceRadius": 6.0,
+                                "forceRadiusDuration": 0.10000000149011612,
+                                "shouldKeepForceRadius": true
+                            }
+                        }
+                    ]
+                },
+                "FallingAnthem_ClearVelocityForce": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "RemoveVelocityForce",
+                            "forces": [
+                                "RushMoveType",
+                                "InertiaType"
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerAttackEvent",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ABILITY_FallingAnthem_UseCamera",
+                            "value": 0.0,
+                            "forceByCaster": true,
+                            "compareType": "NoneOrEqual"
+                        }
+                    ],
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackCircle",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": -0.5,
+                                    "z": 1.0
+                                }
+                            },
+                            "height": 2.0,
+                            "radius": 3.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "FallingAttack",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": "FallingAnthem_Normal_Rank_1_Damage",
+                                "damagePercentageRatio": 0.0,
+                                "elementDurability": 25.0,
+                                "overrideByWeapon": true,
+                                "strikeType": "Blunt",
+                                "enBreak": 150.0,
+                                "attackType": "Melee"
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "none",
+                                "hitImpulseType": "LV4",
+                                "hitHaltTimeScale": 0.10000000149011612
+                            },
+                            "forceCameraShake": true,
+                            "cameraShake": {
+                                "shakeType": "CustomVector",
+                                "shakeRange": 0.23999999463558197,
+                                "shakeTime": 0.11999999731779099,
+                                "shakeDistance": 30.0,
+                                "shakeDir": {
+                                    "y": 1.0
+                                },
+                                "extension": {
+                                    "baseCycle": 0.23999999463558197,
+                                    "cycleDamping": 0.0,
+                                    "rangeAttenuation": 0.30000001192092896
+                                }
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ABILITY_FallingAnthem_UseCamera",
+                            "value": 1.0,
+                            "forceByCaster": true
+                        }
+                    ],
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackCircle",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": -0.5,
+                                    "z": 1.0
+                                }
+                            },
+                            "height": 2.0,
+                            "radius": 5.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "FallingAttack",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": "FallingAnthem_Normal_Rank_2_Damage",
+                                "damagePercentageRatio": 0.0,
+                                "elementDurability": 25.0,
+                                "overrideByWeapon": true,
+                                "strikeType": "Blunt",
+                                "enBreak": 200.0,
+                                "attackType": "Melee"
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "none",
+                                "hitImpulseType": "LV7",
+                                "hitHaltTimeScale": 0.10000000149011612
+                            },
+                            "forceCameraShake": true,
+                            "cameraShake": {
+                                "shakeType": "CustomVector",
+                                "shakeRange": 0.5,
+                                "shakeTime": 0.20000000298023224,
+                                "shakeDistance": 30.0,
+                                "shakeDir": {
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "extension": {
+                                    "baseCycle": 0.4000000059604645,
+                                    "cycleDamping": 0.0,
+                                    "rangeAttenuation": 0.30000001192092896
+                                }
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ABILITY_FallingAnthem_UseCamera",
+                            "value": 0.0,
+                            "forceByCaster": true,
+                            "compareType": "NoneOrEqual"
+                        }
+                    ],
+                    "effectPattern": "Eff_Avatar_Claymore_FallAnthem_Strike_01"
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ABILITY_FallingAnthem_UseCamera",
+                            "value": 1.0,
+                            "forceByCaster": true
+                        }
+                    ],
+                    "effectPattern": "Eff_Avatar_Claymore_FallAnthem_Strike_02"
+                }
+            ]
+        }
+    }
+]

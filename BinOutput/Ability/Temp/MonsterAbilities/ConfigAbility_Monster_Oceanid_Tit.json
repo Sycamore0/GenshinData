@@ -1,0 +1,306 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Oceanid_Tit_JumpAtkBS",
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Oceanid_Tit_JumpBS"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Oceanid_Tit_JumpAtk_Alert",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToNormalizedTimeMixin",
+                    "stateID": "JumpAtk",
+                    "modifierName": "JumpCollider",
+                    "normalizeStart": 0.4300000071525574,
+                    "normalizeEnd": 0.75
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "JumpAtk"
+                    ],
+                    "endNormalizedTime": 0.4000000059604645,
+                    "angularSpeed": 150.0,
+                    "attackTrigger": "",
+                    "attackDistance": 1.5
+                }
+            ],
+            "modifiers": {
+                "JumpCollider": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerSetCastShadow"
+                        },
+                        {
+                            "$type": "EnablePushColliderName",
+                            "pushColliderNames": [
+                                "PushCollider"
+                            ]
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerSetCastShadow",
+                            "castShadow": true
+                        },
+                        {
+                            "$type": "EnablePushColliderName",
+                            "pushColliderNames": [
+                                "PushCollider"
+                            ],
+                            "setEnable": true
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Oceanid_Frog_JumpAlert",
+                    "born": {
+                        "$type": "ConfigBornByRushToPoint",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Oceanid_Tit_JumpAtk_Damage",
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackCircle",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
+                            },
+                            "height": 2.5,
+                            "radius": 10.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 1.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Water",
+                                "elementDurability": 50.0,
+                                "strikeType": "Blunt",
+                                "enBreak": 10000.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "default",
+                                "hitImpulseType": "LV5",
+                                "hitHaltTimeScale": 0.009999999776482582
+                            },
+                            "forceCameraShake": true,
+                            "cameraShake": {
+                                "shakeType": "CustomVector",
+                                "shakeRange": 1.0,
+                                "shakeTime": 0.30000001192092896,
+                                "shakeDistance": 30.0,
+                                "shakeDir": {
+                                    "y": 1.0,
+                                    "z": 1.0
+                                }
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Oceanid_Tit_JumpDamage"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Oceanid_Tit_ElementState",
+            "modifiers": {
+                "UNIQUE_ElementState": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementType": "Water",
+                    "elementDurability": 100.0,
+                    "isElementDurabilityMutable": false
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "UNIQUE_ElementState"
+                },
+                {
+                    "$type": "AttachAbilityStateResistance",
+                    "resistanceBuffDebuffs": [
+                        "Struggle",
+                        "ElementWet"
+                    ]
+                },
+                {
+                    "$type": "AttachEffect",
+                    "effectPattern": "Eff_Monster_Oceanid_Tit_CommonEffectLoop"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Oceanid_Tit_WaterWave",
+            "abilityMixins": [
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "WaterWave"
+                    ],
+                    "endNormalizedTime": 0.75,
+                    "angularSpeed": 120.0,
+                    "attackTrigger": "",
+                    "attackDistance": 1.5
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Oceanid_Tit_WaterWaveAS"
+                },
+                {
+                    "$type": "DamageByAttackValue",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByShape",
+                        "shapeName": "CircleR7",
+                        "campTargetType": "Enemy",
+                        "sizeRatio": 1.0
+                    },
+                    "attackInfo": {
+                        "attackTag": "",
+                        "attenuationTag": "",
+                        "attenuationGroup": "default",
+                        "attackProperty": {
+                            "damagePercentage": 1.0,
+                            "damagePercentageRatio": 0.0,
+                            "elementType": "Water",
+                            "elementDurability": 50.0,
+                            "strikeType": "Default",
+                            "enBreak": 100.0
+                        },
+                        "hitPattern": {
+                            "onHitEffectName": "default",
+                            "hitImpulseType": "LV4",
+                            "hitHaltTimeScale": 0.05000000074505806
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Oceanid_Tit_BeingHit",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_BEINGHITSTATE_",
+                    "defaultGlobalValueOnCreate": 1.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5
+                    ],
+                    "modifierNameSteps": [
+                        "Empty",
+                        "BeingHit"
+                    ]
+                },
+                {
+                    "$type": "AttachToAbilityStateMixin",
+                    "abilityStates": [
+                        "ElementPetrifaction",
+                        "ElementFreeze"
+                    ],
+                    "modifierName": "ChangeBeingHitState"
+                }
+            ],
+            "modifiers": {
+                "BeingHit": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onBeingHit": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Oceanid_AnimalBeHitSpecial",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "attachPointName": "RootNode"
+                            }
+                        }
+                    ]
+                },
+                "ChangeBeingHitState": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 0.0,
+                            "key": "_BEINGHITSTATE_",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_BEINGHITSTATE_",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 1.0
+                        }
+                    ]
+                },
+                "Empty": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                }
+            }
+        }
+    }
+]

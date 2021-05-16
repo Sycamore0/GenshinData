@@ -1,0 +1,3227 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_NormalAttackUp",
+            "abilitySpecials": {
+                "Rate": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Pole_NormalAttackUp": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "NormalAttack_01",
+                                "NormalAttack_02",
+                                "NormalAttack_03",
+                                "NormalAttack_04",
+                                "NormalAttack_05",
+                                "NormalAttack_06"
+                            ],
+                            "damagePercentageRatio": "Rate"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Pole_NormalAttackUp"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_ExtraDamageWhenCDReady",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Weapon_Pole_ExtraDamageWhenCDReady",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -1.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Pole_ExtraDamageWhenCDReady_CD",
+                        "UNIQUE_Pole_ExtraDamageWhenCDReady_Handler"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "CDTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Pole_ExtraDamageWhenCDReady_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "NormalAttack_01",
+                                        "NormalAttack_02",
+                                        "NormalAttack_03",
+                                        "NormalAttack_04",
+                                        "NormalAttack_05",
+                                        "NormalAttack_06"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEquipAffixReady",
+                                    "target": "Self",
+                                    "equipAffixDataID": 113302
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "DamageByAttackValue",
+                                    "target": "Target",
+                                    "born": {
+                                        "$type": "ConfigBornByTarget",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    },
+                                    "attackInfo": {
+                                        "attackTag": "",
+                                        "attenuationTag": "",
+                                        "attenuationGroup": "default",
+                                        "attackProperty": {
+                                            "damagePercentage": "Rate",
+                                            "damagePercentageRatio": 0.0,
+                                            "elementDurability": 100.0,
+                                            "strikeType": "Default",
+                                            "enBreak": 50.0
+                                        },
+                                        "hitPattern": {
+                                            "onHitEffectName": "default",
+                                            "hitImpulseType": "LV2",
+                                            "hitHaltTimeScale": 0.009999999776482582
+                                        }
+                                    }
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "UNIQUE_Pole_ExtraDamageWhenCDReady_Keep"
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "target": "Target",
+                                    "effectPattern": "Eff_Weapon_SpecialHit_Light",
+                                    "born": {
+                                        "$type": "ConfigBornByHitPoint"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_ExtraDamageWhenCDReady_Keep": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.05999999865889549,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -1.0,
+                            "key": "_ABILITY_Weapon_Pole_ExtraDamageWhenCDReady",
+                            "useLimitRange": true,
+                            "maxValue": -1.0,
+                            "minValue": -1.0
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_ExtraDamageWhenCDReady_CD": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "EquipAffixStart",
+                            "CD": "CDTime",
+                            "equipAffixDataID": 113302
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Pole_ExtraDamageWhenCDReady",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            },
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_SlimeKiller",
+            "abilitySpecials": {
+                "Rate": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Pole_SlimeKiller_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "ignoreEventInfo": true,
+                            "damagePercentageRatio": "Rate",
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHasFeatureTag",
+                                    "featureTagIDs": [
+                                        4002
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "onAttackLanded": [
+                        {
+                            "$type": "FireEffect",
+                            "target": "Target",
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHasFeatureTag",
+                                    "featureTagIDs": [
+                                        4002
+                                    ]
+                                }
+                            ],
+                            "effectPattern": "Eff_Weapon_SpecialHit_Light",
+                            "born": {
+                                "$type": "ConfigBornByHitPoint"
+                            }
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Pole_SlimeKiller_Handler"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_HealAmountHPonEnemyKilled",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionByKillingMixin",
+                    "detectWindow": 0.6000000238418579,
+                    "onKill": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Other",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "HealHP",
+                                    "amountByTargetMaxHPRatio": "HealAmount"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "HealAmount": 0.0
+            },
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_DamageUpToWaterEnemy",
+            "abilitySpecials": {
+                "Rate": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Pole_DamageUpToWaterEnemy_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "ignoreEventInfo": true,
+                            "damagePercentageRatio": "Rate",
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHasElement",
+                                            "element": "Water"
+                                        },
+                                        {
+                                            "$type": "ByHasElement",
+                                            "element": "Fire"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Pole_DamageUpToWaterEnemy_Handler"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_NormalAttackExtraDamageWhenGetEnergyBall",
+            "abilitySpecials": {
+                "Rate": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Pole_NormalAttackExtraDamageWhenGetEnergyBall_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "DoActionByEnergyChangeMixin",
+                            "elementTypes": [
+                                "Electric",
+                                "Fire",
+                                "Water",
+                                "Grass",
+                                "Ice",
+                                "Wind",
+                                "Rock"
+                            ],
+                            "doWhenEnergyMax": true,
+                            "onGainEnergyByBall": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByEquipAffixReady",
+                                            "target": "Self",
+                                            "equipAffixDataID": 113402
+                                        }
+                                    ],
+                                    "modifierName": "UNIQUE_Pole_NormalAttackExtraDamage"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_NormalAttackExtraDamage": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 5.0,
+                    "elementDurability": 100.0,
+                    "state": "AttackUp",
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "NormalAttack_01",
+                                        "NormalAttack_02",
+                                        "NormalAttack_03",
+                                        "NormalAttack_04",
+                                        "NormalAttack_05",
+                                        "NormalAttack_06",
+                                        "ExtraAttack"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "DamageByAttackValue",
+                                    "target": "Target",
+                                    "born": {
+                                        "$type": "ConfigBornByTarget",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    },
+                                    "attackInfo": {
+                                        "attackTag": "WeaponSkill",
+                                        "attenuationTag": "",
+                                        "attenuationGroup": "default",
+                                        "attackProperty": {
+                                            "damagePercentage": "Rate",
+                                            "damagePercentageRatio": 0.0,
+                                            "elementDurability": 100.0,
+                                            "strikeType": "Default"
+                                        },
+                                        "hitPattern": {
+                                            "onHitEffectName": "none",
+                                            "hitImpulseType": "Default",
+                                            "hitHaltTimeScale": 0.009999999776482582
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Pole_NormalAttackExtraDamageWhenGetEnergyBall_Handler"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_NormalAttackAndExtraAttackUpAfterSkill",
+            "abilitySpecials": {
+                "Rate": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Pole_NormalAttackAndExtraAttackUpAfterSkill_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "OnAvatarUseSkillMixin",
+                            "onTriggerSkill": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Pole_NormalAttackAndExtraAttackUpAfterSkill"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_NormalAttackAndExtraAttackUpAfterSkill": {
+                    "stacking": "MultipleAllRefresh",
+                    "stackingOption": {
+                        "abilitySpecialName": "",
+                        "maxModifierNumForMultipleType": 2.0
+                    },
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 12.0,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "NormalAttack_01",
+                                "NormalAttack_02",
+                                "NormalAttack_03",
+                                "NormalAttack_04",
+                                "NormalAttack_05",
+                                "NormalAttack_06",
+                                "ExtraAttack"
+                            ],
+                            "damagePercentageRatio": "Rate",
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "state": "AttackUp"
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Pole_NormalAttackAndExtraAttackUpAfterSkill_Handler"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_Blackrock",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_WEAPON_Blackrock_COUNT",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        0.5,
+                        1.5,
+                        2.5,
+                        3.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Pole_Blackrock_Buff1",
+                        "UNIQUE_Pole_Blackrock_Buff2",
+                        "UNIQUE_Pole_Blackrock_Buff3"
+                    ]
+                },
+                {
+                    "$type": "DoActionByKillingMixin",
+                    "detectWindow": 0.6000000238418579,
+                    "onKill": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Other",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Pole_Blackrock_Timer_Ind"
+                                },
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "doOffStage": true,
+                                    "value": 1.0,
+                                    "key": "_ABILITY_WEAPON_Blackrock_COUNT",
+                                    "useLimitRange": true,
+                                    "maxValue": 3.0,
+                                    "minValue": 0.0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "Dua": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Pole_Blackrock_Timer_Ind": {
+                    "stacking": "MultipleRefresh",
+                    "stackingOption": {
+                        "abilitySpecialName": "",
+                        "maxModifierNumForMultipleType": 3.0
+                    },
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Dua",
+                    "elementDurability": 100.0,
+                    "state": "AttackUp",
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -1.0,
+                            "key": "_ABILITY_WEAPON_Blackrock_COUNT",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_Blackrock_Buff1": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Rate"
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "effectPattern": "Eff_Weapon_Blackrock1_Pole"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Pole_Blackrock_Buff2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Rate",
+                            2.0,
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "effectPattern": "Eff_Weapon_Blackrock2_Pole"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Pole_Blackrock_Buff3": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Rate",
+                            3.0,
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "effectPattern": "Eff_Weapon_Blackrock3_Pole"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                }
+            },
+            "onRemoved": [
+                {
+                    "$type": "AddGlobalValue",
+                    "doOffStage": true,
+                    "value": 0.0,
+                    "key": "_ABILITY_WEAPON_Blackrock_COUNT",
+                    "useLimitRange": true,
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_Dual",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Weapon_Pole_Dual_Enemy",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        [
+                            "Count",
+                            0.5,
+                            "Sub"
+                        ],
+                        999.0
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Pole_Dual_Atk",
+                        "UNIQUE_Pole_Dual_AtkDef"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Count": 0.0,
+                "Rate": 0.0,
+                "Atk": 0.0,
+                "Def": 0.0,
+                "Now_Count": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Pole_Dual_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 2.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "Predicated",
+                            "successActions": [
+                                {
+                                    "$type": "SetGlobalValue",
+                                    "value": 0.0,
+                                    "key": "_ABILITY_Weapon_Pole_Dual_Enemy_Count",
+                                    "maxValue": 0.0,
+                                    "minValue": 0.0
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "otherTargets": {
+                                        "$type": "SelectTargetsByShape",
+                                        "sortType": "Nearest",
+                                        "shapeName": "CircleR8",
+                                        "campTargetType": "Enemy",
+                                        "sizeRatio": 1.0
+                                    },
+                                    "predicates": [
+                                        {
+                                            "$type": "ByEntityTypes",
+                                            "entityTypes": [
+                                                "Monster"
+                                            ]
+                                        },
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_ANIMAL_ENTITY_TYPE",
+                                            "value": 0.0,
+                                            "compareType": "NoneOrEqual"
+                                        }
+                                    ],
+                                    "modifierName": "UNIQUE_Pole_Dual_Add"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "UNIQUE_Pole_Dual_Timer"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_Dual_Add": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "target": "Caster",
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Pole_Dual_Enemy_Count",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_Dual_Timer": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.05000000074505806,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "SetGlobalValueToOverrideMap",
+                            "doOffStage": true,
+                            "globalValueKey": "_ABILITY_Weapon_Pole_Dual_Enemy_Count",
+                            "overrideMapKey": "Now_Count"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "value": "Now_Count",
+                            "key": "_ABILITY_Weapon_Pole_Dual_Enemy",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_Dual_Atk": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Rate"
+                    },
+                    "state": "AttackUp"
+                },
+                "UNIQUE_Pole_Dual_AtkDef": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Atk",
+                        "Actor_DefenceRatio": "Def"
+                    },
+                    "state": "DefenseUp"
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Pole_Dual_Handler"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_HeavyExtra",
+            "abilitySpecials": {
+                "Chance": 0.0,
+                "Rate": 0.0,
+                "Time": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Pole_HeavyExtra_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                },
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "NormalAttack_01",
+                                        "NormalAttack_02",
+                                        "NormalAttack_03",
+                                        "NormalAttack_04",
+                                        "NormalAttack_05",
+                                        "NormalAttack_06"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "Randomed",
+                                    "chance": "Chance",
+                                    "successActions": [
+                                        {
+                                            "$type": "ApplyModifier",
+                                            "modifierName": "UNIQUE_Pole_HeavyExtra"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_HeavyExtra": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Time",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "ExtraAttack"
+                            ],
+                            "damagePercentageRatio": "Rate"
+                        }
+                    ],
+                    "state": "AttackUp",
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "effectPattern": "Eff_Weapon_Attack_ExtraUp_Pole",
+                            "born": {
+                                "$type": "ConfigBornByTarget"
+                            }
+                        }
+                    ],
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "ExtraAttack"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "UNIQUE_Pole_HeavyExtra_Remover"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_HeavyExtra_Remover": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Pole_HeavyExtra"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Pole_HeavyExtra_Handler"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_Liyue",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionByTeamStatusMixin",
+                    "actions": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByBigTeamHasFeatureTag",
+                                    "featureTagID": 1002,
+                                    "number": 4,
+                                    "logic": "GreaterOrEqual"
+                                }
+                            ],
+                            "value": 4.0,
+                            "key": "_ABILITY_Pole_Liyue_Num",
+                            "useLimitRange": true,
+                            "maxValue": 4.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByBigTeamHasFeatureTag",
+                                    "featureTagID": 1002,
+                                    "number": 3,
+                                    "logic": "Equal"
+                                }
+                            ],
+                            "value": 3.0,
+                            "key": "_ABILITY_Pole_Liyue_Num",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByBigTeamHasFeatureTag",
+                                    "featureTagID": 1002,
+                                    "number": 2,
+                                    "logic": "Equal"
+                                }
+                            ],
+                            "value": 2.0,
+                            "key": "_ABILITY_Pole_Liyue_Num",
+                            "useLimitRange": true,
+                            "maxValue": 2.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByBigTeamHasFeatureTag",
+                                    "featureTagID": 1002,
+                                    "number": 1,
+                                    "logic": "Equal"
+                                }
+                            ],
+                            "value": 1.0,
+                            "key": "_ABILITY_Pole_Liyue_Num",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByBigTeamHasFeatureTag",
+                                    "featureTagID": 1002,
+                                    "logic": "LesserOrEqual"
+                                }
+                            ],
+                            "value": 1.0,
+                            "key": "_ABILITY_Pole_Liyue_Num",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "SetGlobalValueToOverrideMap",
+                            "doOffStage": true,
+                            "globalValueKey": "_ABILITY_Pole_Liyue_Num",
+                            "overrideMapKey": "Pole_Liyue_Num"
+                        },
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Pole_LiyueBuff"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Pole_LiyueBuff"
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "Crit": 0.0,
+                "Pole_Liyue_Num": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Pole_LiyueBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Rate",
+                            "Pole_Liyue_Num",
+                            "Mul"
+                        ],
+                        "Actor_CriticalDelta": [
+                            "Crit",
+                            "Pole_Liyue_Num",
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": 0.0,
+                    "key": "_ABILITY_Pole_Liyue_Num",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_GenerateBallWhenCritic",
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "CDTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Pole_GenerateBallWhenCritic_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Randomed",
+                            "target": "Target",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitCritical"
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                },
+                                {
+                                    "$type": "ByEquipAffixReady",
+                                    "target": "Self",
+                                    "equipAffixDataID": 113407
+                                }
+                            ],
+                            "chance": "Rate",
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Pole_GenerateBallWhenCritic"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_GenerateBallWhenCritic": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "EquipAffixStart",
+                            "CD": "CDTime",
+                            "equipAffixDataID": 113407
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Weapon_ExtraElementBall"
+                        },
+                        {
+                            "$type": "GenerateElemBall",
+                            "configID": 2024,
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": -1.0
+                                },
+                                "bornRandom": {
+                                    "$type": "BornRandomFromCenter",
+                                    "minRandomRange": 0.0,
+                                    "maxRandomRange": 0.5
+                                }
+                            },
+                            "ratio": 1.0,
+                            "baseEnergy": 6.0
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Pole_GenerateBallWhenCritic_Handler"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_CritUpWhenHitNoCrit",
+            "abilitySpecials": {
+                "Rate": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Pole_CritUpWhenHitNoCrit_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "doOffStage": true,
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                },
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHitCritical"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "UNIQUE_Pole_CritUpWhenHitNoCrit_CD"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "doOffStage": true,
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                },
+                                {
+                                    "$type": "ByHitCritical"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "RemoveModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "UNIQUE_Pole_CritUpWhenHitNoCrit"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_CritUpWhenHitNoCrit_CD": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.30000001192092896,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Pole_CritUpWhenHitNoCrit"
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_CritUpWhenHitNoCrit": {
+                    "stacking": "Multiple",
+                    "stackingOption": {
+                        "abilitySpecialName": "",
+                        "maxModifierNumForMultipleType": 5.0
+                    },
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_CriticalDelta": "Rate"
+                    },
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Pole_CritUpWhenHitNoCrit_Handler"
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "RemoveModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Pole_CritUpWhenHitNoCrit"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_Dragonfell",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Pole_Dragonfell",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -1.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Pole_Dragonfell_CD",
+                        "UNIQUE_Pole_Dragonfell_Handler"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "ChanceProb": 0.0,
+                "Rate": 0.0,
+                "RateToIce": 0.0,
+                "CDTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Pole_Dragonfell_CD": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "EquipAffixStart",
+                            "CD": "CDTime",
+                            "equipAffixDataID": 113409
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Pole_Dragonfell",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_Dragonfell_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Randomed",
+                            "target": "Target",
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "NormalAttack_01",
+                                        "NormalAttack_02",
+                                        "NormalAttack_03",
+                                        "NormalAttack_04",
+                                        "NormalAttack_05",
+                                        "NormalAttack_06",
+                                        "ExtraAttack"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEquipAffixReady",
+                                    "target": "Self",
+                                    "equipAffixDataID": 113409
+                                }
+                            ],
+                            "chance": "ChanceProb",
+                            "successActions": [
+                                {
+                                    "$type": "SetGlobalPos",
+                                    "target": "Target",
+                                    "key": "_ABILITY_Weapon_Dragonfell_Pos",
+                                    "born": {
+                                        "$type": "ConfigBornByHitPoint",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    },
+                                    "setTarget": false
+                                },
+                                {
+                                    "$type": "CreateGadget",
+                                    "born": {
+                                        "$type": "ConfigBornByGlobalValue",
+                                        "positionKey": "_ABILITY_Weapon_Dragonfell_Pos",
+                                        "directionKey": ""
+                                    },
+                                    "gadgetID": 40020006,
+                                    "campID": 1001,
+                                    "campTargetType": "Enemy"
+                                },
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "doOffStage": true,
+                                    "value": -1.0,
+                                    "key": "_ABILITY_Pole_Dragonfell",
+                                    "useLimitRange": true,
+                                    "maxValue": -1.0,
+                                    "minValue": -1.0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_Dragonfell_Gadget",
+            "abilityMixins": [
+                {
+                    "$type": "ModifyDamageMixin",
+                    "attackTags": [
+                        "WeaponSkill"
+                    ],
+                    "damagePercentage": "RateToIce",
+                    "damagePercentageRatio": 0.0,
+                    "predicates": [
+                        {
+                            "$type": "ByEntityTypes",
+                            "entityTypes": [
+                                "Monster"
+                            ]
+                        },
+                        {
+                            "$type": "ByAny",
+                            "predicates": [
+                                {
+                                    "$type": "ByHasElement",
+                                    "element": "Ice"
+                                },
+                                {
+                                    "$type": "ByHasElement",
+                                    "element": "Frozen"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "RateToIce": 0.0
+            },
+            "modifiers": {
+                "Dragonfell_Appear": {
+                    "modifierName": "",
+                    "duration": 0.4000000059604645,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Weapon_Dragonfell_Gadget",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
+                            }
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackCircle",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": -1.0,
+                                            "z": 0.0
+                                        }
+                                    },
+                                    "height": 2.0,
+                                    "radius": 3.0
+                                },
+                                "attackInfo": {
+                                    "attackTag": "WeaponSkill",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": "Rate",
+                                        "damagePercentageRatio": 0.0,
+                                        "elementDurability": 0.0,
+                                        "enBreak": 20.0,
+                                        "attackType": "Range"
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV4",
+                                        "overrideHitImpulse": {
+                                            "hitLevel": "Heavy",
+                                            "hitImpulseX": 500.0,
+                                            "hitImpulseY": 0.0
+                                        },
+                                        "retreatType": "ByHitDirection",
+                                        "hitHaltTimeScale": 0.009999999776482582
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Dragonfell_Appear"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_Homa_MaxHpToAtk",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionByEventMixin",
+                    "onEvent": "HP",
+                    "actions": [
+                        {
+                            "$type": "Predicated",
+                            "doOffStage": true,
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetHPRatio",
+                                    "logic": "LesserOrEqual",
+                                    "HPRatio": 0.5
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "RemoveUniqueModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "UNIQUE_Pole_Homa_MaxHpToAtk_Handler"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "UNIQUE_Pole_Homa_MaxHpToAtk_Extra_Handler"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "RemoveUniqueModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "UNIQUE_Pole_Homa_MaxHpToAtk_Extra_Handler"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "UNIQUE_Pole_Homa_MaxHpToAtk_Handler"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Hp_Rate": 0.0,
+                "MaxHptoAtk_Factor": 0.0,
+                "MaxHptoAtk_Extra_Factor": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Pole_Homa_MaxHpToAtk_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToPredicateMixin",
+                            "predicates": [
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_ABILITY_Pole_Homa_Last_MaxHp",
+                                            "value": "FIGHT_PROP_MAX_HP"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Pole_Homa_MaxHpToAtk_Change"
+                        },
+                        {
+                            "$type": "AttachModifierToPredicateMixin",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Pole_Homa_Last_MaxHp",
+                                    "value": "FIGHT_PROP_MAX_HP"
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Pole_Homa_MaxHpToAtk_Buff"
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Pole_Homa_MaxHpToAtk_Buff"
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_Homa_MaxHpToAtk_Change": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "value": "FIGHT_PROP_MAX_HP",
+                            "key": "_ABILITY_Pole_Homa_Last_MaxHp",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Pole_Homa_MaxHpToAtk_Buff"
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_Homa_MaxHpToAtk_Extra_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToPredicateMixin",
+                            "predicates": [
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_ABILITY_Pole_Homa_Last_MaxHp",
+                                            "value": "FIGHT_PROP_MAX_HP"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Pole_Homa_MaxHpToAtk_Extra_Change"
+                        },
+                        {
+                            "$type": "AttachModifierToPredicateMixin",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Pole_Homa_Last_MaxHp",
+                                    "value": "FIGHT_PROP_MAX_HP"
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Pole_Homa_MaxHpToAtk_Extra_Buff"
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Pole_Homa_EffectDelay"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Pole_Homa_MaxHpToAtk_Extra_Buff"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Pole_Homa_Effect"
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_Homa_MaxHpToAtk_Extra_Change": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "value": "FIGHT_PROP_MAX_HP",
+                            "key": "_ABILITY_Pole_Homa_Last_MaxHp",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Pole_Homa_MaxHpToAtk_Extra_Buff"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Pole_Homa_EffectDelay": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 5.5,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Pole_Homa_Effect"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Pole_Homa_Effect"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Pole_Homa_Effect": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Weapon_Pole_Homa_Buff"
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_Homa_MaxHpToAtk_Buff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackExtraDelta": [
+                            "FIGHT_PROP_MAX_HP",
+                            "MaxHptoAtk_Factor",
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Pole_Homa_MaxHpToAtk_Extra_Buff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackExtraDelta": [
+                            "FIGHT_PROP_MAX_HP",
+                            "MaxHptoAtk_Factor",
+                            "Mul",
+                            "FIGHT_PROP_MAX_HP",
+                            "MaxHptoAtk_Extra_Factor",
+                            "Mul",
+                            "Add"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "Predicated",
+                    "doOffStage": true,
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetHPRatio",
+                            "logic": "LesserOrEqual",
+                            "HPRatio": 0.5
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Pole_Homa_MaxHpToAtk_Extra_Handler"
+                        }
+                    ],
+                    "failActions": [
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Pole_Homa_MaxHpToAtk_Handler"
+                        }
+                    ]
+                },
+                {
+                    "$type": "SetGlobalValue",
+                    "doOffStage": true,
+                    "value": "FIGHT_PROP_MAX_HP",
+                    "key": "_ABILITY_Pole_Homa_Last_MaxHp",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_Dvalin",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Weapon_Pole_DvalinWhenCDReady",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -1.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Pole_Dvalin_CD",
+                        "UNIQUE_Pole_Dvalin_Handler"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Crit_Rate": 0.0,
+                "Speed_Rate": 0.0,
+                "ChanceProb": 0.0,
+                "Atk_Rate": 0.0,
+                "CDTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Pole_Dvalin_CD": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "EquipAffixStart",
+                            "CD": "CDTime",
+                            "equipAffixDataID": 113502
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Pole_DvalinWhenCDReady",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_Dvalin_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Randomed",
+                            "target": "Target",
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "NormalAttack_01",
+                                        "NormalAttack_02",
+                                        "NormalAttack_03",
+                                        "NormalAttack_04",
+                                        "NormalAttack_05",
+                                        "NormalAttack_06",
+                                        "ExtraAttack"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEquipAffixReady",
+                                    "target": "Self",
+                                    "equipAffixDataID": 113502
+                                }
+                            ],
+                            "chance": "ChanceProb",
+                            "successActions": [
+                                {
+                                    "$type": "TriggerBullet",
+                                    "bulletID": 40010012,
+                                    "born": {
+                                        "$type": "ConfigBornBySelf",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 1.2999999523162842,
+                                            "z": 0.4000000059604645
+                                        }
+                                    }
+                                },
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "value": -1.0,
+                                    "key": "_ABILITY_Weapon_Pole_DvalinWhenCDReady",
+                                    "useLimitRange": true,
+                                    "maxValue": -1.0,
+                                    "minValue": -1.0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_Dvalin_AtkSpeedUp": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Animator_AttackSpeedRatio": "Speed_Rate"
+                    },
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Pole_Dvalin_AtkSpeedUp"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Dvalin_Wave_Bullet",
+            "abilitySpecials": {
+                "Atk_Rate": 0.0
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachEffect",
+                    "effectPattern": "Eff_Weapon_Dvalin_Pole_AttackWave"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "Predicated",
+                    "target": "Target",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByEntityTypes",
+                            "entityTypes": [
+                                "MonsterEquip"
+                            ]
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "DamageByAttackValue",
+                            "target": "Target",
+                            "attackInfo": {
+                                "attackTag": "WeaponSkill",
+                                "attenuationTag": "",
+                                "attenuationGroup": "default",
+                                "attackProperty": {
+                                    "damagePercentage": "Atk_Rate",
+                                    "damagePercentageRatio": 0.0,
+                                    "elementDurability": 100.0,
+                                    "enBreak": 50.0,
+                                    "bonusCritical": 0.0,
+                                    "bonusCriticalHurt": 0.0
+                                },
+                                "hitPattern": {
+                                    "onHitEffectName": "default",
+                                    "hitImpulseType": "LV2",
+                                    "hitHaltTimeScale": 0.009999999776482582
+                                },
+                                "canBeModifiedBy": "OriginOwner"
+                            }
+                        }
+                    ],
+                    "failActions": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackBox",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornByCollisionPoint",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    },
+                                    "size": {
+                                        "x": 0.10000000149011612,
+                                        "y": 0.10000000149011612,
+                                        "z": 0.10000000149011612
+                                    }
+                                },
+                                "attackInfo": {
+                                    "attackTag": "WeaponSkill",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": "Atk_Rate",
+                                        "damagePercentageRatio": 0.0,
+                                        "elementDurability": 100.0,
+                                        "enBreak": 50.0,
+                                        "bonusCritical": 0.0,
+                                        "bonusCriticalHurt": 0.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV2",
+                                        "hitHaltTimeScale": 0.009999999776482582
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_EnergyPoem",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionByEnergyChangeMixin",
+                    "elementTypes": [
+                        "Electric",
+                        "Fire",
+                        "Water",
+                        "Grass",
+                        "Ice",
+                        "Wind",
+                        "Rock"
+                    ],
+                    "doWhenEnergyMax": true,
+                    "onGainEnergyByBall": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Pole_EnergyPoem_Trigger"
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Weapon_Pole_EnergyPoem",
+                                    "value": 5.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "Predicated",
+                                    "targetPredicates": [
+                                        {
+                                            "$type": "ByEquipAffixReady",
+                                            "target": "Self",
+                                            "equipAffixDataID": 112503
+                                        }
+                                    ],
+                                    "successActions": [
+                                        {
+                                            "$type": "AttachModifier",
+                                            "modifierName": "UNIQUE_Pole_EnergyPoem_Extra"
+                                        }
+                                    ],
+                                    "failActions": [
+                                        {
+                                            "$type": "Predicated",
+                                            "targetPredicates": [
+                                                {
+                                                    "$type": "ByTargetGlobalValue",
+                                                    "key": "_ABILITY_Weapon_Pole_EnergyPoem_BurstTrigger",
+                                                    "value": 0.0
+                                                }
+                                            ],
+                                            "successActions": [
+                                                {
+                                                    "$type": "AttachModifier",
+                                                    "modifierName": "UNIQUE_Pole_EnergyPoem_4"
+                                                },
+                                                {
+                                                    "$type": "AddGlobalValue",
+                                                    "value": -1.0,
+                                                    "key": "_ABILITY_Weapon_Pole_EnergyPoem",
+                                                    "useLimitRange": true,
+                                                    "maxValue": 4.0,
+                                                    "minValue": 4.0
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Pole_EnergyPoem_Timer"
+                        }
+                    ]
+                },
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Weapon_Pole_EnergyPoem",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5,
+                        2.5,
+                        3.5,
+                        4.5,
+                        5.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Pole_EnergyPoem_0",
+                        "UNIQUE_Pole_EnergyPoem_1",
+                        "UNIQUE_Pole_EnergyPoem_2",
+                        "UNIQUE_Pole_EnergyPoem_3",
+                        "UNIQUE_Pole_EnergyPoem_4",
+                        "UNIQUE_Pole_EnergyPoem_0"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "Timer": 0.0,
+                "BurstAttackRate": 0.0,
+                "SpeedRate": 0.0,
+                "Dura": 0.0,
+                "CDTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Pole_EnergyPoem_Trigger": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.5,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Weapon_Pole_EnergyPoem",
+                                    "value": 4.0,
+                                    "compareType": "LessAndEqual"
+                                }
+                            ],
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Pole_EnergyPoem",
+                            "useLimitRange": true,
+                            "maxValue": 5.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_EnergyPoem_Timer": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Timer",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Weapon_Pole_EnergyPoem",
+                                    "value": 4.0,
+                                    "compareType": "LessAndEqual"
+                                }
+                            ],
+                            "value": -100.0,
+                            "key": "_ABILITY_Weapon_Pole_EnergyPoem",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_EnergyPoem_0": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0
+                },
+                "UNIQUE_Pole_EnergyPoem_1": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Rate",
+                            1.0,
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_EnergyPoem_Stack1"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Pole_EnergyPoem_2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Rate",
+                            2.0,
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_EnergyPoem_Stack2"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Pole_EnergyPoem_3": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Rate",
+                            3.0,
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_EnergyPoem_Stack3"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Pole_EnergyPoem_4": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Rate",
+                            4.0,
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_EnergyPoem_Stack4"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Pole_EnergyPoem_Extra": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Dura",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Rate",
+                            4.0,
+                            "Mul",
+                            "BurstAttackRate",
+                            "Add"
+                        ],
+                        "Animator_AttackSpeedRatio": "SpeedRate"
+                    },
+                    "state": "AttackUp",
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Weapon_EnergyPoem_Burst"
+                        },
+                        {
+                            "$type": "EquipAffixStart",
+                            "CD": "CDTime",
+                            "equipAffixDataID": 112503
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "effectPattern": "Eff_Weapon_Pole_Widsith"
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "boolID": "Equip_Lighting",
+                            "value": true
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Pole_EnergyPoem_BurstTrigger",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 1.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -100.0,
+                            "key": "_ABILITY_Weapon_Pole_EnergyPoem",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -1.0,
+                            "key": "_ABILITY_Weapon_Pole_EnergyPoem_BurstTrigger",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "boolID": "Equip_Lighting"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "parameter": "Trigger_Kill_Effect",
+                            "effectPattern": "Eff_Weapon_Pole_Widsith"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AddGlobalValue",
+                    "doOffStage": true,
+                    "value": -1.0,
+                    "key": "_ABILITY_Weapon_Pole_EnergyPoem_BurstTrigger",
+                    "useLimitRange": true,
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "AddGlobalValue",
+                    "doOffStage": true,
+                    "value": 0.0,
+                    "key": "_ABILITY_Weapon_Pole_EnergyPoem",
+                    "useLimitRange": true,
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_Kunwu_DamageUpWithShield",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Pole_Kunwu_IsHasShield",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Weapon_Pole_Kunwu_NoShieldBuff",
+                        "UNIQUE_Weapon_Pole_Kunwu_HasShieldBuff"
+                    ]
+                },
+                {
+                    "$type": "AttachModifierToPredicateMixin",
+                    "type": "Current",
+                    "predicates": [
+                        {
+                            "$type": "ByHasShield",
+                            "type": "All"
+                        }
+                    ],
+                    "modifierName": "UNIQUE_Weapon_Pole_Kunwu_CheckShield"
+                }
+            ],
+            "abilitySpecials": {
+                "Shield_Up": 0.0,
+                "Dmg_Rate": 0.0,
+                "Timer": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Weapon_Pole_Kunwu_DamageUpWithShield_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "UNIQUE_Weapon_Pole_Kunwu_AddCount"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Pole_Kunwu_CheckShield": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 0.0,
+                            "key": "_ABILITY_Pole_Kunwu_IsHasShield",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 1.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 0.0,
+                            "key": "_ABILITY_Pole_Kunwu_IsHasShield",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Pole_Kunwu_AddCount": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.30000001192092896,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Pole_Kunwu_BuffLevel",
+                            "useLimitRange": true,
+                            "maxValue": 5.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Weapon_Pole_Kunwu_BuffTimer"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Pole_Kunwu_BuffTimer": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Timer",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 0.0,
+                            "key": "_ABILITY_Pole_Kunwu_BuffLevel",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Pole_Kunwu_NoShieldBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "_ABILITY_Pole_Kunwu_BuffLevel",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5,
+                                2.5,
+                                3.5,
+                                4.5,
+                                5.5
+                            ],
+                            "modifierNameSteps": [
+                                "UNIQUE_Weapon_Pole_Kunwu_NoShieldBuff_Blank",
+                                "UNIQUE_Weapon_Pole_Kunwu_NoShieldBuff_Level01",
+                                "UNIQUE_Weapon_Pole_Kunwu_NoShieldBuff_Level02",
+                                "UNIQUE_Weapon_Pole_Kunwu_NoShieldBuff_Level03",
+                                "UNIQUE_Weapon_Pole_Kunwu_NoShieldBuff_Level04",
+                                "UNIQUE_Weapon_Pole_Kunwu_NoShieldBuff_Level05"
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Pole_Kunwu_NoShieldBuff_Blank": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0
+                },
+                "UNIQUE_Weapon_Pole_Kunwu_NoShieldBuff_Level01": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Dmg_Rate"
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Pole_Kunwu_NoShieldBuff_Level02": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Dmg_Rate",
+                            2.0,
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Pole_Kunwu_NoShieldBuff_Level03": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Dmg_Rate",
+                            3.0,
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Pole_Kunwu_NoShieldBuff_Level04": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Dmg_Rate",
+                            4.0,
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Pole_Kunwu_NoShieldBuff_Level05": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Dmg_Rate",
+                            5.0,
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Pole_Kunwu_HasShieldBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "_ABILITY_Pole_Kunwu_BuffLevel",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5,
+                                2.5,
+                                3.5,
+                                4.5,
+                                5.5
+                            ],
+                            "modifierNameSteps": [
+                                "UNIQUE_Weapon_Pole_Kunwu_HasShieldBuff_Blank",
+                                "UNIQUE_Weapon_Pole_Kunwu_HasShieldBuff_Level01",
+                                "UNIQUE_Weapon_Pole_Kunwu_HasShieldBuff_Level02",
+                                "UNIQUE_Weapon_Pole_Kunwu_HasShieldBuff_Level03",
+                                "UNIQUE_Weapon_Pole_Kunwu_HasShieldBuff_Level04",
+                                "UNIQUE_Weapon_Pole_Kunwu_HasShieldBuff_Level05"
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Pole_Kunwu_HasShieldBuff_Blank": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0
+                },
+                "UNIQUE_Weapon_Pole_Kunwu_HasShieldBuff_Level01": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Dmg_Rate",
+                            2.0,
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Pole_Kunwu_HasShieldBuff_Level02": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Dmg_Rate",
+                            4.0,
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Pole_Kunwu_HasShieldBuff_Level03": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Dmg_Rate",
+                            6.0,
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Pole_Kunwu_HasShieldBuff_Level04": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Dmg_Rate",
+                            8.0,
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Pole_Kunwu_HasShieldBuff_Level05": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Dmg_Rate",
+                            10.0,
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Pole_Kunwu_BuffEffHandler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "_ABILITY_Pole_Kunwu_BuffLevel",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5,
+                                2.5,
+                                3.5,
+                                4.5,
+                                5.5
+                            ],
+                            "modifierNameSteps": [
+                                "Weapon_Pole_Kunwu_Eff_Blank",
+                                "Weapon_Pole_Kunwu_Eff_1",
+                                "Weapon_Pole_Kunwu_Eff_2",
+                                "Weapon_Pole_Kunwu_Eff_3",
+                                "Weapon_Pole_Kunwu_Eff_4",
+                                "Weapon_Pole_Kunwu_Eff_5"
+                            ]
+                        }
+                    ]
+                },
+                "Weapon_Pole_Kunwu_Eff_Blank": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "Weapon_Pole_Kunwu_Eff_1": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_Kunwu_Stack_01"
+                        }
+                    ]
+                },
+                "Weapon_Pole_Kunwu_Eff_2": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_Kunwu_Stack_02"
+                        }
+                    ]
+                },
+                "Weapon_Pole_Kunwu_Eff_3": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_Kunwu_Stack_03"
+                        }
+                    ]
+                },
+                "Weapon_Pole_Kunwu_Eff_4": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_Kunwu_Stack_04"
+                        }
+                    ]
+                },
+                "Weapon_Pole_Kunwu_Eff_5": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_Kunwu_Stack_05"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Weapon_Pole_Kunwu_DamageUpWithShield_Handler"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Weapon_Pole_Kunwu_BuffEffHandler"
+                },
+                {
+                    "$type": "AddGlobalValue",
+                    "doOffStage": true,
+                    "value": 0.0,
+                    "key": "_ABILITY_Pole_Kunwu_BuffLevel",
+                    "useLimitRange": true,
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "AddGlobalValue",
+                    "doOffStage": true,
+                    "value": 0.0,
+                    "key": "_ABILITY_Pole_Kunwu_IsHasShield",
+                    "useLimitRange": true,
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_AttackUpAndSkillDamageUp",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Pole_13502_AttackBuffLevel",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5,
+                        2.5,
+                        3.5,
+                        4.5,
+                        5.5,
+                        6.5,
+                        100.0
+                    ],
+                    "modifierNameSteps": [
+                        "Blank",
+                        "UNIQUE_Pole_AttackUpA",
+                        "UNIQUE_Pole_AttackUpB",
+                        "UNIQUE_Pole_AttackUpA",
+                        "UNIQUE_Pole_AttackUpB",
+                        "UNIQUE_Pole_AttackUpA",
+                        "UNIQUE_Pole_AttackUpB",
+                        "UNIQUE_Pole_SkillDamageUp"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "Rate2": 0.0,
+                "Buff_Level": 0.0
+            },
+            "modifiers": {
+                "Blank": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "UNIQUE_Pole_AttackUpAndSkillDamageUp_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "UNIQUE_Pole_AddGlobalValue"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_AddGlobalValue": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.30000001192092896,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Pole_BuffTime"
+                        },
+                        {
+                            "$type": "SetGlobalValueToOverrideMap",
+                            "globalValueKey": "_ABILITY_Pole_13502_AttackBuffLevel",
+                            "overrideMapKey": "Buff_Level"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_ABILITY_Pole_13502_AttackBuffLevel",
+                            "useLimitRange": true,
+                            "maxValue": 7.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_BuffTime": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 6.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -100.0,
+                            "key": "_ABILITY_Pole_13502_AttackBuffLevel",
+                            "useLimitRange": true,
+                            "maxValue": 7.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_AttackUpA": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Rate",
+                            "Buff_Level",
+                            "Mul",
+                            "Rate",
+                            "Add"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Pole_AttackUpB": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Rate",
+                            "Buff_Level",
+                            "Mul",
+                            "Rate",
+                            "Add"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Pole_SkillDamageUp": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Rate",
+                            7.0,
+                            "Mul"
+                        ],
+                        "Actor_AddHurtDelta": "Rate2"
+                    },
+                    "state": "AttackUp",
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Weapon_TriggerGreen"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "effectPattern": "Eff_Weapon_StackFull"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "effectPattern": "Eff_Weapon_StackFull_Loop"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Pole_AttackUpAndSkillDamageUp_Handler"
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "AddGlobalValue",
+                    "doOffStage": true,
+                    "value": 0.0,
+                    "key": "_ABILITY_Pole_13502_AttackBuffLevel",
+                    "useLimitRange": true,
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_AttacktUpAfterReaction",
+            "abilitySpecials": {
+                "Rate": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Pole_AttacktUpAfterReaction_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "DoActionByElementReactionMixin",
+                            "entityTypes": [
+                                "Monster"
+                            ],
+                            "reactionTypes": [
+                                "Explode",
+                                "Stream",
+                                "Burning",
+                                "Melt",
+                                "Shock",
+                                "Freeze",
+                                "SwirlFire",
+                                "SwirlWater"
+                            ],
+                            "actions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Pole_AttacktUpAfterReaction"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_AttacktUpAfterReaction": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 20.0,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Rate"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Pole_AttacktUpAfterReaction_Handler"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    }
+]

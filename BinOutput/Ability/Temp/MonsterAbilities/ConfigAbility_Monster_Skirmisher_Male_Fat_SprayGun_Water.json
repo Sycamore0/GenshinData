@@ -1,0 +1,1405 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Male_Fat_SprayGun_Water_Improve",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_MONSTER_SKIRMISHER_IMPROVED_",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5
+                    ],
+                    "modifierNameSteps": [
+                        "EyeEffect_Normal",
+                        "EyeEffect_Improve"
+                    ]
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "modifierName": "ImprovedConfig"
+                },
+                {
+                    "$type": "AttachModifierToHPPercentMixin",
+                    "valueSteps": [
+                        0.5
+                    ],
+                    "modifierNameSteps": [
+                        "Empty",
+                        "Skirmisher_Male_Fat_SprayGun_Water_ForceImprove"
+                    ]
+                },
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        901,
+                        902,
+                        903
+                    ],
+                    "modifierName": "RemoveImproveState"
+                },
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        1,
+                        2
+                    ],
+                    "modifierName": "ResetMonsterSkill"
+                }
+            ],
+            "modifiers": {
+                "UNIQUE_Skirmisher_Male_Fat_SprayGun_Water_ImprovedState": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementType": "Water",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ShieldBarMixin",
+                            "showDamageText": ""
+                        },
+                        {
+                            "$type": "ModifyElementDecrateMixin",
+                            "group": "Monster_SingleElement_Method_Water"
+                        }
+                    ],
+                    "properties": {
+                        "Entity_WeightRatio": 5.0,
+                        "Actor_EndureDelta": 0.0,
+                        "Actor_PhysicalSubHurtDelta": 1.0,
+                        "Actor_FireSubHurtDelta": 1.0,
+                        "Actor_ElecSubHurtDelta": 1.0,
+                        "Actor_WaterSubHurtDelta": 1.0,
+                        "Actor_GrassSubHurtDelta": 1.0,
+                        "Actor_WindSubHurtDelta": 1.0,
+                        "Actor_IceSubHurtDelta": 1.0,
+                        "Actor_RockSubHurtDelta": 1.0
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "ImprovedState",
+                            "value": true
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Skirmisher_Male_Fat_SprayGun_Water_ImproveBS"
+                        },
+                        {
+                            "$type": "SetAISkillCDAvailableNow",
+                            "skillIDs": [
+                                501
+                            ]
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01"
+                                ]
+                            },
+                            "modifierName": "ImproveEffect_SprayGunEffect"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip02"
+                                ]
+                            },
+                            "modifierName": "ImproveEffect_BackPackEffect"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_MONSTER_SKIRMISHER_IMPROVED_",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 1.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_MONSTER_SKIRMISHER_IMPROVED_COUNT_",
+                            "useLimitRange": true,
+                            "maxValue": 99.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "_MOSNTER_SKIRMISHER_RETURNTOBORN_",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "triggerID": "WeakStart"
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "canBeHandledOnRecover": true,
+                            "boolID": "ImprovedState"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Skirmisher_Male_Fat_SprayGun_Water_ImproveAS"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 0.0,
+                            "key": "_MONSTER_SKIRMISHER_IMPROVED_",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip02"
+                                ]
+                            },
+                            "modifierName": "ImproveEffect_BackPackEffect"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01"
+                                ]
+                            },
+                            "modifierName": "ImproveEffect_SprayGunEffect"
+                        }
+                    ]
+                },
+                "ImproveEffect_SprayGunEffect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Skirmisher_Male_Fat_SprayGun_Water_SprayGunImprove"
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "Improved",
+                            "value": true
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "canBeHandledOnRecover": true,
+                            "boolID": "Improved"
+                        }
+                    ]
+                },
+                "ImproveEffect_BackPackEffect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Skirmisher_Male_Fat_SprayGun_Water_BackPackImprove"
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "Improved",
+                            "value": true
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "canBeHandledOnRecover": true,
+                            "boolID": "Improved"
+                        }
+                    ]
+                },
+                "EyeEffect_Normal": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Skirmisher_Male_Fat_SprayGun_Water_EyeNormal"
+                        }
+                    ]
+                },
+                "EyeEffect_Improve": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Skirmisher_Male_Fat_SprayGun_Ice_EyeToImprove"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Skirmisher_Male_Fat_SprayGun_Ice_EyeToNormal"
+                        }
+                    ]
+                },
+                "ImprovedConfig": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_EndureDelta": 0.0,
+                        "Actor_SubHurtDelta": 0.949999988079071
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "ClearEndura"
+                        }
+                    ]
+                },
+                "Skirmisher_Male_Fat_SprayGun_Water_ForceImprove": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetPoseBool",
+                            "canBeHandledOnRecover": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "_MONSTER_SKIRMISHER_IMPROVED_COUNT_",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "boolID": "SpecaialState",
+                            "value": true
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "SpecaialState"
+                        }
+                    ]
+                },
+                "RemoveImproveState": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "Invincible",
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_MOSNTER_SKIRMISHER_RETURNTOBORN_",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 1.0
+                        },
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Skirmisher_Male_Fat_SprayGun_Water_ImprovedState"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 0.0,
+                            "key": "_MOSNTER_SKIRMISHER_RETURNTOBORN_",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "ResetMonsterSkill": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 0.0,
+                            "key": "_MONSTER_SKIRMISHER_IMPROVED_COUNT_",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "SetAISkillCDAvailableNow",
+                            "skillIDs": [
+                                401,
+                                403
+                            ]
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ReTriggerAISkillInitialCD",
+                            "skillIDs": [
+                                401
+                            ]
+                        }
+                    ]
+                },
+                "Empty": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "UNIQUE_Skirmisher_Male_Fat_SprayGun_Water_ImprovedState"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Male_Fat_SprayGun_Water_Die",
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Skirmisher_Male_Fat_SprayGun_Water_ImprovedState"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Male_Fat_SprayGun_Water_EyeAlert",
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "target": "Self",
+                            "key": "_MONSTER_SKIRMISHER_IMPROVED_",
+                            "value": 0.0,
+                            "compareType": "NoneOrEqual"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Skirmisher_Male_Fat_SprayGun_Water_EyeImprove"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Male_Fat_SprayGun_Water_DamageWave",
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerBullet",
+                    "bulletID": 42301004,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "direction": {
+                            "$type": "ConfigDirectionByAttackTarget",
+                            "maxAngle": 60.0
+                        },
+                        "attachPointName": "WeaponEffect"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Skirmisher_Fat_SprayGun_Water_DamageWave_Explode",
+            "modifiers": {
+                "ElementalFlag": {
+                    "modifierName": "",
+                    "duration": 8.0,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachToAbilityStateMixin",
+                            "abilityStates": [
+                                "ElementWet"
+                            ],
+                            "modifierName": "HasWater"
+                        }
+                    ]
+                },
+                "HasWater": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_SKIRMISHER_ELEMENT_WATER_",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 1.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 0.0,
+                            "key": "_SKIRMISHER_ELEMENT_WATER_",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachEffect",
+                    "effectPattern": "Eff_Monster_Skirmisher_Male_Fat_SprayGun_Water_DamageWaveLoop"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Skirmisher_Male_Fat_SprayGun_Water_DamageWaveAS",
+                    "born": {
+                        "$type": "ConfigBornByCollisionPoint",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackSphere",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
+                            },
+                            "radius": 1.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 1.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Water",
+                                "elementDurability": 50.0,
+                                "strikeType": "Default",
+                                "enBreak": 50.0,
+                                "attackType": "Range"
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "default",
+                                "hitImpulseType": "LV2",
+                                "hitHaltTimeScale": 0.05000000074505806
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "target": "Target",
+                    "modifierName": "ElementalFlag"
+                },
+                {
+                    "$type": "KillSelf"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Male_Fat_SprayGun_Water_HealingWave",
+            "abilitySpecials": {
+                "HealHPRatio": 0.10000000149011612
+            },
+            "modifiers": {
+                "Skirmisher_Male_Fat_SprayGun_Water_HealingDetect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "Target",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetType",
+                                    "isTarget": false
+                                },
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "Skirmisher_Fat_SprayGun_Water_HealingWave"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "modifierName": "HealingWave_HealHp"
+                        }
+                    ]
+                },
+                "HealingWave_HealHp": {
+                    "modifierName": "",
+                    "duration": 5.099999904632568,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onAdded": [
+                        {
+                            "$type": "HealHP",
+                            "amountByTargetMaxHPRatio": "HealHPRatio"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Skirmisher_Male_Fat_SprayGun_Water_HealHp"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "HealHP",
+                            "amountByTargetMaxHPRatio": "HealHPRatio"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Shaman_Water_SupportAttack_Heal",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "RootNode"
+                            }
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Skirmisher_Male_Fat_SprayGun_Water_HealingDetect"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerBullet",
+                    "bulletID": 42301005,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "direction": {
+                            "$type": "ConfigDirectionByAttackTarget"
+                        },
+                        "attachPointName": "WeaponEffect"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Skirmisher_Fat_SprayGun_Water_HealingWave_Explode",
+            "modifiers": {
+                "HealingWave_Handler": {
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "target": "Caster",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackSphere",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornByGlobalValue",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        },
+                                        "positionKey": "_HealingWavePos_",
+                                        "directionKey": ""
+                                    },
+                                    "radius": 0.5
+                                },
+                                "attackInfo": {
+                                    "attackTag": "Skirmisher_Fat_SprayGun_Water_HealingWave",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 0.0,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementDurability": 100.0,
+                                        "strikeType": "Default"
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "none",
+                                        "hitImpulseType": "LV0",
+                                        "hitHaltTimeScale": 0.05000000074505806
+                                    }
+                                }
+                            },
+                            "targetType": "AllExceptSelf"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachEffect",
+                    "effectPattern": "Eff_Monster_Skirmisher_Male_Fat_SprayGun_Water_HealingWaveLoop"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "Predicated",
+                    "target": "Target",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetType",
+                            "isTarget": false
+                        },
+                        {
+                            "$type": "ByEntityTypes",
+                            "entityTypes": [
+                                "Monster"
+                            ]
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "SetGlobalPos",
+                            "target": "Target",
+                            "key": "_HealingWavePos_",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "attachPointName": "RootNode"
+                            },
+                            "setTarget": false
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "Owner",
+                            "modifierName": "HealingWave_Handler"
+                        }
+                    ]
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Skirmisher_Male_Fat_SprayGun_Water_HealingWaveAS",
+                    "born": {
+                        "$type": "ConfigBornByCollisionPoint",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                },
+                {
+                    "$type": "KillSelf"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Male_Fat_SprayGun_Water_ImprovedHealingWave",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "ImprovedHealingWave_AS",
+                        "HealingWave_AS",
+                        "RocketJump"
+                    ],
+                    "modifierName": "ResetSkillInitialCD"
+                }
+            ],
+            "modifiers": {
+                "ResetSkillInitialCD": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "ReTriggerAISkillInitialCD",
+                            "skillIDs": [
+                                201
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "Predicated",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByShape",
+                        "topLimit": 3,
+                        "shapeName": "CircleR20",
+                        "centerBasedOn": "SelfAttackTarget",
+                        "campTargetType": "Alliance",
+                        "sizeRatio": 1.0
+                    },
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetType",
+                            "isTarget": false
+                        },
+                        {
+                            "$type": "ByEntityTypes",
+                            "entityTypes": [
+                                "Monster"
+                            ]
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "SetSelfAttackTarget",
+                            "target": "Target"
+                        },
+                        {
+                            "$type": "TriggerBullet",
+                            "bulletID": 42301006,
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByAttachPoint",
+                                    "randomAngleHor": 60.0,
+                                    "randomAngleVer": 20.0,
+                                    "attachPointName": "WeaponEffect"
+                                },
+                                "attachPointName": "WeaponEffect"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "$type": "ResetAIAttackTarget"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Skirmisher_Fat_SprayGun_Water_ImprovedHealingWave_Explode",
+            "modifiers": {
+                "HealingWave_Handler": {
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "target": "Caster",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackSphere",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornByGlobalValue",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        },
+                                        "positionKey": "_HealingWavePos_",
+                                        "directionKey": ""
+                                    },
+                                    "radius": 0.5
+                                },
+                                "attackInfo": {
+                                    "attackTag": "Skirmisher_Fat_SprayGun_Water_HealingWave",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 0.0,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementDurability": 100.0,
+                                        "strikeType": "Default"
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "none",
+                                        "hitImpulseType": "LV0",
+                                        "hitHaltTimeScale": 0.05000000074505806
+                                    }
+                                }
+                            },
+                            "targetType": "AllExceptSelf"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachEffect",
+                    "effectPattern": "Eff_Monster_Skirmisher_Male_Fat_SprayGun_Water_HealingWaveLoop"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "Predicated",
+                    "target": "Target",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetType",
+                            "isTarget": false
+                        },
+                        {
+                            "$type": "ByEntityTypes",
+                            "entityTypes": [
+                                "Monster"
+                            ]
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "SetGlobalPos",
+                            "target": "Target",
+                            "key": "_HealingWavePos_",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "attachPointName": "RootNode"
+                            },
+                            "setTarget": false
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "Owner",
+                            "modifierName": "HealingWave_Handler"
+                        }
+                    ]
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Skirmisher_Male_Fat_SprayGun_Water_HealingWaveAS",
+                    "born": {
+                        "$type": "ConfigBornByCollisionPoint",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                },
+                {
+                    "$type": "KillSelf"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Male_Fat_SprayGun_Water_Weak",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "Weak"
+                    ],
+                    "modifierName": "WeakState"
+                },
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_MONSTER_SKIRMISHER_RECOVER",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5
+                    ],
+                    "modifierNameSteps": [
+                        "Empty",
+                        "Recover"
+                    ]
+                }
+            ],
+            "modifiers": {
+                "WeakState": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "_MONSTER_SKIRMISHER_RECOVER",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5
+                            ],
+                            "modifierNameSteps": [
+                                "Empty",
+                                "Recover"
+                            ]
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "WeakState",
+                            "value": true
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 0.0,
+                            "key": "_MONSTER_SKIRMISHER_RECOVER",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_MONSTER_SKIRMISHER_WEAK_",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 1.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetPoseBool",
+                            "canBeHandledOnRecover": true,
+                            "boolID": "WeakState"
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_MONSTER_SKIRMISHER_RECOVER",
+                                    "value": 1.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetAISkillCDAvailableNow",
+                                    "skillIDs": [
+                                        402
+                                    ]
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "ReTriggerAISkillInitialCD",
+                                    "skillIDs": [
+                                        402
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "canBeHandledOnRecover": true,
+                            "value": 0.0,
+                            "key": "_MONSTER_SKIRMISHER_RECOVER",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "canBeHandledOnRecover": true,
+                            "value": 0.0,
+                            "key": "_MONSTER_SKIRMISHER_WEAK_",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "Recover": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "Recover"
+                        }
+                    ]
+                },
+                "Empty": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Male_Fat_SprayGun_Water_RocketJump",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "RocketJump"
+                    ],
+                    "modifierName": "RocketJumpState"
+                },
+                {
+                    "$type": "AttachToNormalizedTimeMixin",
+                    "stateID": "RocketJump",
+                    "modifierName": "BackPackEffect",
+                    "normalizeStart": 0.47999998927116394,
+                    "normalizeEnd": 0.800000011920929
+                }
+            ],
+            "modifiers": {
+                "RocketJumpState": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "topLimit": 1,
+                                "shapeName": "CircleR25",
+                                "campTargetType": "Alliance",
+                                "sizeRatio": 1.0
+                            },
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetType",
+                                    "isTarget": false
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetSelfAttackTarget",
+                                    "target": "Target"
+                                }
+                            ]
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ResetAIAttackTarget"
+                        },
+                        {
+                            "$type": "SetAISkillCDAvailableNow",
+                            "skillIDs": [
+                                101
+                            ]
+                        }
+                    ]
+                },
+                "BackPackEffect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip02"
+                                ]
+                            },
+                            "modifierName": "RocketJump_BackPackEffect"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "DamageByAttackValue",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR3.5H2",
+                                "campTargetType": "Enemy",
+                                "sizeRatio": 1.0
+                            },
+                            "attackInfo": {
+                                "attackTag": "",
+                                "attenuationTag": "",
+                                "attenuationGroup": "default",
+                                "attackProperty": {
+                                    "damagePercentage": 0.25,
+                                    "damagePercentageRatio": 0.0,
+                                    "elementType": "Water",
+                                    "elementDurability": 25.0,
+                                    "strikeType": "Blunt",
+                                    "enBreak": 200.0
+                                },
+                                "hitPattern": {
+                                    "onHitEffectName": "default",
+                                    "hitImpulseType": "LV5",
+                                    "hitHaltTimeScale": 0.05000000074505806,
+                                    "muteHitText": true
+                                },
+                                "forceCameraShake": true,
+                                "cameraShake": {
+                                    "shakeType": "CustomVector",
+                                    "shakeRange": 0.800000011920929,
+                                    "shakeTime": 0.5,
+                                    "shakeDistance": 30.0,
+                                    "shakeDir": {
+                                        "y": 1.0,
+                                        "z": 1.0
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                "RocketJump_BackPackEffect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Skirmisher_Male_Fat_SprayGun_Water_RocketJumpLoop1"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Skirmisher_Male_Fat_SprayGun_Water_RocketJumpLoop2"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Male_Fat_SprayGun_Water_SprayGunAlert",
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByEquipParts",
+                        "equipPartNames": [
+                            "equip01"
+                        ]
+                    },
+                    "effectPattern": "Eff_Monster_Skirmisher_Male_Fat_SprayGun_Water_SprayGunAlert"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Male_Fat_SprayGun_Water_BackPackAlert",
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByEquipParts",
+                        "equipPartNames": [
+                            "equip02"
+                        ]
+                    },
+                    "effectPattern": "Eff_Monster_Skirmisher_Male_Fat_BackPack_Water_BackPackAlert"
+                },
+                {
+                    "$type": "FireEffect",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByEquipParts",
+                        "equipPartNames": [
+                            "equip02"
+                        ]
+                    },
+                    "effectPattern": "Eff_Monster_Skirmisher_Male_Fat_BackPack_Water_BackPackAlertR"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Male_Fat_SprayGun_Water_WeaponSpecialElementState",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToAbilityStateMixin",
+                    "abilityStates": [
+                        "ElementFreeze"
+                    ],
+                    "modifierName": "WeaponElementFreezeHandler"
+                },
+                {
+                    "$type": "AttachToAbilityStateMixin",
+                    "abilityStates": [
+                        "ElementPetrifaction"
+                    ],
+                    "modifierName": "WeaponElementPetrifactionHandler"
+                }
+            ],
+            "modifiers": {
+                "WeaponElementFreezeHandler": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02"
+                                ]
+                            },
+                            "modifierName": "WeaponElementFreeze"
+                        }
+                    ]
+                },
+                "WeaponElementPetrifactionHandler": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02"
+                                ]
+                            },
+                            "modifierName": "WeaponElementPetrifaction"
+                        }
+                    ]
+                },
+                "WeaponElementFreeze": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "ElementFreeze"
+                },
+                "WeaponElementPetrifaction": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "ElementPetrifaction"
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Male_Fat_SprayGun_Water_Steer",
+            "abilityMixins": [
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "Turn"
+                    ],
+                    "angularSpeed": 150.0,
+                    "attackTrigger": "",
+                    "attackDistance": 2.0
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "MeleeAtk"
+                    ],
+                    "endNormalizedTime": 0.2800000011920929,
+                    "angularSpeed": 90.0,
+                    "attackTrigger": "",
+                    "attackDistance": 2.0
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "RocketJump"
+                    ],
+                    "endNormalizedTime": 0.5299999713897705,
+                    "angularSpeed": 150.0,
+                    "attackTrigger": "",
+                    "attackDistance": 2.0
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "ImprovedHealingWave_AS"
+                    ],
+                    "endNormalizedTime": 0.4000000059604645,
+                    "angularSpeed": 120.0,
+                    "attackTrigger": "",
+                    "attackDistance": 2.0
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "HealingWave_AS"
+                    ],
+                    "endNormalizedTime": 0.4000000059604645,
+                    "angularSpeed": 120.0,
+                    "attackTrigger": "",
+                    "attackDistance": 2.0
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "DamageWave_AS"
+                    ],
+                    "endNormalizedTime": 0.4000000059604645,
+                    "angularSpeed": 120.0,
+                    "attackTrigger": "",
+                    "attackDistance": 2.0
+                }
+            ]
+        }
+    }
+]

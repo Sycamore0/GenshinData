@@ -1,0 +1,1579 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Shaman_SpecialsState",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        9012
+                    ],
+                    "modifierName": "SpecialsState"
+                }
+            ],
+            "modifiers": {
+                "SpecialsState": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Entity_MassRatio": 9999.0,
+                        "Entity_WeightRatio": 5.0
+                    },
+                    "onBeingHit": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "Dance"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Shaman_Water_HealRain",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "SupportAttack",
+                        "SupportAttack2"
+                    ],
+                    "modifierName": "HealRain_Monitor"
+                }
+            ],
+            "abilitySpecials": {
+                "HEAL": 0.20000000298023224
+            },
+            "modifiers": {
+                "HealRain_Monitor": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ELITEAFFIX_SUPPORT_ENHANCE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "modifierName": "HealRain_CreatGadget"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ELITEAFFIX_SUPPORT_ENHANCE",
+                                    "value": 1.0
+                                }
+                            ],
+                            "modifierName": "HealRain_FollowTarget"
+                        }
+                    ]
+                },
+                "HealRain_CreatGadget": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "_FINDTAG",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_LIFETAG",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR25",
+                                "campTargetType": "Alliance",
+                                "sizeRatio": 1.0
+                            },
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetType",
+                                    "isTarget": false
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "Predicated",
+                                    "otherTargets": {
+                                        "$type": "SelectTargetsByShape",
+                                        "shapeName": "CircleR10",
+                                        "centerBasedOn": "SelfAttackTarget",
+                                        "campTargetType": "Alliance",
+                                        "sizeRatio": 1.0
+                                    },
+                                    "targetPredicates": [
+                                        {
+                                            "$type": "ByTargetType",
+                                            "isTarget": false
+                                        },
+                                        {
+                                            "$type": "ByEntityTypes",
+                                            "entityTypes": [
+                                                "Monster"
+                                            ]
+                                        }
+                                    ],
+                                    "successActions": [
+                                        {
+                                            "$type": "CreateGadget",
+                                            "target": "Target",
+                                            "predicates": [
+                                                {
+                                                    "$type": "ByTargetGlobalValue",
+                                                    "key": "_FINDTAG",
+                                                    "forceByCaster": true
+                                                }
+                                            ],
+                                            "born": {
+                                                "$type": "ConfigBornByTarget",
+                                                "onGround": true
+                                            },
+                                            "gadgetID": 42103002,
+                                            "campID": 4001
+                                        },
+                                        {
+                                            "$type": "AddGlobalValue",
+                                            "value": 1.0,
+                                            "key": "_FINDTAG",
+                                            "useLimitRange": true,
+                                            "maxValue": 1.0,
+                                            "minValue": 0.0
+                                        }
+                                    ]
+                                },
+                                {
+                                    "$type": "CreateGadget",
+                                    "target": "Target",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_FINDTAG",
+                                            "forceByCaster": true
+                                        }
+                                    ],
+                                    "born": {
+                                        "$type": "ConfigBornByTarget",
+                                        "onGround": true
+                                    },
+                                    "gadgetID": 42103002,
+                                    "campID": 4001
+                                },
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "value": 1.0,
+                                    "key": "_FINDTAG",
+                                    "useLimitRange": true,
+                                    "maxValue": 1.0,
+                                    "minValue": 0.0
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_FINDTAG",
+                                    "forceByCaster": true
+                                }
+                            ],
+                            "triggerID": "SupportAttackExit"
+                        },
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_FINDTAG",
+                                    "forceByCaster": true
+                                }
+                            ],
+                            "triggerID": "SupportAttackExit2"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "_LIFETAG",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "_FINDTAG",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "_LIFETAG",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "HealRain_FollowTarget": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "_FINDTAG",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_LIFETAG",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR25",
+                                "campTargetType": "Alliance",
+                                "sizeRatio": 1.0
+                            },
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetType",
+                                    "isTarget": false
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Target",
+                                    "modifierName": "Shaman_Water_HP_Monitor"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR25",
+                                "campTargetType": "Alliance",
+                                "sizeRatio": 1.0
+                            },
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetType",
+                                    "isTarget": false
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_SHAMAN_WATER_HP_STAGE",
+                                    "value": 5.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Target",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_FINDTAG",
+                                            "forceByCaster": true
+                                        }
+                                    ],
+                                    "modifierName": "Shaman_Water_Follow_HealRain"
+                                },
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "value": 1.0,
+                                    "key": "_FINDTAG",
+                                    "useLimitRange": true,
+                                    "maxValue": 1.0,
+                                    "minValue": 0.0
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR25",
+                                "campTargetType": "Alliance",
+                                "sizeRatio": 1.0
+                            },
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetType",
+                                    "isTarget": false
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_SHAMAN_WATER_HP_STAGE",
+                                    "value": 4.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Target",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_FINDTAG",
+                                            "forceByCaster": true
+                                        }
+                                    ],
+                                    "modifierName": "Shaman_Water_Follow_HealRain"
+                                },
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "value": 1.0,
+                                    "key": "_FINDTAG",
+                                    "useLimitRange": true,
+                                    "maxValue": 1.0,
+                                    "minValue": 0.0
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR25",
+                                "campTargetType": "Alliance",
+                                "sizeRatio": 1.0
+                            },
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetType",
+                                    "isTarget": false
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_SHAMAN_WATER_HP_STAGE",
+                                    "value": 3.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Target",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_FINDTAG",
+                                            "forceByCaster": true
+                                        }
+                                    ],
+                                    "modifierName": "Shaman_Water_Follow_HealRain"
+                                },
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "value": 1.0,
+                                    "key": "_FINDTAG",
+                                    "useLimitRange": true,
+                                    "maxValue": 1.0,
+                                    "minValue": 0.0
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR25",
+                                "campTargetType": "Alliance",
+                                "sizeRatio": 1.0
+                            },
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetType",
+                                    "isTarget": false
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_SHAMAN_WATER_HP_STAGE",
+                                    "value": 2.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Target",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_FINDTAG",
+                                            "forceByCaster": true
+                                        }
+                                    ],
+                                    "modifierName": "Shaman_Water_Follow_HealRain"
+                                },
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "value": 1.0,
+                                    "key": "_FINDTAG",
+                                    "useLimitRange": true,
+                                    "maxValue": 1.0,
+                                    "minValue": 0.0
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR25",
+                                "campTargetType": "Alliance",
+                                "sizeRatio": 1.0
+                            },
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetType",
+                                    "isTarget": false
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_SHAMAN_WATER_HP_STAGE",
+                                    "value": 1.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Target",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_FINDTAG",
+                                            "forceByCaster": true
+                                        }
+                                    ],
+                                    "modifierName": "Shaman_Water_Follow_HealRain"
+                                },
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "value": 1.0,
+                                    "key": "_FINDTAG",
+                                    "useLimitRange": true,
+                                    "maxValue": 1.0,
+                                    "minValue": 0.0
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR25",
+                                "campTargetType": "Alliance",
+                                "sizeRatio": 1.0
+                            },
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetType",
+                                    "isTarget": false
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Target",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_FINDTAG",
+                                            "forceByCaster": true
+                                        }
+                                    ],
+                                    "modifierName": "Shaman_Water_Follow_HealRain"
+                                },
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "value": 1.0,
+                                    "key": "_FINDTAG",
+                                    "useLimitRange": true,
+                                    "maxValue": 1.0,
+                                    "minValue": 0.0
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_FINDTAG",
+                                    "forceByCaster": true
+                                }
+                            ],
+                            "triggerID": "SupportAttackExit"
+                        },
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_FINDTAG",
+                                    "forceByCaster": true
+                                }
+                            ],
+                            "triggerID": "SupportAttackExit2"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "_LIFETAG",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "_FINDTAG",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "_LIFETAG",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "Shaman_Water_HP_Monitor": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToHPPercentMixin",
+                            "valueSteps": [
+                                0.800000011920929,
+                                0.6000000238418579,
+                                0.4000000059604645,
+                                0.20000000298023224
+                            ],
+                            "modifierNameSteps": [
+                                "Shaman_Water_HP_Stage1",
+                                "Shaman_Water_HP_Stage2",
+                                "Shaman_Water_HP_Stage3",
+                                "Shaman_Water_HP_Stage4",
+                                "Shaman_Water_HP_Stage5"
+                            ]
+                        }
+                    ]
+                },
+                "Shaman_Water_HP_Stage1": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_SHAMAN_WATER_HP_STAGE",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 1.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "_SHAMAN_WATER_HP_STAGE",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 1.0
+                        }
+                    ]
+                },
+                "Shaman_Water_HP_Stage2": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 2.0,
+                            "key": "_SHAMAN_WATER_HP_STAGE",
+                            "useLimitRange": true,
+                            "maxValue": 2.0,
+                            "minValue": 1.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -2.0,
+                            "key": "_SHAMAN_WATER_HP_STAGE",
+                            "useLimitRange": true,
+                            "maxValue": 2.0,
+                            "minValue": 1.0
+                        }
+                    ]
+                },
+                "Shaman_Water_HP_Stage3": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 3.0,
+                            "key": "_SHAMAN_WATER_HP_STAGE",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 1.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -3.0,
+                            "key": "_SHAMAN_WATER_HP_STAGE",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 1.0
+                        }
+                    ]
+                },
+                "Shaman_Water_HP_Stage4": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 4.0,
+                            "key": "_SHAMAN_WATER_HP_STAGE",
+                            "useLimitRange": true,
+                            "maxValue": 4.0,
+                            "minValue": 1.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -4.0,
+                            "key": "_SHAMAN_WATER_HP_STAGE",
+                            "useLimitRange": true,
+                            "maxValue": 4.0,
+                            "minValue": 1.0
+                        }
+                    ]
+                },
+                "Shaman_Water_HP_Stage5": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 5.0,
+                            "key": "_SHAMAN_WATER_HP_STAGE",
+                            "useLimitRange": true,
+                            "maxValue": 5.0,
+                            "minValue": 1.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -5.0,
+                            "key": "_SHAMAN_WATER_HP_STAGE",
+                            "useLimitRange": true,
+                            "maxValue": 5.0,
+                            "minValue": 1.0
+                        }
+                    ]
+                },
+                "Shaman_Water_Follow_HealRain": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "HealRain_Feild_LifeTime"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Shaman_Water_SupportAttack_HealRain"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Heal_Buff"
+                        }
+                    ]
+                },
+                "HealRain_Feild_LifeTime": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.10000000149011612,
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "HealRain_Feild_Kill"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "HealRainDie"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Heal_Buff"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "RemoveModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_LIFETAG",
+                                    "value": 0.0,
+                                    "forceByCaster": true
+                                }
+                            ],
+                            "modifierName": "HealRain_Feild_LifeTime"
+                        }
+                    ]
+                },
+                "Heal_Buff": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "HealHP",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR5",
+                                "campTargetType": "Alliance",
+                                "sizeRatio": 1.0
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "amountByTargetMaxHPRatio": "HEAL"
+                        },
+                        {
+                            "$type": "HealHP",
+                            "amountByTargetMaxHPRatio": "HEAL"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR5",
+                                "campTargetType": "Alliance",
+                                "sizeRatio": 1.0
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "effectPattern": "Eff_Monster_Shaman_Water_SupportAttack_Heal",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "RootNode"
+                            }
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR5",
+                                "campTargetType": "All",
+                                "sizeRatio": 1.0
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Equip"
+                                    ],
+                                    "reject": true
+                                }
+                            ],
+                            "modifierName": "HealRain_WetModifer"
+                        }
+                    ]
+                },
+                "HealRain_WetModifer": {
+                    "modifierName": "",
+                    "duration": 8.0,
+                    "elementType": "Water",
+                    "elementDurability": 50.0
+                },
+                "HealRain_Feild_Kill": {
+                    "modifierName": "",
+                    "duration": 2.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Shaman_Water_Follow_HealRain"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Shaman_HealRain",
+            "abilitySpecials": {
+                "HEAL": 0.10000000149011612,
+                "lifetag": 0.0
+            },
+            "modifiers": {
+                "HealRain_Feild_LifeTime": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.10000000149011612,
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "HealRain_Feild_Kill"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "HealRainDie"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Heal_Buff"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "SetGlobalValueToOverrideMap",
+                            "isFromOwner": true,
+                            "globalValueKey": "_LIFETAG",
+                            "overrideMapKey": "lifetag"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetOverrideMapValue",
+                                    "target": "Self",
+                                    "logic": "Equal",
+                                    "targetAbilityName": "",
+                                    "targetKey": "lifetag",
+                                    "targetValue": 0.0
+                                }
+                            ],
+                            "modifierName": "HealRain_Feild_LifeTime"
+                        }
+                    ]
+                },
+                "HealRain_Effect_LifeTime": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Shaman_Water_SupportAttack_HealRain"
+                        }
+                    ]
+                },
+                "Heal_Buff": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "HealHP",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR5",
+                                "campTargetType": "Alliance",
+                                "sizeRatio": 1.0
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "amountByTargetMaxHPRatio": "HEAL"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR5",
+                                "campTargetType": "Alliance",
+                                "sizeRatio": 1.0
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "effectPattern": "Eff_Monster_Shaman_Water_SupportAttack_Heal",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "RootNode"
+                            }
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR5",
+                                "campTargetType": "AllExceptSelf",
+                                "sizeRatio": 1.0
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Equip"
+                                    ],
+                                    "reject": true
+                                }
+                            ],
+                            "modifierName": "HealRain_WetModifer"
+                        }
+                    ]
+                },
+                "HealRain_WetModifer": {
+                    "modifierName": "",
+                    "duration": 8.0,
+                    "elementType": "Water",
+                    "elementDurability": 50.0
+                },
+                "HealRain_Feild_Kill": {
+                    "modifierName": "",
+                    "duration": 2.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "HealRain_Feild_LifeTime"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "HealRain_Effect_LifeTime"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "Heal_Buff"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Shaman_Water_CreateTorrent",
+            "onAbilityStart": [
+                {
+                    "$type": "CreateGadget",
+                    "target": "SelfAttackTarget",
+                    "born": {
+                        "$type": "ConfigBornByPredicatePoint",
+                        "onGround": true,
+                        "alongGround": true,
+                        "timeForPredictive": 0.75
+                    },
+                    "gadgetID": 42103007,
+                    "campID": 4001,
+                    "campTargetType": "All"
+                },
+                {
+                    "$type": "Predicated",
+                    "target": "SelfAttackTarget",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetPositionToSelfPosition",
+                            "logic": "Lesser",
+                            "value": 10.0
+                        },
+                        {
+                            "$type": "ByTargetPositionToSelfPosition",
+                            "value": 3.5
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "NormalAttackWave2"
+                        },
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "NormalAttackWave3"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Shaman_Torrent_Area_Damage",
+            "modifiers": {
+                "Torrent_Damage_Timer": {
+                    "modifierName": "",
+                    "duration": 1.5,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Torrent_Damage"
+                        }
+                    ]
+                },
+                "Torrent_Damage": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackBox",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornByTarget",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 1.25,
+                                            "z": -0.75
+                                        }
+                                    },
+                                    "size": {
+                                        "x": 1.25,
+                                        "y": 2.5,
+                                        "z": 1.25
+                                    }
+                                },
+                                "attackInfo": {
+                                    "attackTag": "",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 1.0,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Water",
+                                        "elementDurability": 50.0,
+                                        "strikeType": "Default",
+                                        "enBreak": 50.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV4",
+                                        "hitHaltTimeScale": 0.05000000074505806
+                                    },
+                                    "forceCameraShake": true,
+                                    "cameraShake": {
+                                        "shakeType": "CustomVector",
+                                        "shakeRange": 0.03999999910593033,
+                                        "shakeTime": 0.09000000357627869,
+                                        "shakeDir": {
+                                            "y": 1.0
+                                        }
+                                    }
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Shaman_Water_Torrent",
+                    "born": {
+                        "$type": "ConfigBornByTarget",
+                        "onGround": true,
+                        "alongGround": true
+                    }
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Torrent_Damage_Timer"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Shaman_Water_SetPose",
+            "modifiers": {
+                "Shaman_Water_SetPose": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.10000000149011612,
+                    "onThinkInterval": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -10.0,
+                            "key": "_ABILITY_SHAMAN_WATER_ALLIANCE_COUNT",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR10",
+                                "centerBasedOn": "SelfAttackTarget",
+                                "campTargetType": "Alliance",
+                                "sizeRatio": 1.0
+                            },
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetType",
+                                    "isTarget": false
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "value": 1.0,
+                                    "key": "_ABILITY_SHAMAN_WATER_ALLIANCE_COUNT",
+                                    "useLimitRange": true,
+                                    "maxValue": 1.0,
+                                    "minValue": 0.0
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_SHAMAN_WATER_ALLIANCE_COUNT",
+                                    "value": 0.0,
+                                    "compareType": "MoreThan"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetPoseBool",
+                                    "boolID": "HasAllianceState",
+                                    "value": true
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetPoseBool",
+                                    "boolID": "HasAllianceState"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "Shaman_Water_SetPose"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Shaman_Water_DistanceCharge",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "SupportAttack",
+                        "NormalAttack",
+                        "SupportAttack2"
+                    ],
+                    "modifierName": "Shaman_Water_DistanceCharge"
+                }
+            ],
+            "modifiers": {
+                "Shaman_Water_DistanceCharge": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.20000000298023224,
+                    "onThinkInterval": [
+                        {
+                            "$type": "Predicated",
+                            "target": "SelfAttackTarget",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "Lesser",
+                                    "value": 3.5
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "_ELITEAFFIX_SUPPORT_ENHANCE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetAnimatorTrigger",
+                                    "triggerID": "SupportAttackExit2"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "target": "SelfAttackTarget",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "Lesser",
+                                    "value": 8.5
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "_ELITEAFFIX_SUPPORT_ENHANCE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetAnimatorTrigger",
+                                    "triggerID": "SupportAttackExit"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Shaman_Water_EscapeState",
+            "modifiers": {
+                "Shaman_Water_EscapeState": {
+                    "modifierName": "",
+                    "duration": 1.75,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "EscapeState",
+                            "value": true
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetPoseBool",
+                            "canBeHandledOnRecover": true,
+                            "boolID": "EscapeState"
+                        }
+                    ],
+                    "onBeingHit": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Shaman_Water_EscapeState"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "ApplyModifier",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetPositionToSelfPosition",
+                            "logic": "Lesser",
+                            "value": 5.0
+                        }
+                    ],
+                    "modifierName": "Shaman_Water_EscapeState"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Shaman_Water_AnimationSteer",
+            "abilityMixins": [
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "NormalAttack_BS1"
+                    ],
+                    "angularSpeed": 180.0,
+                    "attackTrigger": "",
+                    "attackDistance": 12.0
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "NormalAttack_BS2"
+                    ],
+                    "angularSpeed": 180.0,
+                    "attackTrigger": "",
+                    "attackDistance": 12.0
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "NormalAttack_BS3"
+                    ],
+                    "angularSpeed": 180.0,
+                    "attackTrigger": "",
+                    "attackDistance": 12.0
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "SupportAttack_BS"
+                    ],
+                    "angularSpeed": 180.0,
+                    "attackTrigger": "",
+                    "attackDistance": 12.0
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "MeleeAttack"
+                    ],
+                    "endNormalizedTime": 0.15000000596046448,
+                    "angularSpeed": 180.0,
+                    "attackTrigger": "",
+                    "attackDistance": 12.0
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "Turn"
+                    ],
+                    "startNormalizedTime": 0.20000000298023224,
+                    "endNormalizedTime": 0.75,
+                    "angularSpeed": 120.0,
+                    "attackTrigger": "",
+                    "attackDistance": 12.0
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Shaman_Water_WeaponElementEffect",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "SupportAttack",
+                        "SupportAttack2",
+                        "SupportAttack_BS"
+                    ],
+                    "modifierName": "Effect_SupportAttack"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "NormalAttack",
+                        "NormalAttack_BS"
+                    ],
+                    "modifierName": "WeaponEffect_NormalAttack"
+                }
+            ],
+            "modifiers": {
+                "Effect_SupportAttack": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Shaman_Water_WeaponElement_Rain"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Shaman_SupportAttack_Gather"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "parameter": "GatherDie",
+                            "effectPattern": "Eff_Monster_Shaman_Water_SupportAttack_Gather"
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Effect_SupportAttack"
+                        }
+                    ]
+                },
+                "Shaman_SupportAttack_Gather": {
+                    "modifierName": "",
+                    "duration": 10.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Shaman_Water_SupportAttack_Gather",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "onGround": true,
+                                "alongGround": true
+                            }
+                        }
+                    ]
+                },
+                "WeaponEffect_NormalAttack": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Shaman_Water_WeaponElement_Up"
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "WeaponEffect_NormalAttack"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Shaman_Water_WeaponInit",
+            "onAdded": [
+                {
+                    "$type": "TriggerAbility",
+                    "target": "Owner",
+                    "abilityName": "Monster_Shaman_Water_WeaponElementEffect"
+                }
+            ]
+        }
+    }
+]

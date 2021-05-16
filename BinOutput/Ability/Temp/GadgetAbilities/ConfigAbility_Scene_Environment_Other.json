@@ -1,0 +1,178 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Environment_Field_30",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "State_201"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 202,
+                    "modifierName": "State_202"
+                }
+            ],
+            "modifiers": {
+                "State_201": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_Cur_Gadget_State",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 1.0
+                        }
+                    ]
+                },
+                "State_202": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "_Cur_Gadget_State",
+                            "useLimitRange": true,
+                            "maxValue": -1.0,
+                            "minValue": -1.0
+                        }
+                    ]
+                },
+                "Distance_Check": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 3.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "Predicated",
+                            "target": "CurLocalAvatar",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "Lesser",
+                                    "value": 30.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "value": 1.0,
+                                    "key": "_Next_Gadget_State",
+                                    "useLimitRange": true,
+                                    "maxValue": 1.0,
+                                    "minValue": 1.0
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "value": -1.0,
+                                    "key": "_Next_Gadget_State",
+                                    "useLimitRange": true,
+                                    "maxValue": -1.0,
+                                    "minValue": -1.0
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Change_State"
+                        }
+                    ]
+                },
+                "Change_State": {
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ExecuteGadgetLua",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_Next_Gadget_State",
+                                    "value": 1.0
+                                },
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_Cur_Gadget_State",
+                                            "value": 1.0
+                                        }
+                                    ]
+                                }
+                            ],
+                            "param1": 201
+                        },
+                        {
+                            "$type": "ExecuteGadgetLua",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_Next_Gadget_State",
+                                    "value": -1.0
+                                },
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_Cur_Gadget_State",
+                                            "value": -1.0
+                                        }
+                                    ]
+                                }
+                            ],
+                            "param1": 202
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "Distance_Check"
+                },
+                {
+                    "$type": "AddGlobalValue",
+                    "value": 0.0,
+                    "key": "_Cur_Gadget_State",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Environment_Other_AreaGuardian",
+            "modifiers": {
+                "GuardianStart": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onBeingHit": [
+                        {
+                            "$type": "ExecuteGroupTrigger",
+                            "sourceName": "GuardianStart"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "GuardianStart"
+                }
+            ]
+        }
+    }
+]

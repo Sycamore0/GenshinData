@@ -1,0 +1,4338 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_ChangeColor",
+            "modifiers": {
+                "handler": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "_ABILITY_WEAPONSKILL_ChangeColor_COUNT",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5,
+                                2.5,
+                                3.5,
+                                4.5,
+                                5.5,
+                                6.5,
+                                100.0
+                            ],
+                            "modifierNameSteps": [
+                                "No_Color",
+                                "Water",
+                                "Fire",
+                                "Ice",
+                                "Wind",
+                                "Electric",
+                                "Rock",
+                                "Reset"
+                            ]
+                        }
+                    ]
+                },
+                "No_Color": {
+                    "modifierName": "",
+                    "elementDurability": 20.0,
+                    "overrideWeaponElement": true
+                },
+                "Water": {
+                    "modifierName": "",
+                    "elementType": "Water",
+                    "elementDurability": 20.0,
+                    "overrideWeaponElement": true
+                },
+                "Fire": {
+                    "modifierName": "",
+                    "elementType": "Fire",
+                    "elementDurability": 20.0,
+                    "overrideWeaponElement": true
+                },
+                "Ice": {
+                    "modifierName": "",
+                    "elementType": "Ice",
+                    "elementDurability": 20.0,
+                    "overrideWeaponElement": true
+                },
+                "Wind": {
+                    "modifierName": "",
+                    "elementType": "Wind",
+                    "elementDurability": 20.0,
+                    "overrideWeaponElement": true
+                },
+                "Electric": {
+                    "modifierName": "",
+                    "elementType": "Electric",
+                    "elementDurability": 20.0,
+                    "overrideWeaponElement": true
+                },
+                "Rock": {
+                    "modifierName": "",
+                    "elementType": "Rock",
+                    "elementDurability": 20.0,
+                    "overrideWeaponElement": true
+                },
+                "Reset": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -10.0,
+                            "key": "_ABILITY_WEAPONSKILL_ChangeColor_COUNT",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "handler"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": 1.0,
+                    "key": "_ABILITY_WEAPONSKILL_ChangeColor_COUNT",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_Norse",
+            "abilitySpecials": {
+                "HealHP": 100.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_Norse_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Sword_Norse_Timer"
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_Norse_Timer": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.5,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "HealHP",
+                            "amount": "HealHP"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Sword_Norse_Handler"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_Zephyrus",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionByEnergyChangeMixin",
+                    "elementTypes": [
+                        "Water",
+                        "Fire",
+                        "Electric",
+                        "Ice",
+                        "Frozen",
+                        "Wind",
+                        "Rock"
+                    ],
+                    "doWhenEnergyMax": true,
+                    "onGainEnergyMax": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_Sword_Zephyrus_Handler"
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "HealHP": 0.11999999731779099
+            },
+            "modifiers": {
+                "UNIQUE_Sword_Zephyrus_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 45.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "CurTeamAvatars",
+                            "modifierName": "UNIQUE_Sword_Zephyrus_Heal"
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_Zephyrus_Heal": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 45.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "HealHP",
+                            "doOffStage": true,
+                            "amountByTargetMaxHPRatio": "HealHP"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_Test_Aoe",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionByEnergyChangeMixin",
+                    "elementTypes": [
+                        "Water",
+                        "Fire",
+                        "Electric",
+                        "Ice",
+                        "Frozen",
+                        "Wind",
+                        "Rock"
+                    ],
+                    "doWhenEnergyMax": true,
+                    "onGainEnergyMax": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Sword_Test_Wind"
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "AttackRatio": 5.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_Test_Wind": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 2.799999952316284,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.6000000238418579,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Avatar_WindBreathe_Tornado_Wind"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "DamageByAttackValue",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
+                            },
+                            "attackInfo": {
+                                "attackTag": "",
+                                "attenuationTag": "",
+                                "attenuationGroup": "default",
+                                "attackProperty": {
+                                    "damagePercentage": 0.0,
+                                    "damagePercentageRatio": 0.0,
+                                    "elementDurability": 100.0,
+                                    "damageExtra": "AttackRatio"
+                                },
+                                "hitPattern": {
+                                    "onHitEffectName": "default",
+                                    "hitImpulseX": 0.0,
+                                    "hitImpulseY": 0.0,
+                                    "hitImpulseType": "",
+                                    "hitHaltTime": 0.029999999329447746,
+                                    "hitHaltTimeScale": 0.009999999776482582
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_Zephyrus",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionByEnergyChangeMixin",
+                    "elementTypes": [
+                        "Water",
+                        "Fire",
+                        "Electric",
+                        "Ice",
+                        "Frozen",
+                        "Wind",
+                        "Rock"
+                    ],
+                    "doWhenEnergyMax": true,
+                    "onGainEnergyMax": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_Pole_Zephyrus_Handler"
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "HealHP": 0.029999999329447746
+            },
+            "modifiers": {
+                "UNIQUE_Pole_Zephyrus_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 5.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Pole_Zephyrus_Heal"
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_Zephyrus_Heal": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 5.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "HealHP",
+                            "doOffStage": true,
+                            "amountByTargetMaxHPRatio": "HealHP"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_NormalAttackUpUnlessBeinghit",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Weapon_Pole_NormalAttackUpUnlessBeinghit",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -1.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_NormalAttackUp_CD",
+                        "UNIQUE_Pole_NormalAttackUpUnlessBeinghit"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.20000000298023224
+            },
+            "modifiers": {
+                "UNIQUE_Pole_NormalAttackUpUnlessBeinghit": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "NormalAttack_01",
+                                "NormalAttack_02",
+                                "NormalAttack_03",
+                                "NormalAttack_04",
+                                "NormalAttack_05",
+                                "NormalAttack_06"
+                            ],
+                            "damagePercentageRatio": "Rate"
+                        }
+                    ],
+                    "onBeingHit": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                }
+                            ],
+                            "value": -1.0,
+                            "key": "_ABILITY_Weapon_Pole_NormalAttackUpUnlessBeinghit",
+                            "useLimitRange": true,
+                            "maxValue": -1.0,
+                            "minValue": -1.0
+                        }
+                    ]
+                },
+                "UNIQUE_NormalAttackUp_CD": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 10.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Pole_NormalAttackUpUnlessBeinghit",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Claymore_Zephyrus",
+            "abilityMixins": [
+                {
+                    "$type": "OnAvatarUseSkillMixin",
+                    "onTriggerSkill": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Claymore_Zephyrus_Handler"
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "GetElementRatio": 1.0
+            },
+            "modifiers": {
+                "UNIQUE_Claymore_Zephyrus_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 4.0,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitCritical"
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Ball"
+                        }
+                    ]
+                },
+                "UNIQUE_Ball": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "GenerateElemBall",
+                            "configID": 2008,
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 1.0
+                                }
+                            },
+                            "ratio": "GetElementRatio",
+                            "baseEnergy": 6.0
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Claymore_ExtraPhyDamagePerHit",
+            "abilitySpecials": {
+                "Rate": 2.0,
+                "Rate2": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Claymore_ExtraPhyDamagePerHit_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                },
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByAttackTags",
+                                            "attackTags": [
+                                                "WeaponSkill"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "DamageByAttackValue",
+                                    "target": "Target",
+                                    "born": {
+                                        "$type": "ConfigBornByAttachPoint",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        },
+                                        "attachPointName": "RootNode"
+                                    },
+                                    "attackInfo": {
+                                        "attackTag": "WeaponSkill",
+                                        "attenuationTag": "",
+                                        "attenuationGroup": "default",
+                                        "attackProperty": {
+                                            "damagePercentage": "Rate2",
+                                            "damagePercentageRatio": 0.0,
+                                            "elementDurability": 100.0,
+                                            "strikeType": "Default",
+                                            "enBreak": 25.0,
+                                            "damageExtra": "Rate"
+                                        },
+                                        "hitPattern": {
+                                            "onHitEffectName": "default",
+                                            "hitImpulseType": "Default",
+                                            "hitHaltTimeScale": 0.009999999776482582
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Claymore_ExtraPhyDamagePerHit_Handler"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Claymore_IgnoreDefense",
+            "abilitySpecials": {
+                "Rate": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Claymore_IgnoreDefense": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_DefenseIgnoreRatio": "Rate"
+                    },
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Claymore_IgnoreDefense"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_TestAttackTag",
+            "abilityMixins": [
+                {
+                    "$type": "OnAvatarUseSkillMixin",
+                    "onTriggerNormalAttack": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Weapon_Blast_Small"
+                        }
+                    ],
+                    "onTriggerSkill": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Weapon_Wolfmound"
+                        }
+                    ],
+                    "onTriggerUltimateSkill": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Weapon_MusicBlast"
+                        }
+                    ]
+                }
+            ],
+            "modifiers": {
+                "Test_AttackSpeed": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Animator_AttackSpeedRatio": 0.30000001192092896
+                    }
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "Test_AttackSpeed"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Common_Test",
+            "abilitySpecials": {
+                "Rate": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Common_HealAmountHPonEnemyKilled_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 10.0,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.5,
+                    "onThinkInterval": [
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "Weapon_Common_Heal",
+                            "abilitySpecials": {
+                                "Rate": "Rate",
+                                "Dura": 10.0
+                            }
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_ABILITY_Heal",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "SetGlobalValueToOverrideMap",
+                            "globalValueKey": "_ABILITY_Heal",
+                            "overrideMapKey": "Rate"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "UNIQUE_Common_HealAmountHPonEnemyKilled_Handler"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": 1.0,
+                    "key": "_ABILITY_Heal",
+                    "useLimitRange": true,
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "UNIQUE_Common_HealAmountHPonEnemyKilled_Handler"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Common_Heal",
+            "abilitySpecials": {
+                "Rate": 10.0,
+                "aure": 100.0,
+                "Dura": 5.0
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "HealHP",
+                    "amount": "Rate"
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Weapon_Blast_R30"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Common_SpeedUp",
+            "abilitySpecials": {
+                "Rate": 0.30000001192092896
+            },
+            "modifiers": {
+                "UNIQUE_Common_AttackSpeedUp_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachToStateIDMixin",
+                            "stateIDs": [
+                                "Attack01_BS",
+                                "Attack01",
+                                "Attack02",
+                                "Attack03",
+                                "Attack04",
+                                "Attack05",
+                                "Attack06",
+                                "ShootBS",
+                                "Shoot",
+                                "Aim",
+                                "FastAim",
+                                "ExtraAttack",
+                                "ExtraAttack1",
+                                "ExtraAttack2",
+                                "ExtraAttack3",
+                                "ExtraAttack_BS",
+                                "ExtraAttack_AS"
+                            ],
+                            "modifierName": "UNIQUE_Common_AttackSpeedUp"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Common_AttackSpeedUp"
+                        }
+                    ]
+                },
+                "UNIQUE_Common_AttackSpeedUp": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Animator_OverallSpeedRatio": "Rate"
+                    },
+                    "state": "SpeedUp",
+                    "isLimitedProperties": true,
+                    "buffID": 10003
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Common_AttackSpeedUp_Handler"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Common_SpeedDown",
+            "abilitySpecials": {
+                "Rate": -0.20000000298023224
+            },
+            "modifiers": {
+                "UNIQUE_Common_AttackSpeedDown_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachToStateIDMixin",
+                            "stateIDs": [
+                                "Attack01",
+                                "Attack02",
+                                "Attack03",
+                                "Attack04",
+                                "Attack05",
+                                "Attack06",
+                                "ShootBS",
+                                "Shoot",
+                                "Aim",
+                                "Lisa_Attack01",
+                                "Lisa_Attack02",
+                                "Lisa_Attack03",
+                                "Lisa_Attack04",
+                                "Ningguang_Attack01",
+                                "Ningguang_Attack02",
+                                "Ningguang_Attack03",
+                                "Ningguang_Attack04",
+                                "Barbara_Attack01",
+                                "Barbara_Attack02",
+                                "Barbara_Attack03",
+                                "Barbara_Attack04"
+                            ],
+                            "modifierName": "UNIQUE_Common_AttackSpeedDown"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Common_AttackSpeedDown"
+                        }
+                    ]
+                },
+                "UNIQUE_Common_AttackSpeedDown": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Animator_OverallSpeedRatio": "Rate"
+                    },
+                    "state": "SpeedDown",
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Common_AttackSpeedDown_Handler"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Common_HealFieldWhenKill",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Common_HealFieldWhenKill",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -1.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Common_HealFieldWhenKill_CD",
+                        "UNIQUE_Common_HealFieldWhenKill_Handler"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 1.0,
+                "CDTime": 20.0
+            },
+            "modifiers": {
+                "UNIQUE_Common_HealFieldWhenKill_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "DoActionByKillingMixin",
+                            "detectWindow": 0.6000000238418579,
+                            "onKill": [
+                                {
+                                    "$type": "Predicated",
+                                    "target": "Other",
+                                    "targetPredicates": [
+                                        {
+                                            "$type": "ByEntityTypes",
+                                            "entityTypes": [
+                                                "Monster"
+                                            ]
+                                        }
+                                    ],
+                                    "successActions": [
+                                        {
+                                            "$type": "Randomed",
+                                            "chance": "Rate",
+                                            "successActions": [
+                                                {
+                                                    "$type": "CreateGadget",
+                                                    "target": "Target",
+                                                    "born": {
+                                                        "$type": "ConfigBornByTarget",
+                                                        "offset": {
+                                                            "x": 0.0,
+                                                            "y": 0.0,
+                                                            "z": 0.0
+                                                        },
+                                                        "onGround": true,
+                                                        "alongGround": true
+                                                    },
+                                                    "gadgetID": 40020001,
+                                                    "campID": 1001
+                                                },
+                                                {
+                                                    "$type": "AddGlobalValue",
+                                                    "value": -1.0,
+                                                    "key": "_ABILITY_Common_HealFieldWhenKill",
+                                                    "useLimitRange": true,
+                                                    "maxValue": -1.0,
+                                                    "minValue": -1.0
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Common_HealFieldWhenKill_CD": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Common_HealFieldWhenKill",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Common_HealFieldWhenKill_Handler"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_HealField",
+            "abilitySpecials": {
+                "HealHP": 100.0
+            },
+            "modifiers": {
+                "UNIQUE_HealField": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 6.5,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.5,
+                    "onThinkInterval": [
+                        {
+                            "$type": "HealHP",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR6",
+                                "campTargetType": "Alliance",
+                                "campBasedOn": "Owner",
+                                "sizeRatio": 1.0
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Avatar"
+                                    ]
+                                }
+                            ],
+                            "amount": "HealHP"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachEffect",
+                    "effectPattern": "Eff_Qin_DandelionWind"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_HealField"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Common_GetShield&EXplode",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Weapon_Common_GetShield&EXplode",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -1.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Common_GetShield&EXplode_CD",
+                        "UNIQUE_Common_GetShield&EXplode_Handler"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "Damage": 0.0,
+                "CDTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Common_GetShield&EXplode_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onBeingHit": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                }
+                            ],
+                            "value": -1.0,
+                            "key": "_ABILITY_Weapon_Common_GetShield&EXplode",
+                            "useLimitRange": true,
+                            "maxValue": -1.0,
+                            "minValue": -1.0
+                        }
+                    ]
+                },
+                "UNIQUE_Common_GetShield&EXplode_CD": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Common_GetShield&EXplode_Shield"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Common_GetShield&EXplode",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Common_GetShield&EXplode_Shield": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 6.0,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 5.900000095367432,
+                    "modifierMixins": [
+                        {
+                            "$type": "EliteShieldMixin",
+                            "shieldType": "default",
+                            "shieldAngle": 360.0,
+                            "shieldHPRatio": "Rate",
+                            "costShieldRatioName": "",
+                            "showDamageText": "INFO_ELITE_DEFENCE",
+                            "onShieldBroken": [
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_Properties_Shield_AS"
+                                },
+                                {
+                                    "$type": "RemoveUniqueModifier",
+                                    "modifierName": "UNIQUE_Common_GetShield&EXplode_Shield"
+                                }
+                            ]
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Avatar_Properties_Shield"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Weapon_MusicBlast",
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.699999988079071
+                                }
+                            }
+                        },
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackCircle",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornByTarget",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    },
+                                    "radius": 3.0
+                                },
+                                "attackInfo": {
+                                    "attackTag": "WeaponSkill",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": "Damage",
+                                        "damagePercentageRatio": 0.0,
+                                        "elementDurability": 100.0,
+                                        "strikeType": "Default",
+                                        "enBreak": 0.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV2",
+                                        "hitHaltTimeScale": 0.009999999776482582,
+                                        "canBeDefenceHalt": true
+                                    }
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ]
+                }
+            },
+            "onRemoved": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Common_GetShield&EXplode_Shield"
+                }
+            ],
+            "onKill": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Common_GetShield&EXplode_Shield"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_Morphling",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToPredicateMixin",
+                    "onEvent": "HP",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetHPRatio",
+                            "target": "Self",
+                            "logic": "GreaterOrEqual",
+                            "HPRatio": 0.5
+                        }
+                    ],
+                    "modifierName": "UNIQUE_Pole_Morphling_Atk"
+                },
+                {
+                    "$type": "AttachModifierToPredicateMixin",
+                    "onEvent": "HP",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetHPRatio",
+                            "target": "Self",
+                            "logic": "Lesser",
+                            "HPRatio": 0.5
+                        }
+                    ],
+                    "modifierName": "UNIQUE_Pole_Morphling_Def"
+                }
+            ],
+            "abilitySpecials": {
+                "AtkRate": 0.0,
+                "DefRate": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Pole_Morphling_Atk": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "AtkRate"
+                    },
+                    "state": "AttackUp"
+                },
+                "UNIQUE_Pole_Morphling_Def": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_DefenceRatio": "DefRate"
+                    },
+                    "state": "DefenseUp"
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_Guarding",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToPredicateMixin",
+                    "onEvent": "HP",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetHPRatio",
+                            "target": "Self",
+                            "logic": "Lesser",
+                            "HPRatio": 0.5
+                        }
+                    ],
+                    "modifierName": "UNIQUE_Pole_Morphling_Def"
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "Def": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Pole_Morphling_Atk": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Rate"
+                    }
+                },
+                "UNIQUE_Pole_Morphling_Def": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_DefenceRatio": "Def"
+                    },
+                    "state": "DefenseUp"
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Pole_Morphling_Atk"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Bow_AfterSprint",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "SprintBS",
+                        "Sprint",
+                        "LiquidStrike_BS",
+                        "LiquidStrike_BS1",
+                        "LiquidStrike_Move",
+                        "LiquidStrike_Stand"
+                    ],
+                    "modifierName": "UNIQUE_Bow_InSprint"
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "Time": 0.0,
+                "Dura": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Bow_InSprint": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": "Time",
+                    "onThinkInterval": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_Bow_AttackUp_InSprint"
+                        }
+                    ]
+                },
+                "UNIQUE_Bow_AttackUp_InSprint": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "state": "AttackUp",
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Bow_AttackUp_AfterSprint"
+                        }
+                    ]
+                },
+                "UNIQUE_Bow_AttackUp_AfterSprint": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Dura",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Rate"
+                    },
+                    "state": "AttackUp"
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Claymore_EnergyPoem1",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionByEnergyChangeMixin",
+                    "elementTypes": [
+                        "Electric",
+                        "Fire",
+                        "Water",
+                        "Grass",
+                        "Ice",
+                        "Wind",
+                        "Rock"
+                    ],
+                    "doWhenEnergyMax": true,
+                    "onGainEnergyByBall": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Claymore_EnergyPoem"
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "Time": 0.0,
+                "DamageRate": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Claymore_EnergyPoem_Buff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Time",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Rate"
+                    },
+                    "state": "AttackUp"
+                },
+                "UNIQUE_Claymore_EnergyPoem": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Time",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "NormalAttack_01",
+                                "NormalAttack_02",
+                                "NormalAttack_03",
+                                "NormalAttack_04",
+                                "NormalAttack_05",
+                                "NormalAttack_06",
+                                "ExtraAttack",
+                                "Elemental_Art",
+                                "Elemental_Art_Hold",
+                                "Elemental_Art_Extra",
+                                "Elemental_Burst"
+                            ],
+                            "damagePercentageRatio": "DamageRate"
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Diluc_Talent_NextFireBlade"
+                        }
+                    ],
+                    "onAttackLanded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Claymore_EnergyPoem_Remover"
+                        }
+                    ]
+                },
+                "UNIQUE_Claymore_EnergyPoem_Remover": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Weapon_TriggerRed"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Claymore_EnergyPoem"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Catalyst_EnergyPoem1",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionByEnergyChangeMixin",
+                    "elementTypes": [
+                        "Electric",
+                        "Fire",
+                        "Water",
+                        "Grass",
+                        "Ice",
+                        "Wind",
+                        "Rock"
+                    ],
+                    "doWhenEnergyMax": true,
+                    "onGainEnergyByBall": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Catalyst_EnergyPoem_Buff"
+                        }
+                    ]
+                },
+                {
+                    "$type": "DoActionByElementReactionMixin",
+                    "entityTypes": [
+                        "Monster"
+                    ],
+                    "reactionTypes": [
+                        "Explode",
+                        "Stream",
+                        "Burning",
+                        "Melt",
+                        "Freeze",
+                        "Shock",
+                        "Superconductor",
+                        "SwirlFire",
+                        "SwirlWater",
+                        "SwirlElectric",
+                        "SwirlIce"
+                    ],
+                    "actions": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_Catalyst_EnergyPoem_GainBall"
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "Time": 0.0,
+                "CDTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Catalyst_EnergyPoem_Buff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Time",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_ElemMasteryDelta": "Rate"
+                    }
+                },
+                "UNIQUE_Catalyst_EnergyPoem_GainBall": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "GenerateElemBall",
+                            "target": "SelfAttackTarget",
+                            "configID": 2017,
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
+                            },
+                            "ratio": 1.0,
+                            "baseEnergy": 3.0
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "target": "SelfAttackTarget",
+                            "effectPattern": "Eff_Weapon_TriggerGreen"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_Boreas",
+            "abilityMixins": [
+                {
+                    "$type": "OnAvatarUseSkillMixin",
+                    "onTriggerSkill": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_Sword_Boreas_CriticBuff"
+                        }
+                    ],
+                    "onTriggerUltimateSkill": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_Sword_Boreas_CriticBuff"
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "Time": 0.0,
+                "CDTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_Boreas_CriticBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Time",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "NormalAttack_01",
+                                "NormalAttack_02",
+                                "NormalAttack_03",
+                                "NormalAttack_04",
+                                "NormalAttack_05",
+                                "NormalAttack_06",
+                                "ExtraAttack"
+                            ],
+                            "damagePercentageRatio": 0.0,
+                            "bonusCritical": 1.0
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_Regicide",
+            "abilityMixins": [
+                {
+                    "$type": "OnAvatarUseSkillMixin",
+                    "onTriggerNormalAttack": [
+                        {
+                            "$type": "AttachModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByEnergyRatio",
+                                    "logic": "GreaterOrEqual",
+                                    "ratio": 0.05000000074505806
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Pole_Regicide_handler"
+                        }
+                    ]
+                }
+            ],
+            "modifiers": {
+                "UNIQUE_Pole_Regicide_handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "ExtraAttack"
+                            ],
+                            "damagePercentageRatio": 1.0
+                        }
+                    ],
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "ExtraAttack"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "UNIQUE_Pole_Regicide_Cost"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_Regicide_Cost": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ReviveElemEnergy",
+                            "value": -3.0
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_IgnoreDefense",
+            "abilitySpecials": {
+                "Rate": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_IgnoreDefense": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_DefenseIgnoreRatio": "Rate"
+                    },
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Sword_IgnoreDefense"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_AttackUpWhenEnter",
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "Time": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Pole_AttackUpWhenEnter_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAvatarIn": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_Pole_AttackUpWhenEnter"
+                        }
+                    ]
+                },
+                "UNIQUE_Pole_AttackUpWhenEnter": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Time",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Rate"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Pole_AttackUpWhenEnter_Handler"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Catalyst_SoulEater",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Weapon_Catalyst_SoulEaterLevel",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        0.5,
+                        1.5,
+                        2.5,
+                        3.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Catalyst_SoulEaterLevel1",
+                        "UNIQUE_Catalyst_SoulEaterLevel2",
+                        "UNIQUE_Catalyst_SoulEaterLevel3"
+                    ]
+                },
+                {
+                    "$type": "DoActionByKillingMixin",
+                    "detectWindow": 0.6000000238418579,
+                    "onKill": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Other",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Catalyst_SoulEater_Timer_Ind"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "UNIQUE_Catalyst_SoulEater_Add"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "$type": "OnAvatarUseSkillMixin",
+                    "onTriggerUltimateSkill": [
+                        {
+                            "$type": "SetGlobalValueToOverrideMap",
+                            "globalValueKey": "_ABILITY_Weapon_Catalyst_SoulEaterLevel",
+                            "overrideMapKey": "Weapon_BuffLevel"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Catalyst_SoulEater_Ult"
+                        },
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Catalyst_SoulEater_Timer_Ind"
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Weapon_BuffLevel": 0.0,
+                "Rate": 0.0,
+                "Dura": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Catalyst_SoulEater_Add": {
+                    "stacking": "Multiple",
+                    "stackingOption": {
+                        "abilitySpecialName": "",
+                        "maxModifierNumForMultipleType": 3.0
+                    },
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Catalyst_SoulEaterLevel",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Catalyst_SoulEaterLevel1": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "state": "AttackUp",
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "effectPattern": "Eff_Weapon_Blackrock1_Catalyst"
+                        }
+                    ]
+                },
+                "UNIQUE_Catalyst_SoulEaterLevel2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "state": "AttackUp",
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "effectPattern": "Eff_Weapon_Blackrock2_Catalyst"
+                        }
+                    ]
+                },
+                "UNIQUE_Catalyst_SoulEaterLevel3": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "state": "AttackUp",
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "effectPattern": "Eff_Weapon_Blackrock3_Catalyst"
+                        }
+                    ]
+                },
+                "UNIQUE_Catalyst_SoulEater_Timer_Ind": {
+                    "stacking": "Multiple",
+                    "stackingOption": {
+                        "abilitySpecialName": "",
+                        "maxModifierNumForMultipleType": 3.0
+                    },
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Dura",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -3.0,
+                            "key": "_ABILITY_Weapon_Catalyst_SoulEaterLevel",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Catalyst_SoulEater_Ult": {
+                    "stacking": "Overlap",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 20.0,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "Elemental_Burst"
+                            ],
+                            "damagePercentageRatio": [
+                                "Rate",
+                                "Weapon_BuffLevel",
+                                "Mul"
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onRemoved": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Catalyst_SoulEater_Ult"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Bow_RiseElementDMGWhenEnergyMax",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionByEnergyChangeMixin",
+                    "elementTypes": [
+                        "Fire",
+                        "Water",
+                        "Grass",
+                        "Electric",
+                        "Ice",
+                        "Rock",
+                        "Wind"
+                    ],
+                    "doWhenEnergyMax": true,
+                    "onGainEnergyMax": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_Bow_RiseElementDMGWhenEnergyMax_RiseDMG"
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "EleDmgUpRate": 0.4000000059604645
+            },
+            "modifiers": {
+                "UNIQUE_Bow_RiseElementDMGWhenEnergyMax_RiseDMG": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 12.0,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_FireAddHurtDelta": "EleDmgUpRate",
+                        "Actor_ElecAddHurtDelta": "EleDmgUpRate",
+                        "Actor_WaterAddHurtDelta": "EleDmgUpRate",
+                        "Actor_GrassAddHurtDelta": "EleDmgUpRate",
+                        "Actor_WindAddHurtDelta": "EleDmgUpRate",
+                        "Actor_IceAddHurtDelta": "EleDmgUpRate",
+                        "Actor_RockAddHurtDelta": "EleDmgUpRate"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Bow_RiseUltimateSkillDMGonAvatarIn",
+            "abilitySpecials": {
+                "UpDmgRate": 0.4000000059604645
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Bow_ReduceEnemySubHurtonBranchAttack",
+            "abilitySpecials": {
+                "SubHurtDownRate": -0.30000001192092896
+            },
+            "modifiers": {
+                "UNIQUE_Bow_ReduceEnemySubHurtonBranchAttack_Gazer": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "_ABILITY_Weapon_Bow_ReduceEnemySubHurtonBranchAttack",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5
+                            ],
+                            "modifierNameSteps": [
+                                "UNIQUE_Bow_ReduceEnemySubHurtonBranchAttack_Handler",
+                                "UNIQUE_Bow_ReduceEnemySubHurtonBranchAttack_ReduceSubHurt_CD"
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Bow_ReduceEnemySubHurtonBranchAttack_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "ExtraAttack"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "value": 1.0,
+                                    "key": "_ABILITY_Weapon_Bow_ReduceEnemySubHurtonBranchAttack",
+                                    "useLimitRange": true,
+                                    "maxValue": 1.0,
+                                    "minValue": 0.0
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Target",
+                                    "modifierName": "Weapon_Bow_ReduceEnemySubHurtonBranchAttack_ReduceSubHurt"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Bow_ReduceEnemySubHurtonBranchAttack_ReduceSubHurt_CD": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 45.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -1.0,
+                            "key": "_ABILITY_Weapon_Bow_ReduceEnemySubHurtonBranchAttack",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "Weapon_Bow_ReduceEnemySubHurtonBranchAttack_ReduceSubHurt": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "duration": 15.0,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_SubHurtDelta": "SubHurtDownRate"
+                    },
+                    "state": "DefenseDown"
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Bow_ReduceEnemySubHurtonBranchAttack_Gazer"
+                },
+                {
+                    "$type": "AddGlobalValue",
+                    "value": -1.0,
+                    "key": "_ABILITY_Weapon_Bow_ReduceEnemySubHurtonBranchAttack",
+                    "useLimitRange": true,
+                    "maxValue": 1.0,
+                    "minValue": 0.0
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": -1.0,
+                    "key": "_ABILITY_Weapon_Bow_ReduceEnemySubHurtonBranchAttack",
+                    "useLimitRange": true,
+                    "maxValue": 1.0,
+                    "minValue": 0.0
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Catalyst_AbyssKiller",
+            "abilitySpecials": {
+                "Rate": 0.25999999046325684
+            },
+            "modifiers": {
+                "UNIQUE_Catalyst_AbyssKiller_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "ignoreEventInfo": true,
+                            "damagePercentageRatio": "Rate",
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHasFeatureTag",
+                                    "featureTagIDs": [
+                                        4004
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Catalyst_AbyssKiller_Handler"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Catalyst_EnergyMaxElementDamageUp",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Weapon_Catalyst_EnergyMaxElementDamageUp",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -1.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_EnergyMaxElementDamageUp_Timer",
+                        "UNIQUE_EnergyMaxElementDamageUp_Handler"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "ElementDamageUp": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_EnergyMaxElementDamageUp_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "DoActionByEnergyChangeMixin",
+                            "elementTypes": [
+                                "Electric",
+                                "Fire",
+                                "Water",
+                                "Grass",
+                                "Ice",
+                                "Wind",
+                                "Rock"
+                            ],
+                            "doWhenEnergyMax": true,
+                            "onGainEnergyMax": [
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "value": -1.0,
+                                    "key": "_ABILITY_Weapon_Catalyst_EnergyMaxElementDamageUp",
+                                    "useLimitRange": true,
+                                    "maxValue": -1.0,
+                                    "minValue": -1.0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_EnergyMaxElementDamageUp": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 12.0,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_FireAddHurtDelta": "ElementDamageUp",
+                        "Actor_WaterAddHurtDelta": "ElementDamageUp",
+                        "Actor_GrassAddHurtDelta": "ElementDamageUp",
+                        "Actor_IceAddHurtDelta": "ElementDamageUp",
+                        "Actor_RockAddHurtDelta": "ElementDamageUp",
+                        "Actor_ElecAddHurtDelta": "ElementDamageUp",
+                        "Actor_WindAddHurtDelta": "ElementDamageUp"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_EnergyMaxElementDamageUp_Timer": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 45.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_EnergyMaxElementDamageUp"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Catalyst_EnergyMaxElementDamageUp",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AddGlobalValue",
+                    "doOffStage": true,
+                    "value": 0.0,
+                    "key": "_ABILITY_Weapon_Catalyst_EnergyMaxElementDamageUp",
+                    "useLimitRange": true,
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Catalyst_OnKilledAttackUp",
+            "abilitySpecials": {
+                "AttackUp": 0.0,
+                "Time": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_OnKilledAttackUp_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onKill": [
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "CurTeamAvatars",
+                            "modifierName": "UNIQUE_OnKilledAttackUpCheckIn"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "Team",
+                            "modifierName": "UNIQUE_OnKilledAttackUpTeam"
+                        }
+                    ]
+                },
+                "UNIQUE_OnKilledAttackUpCheckIn": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 12.0,
+                    "elementDurability": 100.0,
+                    "onAvatarIn": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "target": "Team",
+                            "modifierName": "UNIQUE_OnKilledAttackUpTeam"
+                        }
+                    ]
+                },
+                "UNIQUE_OnKilledAttackUpTeam": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 12.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "CurTeamAvatars",
+                            "modifierName": "UNIQUE_OnKilledAttackUp"
+                        }
+                    ]
+                },
+                "UNIQUE_OnKilledAttackUp": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Time",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "AttackUp"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_OnKilledAttackUp_Handler"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Bow_AttacktUpAfterReaction",
+            "abilitySpecials": {
+                "Rate": 0.20000000298023224
+            },
+            "modifiers": {
+                "UNIQUE_Bow_AttacktUpAfterReaction_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "DoActionByElementReactionMixin",
+                            "entityTypes": [
+                                "Monster"
+                            ],
+                            "reactionTypes": [
+                                "Melt",
+                                "Freeze",
+                                "Superconductor",
+                                "SwirlIce"
+                            ],
+                            "actions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Bow_AttacktUpAfterReaction"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Bow_AttacktUpAfterReaction": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 20.0,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Rate"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Bow_AttacktUpAfterReaction_Handler"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Bow_RiseDMGonBranchAttack",
+            "abilitySpecials": {
+                "UpDmgRate": 0.0,
+                "CDTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Bow_RiseDMGonBranchAttack_Gazer": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "_ABILITY_Weapon_Bow_RiseDMGonBranchAttack",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5
+                            ],
+                            "modifierNameSteps": [
+                                "UNIQUE_Bow_RiseDMGonBranchAttack_Handler",
+                                "UNIQUE_Bow_RiseDMGonBranchAttack_CD"
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Bow_RiseDMGonBranchAttack_CD": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "EquipAffixStart",
+                            "CD": "CDTime",
+                            "equipAffixDataID": 115404
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -1.0,
+                            "key": "_ABILITY_Weapon_Bow_RiseDMGonBranchAttack",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Bow_RiseDMGonBranchAttack_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "DoActionByCreateGadgetMixin",
+                            "actionQueue": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Target",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByEquipAffixReady",
+                                            "target": "Caster",
+                                            "equipAffixDataID": 115404
+                                        }
+                                    ],
+                                    "modifierName": "Weapon_Bow_RiseDMGonBranchAttack_Buff"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "Weapon_Bow_RiseDMGonBranchAttack_Buff": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "ExtraAttack"
+                            ],
+                            "damagePercentageRatio": "UpDmgRate",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "OriginOwner",
+                                    "key": "_ABILITY_Weapon_Bow_RiseDMGonBranchAttack",
+                                    "value": 0.0
+                                }
+                            ]
+                        }
+                    ],
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Other",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByAttackTags",
+                                    "target": "Owner",
+                                    "attackTags": [
+                                        "ExtraAttack"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Weapon_SpecialHit_Heavy",
+                                    "born": {
+                                        "$type": "ConfigBornByCollisionPoint"
+                                    }
+                                },
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "target": "Caster",
+                                    "value": 1.0,
+                                    "key": "_ABILITY_Weapon_Bow_RiseDMGonBranchAttack",
+                                    "useLimitRange": true,
+                                    "maxValue": 1.0,
+                                    "minValue": 0.0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Bow_RiseDMGonBranchAttack_Gazer"
+                },
+                {
+                    "$type": "AddGlobalValue",
+                    "value": -1.0,
+                    "key": "_ABILITY_Weapon_Bow_RiseDMGonBranchAttack",
+                    "useLimitRange": true,
+                    "maxValue": 1.0,
+                    "minValue": 0.0
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "AddGlobalValue",
+                    "doOffStage": true,
+                    "value": -1.0,
+                    "key": "_ABILITY_Weapon_Bow_RiseDMGonBranchAttack",
+                    "useLimitRange": true,
+                    "maxValue": 1.0,
+                    "minValue": 0.0
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Pole_DamageUpToEnemy",
+            "abilitySpecials": {
+                "Rate": 0.14000000059604645
+            },
+            "modifiers": {
+                "UNIQUE_Pole_DamageUpToEnemy_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "ignoreEventInfo": true,
+                            "damagePercentageRatio": "Rate",
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHasElement",
+                                            "element": "Water"
+                                        },
+                                        {
+                                            "$type": "ByHasElement",
+                                            "element": "Fire"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Pole_DamageUpToEnemy_Handler"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Catalyst_Test",
+            "abilityMixins": [
+                {
+                    "$type": "DummyMixin",
+                    "actionList": [
+                        [
+                            {
+                                "$type": "DummyAction",
+                                "doOffStage": true
+                            }
+                        ]
+                    ]
+                },
+                {
+                    "$type": "DoActionByTeamStatusMixin",
+                    "actions": [
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByCurTeamHasElementType",
+                                    "elementType": "Fire",
+                                    "number": 1,
+                                    "logic": "GreaterOrEqual"
+                                }
+                            ],
+                            "modifierName": "ElementFireUp"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByCurTeamElementTypeSort",
+                                    "number": 4,
+                                    "logic": "GreaterOrEqual"
+                                }
+                            ],
+                            "modifierName": "ElementAllUp"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByCurTeamHasWeaponType",
+                                    "weaponType": "WEAPON_CLAYMORE",
+                                    "number": 1,
+                                    "logic": "GreaterOrEqual"
+                                }
+                            ],
+                            "modifierName": "AttackUp"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByCurTeamWeaponTypeSort",
+                                    "number": 4,
+                                    "logic": "GreaterOrEqual"
+                                }
+                            ],
+                            "modifierName": "SpeedUp"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByCurTeamHasBodyType",
+                                    "bodyType": "BODY_MALE",
+                                    "number": 1,
+                                    "logic": "GreaterOrEqual"
+                                }
+                            ],
+                            "modifierName": "DefenseUp"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByCurTeamBodyTypeSort",
+                                    "number": 4,
+                                    "logic": "GreaterOrEqual"
+                                }
+                            ],
+                            "modifierName": "DefenseDown"
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.5
+            },
+            "modifiers": {
+                "test": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "DummyMixin",
+                            "actionList": [
+                                [
+                                    {
+                                        "$type": "DummyAction",
+                                        "doOffStage": true
+                                    }
+                                ]
+                            ]
+                        },
+                        {
+                            "$type": "DoActionByTeamStatusMixin",
+                            "actions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByCurTeamHasElementType",
+                                            "elementType": "Fire",
+                                            "number": 1,
+                                            "logic": "GreaterOrEqual"
+                                        }
+                                    ],
+                                    "modifierName": "ElementFireUp"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByCurTeamElementTypeSort",
+                                            "number": 4,
+                                            "logic": "GreaterOrEqual"
+                                        }
+                                    ],
+                                    "modifierName": "ElementAllUp"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByCurTeamHasWeaponType",
+                                            "weaponType": "WEAPON_CLAYMORE",
+                                            "number": 1,
+                                            "logic": "GreaterOrEqual"
+                                        }
+                                    ],
+                                    "modifierName": "AttackUp"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByCurTeamWeaponTypeSort",
+                                            "number": 4,
+                                            "logic": "GreaterOrEqual"
+                                        }
+                                    ],
+                                    "modifierName": "SpeedUp"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByCurTeamHasBodyType",
+                                            "bodyType": "BODY_MALE",
+                                            "number": 1,
+                                            "logic": "GreaterOrEqual"
+                                        }
+                                    ],
+                                    "modifierName": "DefenseUp"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByCurTeamBodyTypeSort",
+                                            "number": 4,
+                                            "logic": "GreaterOrEqual"
+                                        }
+                                    ],
+                                    "modifierName": "DefenseDown"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "ElementFireUp": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_FireAddHurtDelta": "Rate"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                },
+                "ElementAllUp": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_FireAddHurtDelta": "Rate",
+                        "Actor_ElecAddHurtDelta": "Rate",
+                        "Actor_WaterAddHurtDelta": "Rate",
+                        "Actor_GrassAddHurtDelta": "Rate",
+                        "Actor_WindAddHurtDelta": "Rate",
+                        "Actor_IceAddHurtDelta": "Rate",
+                        "Actor_RockAddHurtDelta": "Rate"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                },
+                "AttackUp": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Rate"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                },
+                "SpeedUp": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Animator_AttackSpeedRatio": "Rate",
+                        "Animator_MoveSpeedRatio": "Rate"
+                    },
+                    "state": "SpeedUp",
+                    "isLimitedProperties": true
+                },
+                "DefenseUp": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_DefenceRatio": "Rate"
+                    },
+                    "state": "SpeedUp",
+                    "isLimitedProperties": true
+                },
+                "DefenseDown": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_DefenceRatio": "Rate"
+                    },
+                    "state": "DefenseDown",
+                    "isLimitedProperties": true
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "DummyAction",
+                    "actionList": [
+                        {
+                            "$type": "DummyAction",
+                            "doOffStage": true
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Catalyst_Test_AllTeam",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionByTeamStatusMixin",
+                    "actions": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Weapon_MusicBlast"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByBigTeamHasElementType",
+                                    "elementType": "Fire",
+                                    "number": 1,
+                                    "logic": "GreaterOrEqual"
+                                }
+                            ],
+                            "modifierName": "ElementFireUp"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByBigTeamElementTypeSort",
+                                    "number": 4,
+                                    "logic": "GreaterOrEqual"
+                                }
+                            ],
+                            "modifierName": "ElementAllUp"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByBigTeamHasWeaponType",
+                                    "weaponType": "WEAPON_CLAYMORE",
+                                    "number": 1,
+                                    "logic": "GreaterOrEqual"
+                                }
+                            ],
+                            "modifierName": "AttackUp"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByBigTeamWeaponTypeSort",
+                                    "number": 4,
+                                    "logic": "GreaterOrEqual"
+                                }
+                            ],
+                            "modifierName": "SpeedUp"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByBigTeamHasBodyType",
+                                    "bodyType": "BODY_MALE",
+                                    "number": 1,
+                                    "logic": "GreaterOrEqual"
+                                }
+                            ],
+                            "modifierName": "DefenseUp"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByBigTeamBodyTypeSort",
+                                    "number": 4,
+                                    "logic": "GreaterOrEqual"
+                                }
+                            ],
+                            "modifierName": "DefenseDown"
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.5
+            },
+            "modifiers": {
+                "test": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "DoActionByTeamStatusMixin",
+                            "actions": [
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Weapon_MusicBlast"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByBigTeamHasElementType",
+                                            "elementType": "Fire",
+                                            "number": 1,
+                                            "logic": "GreaterOrEqual"
+                                        }
+                                    ],
+                                    "modifierName": "ElementFireUp"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByCurTeamElementTypeSort",
+                                            "number": 4,
+                                            "logic": "GreaterOrEqual"
+                                        }
+                                    ],
+                                    "modifierName": "ElementAllUp"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByBigTeamHasWeaponType",
+                                            "weaponType": "WEAPON_CLAYMORE",
+                                            "number": 1,
+                                            "logic": "GreaterOrEqual"
+                                        }
+                                    ],
+                                    "modifierName": "AttackUp"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByCurTeamWeaponTypeSort",
+                                            "number": 4,
+                                            "logic": "GreaterOrEqual"
+                                        }
+                                    ],
+                                    "modifierName": "SpeedUp"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByBigTeamHasBodyType",
+                                            "bodyType": "BODY_MALE",
+                                            "number": 1,
+                                            "logic": "GreaterOrEqual"
+                                        }
+                                    ],
+                                    "modifierName": "DefenseUp"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByCurTeamBodyTypeSort",
+                                            "number": 4,
+                                            "logic": "GreaterOrEqual"
+                                        }
+                                    ],
+                                    "modifierName": "DefenseDown"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "ElementFireUp": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_FireAddHurtDelta": "Rate"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                },
+                "ElementAllUp": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_FireAddHurtDelta": "Rate",
+                        "Actor_ElecAddHurtDelta": "Rate",
+                        "Actor_WaterAddHurtDelta": "Rate",
+                        "Actor_GrassAddHurtDelta": "Rate",
+                        "Actor_WindAddHurtDelta": "Rate",
+                        "Actor_IceAddHurtDelta": "Rate",
+                        "Actor_RockAddHurtDelta": "Rate"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                },
+                "AttackUp": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Rate"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                },
+                "SpeedUp": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Animator_AttackSpeedRatio": "Rate",
+                        "Animator_MoveSpeedRatio": "Rate"
+                    },
+                    "state": "SpeedUp",
+                    "isLimitedProperties": true
+                },
+                "DefenseUp": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_DefenceRatio": "Rate"
+                    },
+                    "state": "SpeedUp",
+                    "isLimitedProperties": true
+                },
+                "DefenseDown": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_DefenceRatio": "Rate"
+                    },
+                    "state": "DefenseDown",
+                    "isLimitedProperties": true
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "test"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "predicates": [
+                        {
+                            "$type": "ByBigTeamHasElementType",
+                            "elementType": "Fire",
+                            "number": 1,
+                            "logic": "GreaterOrEqual"
+                        }
+                    ],
+                    "modifierName": "ElementFireUp"
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByBigTeamHasElementType",
+                            "elementType": "Wind",
+                            "number": 1,
+                            "logic": "GreaterOrEqual"
+                        }
+                    ],
+                    "effectPattern": "Eff_Weapon_MusicBlast"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Test_ResetCDWhenSkillHit",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Weapon_Test_ResetCDWhenSkillHit",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -1.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Test_ResetCDWhenSkillHit_CD",
+                        "UNIQUE_Test_ResetCDWhenSkillHit_Handler"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 1.0,
+                "CDTime": 10.0
+            },
+            "modifiers": {
+                "UNIQUE_Test_ResetCDWhenSkillHit_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                },
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "Elemental_Art"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEquipAffixReady",
+                                    "target": "Self",
+                                    "equipAffixDataID": 111403
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Test_ResetCDWhenSkillHit_SanCheck"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Test_ResetCDWhenSkillHit_SanCheck": {
+                    "stacking": "Multiple",
+                    "stackingOption": {
+                        "abilitySpecialName": "",
+                        "maxModifierNumForMultipleType": 3.0
+                    },
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 1.899999976158142,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "Randomed",
+                            "chance": "Rate",
+                            "successActions": [
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "value": -1.0,
+                                    "key": "_ABILITY_Weapon_Test_ResetCDWhenSkillHit",
+                                    "useLimitRange": true,
+                                    "maxValue": -1.0,
+                                    "minValue": -1.0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Test_ResetCDWhenSkillHit_CD": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Weapon_ResetCD"
+                        },
+                        {
+                            "$type": "EquipAffixStart",
+                            "CD": "CDTime",
+                            "equipAffixDataID": 111403
+                        },
+                        {
+                            "$type": "ModifyAvatarSkillCD",
+                            "skillSlot": [
+                                2
+                            ],
+                            "cdRatio": -1.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Test_ResetCDWhenSkillHit",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            },
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Test_AddExtraProp",
+            "modifiers": {
+                "UNIQUE_Test_ExtraDelta_Buff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackExtraDelta": 100.0,
+                        "Actor_DefenceExtraDelta": 100.0,
+                        "Actor_CriticalExtraDelta": 0.5,
+                        "Actor_AntiCriticalExtraDelta": 0.5,
+                        "Actor_CriticalHurtExtraDelta": 0.5,
+                        "Actor_ChargeEfficiencyExtraDelta": 0.5,
+                        "Actor_ElemMasteryExtraDelta": 100.0,
+                        "Actor_PhysicalSubHurtExtraDelta": 0.5,
+                        "Actor_FireAddHurtExtraDelta": 0.5,
+                        "Actor_ElecAddHurtExtraDelta": 0.5,
+                        "Actor_WaterAddHurtExtraDelta": 0.5,
+                        "Actor_GrassAddHurtExtraDelta": 0.5,
+                        "Actor_WindAddHurtExtraDelta": 0.5,
+                        "Actor_IceAddHurtExtraDelta": 0.5,
+                        "Actor_RockAddHurtExtraDelta": 0.5,
+                        "Actor_FireSubHurtExtraDelta": 0.5,
+                        "Actor_ElecSubHurtExtraDelta": 0.5,
+                        "Actor_WaterSubHurtExtraDelta": 0.5,
+                        "Actor_GrassSubHurtExtraDelta": 0.5,
+                        "Actor_WindSubHurtExtraDelta": 0.5,
+                        "Actor_IceSubHurtExtraDelta": 0.5,
+                        "Actor_RockSubHurtExtraDelta": 0.5,
+                        "Actor_SkillCDMinusExtraRatio": 0.5,
+                        "Actor_ShieldCostMinusExtraRatio": 0.5,
+                        "Actor_PhysicalAddHurtExtraDelta": 0.5
+                    },
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Test_ExtraDelta_Buff"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Transform_Boom_Test",
+            "abilitySpecials": {
+                "Factor": 1.100000023841858
+            },
+            "modifiers": {
+                "Base_Prop": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_FireSubHurtDelta": 0.20000000298023224,
+                        "Actor_ElecSubHurtDelta": 0.20000000298023224,
+                        "Actor_WaterSubHurtDelta": 0.20000000298023224,
+                        "Actor_GrassSubHurtDelta": 0.20000000298023224,
+                        "Actor_WindSubHurtDelta": 0.20000000298023224,
+                        "Actor_RockSubHurtDelta": 0.20000000298023224,
+                        "Actor_IceSubHurtDelta": 0.20000000298023224,
+                        "Actor_PhysicalSubHurtDelta": 0.20000000298023224
+                    }
+                },
+                "Timer": {
+                    "modifierName": "",
+                    "duration": 3.0,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 2.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Handler2"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Transform_Test_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 4.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Timer"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "Base_Prop"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Handler2"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Buff"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Buff"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Transform_Test_Buff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_FireAddHurtDelta": [
+                            "FIGHT_PROP_FIRE_SUB_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_ElecAddHurtDelta": [
+                            "FIGHT_PROP_ELEC_SUB_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_WaterAddHurtDelta": [
+                            "FIGHT_PROP_WATER_SUB_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_GrassAddHurtDelta": [
+                            "FIGHT_PROP_GRASS_SUB_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_WindAddHurtDelta": [
+                            "FIGHT_PROP_WIND_SUB_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_RockAddHurtDelta": [
+                            "FIGHT_PROP_ROCK_SUB_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_IceAddHurtDelta": [
+                            "FIGHT_PROP_ICE_SUB_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_PhysicalAddHurtDelta": [
+                            "FIGHT_PROP_PHYSICAL_SUB_HURT",
+                            "Factor",
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Transform_Test_Handler2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 4.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Buff2"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Buff2"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Transform_Test_Buff2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_FireSubHurtDelta": [
+                            "FIGHT_PROP_FIRE_ADD_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_ElecSubHurtDelta": [
+                            "FIGHT_PROP_ELEC_ADD_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_WaterSubHurtDelta": [
+                            "FIGHT_PROP_WATER_ADD_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_GrassSubHurtDelta": [
+                            "FIGHT_PROP_GRASS_ADD_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_WindSubHurtDelta": [
+                            "FIGHT_PROP_WIND_ADD_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_RockSubHurtDelta": [
+                            "FIGHT_PROP_ROCK_ADD_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_IceSubHurtDelta": [
+                            "FIGHT_PROP_ICE_ADD_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_PhysicalSubHurtDelta": [
+                            "FIGHT_PROP_PHYSICAL_ADD_HURT",
+                            "Factor",
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Weapon_Transform_Test_Handler"
+                },
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 1.0,
+                    "key": "_Test_Enable",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "Predicated",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_Test_Enable",
+                            "value": 1.0
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Handler"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_Test_Enable",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "failActions": [
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Handler"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_Test_Enable",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Transform_Boom_Test2",
+            "abilitySpecials": {
+                "Factor": 1.100000023841858
+            },
+            "modifiers": {
+                "Base_Prop": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_CriticalHurtDelta": 0.10000000149011612,
+                        "Actor_ElemMasteryDelta": 0.10000000149011612,
+                        "Actor_SkillCDMinusRatio": 0.10000000149011612,
+                        "Actor_AntiCriticalDelta": 0.10000000149011612
+                    }
+                },
+                "Timer": {
+                    "modifierName": "",
+                    "duration": 3.0,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 2.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Handler2"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Transform_Test_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 4.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Timer"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "Base_Prop"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Handler2"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Buff"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Buff"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Transform_Test_Buff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackDelta": [
+                            "FIGHT_PROP_CUR_DEFENSE",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_CriticalDelta": [
+                            "FIGHT_PROP_CRITICAL_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_ChargeEfficiencyDelta": [
+                            "FIGHT_PROP_ELEMENT_MASTERY",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_ShieldCostMinusRatio": [
+                            "FIGHT_PROP_SKILL_CD_MINUS_RATIO",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_AntiCriticalDelta": [
+                            "FIGHT_PROP_ANTI_CRITICAL",
+                            "Factor",
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Transform_Test_Handler2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 4.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Buff2"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Buff2"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Transform_Test_Buff2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_DefenceDelta": [
+                            "FIGHT_PROP_CUR_ATTACK",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_CriticalHurtDelta": [
+                            "FIGHT_PROP_CRITICAL",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_ElemMasteryDelta": [
+                            "FIGHT_PROP_CHARGE_EFFICIENCY",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_SkillCDMinusRatio": [
+                            "FIGHT_PROP_SHIELD_COST_MINUS_RATIO",
+                            "Factor",
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Weapon_Transform_Test_Handler"
+                },
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 1.0,
+                    "key": "_Test_Enable",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "Predicated",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_Test_Enable",
+                            "value": 1.0
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Handler"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_Test_Enable",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "failActions": [
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Handler"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_Test_Enable",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Transform_NoBoom_Test",
+            "abilitySpecials": {
+                "Factor": 1.100000023841858
+            },
+            "modifiers": {
+                "Base_Prop": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_FireSubHurtDelta": 0.20000000298023224,
+                        "Actor_ElecSubHurtDelta": 0.20000000298023224,
+                        "Actor_WaterSubHurtDelta": 0.20000000298023224,
+                        "Actor_GrassSubHurtDelta": 0.20000000298023224,
+                        "Actor_WindSubHurtDelta": 0.20000000298023224,
+                        "Actor_RockSubHurtDelta": 0.20000000298023224,
+                        "Actor_IceSubHurtDelta": 0.20000000298023224,
+                        "Actor_PhysicalSubHurtDelta": 0.20000000298023224
+                    }
+                },
+                "Timer": {
+                    "modifierName": "",
+                    "duration": 3.0,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 2.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Handler2"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Transform_Test_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 4.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Timer"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "Base_Prop"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Handler2"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Buff"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Buff"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Transform_Test_Buff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_FireAddHurtExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_FIRE_SUB_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_ElecAddHurtExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_ELEC_SUB_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_WaterAddHurtExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_WATER_SUB_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_GrassAddHurtExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_GRASS_SUB_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_WindAddHurtExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_WIND_SUB_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_RockAddHurtExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_ROCK_SUB_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_IceAddHurtExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_ICE_SUB_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_PhysicalAddHurtExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_PHYSICAL_SUB_HURT",
+                            "Factor",
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Transform_Test_Handler2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 4.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Buff2"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Buff2"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Transform_Test_Buff2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_FireSubHurtExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_FIRE_ADD_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_ElecSubHurtExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_ELEC_ADD_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_WaterSubHurtExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_WATER_ADD_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_GrassSubHurtExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_GRASS_ADD_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_WindSubHurtExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_WIND_ADD_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_RockSubHurtExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_ROCK_ADD_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_IceSubHurtExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_ICE_ADD_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_PhysicalSubHurtExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_PHYSICAL_ADD_HURT",
+                            "Factor",
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Weapon_Transform_Test_Handler"
+                },
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 1.0,
+                    "key": "_Test_Enable",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "Predicated",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_Test_Enable",
+                            "value": 1.0
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Handler"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_Test_Enable",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "failActions": [
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Handler"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_Test_Enable",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Transform_NoBoom_Test2",
+            "abilitySpecials": {
+                "Factor": 1.100000023841858
+            },
+            "modifiers": {
+                "Base_Prop": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_CriticalHurtDelta": 0.10000000149011612,
+                        "Actor_ElemMasteryDelta": 0.10000000149011612,
+                        "Actor_SkillCDMinusRatio": 0.10000000149011612,
+                        "Actor_AntiCriticalDelta": 0.10000000149011612
+                    }
+                },
+                "Timer": {
+                    "modifierName": "",
+                    "duration": 3.0,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 2.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Handler2"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Transform_Test_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 4.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Timer"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "Base_Prop"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Handler2"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Buff"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Buff"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Transform_Test_Buff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_DEFENSE",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_CriticalExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_CRITICAL_HURT",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_ChargeEfficiencyExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_ELEMENT_MASTERY",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_ShieldCostMinusExtraRatio": [
+                            "FIGHT_PROP_NONEXTRA_SKILL_CD_MINUS_RATIO",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_AntiCriticalDelta": [
+                            "FIGHT_PROP_NONEXTRA_ANTI_CRITICAL",
+                            "Factor",
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Transform_Test_Handler2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 4.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Buff2"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Buff2"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Transform_Test_Buff2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_DefenceExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_ATTACK",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_CriticalHurtExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_CRITICAL",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_ElemMasteryExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_CHARGE_EFFICIENCY",
+                            "Factor",
+                            "Mul"
+                        ],
+                        "Actor_SkillCDMinusExtraRatio": [
+                            "FIGHT_PROP_NONEXTRA_SHIELD_COST_MINUS_RATIO",
+                            "Factor",
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Weapon_Transform_Test_Handler"
+                },
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 1.0,
+                    "key": "_Test_Enable",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "Predicated",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_Test_Enable",
+                            "value": 1.0
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Handler"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_Test_Enable",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "failActions": [
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Transform_Test_Handler"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_Test_Enable",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Test_ExtraProp_Limit",
+            "modifiers": {
+                "UNIQUE_Test_ExtraDelta_Buff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 30.0,
+                    "properties": {
+                        "Actor_CriticalExtraDelta": 5.0,
+                        "Actor_AntiCriticalExtraDelta": 5.0,
+                        "Actor_CriticalHurtExtraDelta": 5.0,
+                        "Actor_ChargeEfficiencyExtraDelta": 5.0,
+                        "Actor_FireAddHurtExtraDelta": 5.0,
+                        "Actor_ElecAddHurtExtraDelta": 5.0,
+                        "Actor_WaterAddHurtExtraDelta": 5.0,
+                        "Actor_GrassAddHurtExtraDelta": 5.0,
+                        "Actor_WindAddHurtExtraDelta": 5.0,
+                        "Actor_IceAddHurtExtraDelta": 5.0,
+                        "Actor_RockAddHurtExtraDelta": 5.0,
+                        "Actor_PhysicalAddHurtExtraDelta": 5.0,
+                        "Actor_FireSubHurtExtraDelta": 5.0,
+                        "Actor_ElecSubHurtExtraDelta": 5.0,
+                        "Actor_WaterSubHurtExtraDelta": 5.0,
+                        "Actor_GrassSubHurtExtraDelta": 5.0,
+                        "Actor_WindSubHurtExtraDelta": 5.0,
+                        "Actor_IceSubHurtExtraDelta": 5.0,
+                        "Actor_RockSubHurtExtraDelta": 5.0,
+                        "Actor_PhysicalSubHurtExtraDelta": 5.0,
+                        "Actor_SkillCDMinusExtraRatio": 5.0,
+                        "Actor_ShieldCostMinusExtraRatio": 5.0
+                    },
+                    "onThinkInterval": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_Test_Delta_Buff"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Test_Delta_Buff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_CriticalDelta": 2.0,
+                        "Actor_AntiCriticalDelta": 0.8999999761581421,
+                        "Actor_CriticalHurtDelta": 2.0,
+                        "Actor_ChargeEfficiencyDelta": 2.0,
+                        "Actor_FireAddHurtDelta": 2.0,
+                        "Actor_ElecAddHurtDelta": 2.0,
+                        "Actor_WaterAddHurtDelta": 2.0,
+                        "Actor_GrassAddHurtDelta": 2.0,
+                        "Actor_WindAddHurtDelta": 2.0,
+                        "Actor_IceAddHurtDelta": 2.0,
+                        "Actor_RockAddHurtDelta": 2.0,
+                        "Actor_PhysicalAddHurtDelta": 2.0,
+                        "Actor_FireSubHurtDelta": 2.0,
+                        "Actor_ElecSubHurtDelta": 2.0,
+                        "Actor_WaterSubHurtDelta": 2.0,
+                        "Actor_GrassSubHurtDelta": 2.0,
+                        "Actor_WindSubHurtDelta": 2.0,
+                        "Actor_IceSubHurtDelta": 2.0,
+                        "Actor_RockSubHurtDelta": 2.0,
+                        "Actor_PhysicalSubHurtDelta": 2.0,
+                        "Actor_SkillCDMinusRatio": 0.5,
+                        "Actor_ShieldCostMinusRatio": 2.0
+                    },
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Test_ExtraDelta_Buff"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Test_Delta_Buff"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    }
+]

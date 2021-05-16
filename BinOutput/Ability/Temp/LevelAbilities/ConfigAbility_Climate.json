@@ -1,0 +1,412 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ClimateAbility_Cold",
+            "modifiers": {
+                "SERVER_ClimateAbility_Cold_Area": {
+                    "stacking": "Multiple",
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByIsLocalAvatar"
+                                }
+                            ],
+                            "modifierName": "UNIQUE_ClimateAbility_Avatar_Warmpoint_Search_Handler"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveServerBuff",
+                            "target": "CurTeamAvatars",
+                            "sBuffId": 500101,
+                            "isTeamBuff": true
+                        },
+                        {
+                            "$type": "RemoveServerBuff",
+                            "target": "CurTeamAvatars",
+                            "sBuffId": 500102,
+                            "isTeamBuff": true
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_ClimateAbility_Avatar_Warmpoint_Search_Handler"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "ApplyModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByIsLocalAvatar"
+                                }
+                            ],
+                            "modifierName": "UNIQUE_ClimateAbility_Avatar_Warmpoint_Search_Handler"
+                        }
+                    ],
+                    "onAvatarIn": [
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_ClimateAbility_Avatar_Warmpoint_Search_Handler"
+                        }
+                    ],
+                    "onAvatarOut": [
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_ClimateAbility_Avatar_Warmpoint_Search_Handler"
+                        }
+                    ]
+                },
+                "UNIQUE_ClimateAbility_Avatar_Warmpoint_Search_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.5,
+                    "onThinkInterval": [
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR6.5H5",
+                                "campTargetType": "All",
+                                "sizeRatio": 1.0
+                            },
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "IS_WARM_POINT",
+                                    "value": 1.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "CurLocalAvatar",
+                                    "modifierName": "UNIQUE_WarmBuff"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_WarmBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.20000000298023224,
+                    "modifierMixins": [
+                        {
+                            "$type": "ResistClimateMixin",
+                            "climateTypes": [
+                                "Cold"
+                            ],
+                            "trend": "Rise",
+                            "ratio": -999.0,
+                            "type": "Current"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "AddClimateMeter",
+                            "climateType": "Cold",
+                            "value": -5.0
+                        }
+                    ]
+                },
+                "SERVER_ClimateAbility_Cold_Lv1": {
+                    "stacking": "Multiple",
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByIsLocalAvatar"
+                                }
+                            ],
+                            "modifierName": "ClimateAbility_Cold_Lv1_Handler"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByIsLocalAvatar"
+                                }
+                            ],
+                            "modifierName": "ClimateAbility_Avatar_Perform_Handler"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "ClimateAbility_Cold_Lv1_Handler"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "ClimateAbility_Avatar_Perform_Handler"
+                        }
+                    ],
+                    "onAvatarIn": [
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "ClimateAbility_Cold_Lv1_Handler"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "ClimateAbility_Avatar_Perform_Handler"
+                        }
+                    ],
+                    "onAvatarOut": [
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "ClimateAbility_Cold_Lv1_Handler"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "ClimateAbility_Avatar_Perform_Handler"
+                        }
+                    ]
+                },
+                "ClimateAbility_Cold_Lv1_Handler": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachToAbilityStateMixin",
+                            "abilityStates": [
+                                "ElementWet",
+                                "ElementFrozen",
+                                "ElementIce",
+                                "ElementFreeze"
+                            ],
+                            "modifierName": "UNIQUE_ClimateAbility_Cold_Lv1_Accelerator_IceAndWater"
+                        },
+                        {
+                            "$type": "AttachToAbilityStateMixin",
+                            "abilityStates": [
+                                "ElementFire",
+                                "ElementBurning"
+                            ],
+                            "modifierName": "UNIQUE_ClimateAbility_Cold_Lv1_Accelerator_FireAndBurning"
+                        },
+                        {
+                            "$type": "AttachToStateIDMixin",
+                            "stateIDs": [
+                                "Swim"
+                            ],
+                            "modifierName": "UNIQUE_ClimateAbility_Cold_Lv1_Accelerator_Swiming",
+                            "isCheckOnAttach": true
+                        }
+                    ]
+                },
+                "SERVER_ClimateAbility_Cold_Lv2": {
+                    "stacking": "Multiple",
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "LoseHP",
+                            "target": "CurLocalAvatar",
+                            "predicates": [
+                                {
+                                    "$type": "ByGameTimeIsLocked"
+                                }
+                            ],
+                            "amount": 150.0,
+                            "amountByTargetMaxHPRatio": 0.009999999776482582,
+                            "enableInvincible": true,
+                            "enableLockHP": true,
+                            "disableWhenLoading": true
+                        }
+                    ]
+                },
+                "UNIQUE_ClimateAbility_Cold_Lv1_Accelerator_Flag_Element": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_ABILITY_CLIMATE_COLD_ACCELERATOR_FLAG",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "_ABILITY_CLIMATE_COLD_ACCELERATOR_FLAG",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "ClimateAbility_Cold_Lv1_Accelerator_Blank": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "ClimateAbility_Cold_Lv1_Accelerator": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ResistClimateMixin",
+                            "climateTypes": [
+                                "Cold"
+                            ],
+                            "source": "Climate",
+                            "trend": "Rise",
+                            "ratio": 0.5,
+                            "type": "Current"
+                        }
+                    ]
+                },
+                "UNIQUE_ClimateAbility_Cold_Lv1_Accelerator_IceAndWater": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ResistClimateMixin",
+                            "climateTypes": [
+                                "Cold"
+                            ],
+                            "source": "Climate",
+                            "trend": "Rise",
+                            "ratio": 0.20000000298023224,
+                            "type": "Current"
+                        }
+                    ]
+                },
+                "UNIQUE_ClimateAbility_Cold_Lv1_Accelerator_FireAndBurning": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ResistClimateMixin",
+                            "climateTypes": [
+                                "Cold"
+                            ],
+                            "source": "Climate",
+                            "trend": "Rise",
+                            "ratio": -0.20000000298023224,
+                            "type": "Current"
+                        }
+                    ]
+                },
+                "UNIQUE_ClimateAbility_Cold_Lv1_Accelerator_Swiming": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ResistClimateMixin",
+                            "climateTypes": [
+                                "Cold"
+                            ],
+                            "source": "Climate",
+                            "trend": "Rise",
+                            "ratio": 1.7999999523162842,
+                            "type": "Current"
+                        }
+                    ]
+                },
+                "ClimateAbility_Avatar_Perform_Handler": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachToStateIDMixin",
+                            "stateIDs": [
+                                "NormalStandby"
+                            ],
+                            "modifierName": "NormalStandby_Avatar_Perform_Cold_Breath"
+                        },
+                        {
+                            "$type": "AttachToStateIDMixin",
+                            "stateIDs": [
+                                "Climb",
+                                "Sprint",
+                                "Fly"
+                            ],
+                            "modifierName": "Move_Avatar_Perform_Cold_Breath"
+                        },
+                        {
+                            "$type": "AttachToNormalizedTimeMixin",
+                            "stateID": "Walk",
+                            "modifierName": "Walk_Avatar_Perform_Cold_Breath"
+                        },
+                        {
+                            "$type": "AttachToNormalizedTimeMixin",
+                            "stateID": "Run",
+                            "modifierName": "Run_Avatar_Perform_Cold_Breath"
+                        }
+                    ]
+                },
+                "NormalStandby_Avatar_Perform_Cold_Breath": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 3.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Character_Cold_Breath"
+                        }
+                    ]
+                },
+                "Move_Avatar_Perform_Cold_Breath": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 3.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Character_Cold_Breath_Move"
+                        }
+                    ]
+                },
+                "Walk_Avatar_Perform_Cold_Breath": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 3.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Character_Cold_Breath_Move"
+                        }
+                    ]
+                },
+                "Run_Avatar_Perform_Cold_Breath": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 2.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Character_Cold_Breath_Move"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+]

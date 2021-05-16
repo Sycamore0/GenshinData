@@ -1,0 +1,4067 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_Liquid_TriggerAbility",
+            "abilityMixins": [
+                {
+                    "$type": "SkillButtonHoldChargeMixin",
+                    "skillID": 10413,
+                    "nextLoopTriggerID": "NextLoopTrigger",
+                    "endHoldTrigger": "EndHoldTrigger",
+                    "beforeStateIDs": [
+                        "LiquidStrike_BS"
+                    ],
+                    "chargeLoopStateIDs": [
+                        "LiquidStrike_BS1",
+                        "LiquidStrike_Move",
+                        "LiquidStrike_MoveStandby"
+                    ],
+                    "chargeLoopDurations": [
+                        0.009999999776482582,
+                        60.0
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "StaminaStartCost": 0.0
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "AvatarSkillStart",
+                    "skillID": 10413,
+                    "cdRatio": 1.0,
+                    "costStaminaRatio": "StaminaStartCost"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_LiquidStrike",
+            "abilityMixins": [
+                {
+                    "$type": "AvatarSteerByCameraMixin",
+                    "stateIDs": [
+                        "LiquidStrike_BS",
+                        "LiquidStrike_BS1",
+                        "LiquidStrike_Move",
+                        "LiquidStrike_MoveStandby"
+                    ]
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "LiquidStrike_BS1",
+                        "LiquidStrike_Move",
+                        "LiquidStrike_FatalMove"
+                    ],
+                    "modifierName": "MoveLoop"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "LiquidStrike_BS1",
+                        "LiquidStrike_Move",
+                        "LiquidStrike_MoveStandby"
+                    ],
+                    "modifierName": "MoveLoop_SetVisible"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "LiquidStrike_MoveStandby"
+                    ],
+                    "modifierName": "MoveStandby_CostStamina"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "LiquidStrike_AS",
+                        "LiquidStrike_AS_OnWater"
+                    ],
+                    "modifierName": "Water_Bloom"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "LiquidStrike_AS",
+                        "LiquidStrike_AS_OnWater"
+                    ],
+                    "modifierName": "SetAnimatorFloat"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "LiquidStrike_Move",
+                        "LiquidStrike_FatalMove"
+                    ],
+                    "modifierName": "Move_Eff"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "LiquidStrike_MoveStandby",
+                        "LiquidStrike_FatalStandby"
+                    ],
+                    "modifierName": "MoveStandby_Eff"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "LiquidStrike_Move",
+                        "LiquidStrike_MoveStandby",
+                        "LiquidStrike_FatalMove",
+                        "LiquidStrike_FatalStandby"
+                    ],
+                    "modifierName": "LiquidStrike_CloseCollider"
+                }
+            ],
+            "abilitySpecials": {
+                "LiquidStrike_MoveSpeedRatio": 0.0,
+                "Water_Bloom_Radius": 2.0,
+                "StaminaCost": 0.0
+            },
+            "modifiers": {
+                "MoveLoop": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CostStaminaMixin",
+                            "costStaminaDelta": "StaminaCost",
+                            "onStaminaEmpty": [
+                                {
+                                    "$type": "SetAnimatorTrigger",
+                                    "triggerID": "EndHoldTrigger"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "MoveStateMixin"
+                        }
+                    ]
+                },
+                "MoveStandby_CostStamina": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CostStaminaMixin",
+                            "costStaminaDelta": 0.10000000149011612,
+                            "onStaminaEmpty": [
+                                {
+                                    "$type": "SetAnimatorTrigger",
+                                    "triggerID": "EndHoldTrigger"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "MoveLoop_SetVisible": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerSetVisible",
+                            "doOffStage": true
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerSetVisible",
+                            "doOffStage": true,
+                            "visible": true
+                        }
+                    ]
+                },
+                "Move_Eff": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Animator_MoveSpeedRatio": "LiquidStrike_MoveSpeedRatio"
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_LiquidStrike_Spray"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "MoveStandby_Eff": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_LiquidStrike_Idle"
+                        }
+                    ]
+                },
+                "Water_Bloom": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackCircle",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.10000000149011612
+                                        }
+                                    },
+                                    "radius": "Water_Bloom_Radius"
+                                },
+                                "attackInfo": {
+                                    "attackTag": "",
+                                    "attenuationTag": "Mona_LiquidStrike",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 0.0,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Water",
+                                        "elementDurability": 25.0,
+                                        "enBreak": 0.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "",
+                                        "hitImpulseType": "LV2",
+                                        "hitHaltTimeScale": 0.009999999776482582
+                                    },
+                                    "cameraShake": {}
+                                }
+                            },
+                            "targetType": "Enemy"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "modifierName": "WaterModifier"
+                        }
+                    ]
+                },
+                "WaterModifier": {
+                    "modifierName": "",
+                    "duration": 4.0,
+                    "elementType": "Water",
+                    "elementDurability": 25.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "effectPattern": "Eff_Barbara_WetShield_Collision_Self"
+                        }
+                    ]
+                },
+                "SetAnimatorFloat": {
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetAnimatorFloat",
+                            "floatID": "@FallToGroundRun",
+                            "value": 1.0
+                        }
+                    ]
+                },
+                "LiquidStrike_CloseCollider": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerSetPassThrough",
+                            "passThrough": true
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerSetPassThrough",
+                            "doOffStage": true
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "TriggerSetPassThrough",
+                    "doOffStage": true,
+                    "canBeHandledOnRecover": true
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_EndLiquidStrike",
+            "onAbilityStart": [
+                {
+                    "$type": "SetAnimatorTrigger",
+                    "triggerID": "NextSkillTrigger"
+                },
+                {
+                    "$type": "SetAnimatorInt",
+                    "intID": "SkillID",
+                    "value": 0.0
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_ExtraAttack",
+            "abilityMixins": [
+                {
+                    "$type": "ButtonHoldChargeMixin",
+                    "skillID": 10411,
+                    "chargeTime": 0.10000000149011612,
+                    "secondChargeTime": 0.10000000149011612,
+                    "OnBeginUncharged": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "predicates": [
+                                {
+                                    "$type": "ByAnimatorInt",
+                                    "logic": "Equal",
+                                    "value": 0,
+                                    "parameter": "ComboCount"
+                                }
+                            ],
+                            "triggerID": "DoSkill"
+                        },
+                        {
+                            "$type": "SetAnimatorInt",
+                            "predicates": [
+                                {
+                                    "$type": "ByAnimatorInt",
+                                    "logic": "Equal",
+                                    "value": 0,
+                                    "parameter": "ComboCount"
+                                }
+                            ],
+                            "intID": "SkillID",
+                            "value": 99.0
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "IsCharging"
+                        }
+                    ],
+                    "OnReleaseUncharged": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "DoSkill"
+                        },
+                        {
+                            "$type": "SetAnimatorInt",
+                            "intID": "SkillID",
+                            "value": 1.0
+                        }
+                    ],
+                    "OnBeginCharged": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "IsCharging",
+                            "value": true
+                        }
+                    ],
+                    "OnReleaseCharged": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "IsCharging"
+                        },
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "DoSkill"
+                        },
+                        {
+                            "$type": "SetAnimatorInt",
+                            "intID": "SkillID",
+                            "value": 1.0
+                        }
+                    ],
+                    "OnBeginSecondCharged": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "DoSkill"
+                        },
+                        {
+                            "$type": "SetAnimatorInt",
+                            "predicates": [
+                                {
+                                    "$type": "ByLocalAvatarStamina",
+                                    "logic": "GreaterOrEqual",
+                                    "stamina": [
+                                        "ExtraAttack_Catalyst_Stamina_Cost",
+                                        "Mona_ExtraAttack_StaminaCost",
+                                        "Mul",
+                                        "Flexible_Stamina",
+                                        "Add"
+                                    ]
+                                }
+                            ],
+                            "intID": "SkillID",
+                            "value": 6.0
+                        },
+                        {
+                            "$type": "SetAnimatorInt",
+                            "predicates": [
+                                {
+                                    "$type": "ByLocalAvatarStamina",
+                                    "logic": "Lesser",
+                                    "stamina": [
+                                        "ExtraAttack_Catalyst_Stamina_Cost",
+                                        "Mona_ExtraAttack_StaminaCost",
+                                        "Mul",
+                                        "Flexible_Stamina",
+                                        "Add"
+                                    ]
+                                }
+                            ],
+                            "intID": "SkillID",
+                            "value": 1.0
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "IsCharging"
+                        }
+                    ],
+                    "chargeStateIDs": [
+                        "Attack01",
+                        "Attack02",
+                        "Attack03",
+                        "ExtraAttack_BS",
+                        "ExtraAttack_Charge",
+                        "ExtraAttack",
+                        "ExtraAttack_AS"
+                    ]
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "ExtraAttack_Charge"
+                    ],
+                    "modifierName": "ExtraAttack_StaminaCost"
+                }
+            ],
+            "abilitySpecials": {
+                "Mona_ExtraAttack_StaminaCost": 1.0,
+                "ExtraAttack_Catalyst_Stamina_Cost": 0.0,
+                "Flexible_Stamina": -2.0
+            },
+            "modifiers": {
+                "ExtraAttack_StaminaCost": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AvatarSkillStart",
+                            "skillID": 10003,
+                            "cdRatio": 1.0,
+                            "costStaminaRatio": [
+                                "Mona_ExtraAttack_StaminaCost",
+                                "ExtraAttack_Catalyst_Stamina_Cost",
+                                "Mul"
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_ExtraAttack_FX",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "ExtraAttack_Charge",
+                        "ExtraAttack"
+                    ],
+                    "modifierName": "ExtraAttack_FX"
+                }
+            ],
+            "modifiers": {
+                "ExtraAttack_FX": {
+                    "stacking": "Multiple",
+                    "modifierName": "",
+                    "duration": 5.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalPos",
+                            "predicates": [
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHasAttackTarget"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "key": "_ABILITY_MONA_EXTRAATTACK_POS",
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 5.0
+                                },
+                                "onGround": true
+                            },
+                            "setTarget": false
+                        },
+                        {
+                            "$type": "SetGlobalPos",
+                            "target": "SelfAttackTarget",
+                            "predicates": [
+                                {
+                                    "$type": "ByHasAttackTarget"
+                                }
+                            ],
+                            "key": "_ABILITY_MONA_EXTRAATTACK_POS",
+                            "setTarget": false
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_ExtraAttack_Pre",
+                            "born": {
+                                "$type": "ConfigBornByGlobalValue",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 1.0,
+                                    "z": 0.0
+                                },
+                                "onGround": true,
+                                "positionKey": "_ABILITY_MONA_EXTRAATTACK_POS",
+                                "directionKey": ""
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_ExtraAttack_Damage",
+            "abilitySpecials": {
+                "AS_Mona_ExtraAttack_Damge": 0.0,
+                "AS_Mona_Talent_LiquidStrike_ExtraAttackDamageUp": 0.0
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_ExtraAttack",
+                    "born": {
+                        "$type": "ConfigBornByGlobalValue",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        },
+                        "onGround": true,
+                        "positionKey": "_ABILITY_MONA_EXTRAATTACK_POS",
+                        "directionKey": ""
+                    }
+                },
+                {
+                    "$type": "SetGlobalValueToOverrideMap",
+                    "target": "Caster",
+                    "globalValueKey": "Mona_Talent_LiquidStrike_Move_ExtraAttackDamageUp",
+                    "overrideMapKey": "AS_Mona_Talent_LiquidStrike_ExtraAttackDamageUp"
+                },
+                {
+                    "$type": "ClearGlobalValue",
+                    "target": "Caster",
+                    "key": "Mona_Talent_LiquidStrike_Move_ExtraAttackDamageUp"
+                },
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "target": "Caster",
+                    "modifierName": "UNIQUE_Talent_LiquidStrike_Move_ExtraAttackDamageUp_Duration"
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "target": "Caster",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackSphere",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornByGlobalValue",
+                                "positionKey": "_ABILITY_MONA_EXTRAATTACK_POS",
+                                "directionKey": ""
+                            },
+                            "radius": 3.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "ExtraAttack",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": "AS_Mona_ExtraAttack_Damge",
+                                "damagePercentageRatio": "AS_Mona_Talent_LiquidStrike_ExtraAttackDamageUp",
+                                "elementType": "Water",
+                                "elementDurability": 25.0,
+                                "strikeType": "Default",
+                                "enBreak": 26.145000457763672
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "Eff_Avatar_Girl_Catalyst_Mona_ExtraAttack_Hit",
+                                "hitImpulseType": "LV3",
+                                "hitHaltTimeScale": 0.05000000074505806
+                            },
+                            "forceCameraShake": true,
+                            "cameraShake": {
+                                "shakeType": "CustomVector",
+                                "shakeRange": 0.11999999731779099,
+                                "shakeTime": 0.36000001430511475,
+                                "shakeDistance": 30.0,
+                                "shakeDir": {
+                                    "y": -1.0
+                                },
+                                "extension": {
+                                    "baseCycle": 0.7200000286102295,
+                                    "cycleDamping": 0.0,
+                                    "rangeAttenuation": 0.30000001192092896
+                                }
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_NormalAttack_01",
+            "abilitySpecials": {
+                "AS_Mona_NormalAttack_01": 0.0
+            },
+            "modifiers": {
+                "Mona_NormalAttack": {
+                    "modifierName": "",
+                    "duration": 0.30000001192092896,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "target": "Caster",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackSphere",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornByAttachPoint",
+                                        "attachPointName": "RootNode",
+                                        "attachPointTargetType": "Self"
+                                    },
+                                    "radius": 1.0
+                                },
+                                "attackInfo": {
+                                    "attackTag": "NormalAttack_01",
+                                    "attenuationTag": "Mona_Water_Damage",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": "AS_Mona_NormalAttack_01",
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Water",
+                                        "elementDurability": 25.0,
+                                        "strikeType": "Default",
+                                        "enBreak": 7.650000095367432
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "Eff_Avatar_Girl_Catalyst_Mona_NormalAttack_01_Hit",
+                                        "hitImpulseType": "LV1",
+                                        "hitHaltTimeScale": 0.05000000074505806
+                                    }
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "ApplyModifier",
+                    "target": "SelfAttackTarget",
+                    "modifierName": "Mona_NormalAttack"
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByNot",
+                            "predicates": [
+                                {
+                                    "$type": "ByHasAttackTarget"
+                                }
+                            ]
+                        }
+                    ],
+                    "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_NormalAttack_01_Hit",
+                    "born": {
+                        "$type": "ConfigBornByTarget",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 5.0
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_NormalAttack_02",
+            "abilitySpecials": {
+                "AS_Mona_NormalAttack_02": 0.0
+            },
+            "modifiers": {
+                "Mona_NormalAttack": {
+                    "modifierName": "",
+                    "duration": 0.30000001192092896,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "target": "Caster",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackSphere",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornByAttachPoint",
+                                        "attachPointName": "RootNode",
+                                        "attachPointTargetType": "Self"
+                                    },
+                                    "radius": 1.0
+                                },
+                                "attackInfo": {
+                                    "attackTag": "NormalAttack_02",
+                                    "attenuationTag": "Mona_Water_Damage",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": "AS_Mona_NormalAttack_02",
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Water",
+                                        "elementDurability": 25.0,
+                                        "strikeType": "Default",
+                                        "enBreak": 7.349999904632568
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "Eff_Avatar_Girl_Catalyst_Mona_NormalAttack_02_Hit",
+                                        "hitImpulseType": "LV1",
+                                        "hitHaltTimeScale": 0.05000000074505806
+                                    }
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "ApplyModifier",
+                    "target": "SelfAttackTarget",
+                    "modifierName": "Mona_NormalAttack"
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByNot",
+                            "predicates": [
+                                {
+                                    "$type": "ByHasAttackTarget"
+                                }
+                            ]
+                        }
+                    ],
+                    "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_NormalAttack_02_Hit",
+                    "born": {
+                        "$type": "ConfigBornByTarget",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 5.0
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_NormalAttack_03_BS",
+            "onAbilityStart": [
+                {
+                    "$type": "SetAnimatorBool",
+                    "predicates": [
+                        {
+                            "$type": "ByNot",
+                            "predicates": [
+                                {
+                                    "$type": "ByHasAttackTarget"
+                                }
+                            ]
+                        }
+                    ],
+                    "boolID": "Is_NormalAttack_Blink_Back",
+                    "value": true
+                },
+                {
+                    "$type": "Predicated",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByShape",
+                        "topLimit": 1,
+                        "sortType": "Nearest",
+                        "shapeName": "CircleR15",
+                        "campTargetType": "Enemy",
+                        "sizeRatio": 1.0
+                    },
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetPositionToSelfPosition",
+                            "logic": "GreaterOrEqual",
+                            "value": 7.5
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "Is_NormalAttack_Blink_Back"
+                        }
+                    ],
+                    "failActions": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "Is_NormalAttack_Blink_Back",
+                            "value": true
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_NormalAttack_03_Blink",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "Attack03_Forward",
+                        "Attack03_Back"
+                    ],
+                    "modifierName": "Blink"
+                }
+            ],
+            "modifiers": {
+                "Blink": {
+                    "modifierName": "",
+                    "duration": 0.2199999988079071,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_Attack_HideSpark"
+                        },
+                        {
+                            "$type": "TriggerSetVisible"
+                        },
+                        {
+                            "$type": "TriggerSetPassThrough",
+                            "doOffStage": true,
+                            "passThrough": true
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "TurnDirection",
+                            "turnMode": "OnlyTarget"
+                        },
+                        {
+                            "$type": "TriggerSetVisible",
+                            "doOffStage": true,
+                            "visible": true
+                        },
+                        {
+                            "$type": "TriggerSetPassThrough",
+                            "doOffStage": true,
+                            "canBeHandledOnRecover": true
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_Attack_ShowSpark"
+                        },
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip02"
+                                ]
+                            },
+                            "triggerID": "Attack"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_NormalAttack_03",
+            "abilitySpecials": {
+                "AS_Mona_NormalAttack_03": 0.0
+            },
+            "modifiers": {
+                "Mona_NormalAttack": {
+                    "modifierName": "",
+                    "duration": 0.30000001192092896,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "target": "Caster",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackSphere",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornByAttachPoint",
+                                        "attachPointName": "RootNode",
+                                        "attachPointTargetType": "Self"
+                                    },
+                                    "radius": 1.0
+                                },
+                                "attackInfo": {
+                                    "attackTag": "NormalAttack_03",
+                                    "attenuationTag": "Mona_Water_Damage",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": "AS_Mona_NormalAttack_03",
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Water",
+                                        "elementDurability": 25.0,
+                                        "strikeType": "Default",
+                                        "enBreak": 9.149999618530273
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "Eff_Avatar_Girl_Catalyst_Mona_NormalAttack_03_Hit",
+                                        "hitImpulseType": "LV1"
+                                    }
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "ApplyModifier",
+                    "target": "SelfAttackTarget",
+                    "modifierName": "Mona_NormalAttack"
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByNot",
+                            "predicates": [
+                                {
+                                    "$type": "ByHasAttackTarget"
+                                }
+                            ]
+                        }
+                    ],
+                    "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_NormalAttack_03_Hit",
+                    "born": {
+                        "$type": "ConfigBornByTarget",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 5.0
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_NormalAttack_04",
+            "onAbilityStart": [
+                {
+                    "$type": "CreateGadget",
+                    "target": "SelfAttackTarget",
+                    "predicates": [
+                        {
+                            "$type": "ByHasAttackTarget"
+                        }
+                    ],
+                    "born": {
+                        "$type": "ConfigBornByTarget",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        }
+                    },
+                    "gadgetID": 41041004,
+                    "campID": 1001,
+                    "campTargetType": "Enemy"
+                },
+                {
+                    "$type": "CreateGadget",
+                    "predicates": [
+                        {
+                            "$type": "ByNot",
+                            "predicates": [
+                                {
+                                    "$type": "ByHasAttackTarget"
+                                }
+                            ]
+                        }
+                    ],
+                    "born": {
+                        "$type": "ConfigBornByTarget",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 1.2000000476837158,
+                            "z": 5.0
+                        },
+                        "onGround": true
+                    },
+                    "gadgetID": 41041004,
+                    "campID": 1001,
+                    "campTargetType": "Enemy"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_NormalAttack_04_Hit",
+            "abilitySpecials": {
+                "Radius": 2.0,
+                "AS_Mona_NormalAttack_04": 0.0
+            },
+            "modifiers": {
+                "Attack04_Timer": {
+                    "modifierName": "",
+                    "duration": 0.41999998688697815,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "target": "OriginOwner",
+                            "doOffStage": true,
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackSphere",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    },
+                                    "radius": "Radius"
+                                },
+                                "attackInfo": {
+                                    "attackTag": "NormalAttack_04",
+                                    "attenuationTag": "Mona_Water_Damage",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": "AS_Mona_NormalAttack_04",
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Water",
+                                        "elementDurability": 25.0,
+                                        "strikeType": "Default",
+                                        "enBreak": 11.850000381469727
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV2",
+                                        "hitHaltTimeScale": 0.05000000074505806
+                                    },
+                                    "cameraShake": {
+                                        "shakeRange": 0.23999999463558197,
+                                        "shakeTime": 0.18000000715255737,
+                                        "shakeDistance": 30.0
+                                    }
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Attack04_Timer"
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_NormalAttack_04_Hit"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_Phantom_BS",
+            "onAbilityStart": [
+                {
+                    "$type": "ClearGlobalValue",
+                    "key": "_MONA_PHANTOM_IS_BLINK"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_Phantom_Blink_BS",
+            "onAbilityStart": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": 1.0,
+                    "key": "_MONA_PHANTOM_IS_BLINK",
+                    "useLimitRange": true,
+                    "maxValue": 1.0,
+                    "minValue": 1.0
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_Phantom",
+            "abilityMixins": [
+                {
+                    "$type": "SkillButtonHoldChargeMixin",
+                    "skillID": 10412,
+                    "nextLoopTriggerID": "NextLoopTrigger",
+                    "endHoldTrigger": "EndHoldTrigger",
+                    "beforeStateIDs": [
+                        "Mona_Phantom_CheckIsBlink"
+                    ],
+                    "chargeLoopStateIDs": [
+                        "Mona_Phantom_BS",
+                        "Mona_Phantom_Blink_BS"
+                    ],
+                    "chargeLoopDurations": [
+                        0.30000001192092896
+                    ]
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "KillGadget",
+                    "gadgetInfo": {
+                        "configID": 41041005
+                    }
+                },
+                {
+                    "$type": "AvatarSkillStart",
+                    "skillID": 10412,
+                    "cdRatio": 1.0,
+                    "costStaminaRatio": 1.0
+                },
+                {
+                    "$type": "SetGlobalPos",
+                    "target": "SelfAttackTarget",
+                    "key": "_ABILITY_MONA_PHANTOM_POS",
+                    "setTarget": false
+                },
+                {
+                    "$type": "CreateGadget",
+                    "predicates": [
+                        {
+                            "$type": "ByHasAttackTarget"
+                        }
+                    ],
+                    "born": {
+                        "$type": "ConfigBornByGlobalValue",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": -0.800000011920929
+                        },
+                        "onGround": true,
+                        "direction": {
+                            "$type": "ConfigDirectionByAttackTarget"
+                        },
+                        "positionKey": "_ABILITY_MONA_PHANTOM_POS",
+                        "directionKey": ""
+                    },
+                    "gadgetID": 41041005,
+                    "campID": 1001,
+                    "campTargetType": "Enemy"
+                },
+                {
+                    "$type": "CreateGadget",
+                    "predicates": [
+                        {
+                            "$type": "ByNot",
+                            "predicates": [
+                                {
+                                    "$type": "ByHasAttackTarget"
+                                }
+                            ]
+                        }
+                    ],
+                    "born": {
+                        "$type": "ConfigBornBySelf",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 5.0
+                        },
+                        "onGround": true,
+                        "direction": {
+                            "$type": "ConfigDirectionByEntity"
+                        }
+                    },
+                    "gadgetID": 41041005,
+                    "campID": 1001,
+                    "campTargetType": "Enemy"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_Phantom_Blink",
+            "modifiers": {
+                "Invincible": {
+                    "modifierName": "",
+                    "duration": 0.25,
+                    "elementDurability": 100.0,
+                    "state": "Invincible"
+                },
+                "Blink_End": {
+                    "modifierName": "",
+                    "duration": 0.25,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_Phantom_Rush_Show"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_Phantom_Rush_Show_Door"
+                        },
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip02"
+                                ]
+                            },
+                            "triggerID": "Attack"
+                        },
+                        {
+                            "$type": "CreateGadget",
+                            "born": {
+                                "$type": "ConfigBornByGlobalValue",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "onGround": true,
+                                "direction": {
+                                    "$type": "ConfigDirectionByAttackTarget"
+                                },
+                                "positionKey": "_ABILITY_MONA_PHANTOM_POS",
+                                "directionKey": ""
+                            },
+                            "gadgetID": 41041005,
+                            "campID": 1001,
+                            "campTargetType": "Enemy"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "KillGadget",
+                    "gadgetInfo": {
+                        "configID": 41041005
+                    }
+                },
+                {
+                    "$type": "AvatarSkillStart",
+                    "skillID": 10412,
+                    "cdRatio": 1.0,
+                    "costStaminaRatio": 1.0
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_Phantom_Rush_Hide",
+                    "born": {
+                        "$type": "ConfigBornBySelf",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "direction": {
+                            "$type": "ConfigDirectionByEntity"
+                        }
+                    }
+                },
+                {
+                    "$type": "SetGlobalPos",
+                    "key": "_ABILITY_MONA_PHANTOM_POS",
+                    "born": {
+                        "$type": "ConfigBornBySelf",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "direction": {
+                            "$type": "ConfigDirectionByEntity"
+                        }
+                    },
+                    "setTarget": false
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Blink_End"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Invincible"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_Phantom_Blink_SetVisible",
+            "modifiers": {
+                "SetVisible_End": {
+                    "modifierName": "",
+                    "duration": 0.3400000035762787,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerSetPassThrough",
+                            "doOffStage": true,
+                            "canBeHandledOnRecover": true
+                        },
+                        {
+                            "$type": "TriggerSetVisible",
+                            "doOffStage": true,
+                            "visible": true
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerSetPassThrough",
+                    "doOffStage": true,
+                    "passThrough": true
+                },
+                {
+                    "$type": "TriggerSetVisible"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "SetVisible_End"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_Phantom_AS_HideWeapon",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "Mona_Phantom_Blink_BS",
+                        "Mona_Phantom_Blink",
+                        "Mona_Phantom_BS",
+                        "Mona_Phantom"
+                    ],
+                    "modifierName": "Mona_Phantom_HideWeapon"
+                }
+            ],
+            "modifiers": {
+                "Mona_Phantom_HideWeapon": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerHideWeapon",
+                            "partNames": [
+                                "equip01",
+                                "equip02",
+                                "sheathPoint"
+                            ]
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerHideWeapon",
+                            "visible": true,
+                            "partNames": [
+                                "equip01",
+                                "equip02",
+                                "sheathPoint"
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_MonaGadgetSkill_Phantom",
+            "abilitySpecials": {
+                "AS_Mona_Phantom_ThinkDamageRate": 0.0,
+                "AS_Mona_Phantom_LastDamageRate": 0.0
+            },
+            "modifiers": {
+                "ShowEffect_Phantom_Area": {
+                    "modifierName": "",
+                    "duration": 5.21999979019165,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Phantom_Attack"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Phantom"
+                        }
+                    ]
+                },
+                "Phantom": {
+                    "modifierName": "",
+                    "duration": 5.0,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_MaxHPDelta": 999999.0,
+                        "Actor_DefenceDelta": 999999.0
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_Phantom_Area"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_Phantom_Disappear"
+                        },
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ],
+                    "onBeingHit": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_Phantom_SkillObj_BeHit",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 1.399999976158142,
+                                    "z": 0.44999998807907104
+                                }
+                            }
+                        }
+                    ]
+                },
+                "Phantom_Attack": {
+                    "modifierName": "",
+                    "duration": 5.0,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_MONA_PHANTOM_THINK_TIMES",
+                            "useLimitRange": true,
+                            "maxValue": 5.0,
+                            "minValue": 1.0
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_MONA_PHANTOM_THINK_TIMES",
+                                    "value": 4.0,
+                                    "forceByCaster": true,
+                                    "compareType": "LessAndEqual"
+                                }
+                            ],
+                            "modifierName": "Phantom_Attack_Think"
+                        }
+                    ]
+                },
+                "Phantom_Attack_Think": {
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_Phantom_ThinkAttack",
+                            "born": {
+                                "$type": "ConfigBornByGlobalValue",
+                                "positionKey": "GadgetPos",
+                                "directionKey": ""
+                            },
+                            "scale": 0.699999988079071
+                        },
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackSphere",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornByGlobalValue",
+                                        "positionKey": "GadgetPos",
+                                        "directionKey": ""
+                                    },
+                                    "radius": 5.0
+                                },
+                                "attackInfo": {
+                                    "attackTag": "Elemental_Art",
+                                    "attenuationTag": "Elemental_Art",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": "AS_Mona_Phantom_ThinkDamageRate",
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Water",
+                                        "elementDurability": 25.0,
+                                        "strikeType": "Default",
+                                        "enBreak": 40.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "",
+                                        "hitImpulseType": "LV2",
+                                        "hitHaltTimeScale": 0.05000000074505806
+                                    },
+                                    "cameraShake": {},
+                                    "canBeModifiedBy": "OriginOwner"
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ]
+                },
+                "Taunt_SelectTarget_01": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.5,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Taunt_SelectTarget_02"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Taunt_SelectTarget_02"
+                        }
+                    ]
+                },
+                "Taunt_SelectTarget_02": {
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerTaunt",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR5",
+                                "campTargetType": "Enemy",
+                                "sizeRatio": 1.0
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR5",
+                                "campTargetType": "Enemy",
+                                "sizeRatio": 1.0
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHasAbilityState",
+                                            "abilityState": "MuteTaunt"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "modifierName": "Taunted"
+                        }
+                    ]
+                },
+                "Taunted": {
+                    "modifierName": "",
+                    "duration": 8.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Ambor_Dummy_Taunted"
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Taunted"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": 1.0,
+                    "key": "_MONA_PHANTOM",
+                    "useLimitRange": true,
+                    "maxValue": 1.0,
+                    "minValue": 1.0
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Taunt_SelectTarget_01"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "ShowEffect_Phantom_Area"
+                },
+                {
+                    "$type": "SetGlobalPos",
+                    "key": "GadgetPos",
+                    "born": {
+                        "$type": "ConfigBornByTarget",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "direction": {
+                            "$type": "ConfigDirectionByEntity"
+                        }
+                    }
+                }
+            ],
+            "onKill": [
+                {
+                    "$type": "RemoveModifier",
+                    "modifierName": "Phantom"
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_Phantom_Burst",
+                    "born": {
+                        "$type": "ConfigBornByGlobalValue",
+                        "positionKey": "GadgetPos",
+                        "directionKey": ""
+                    },
+                    "scale": 0.75
+                },
+                {
+                    "$type": "CreateGadget",
+                    "born": {
+                        "$type": "ConfigBornByTarget",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "gadgetID": 41041007,
+                    "campID": 1001,
+                    "campTargetType": "Enemy"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_MonaGadgetSkill_PhantomLastAttack",
+            "abilitySpecials": {
+                "AS_Mona_Phantom_LastDamageRate": 0.0
+            },
+            "modifiers": {
+                "DummyElementBall": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "Elemental_Art"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ANIMAL_ENTITY_TYPE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "Ball"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "Ball": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "GenerateElemBall",
+                            "configID": 2018,
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
+                            },
+                            "ratio": 1.0,
+                            "baseEnergy": 9.0
+                        },
+                        {
+                            "$type": "Randomed",
+                            "chance": 0.33000001311302185,
+                            "successActions": [
+                                {
+                                    "$type": "GenerateElemBall",
+                                    "configID": 2018,
+                                    "born": {
+                                        "$type": "ConfigBornByTarget",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    },
+                                    "ratio": 1.0,
+                                    "baseEnergy": 3.0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackSphere",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornByGlobalValue",
+                                "positionKey": "GadgetPos",
+                                "directionKey": ""
+                            },
+                            "radius": 5.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "Elemental_Art",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": "AS_Mona_Phantom_LastDamageRate",
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Water",
+                                "elementDurability": 25.0,
+                                "strikeType": "Default",
+                                "enBreak": 150.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "default",
+                                "hitImpulseType": "LV3",
+                                "hitHaltTimeScale": 0.05000000074505806
+                            },
+                            "canBeModifiedBy": "OriginOwner"
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "DummyElementBall"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_StarChart_Camera",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "Mona_StarChart",
+                        "Mona_StarChart_AS"
+                    ],
+                    "modifierName": "Tornado_Eff"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "Mona_StarChart"
+                    ],
+                    "modifierName": "isGhost"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "Mona_StarChart"
+                    ],
+                    "modifierName": "Mona_StarChart_HideWeapon"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "Mona_StarChart"
+                    ],
+                    "modifierName": "invincible"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "Mona_StarChart",
+                        "Mona_StarChart_AS"
+                    ],
+                    "modifierName": "camera"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "Mona_StarChart"
+                    ],
+                    "modifierName": "camera_extra"
+                },
+                {
+                    "$type": "AttachToNormalizedTimeMixin",
+                    "stateID": "Mona_StarChart",
+                    "modifierName": "SetEmission",
+                    "normalizeStart": 0.1599999964237213,
+                    "normalizeEnd": 0.949999988079071
+                }
+            ],
+            "modifiers": {
+                "isGhost": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachAbilityStateResistance",
+                            "resistanceListID": 11002
+                        }
+                    ]
+                },
+                "invincible": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "Invincible"
+                },
+                "Tornado_Eff": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "WindZoneMixin",
+                            "shapeName": "CircleR2",
+                            "strength": -2.0,
+                            "attenuation": 0.0,
+                            "innerRadius": 0.0,
+                            "targetType": "All",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetWeight",
+                                    "logic": "LesserOrEqual",
+                                    "weight": 100.0
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Avatar"
+                                    ],
+                                    "reject": true
+                                }
+                            ],
+                            "modifierName": ""
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByAttackNotHitScene",
+                                    "attackPattern": {
+                                        "$type": "ConfigAttackCircle",
+                                        "triggerType": "TriggerNoRepeat",
+                                        "born": {
+                                            "$type": "ConfigBornBySelf",
+                                            "offset": {
+                                                "x": 0.0,
+                                                "y": 0.5,
+                                                "z": 0.0
+                                            }
+                                        },
+                                        "height": 2.0,
+                                        "radius": 1.0
+                                    },
+                                    "checkWaterLayer": true
+                                },
+                                {
+                                    "$type": "ByAttackNotHitScene",
+                                    "attackPattern": {
+                                        "$type": "ConfigAttackBox",
+                                        "triggerType": "TriggerNoRepeat",
+                                        "born": {
+                                            "$type": "ConfigBornBySelf",
+                                            "offset": {
+                                                "x": -5.730000019073486,
+                                                "y": 8.8100004196167,
+                                                "z": -5.260000228881836
+                                            },
+                                            "direction": {
+                                                "$type": "ConfigDirectionByEntity",
+                                                "angleOffset": {
+                                                    "x": -50.0,
+                                                    "y": 20.299999237060547
+                                                }
+                                            }
+                                        },
+                                        "size": {
+                                            "x": 5.0,
+                                            "y": 20.200000762939453,
+                                            "z": 5.0
+                                        }
+                                    },
+                                    "checkWaterLayer": true
+                                },
+                                {
+                                    "$type": "ByAvatarInWaterDepth",
+                                    "compareType": "LessAndEqual",
+                                    "depth": 0.5
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachEffect",
+                                    "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_StarChart_Self_BS"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "AttachEffect",
+                                    "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_StarChart_Self_BS_Thirdparty"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "camera": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "TriggerWeatherMixin",
+                            "type": "Skill",
+                            "weatherPattern": "Weather_Mona_StarChart",
+                            "transDuration": 0.6000000238418579,
+                            "duration": 2.5
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "ControlEmotion",
+                            "toggleEmoSync": false,
+                            "toggleBlink": false,
+                            "toggleEyeKey": false
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetEmissionScaler",
+                            "materialType": "Weapon",
+                            "value": -1.0,
+                            "duration": 0.30000001192092896
+                        },
+                        {
+                            "$type": "ControlEmotion",
+                            "doOffStage": true
+                        },
+                        {
+                            "$type": "AvatarExitCameraShot"
+                        }
+                    ],
+                    "onAvatarOut": [
+                        {
+                            "$type": "SetEmissionScaler",
+                            "materialType": "Weapon",
+                            "value": -1.0,
+                            "duration": 0.30000001192092896
+                        },
+                        {
+                            "$type": "AvatarCameraParam",
+                            "cameraParam": {
+                                "forceRadius": 4.300000190734863
+                            }
+                        },
+                        {
+                            "$type": "ControlEmotion",
+                            "doOffStage": true
+                        },
+                        {
+                            "$type": "AvatarExitCameraShot",
+                            "doOffStage": true
+                        }
+                    ]
+                },
+                "camera_extra": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "AvatarCameraParam",
+                            "cameraParam": {
+                                "forceRadius": 4.300000190734863,
+                                "shouldKeepForceRadius": true
+                            }
+                        }
+                    ]
+                },
+                "SetEmission": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetEmissionScaler",
+                            "materialType": "Weapon",
+                            "value": 15.0,
+                            "duration": 0.30000001192092896
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetEmissionScaler",
+                            "materialType": "Weapon",
+                            "value": -1.0,
+                            "duration": 0.6000000238418579
+                        }
+                    ]
+                },
+                "Mona_StarChart_HideWeapon": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerHideWeapon",
+                            "partNames": [
+                                "equip01",
+                                "equip02",
+                                "sheathPoint"
+                            ]
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerHideWeapon",
+                            "visible": true,
+                            "partNames": [
+                                "equip01",
+                                "equip02",
+                                "sheathPoint"
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "AvatarExitCameraShot"
+                },
+                {
+                    "$type": "AvatarEnterCameraShot",
+                    "predicates": [
+                        {
+                            "$type": "ByAttackNotHitScene",
+                            "attackPattern": {
+                                "$type": "ConfigAttackCircle",
+                                "triggerType": "TriggerNoRepeat",
+                                "born": {
+                                    "$type": "ConfigBornBySelf",
+                                    "offset": {
+                                        "x": 0.0,
+                                        "y": 1.2000000476837158,
+                                        "z": 0.0
+                                    }
+                                },
+                                "height": 0.20000000298023224,
+                                "fanAngle": 30.0,
+                                "radius": 0.800000011920929
+                            }
+                        }
+                    ],
+                    "cameraMoveCfgPath": "Camera_Mona_StarChart"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_StarChart",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "Mona_StarChart",
+                        "Mona_StarChart_AS"
+                    ],
+                    "modifierName": "Invincible"
+                }
+            ],
+            "abilitySpecials": {
+                "AS_Mona_StarChart_Bubble_Duration": 0.0,
+                "AS_Mona_StarChart_Bubble_RemovedDamage": 0.0,
+                "AS_Mona_StarChart_RemovedDamage_HurtUp_DamageRate": -1.0,
+                "AS_Mona_StarChart_HurtUp_DamageRate": 0.0,
+                "AS_Mona_StarChart_HurtUp_Duration": 0.0,
+                "AS_Mona_Talent_ElementReactionUp_Electric": 0.0,
+                "AS_Mona_Talent_ElementReactionUp_Steam": 0.0,
+                "AS_Mona_Talent_ElementReactionUp_SwirlWater": 0.0,
+                "AS_Mona_Talent_ElementReactionUp_Freeze": 0.0,
+                "AS_Mona_Talent_ElementReactionUp_Time": 0.0,
+                "AS_Mona_Talent_AntiCritical": 0.0
+            },
+            "modifiers": {
+                "StarChart_Area_Delay": {
+                    "modifierName": "",
+                    "duration": 1.7000000476837158,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "TriggerAttack_Event"
+                        }
+                    ]
+                },
+                "Invincible": {
+                    "modifierName": "",
+                    "duration": 2.5,
+                    "elementDurability": 100.0,
+                    "state": "Invincible"
+                },
+                "TriggerAttack_Event": {
+                    "modifierName": "",
+                    "duration": 1.5,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "doOffStage": true,
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackSphere",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf"
+                                    },
+                                    "radius": 10.0
+                                },
+                                "attackInfo": {
+                                    "attackTag": "",
+                                    "attenuationTag": "Elemental_Burst",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 0.0,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Water",
+                                        "elementDurability": 25.0,
+                                        "strikeType": "Default",
+                                        "enBreak": 50.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV1",
+                                        "hitHaltTimeScale": 0.009999999776482582
+                                    },
+                                    "cameraShake": {},
+                                    "canBeModifiedBy": "OriginOwner"
+                                }
+                            },
+                            "targetType": "Enemy"
+                        },
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "doOffStage": true,
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackSphere",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf"
+                                    },
+                                    "radius": 10.0
+                                },
+                                "attackInfo": {
+                                    "attackTag": "Elemental_Burst_Trigger",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 0.0,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementDurability": 0.0,
+                                        "strikeType": "Default",
+                                        "enBreak": 0.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV0",
+                                        "hitHaltTimeScale": 0.009999999776482582
+                                    },
+                                    "cameraShake": {},
+                                    "canBeModifiedBy": "OriginOwner"
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ],
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "doOffStage": true,
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "Elemental_Burst_Trigger"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Avatar",
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "Predicated",
+                                    "target": "Target",
+                                    "doOffStage": true,
+                                    "targetPredicates": [
+                                        {
+                                            "$type": "ByTargetWeight",
+                                            "logic": "LesserOrEqual",
+                                            "weight": 100.0
+                                        }
+                                    ],
+                                    "successActions": [
+                                        {
+                                            "$type": "ApplyModifier",
+                                            "target": "Target",
+                                            "doOffStage": true,
+                                            "modifierName": "Debuff_Bubble_Struggle"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Target",
+                                    "doOffStage": true,
+                                    "modifierName": "UNIQUE_Debuff_Bubble_RemoveDamage"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "Debuff_Bubble_Struggle": {
+                    "modifierName": "",
+                    "duration": "AS_Mona_StarChart_Bubble_Duration",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AddGravityScale": -2.0
+                    },
+                    "state": "Struggle"
+                },
+                "UNIQUE_Debuff_Bubble_RemoveDamage": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "AS_Mona_StarChart_Bubble_Duration",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_SubHurtDelta": "AS_Mona_StarChart_HurtUp_DamageRate",
+                        "Actor_AntiCriticalDelta": "AS_Mona_Talent_AntiCritical"
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Debuff_HurtUp"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_StarChart_Bubble"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Debuff_Bubble_Struggle"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_StarChart_Bubble_AS"
+                        },
+                        {
+                            "$type": "DamageByAttackValue",
+                            "target": "Target",
+                            "doOffStage": true,
+                            "attackInfo": {
+                                "attackTag": "Elemental_Burst",
+                                "attenuationTag": "Elemental_Burst",
+                                "attenuationGroup": "default",
+                                "attackProperty": {
+                                    "damagePercentage": "AS_Mona_StarChart_Bubble_RemovedDamage",
+                                    "damagePercentageRatio": 0.0,
+                                    "elementType": "Water",
+                                    "elementDurability": 50.0,
+                                    "strikeType": "Default",
+                                    "enBreak": 200.0,
+                                    "damageExtra": 0.0
+                                },
+                                "hitPattern": {
+                                    "onHitEffectName": "default",
+                                    "hitImpulseType": "LV1",
+                                    "hitHaltTimeScale": 0.009999999776482582
+                                }
+                            }
+                        },
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Debuff_HurtUp"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Debuff_HurtUp"
+                        }
+                    ],
+                    "onBeingHit": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitImpulse",
+                                    "hitImpulse": 0.0
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Debuff_Bubble_RemoveDamage"
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Debuff_Bubble_RemoveDamage"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Debuff_HurtUp": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": [
+                        "AS_Mona_StarChart_HurtUp_Duration",
+                        0.20000000298023224,
+                        "Add"
+                    ],
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_SubHurtDelta": "AS_Mona_StarChart_HurtUp_DamageRate",
+                        "Actor_AntiCriticalDelta": "AS_Mona_Talent_AntiCritical"
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "Caster",
+                            "predicates": [
+                                {
+                                    "$type": "ByUnlockTalentParam",
+                                    "talentParam": "Avatar_Mona_Talent_Talent_StarChart_ElementReactionUp"
+                                }
+                            ],
+                            "modifierName": "Talent_ElementReactionUp_AttackLandedEvent_01"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_StarChart_HurtUp"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "Is_Mona_StarChart_HurtUp",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 1.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_StarChart_HurtUp_AS"
+                        },
+                        {
+                            "$type": "ClearGlobalValue",
+                            "key": "Is_Mona_StarChart_HurtUp"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "Talent_ElementReactionUp_AttackLandedEvent_01": {
+                    "modifierName": "",
+                    "duration": [
+                        "AS_Mona_StarChart_HurtUp_Duration",
+                        0.05000000074505806,
+                        "Add"
+                    ],
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "Team",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Debuff_Talent_ElementReactionUp_AttackLandedEvent_TeamHandle"
+                        }
+                    ]
+                },
+                "UNIQUE_Debuff_Talent_ElementReactionUp_AttackLandedEvent_TeamHandle": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": [
+                        "AS_Mona_StarChart_HurtUp_Duration",
+                        0.05000000074505806,
+                        "Add"
+                    ],
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixin",
+                            "modifierName": "UNIQUE_Debuff_Talent_ElementReactionUp_AttackLandedEvent"
+                        }
+                    ]
+                },
+                "UNIQUE_Debuff_Talent_ElementReactionUp_AttackLandedEvent": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": [
+                        "AS_Mona_StarChart_HurtUp_Duration",
+                        0.05000000074505806,
+                        "Add"
+                    ],
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Other",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "Is_Mona_StarChart_HurtUp",
+                                    "value": 1.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Team",
+                                    "modifierName": "UNIQUE_Avatar_Mona_StarChart_Talent_ElementReactionUp_TeamHandle"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Avatar_Mona_StarChart_Talent_ElementReactionUp_TeamHandle": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "AS_Mona_Talent_ElementReactionUp_Time",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixin",
+                            "modifierName": "UNIQUE_Talent_ElementAddHurt"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "target": "CurLocalAvatar",
+                            "modifierName": "UNIQUE_Talent_ElementAddHurt"
+                        },
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "target": "CurLocalAvatar",
+                            "modifierName": "UNIQUE_Debuff_Talent_ElementReactionUp_AttackLandedEvent_TeamHandle"
+                        }
+                    ]
+                },
+                "UNIQUE_Talent_ElementAddHurt": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": [
+                        "AS_Mona_Talent_ElementReactionUp_Time",
+                        "AS_Mona_StarChart_HurtUp_Duration",
+                        "Add",
+                        "AS_Mona_StarChart_Bubble_Duration",
+                        "Add"
+                    ],
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_ElemReactElectricDelta": "AS_Mona_Talent_ElementReactionUp_Electric",
+                        "Actor_ElemReactSteamDelta": "AS_Mona_Talent_ElementReactionUp_Steam",
+                        "Actor_ElemReactSwirlWaterDelta": "AS_Mona_Talent_ElementReactionUp_SwirlWater",
+                        "Actor_ElemReactFreezeDelta": "AS_Mona_Talent_ElementReactionUp_Freeze"
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_StarChart_Talent_ReactionUp"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_StarChart_Talent_ReactionUp_AS"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "AvatarSkillStart",
+                    "skillID": 10415,
+                    "cdRatio": 1.0,
+                    "costStaminaRatio": 1.0
+                },
+                {
+                    "$type": "RemoveModifier",
+                    "modifierName": "TriggerAttack_Event"
+                },
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByShape",
+                        "shapeName": "CircleR11",
+                        "campTargetType": "Enemy",
+                        "sizeRatio": 1.0
+                    },
+                    "modifierName": "UNIQUE_Debuff_Bubble_RemoveDamage"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Invincible"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "StarChart_Area_Delay"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_Talent_LiquidStriket_Phantom",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "LiquidStrike_BS",
+                        "LiquidStrike_BS1",
+                        "LiquidStrike_Move",
+                        "LiquidStrike_MoveStandby"
+                    ],
+                    "modifierName": "MoveLoop_Talent_Phantom"
+                }
+            ],
+            "abilitySpecials": {
+                "AS_Mona_Talent_LiquidStrike_LiquidPhantom_Timer": 0.0
+            },
+            "modifiers": {
+                "MoveLoop_Talent_Phantom": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": "AS_Mona_Talent_LiquidStrike_LiquidPhantom_Timer",
+                    "onThinkInterval": [
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "topLimit": 1,
+                                "entityTypePriority": [
+                                    "Monster",
+                                    "Gadget"
+                                ],
+                                "sortType": "HigherScore",
+                                "shapeName": "CircleR15",
+                                "campTargetType": "Enemy",
+                                "sizeRatio": 1.0
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByIsCombat"
+                                }
+                            ],
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Gadget",
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ANIMAL_ENTITY_TYPE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Caster",
+                                    "modifierName": "LiquidPhantom"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "LiquidPhantom": {
+                    "stacking": "Multiple",
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "CreateGadget",
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "onGround": true,
+                                "direction": {
+                                    "$type": "ConfigDirectionByEntity"
+                                }
+                            },
+                            "gadgetID": 41041006,
+                            "campID": 1001,
+                            "campTargetType": "Enemy"
+                        }
+                    ]
+                }
+            },
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_Talent_MonaGadgetSkill_LiquidPhantom",
+            "abilitySpecials": {
+                "AS_Mona_Talent_LiquidStrike_LiquidPhantom_Duration": 0.0,
+                "AS_Mona_Talent_LiquidStrike_LiquidPhantom_DamageRate": 0.0,
+                "AS_Mona_Phantom_LastDamageRate": 0.0
+            },
+            "modifiers": {
+                "Phantom": {
+                    "modifierName": "",
+                    "duration": "AS_Mona_Talent_LiquidStrike_LiquidPhantom_Duration",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_MaxHPDelta": 999999.0,
+                        "Actor_DefenceDelta": 999999.0
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_LiquidStrike_Phantom"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_Phantom_Disappear"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_Phantom_Burst"
+                        },
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackSphere",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf"
+                                    },
+                                    "radius": 5.0
+                                },
+                                "attackInfo": {
+                                    "attackTag": "Elemental_Art_Extra",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": [
+                                            "AS_Mona_Phantom_LastDamageRate",
+                                            "AS_Mona_Talent_LiquidStrike_LiquidPhantom_DamageRate",
+                                            "Mul"
+                                        ],
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Water",
+                                        "elementDurability": 25.0,
+                                        "strikeType": "Default",
+                                        "enBreak": 150.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV3",
+                                        "hitHaltTimeScale": 0.05000000074505806
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
+                                }
+                            },
+                            "targetType": "Enemy"
+                        },
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ],
+                    "onBeingHit": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_Phantom_SkillObj_BeHit",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 1.399999976158142,
+                                    "z": 0.44999998807907104
+                                }
+                            }
+                        }
+                    ]
+                },
+                "Taunting": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.5,
+                    "onThinkInterval": [
+                        {
+                            "$type": "TriggerTaunt",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR6",
+                                "campTargetType": "Enemy",
+                                "sizeRatio": 1.0
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR5",
+                                "campTargetType": "Enemy",
+                                "sizeRatio": 1.0
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHasAbilityState",
+                                            "abilityState": "MuteTaunt"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "modifierName": "Taunted_FX"
+                        }
+                    ]
+                },
+                "Taunted_FX": {
+                    "modifierName": "",
+                    "duration": 8.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Ambor_Dummy_Taunted"
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Taunted_FX"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": 1.0,
+                    "key": "_MONA_PHANTOM",
+                    "useLimitRange": true,
+                    "maxValue": 1.0,
+                    "minValue": 1.0
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Taunting"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Phantom"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_Talent_ChargeEfficiencyToWaterAddHurt",
+            "abilitySpecials": {
+                "AS_Mona_Talent_WaterHurtAddRate": 0.0
+            },
+            "modifiers": {
+                "ChargeEfficiencyToWaterAddHurt": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onAdded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Caster",
+                            "doOffStage": true,
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "Mona_Talent_ChargeEfficiencyToWaterAddHurt_Efficiency",
+                                            "value": "FIGHT_PROP_NONEXTRA_CHARGE_EFFICIENCY"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "doOffStage": true,
+                                    "value": "FIGHT_PROP_NONEXTRA_CHARGE_EFFICIENCY",
+                                    "key": "Mona_Talent_ChargeEfficiencyToWaterAddHurt_Efficiency",
+                                    "useLimitRange": true,
+                                    "maxValue": "FIGHT_PROP_NONEXTRA_CHARGE_EFFICIENCY",
+                                    "minValue": "FIGHT_PROP_NONEXTRA_CHARGE_EFFICIENCY"
+                                },
+                                {
+                                    "$type": "RemoveUniqueModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "UNIQUE_ChargeEfficiencyToWaterAddHurt_AddValue"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "UNIQUE_ChargeEfficiencyToWaterAddHurt_AddValue"
+                                }
+                            ]
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Caster",
+                            "doOffStage": true,
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "Mona_Talent_ChargeEfficiencyToWaterAddHurt_Efficiency",
+                                            "value": "FIGHT_PROP_NONEXTRA_CHARGE_EFFICIENCY"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "doOffStage": true,
+                                    "value": "FIGHT_PROP_NONEXTRA_CHARGE_EFFICIENCY",
+                                    "key": "Mona_Talent_ChargeEfficiencyToWaterAddHurt_Efficiency",
+                                    "useLimitRange": true,
+                                    "maxValue": "FIGHT_PROP_NONEXTRA_CHARGE_EFFICIENCY",
+                                    "minValue": "FIGHT_PROP_NONEXTRA_CHARGE_EFFICIENCY"
+                                },
+                                {
+                                    "$type": "RemoveUniqueModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "UNIQUE_ChargeEfficiencyToWaterAddHurt_AddValue"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "UNIQUE_ChargeEfficiencyToWaterAddHurt_AddValue"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_ChargeEfficiencyToWaterAddHurt_AddValue": {
+                    "stacking": "Overlap",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_WaterAddHurtExtraDelta": [
+                            "FIGHT_PROP_NONEXTRA_CHARGE_EFFICIENCY",
+                            "AS_Mona_Talent_WaterHurtAddRate",
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "ChargeEfficiencyToWaterAddHurt"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_Talent_LiquidStrike_ExtraAttakDamageUp",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "LiquidStrike_BS",
+                        "LiquidStrike_BS1",
+                        "LiquidStrike_Move",
+                        "LiquidStrike_MoveStandby"
+                    ],
+                    "modifierName": "MoveLoop_Talent_ExtraAttakDamageUp"
+                }
+            ],
+            "abilitySpecials": {
+                "AS_Mona_Talent_LiquidStrike_ExtraAttackDamageUp_ThinkTime": 0.0,
+                "AS_Mona_Talent_LiquidStrike_ExtraAttackDamageUp_ThinkValue": 0.0,
+                "AS_Mona_Talent_LiquidStrike_ExtraAttackDamageUp_MaxValue": 0.0,
+                "AS_Mona_Talent_LiquidStrike_ExtraAttackDamageUp_Time": 0.0
+            },
+            "modifiers": {
+                "MoveLoop_Talent_ExtraAttakDamageUp": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": "AS_Mona_Talent_LiquidStrike_ExtraAttackDamageUp_ThinkTime",
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 0.0,
+                            "key": "Mona_Talent_LiquidStrike_Move_ExtraAttackDamageUp",
+                            "useLimitRange": true,
+                            "maxValue": "AS_Mona_Talent_LiquidStrike_ExtraAttackDamageUp_MaxValue",
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": "AS_Mona_Talent_LiquidStrike_ExtraAttackDamageUp_ThinkValue",
+                            "key": "Mona_Talent_LiquidStrike_Move_ExtraAttackDamageUp",
+                            "useLimitRange": true,
+                            "maxValue": "AS_Mona_Talent_LiquidStrike_ExtraAttackDamageUp_MaxValue",
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Talent_LiquidStrike_Move_ExtraAttackDamageUp_Duration"
+                        }
+                    ]
+                },
+                "UNIQUE_Talent_LiquidStrike_Move_ExtraAttackDamageUp_Duration": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "AS_Mona_Talent_LiquidStrike_ExtraAttackDamageUp_Time",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_Talent_LiquidStrike_Move_ExtraAttackDamageUp"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ClearGlobalValue",
+                            "key": "Mona_Talent_LiquidStrike_Move_ExtraAttackDamageUp"
+                        }
+                    ],
+                    "buffID": 10007
+                }
+            },
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_Talent_AutoExtraAttack",
+            "abilitySpecials": {
+                "AS_Mona_ExtraAttack_Damge": 0.0,
+                "AS_Mona_Talent_AutoExtraAttack_Rate": 0.0,
+                "AS_Mona_Talent_AutoExtraAttack_DamageRate": 0.0,
+                "AS_Mona_Talent_AutoExtraAttack_CD": 0.0,
+                "AS_Mona_Talent_LiquidStrike_ExtraAttackDamageUp": 0.0
+            },
+            "modifiers": {
+                "NormalAttack_Handler": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "NormalAttack_01",
+                                        "NormalAttack_02",
+                                        "NormalAttack_03",
+                                        "NormalAttack_04",
+                                        "NormalAttack_05",
+                                        "NormalAttack_06"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ANIMAL_ENTITY_TYPE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "Randomed",
+                                    "chance": "AS_Mona_Talent_AutoExtraAttack_Rate",
+                                    "successActions": [
+                                        {
+                                            "$type": "ApplyModifier",
+                                            "modifierName": "Talent_AutoExtraAttack_Handle"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "Talent_AutoExtraAttack_Handle": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "duration": "AS_Mona_Talent_AutoExtraAttack_CD",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "SelfAttackTarget",
+                            "doOffStage": true,
+                            "modifierName": "Talent_AutoExtraAttack_DoAttack"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "target": "SelfAttackTarget",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_Talent_AutoExtraAttack"
+                        }
+                    ]
+                },
+                "Talent_AutoExtraAttack_DoAttack": {
+                    "modifierName": "",
+                    "duration": 0.699999988079071,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_ExtraAttack_Pre",
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 1.0,
+                                    "z": 0.0
+                                },
+                                "onGround": true
+                            }
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Mona_ExtraAttack",
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 1.0,
+                                    "z": 0.0
+                                },
+                                "onGround": true
+                            }
+                        },
+                        {
+                            "$type": "SetGlobalValueToOverrideMap",
+                            "target": "Caster",
+                            "globalValueKey": "Mona_Talent_LiquidStrike_Move_ExtraAttackDamageUp",
+                            "overrideMapKey": "AS_Mona_Talent_LiquidStrike_ExtraAttackDamageUp"
+                        },
+                        {
+                            "$type": "ClearGlobalValue",
+                            "target": "Caster",
+                            "key": "Mona_Talent_LiquidStrike_Move_ExtraAttackDamageUp"
+                        },
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "target": "Caster",
+                            "modifierName": "UNIQUE_Talent_LiquidStrike_Move_ExtraAttackDamageUp_Duration"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "Talent_AutoExtraAttack_Damage"
+                        }
+                    ]
+                },
+                "Talent_AutoExtraAttack_Damage": {
+                    "modifierName": "",
+                    "duration": 0.30000001192092896,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "target": "Caster",
+                            "doOffStage": true,
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackSphere",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf"
+                                    },
+                                    "radius": 3.0
+                                },
+                                "attackInfo": {
+                                    "attackTag": "ExtraAttack",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": [
+                                            "AS_Mona_ExtraAttack_Damge",
+                                            "AS_Mona_Talent_AutoExtraAttack_DamageRate",
+                                            "Mul"
+                                        ],
+                                        "damagePercentageRatio": "AS_Mona_Talent_LiquidStrike_ExtraAttackDamageUp",
+                                        "elementType": "Water",
+                                        "elementDurability": 25.0,
+                                        "strikeType": "Default",
+                                        "enBreak": 26.145000457763672
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "Eff_Avatar_Girl_Catalyst_Mona_ExtraAttack_Hit",
+                                        "hitImpulseType": "LV3",
+                                        "hitHaltTimeScale": 0.05000000074505806
+                                    },
+                                    "forceCameraShake": true,
+                                    "cameraShake": {
+                                        "shakeType": "CustomVector",
+                                        "shakeRange": 0.11999999731779099,
+                                        "shakeTime": 0.36000001430511475,
+                                        "shakeDistance": 30.0,
+                                        "shakeDir": {
+                                            "y": -1.0
+                                        },
+                                        "extension": {
+                                            "baseCycle": 0.7200000286102295,
+                                            "cycleDamping": 0.0,
+                                            "rangeAttenuation": 0.30000001192092896
+                                        }
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "NormalAttack_Handler"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Mona_FallingAnthem",
+            "abilityMixins": [
+                {
+                    "$type": "AvatarChangeSkillMixin",
+                    "jumpSkillID": 5041010,
+                    "flySkillID": 5041010
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_BS"
+                    ],
+                    "modifierName": "FallingAnthem_BS_Material"
+                },
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_BS_2",
+                        "FallingAnthem_Loop",
+                        "FallingAnthem_Loop_Low"
+                    ],
+                    "modifierName": "FallingAnthem_LoopDamage"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_BS"
+                    ],
+                    "modifierName": "FallingAnthem_BS_VelocityForce_Initialize"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_BS",
+                        "FallingAnthem_Loop",
+                        "FallingAnthem_AS_1",
+                        "FallingAnthem_AS_2"
+                    ],
+                    "modifierName": "FallingAnthem_Height_Detect"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_BS",
+                        "FallingAnthem_Loop",
+                        "FallingAnthem_AS_1",
+                        "FallingAnthem_AS_2"
+                    ],
+                    "modifierName": "FallingAnthem_FallingDamageImmune_01"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_BS",
+                        "FallingAnthem_Loop"
+                    ],
+                    "modifierName": "Inertia"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_BS",
+                        "FallingAnthem_Loop",
+                        "FallingAnthem_AS_1",
+                        "FallingAnthem_AS_2"
+                    ],
+                    "modifierName": "FallingAnthem_OverHead_Camera"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_BS"
+                    ],
+                    "modifierName": "FallingAnthem_ClearVelocityForce"
+                },
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_BS_2",
+                        "FallingAnthem_Loop",
+                        "FallingAnthem_Loop_Low",
+                        "FallingAnthem_AS_1"
+                    ],
+                    "modifierName": "FallingAnthem_Attach_SelfEffect"
+                },
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_AS_1"
+                    ],
+                    "modifierName": "FallingAnthem_Remove_SelfEffect"
+                },
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_BS_2",
+                        "FallingAnthem_Loop"
+                    ],
+                    "modifierName": "FallingAnthem_SetVisible"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "FallingAnthem_BS",
+                        "FallingAnthem_Loop",
+                        "FallingAnthem_AS_1"
+                    ],
+                    "modifierName": "HideWeapon"
+                }
+            ],
+            "abilitySpecials": {
+                "FallingAnthem_Normal_Loop_Damage": 0.0,
+                "FallingAnthem_Normal_Rank_1_Damage": 0.0,
+                "FallingAnthem_Normal_Rank_2_Damage": 0.0,
+                "FallingAnthem_Altitude_Lv0": 20.0,
+                "FallingAnthem_Altitude_Lv1": 40.0,
+                "FallingAnthem_Altitude_Lv2": 60.0,
+                "FallingAnthem_Altitude_Lv3": 100.0,
+                "FallingAnthem_Altitude_Lv4": 200.0,
+                "FallingAnthem_FallingDamageRatio_Lv0": -1.0,
+                "FallingAnthem_FallingDamageRatio_Lv1": -1.0,
+                "FallingAnthem_FallingDamageRatio_Lv2": -0.8999999761581421,
+                "FallingAnthem_FallingDamageRatio_Lv3": -0.800000011920929,
+                "FallingAnthem_FallingDamageRatio_Lv4": -0.6000000238418579,
+                "FallingAnthem_FallingDamageRatio": 0.0
+            },
+            "modifiers": {
+                "HideWeapon": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerHideWeapon",
+                            "partNames": [
+                                "equip01",
+                                "equip02",
+                                "sheathPoint"
+                            ]
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerHideWeapon",
+                            "visible": true,
+                            "partNames": [
+                                "equip01",
+                                "equip02",
+                                "sheathPoint"
+                            ]
+                        }
+                    ]
+                },
+                "FallingAnthem_SetVisible": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerSetVisible",
+                            "doOffStage": true
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerSetVisible",
+                            "doOffStage": true,
+                            "visible": true
+                        }
+                    ]
+                },
+                "FallingAnthem_BS_Material": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Catalyst_FallAnthem_BS_Water"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "FallingAnthem_BSCameraRadialBlur"
+                        }
+                    ]
+                },
+                "FallingAnthem_BS_VelocityForce_Initialize": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AddGravityScale": -2.0
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "RemoveVelocityForce",
+                            "forces": [
+                                "RushMoveType"
+                            ]
+                        }
+                    ]
+                },
+                "FallingAnthem_LoopDamage": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.30000001192092896,
+                    "onThinkInterval": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackSphere",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    },
+                                    "radius": 1.5
+                                },
+                                "attackInfo": {
+                                    "attackTag": "FallingAttack",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": "FallingAnthem_Normal_Loop_Damage",
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Water",
+                                        "elementDurability": 0.0,
+                                        "strikeType": "Default",
+                                        "enBreak": 5.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV2",
+                                        "hitHaltTimeScale": 0.019999999552965164
+                                    }
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ]
+                },
+                "FallingAnthem_FallingDamageImmune_01": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ClearGlobalValue",
+                            "key": "_ABILITY_FallingAttack_Altitude"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "logic": "LesserOrEqual",
+                                    "value": "FallingAnthem_Altitude_Lv0"
+                                }
+                            ],
+                            "value": "FallingAnthem_FallingDamageRatio_Lv0",
+                            "key": "_ABILITY_FallingAttack_Altitude",
+                            "useLimitRange": true,
+                            "maxValue": "FallingAnthem_FallingDamageRatio_Lv0",
+                            "minValue": "FallingAnthem_FallingDamageRatio_Lv0"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "logic": "LesserOrEqual",
+                                    "value": "FallingAnthem_Altitude_Lv1"
+                                },
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "value": "FallingAnthem_Altitude_Lv0"
+                                }
+                            ],
+                            "value": "FallingAnthem_FallingDamageRatio_Lv1",
+                            "key": "_ABILITY_FallingAttack_Altitude",
+                            "useLimitRange": true,
+                            "maxValue": "FallingAnthem_FallingDamageRatio_Lv1",
+                            "minValue": "FallingAnthem_FallingDamageRatio_Lv1"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "logic": "LesserOrEqual",
+                                    "value": "FallingAnthem_Altitude_Lv2"
+                                },
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "value": "FallingAnthem_Altitude_Lv1"
+                                }
+                            ],
+                            "value": "FallingAnthem_FallingDamageRatio_Lv2",
+                            "key": "_ABILITY_FallingAttack_Altitude",
+                            "useLimitRange": true,
+                            "maxValue": "FallingAnthem_FallingDamageRatio_Lv2",
+                            "minValue": "FallingAnthem_FallingDamageRatio_Lv2"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "logic": "LesserOrEqual",
+                                    "value": "FallingAnthem_Altitude_Lv3"
+                                },
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "value": "FallingAnthem_Altitude_Lv2"
+                                }
+                            ],
+                            "value": "FallingAnthem_FallingDamageRatio_Lv3",
+                            "key": "_ABILITY_FallingAttack_Altitude",
+                            "useLimitRange": true,
+                            "maxValue": "FallingAnthem_FallingDamageRatio_Lv3",
+                            "minValue": "FallingAnthem_FallingDamageRatio_Lv3"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "value": "FallingAnthem_Altitude_Lv3"
+                                }
+                            ],
+                            "value": "FallingAnthem_FallingDamageRatio_Lv4",
+                            "key": "_ABILITY_FallingAttack_Altitude",
+                            "useLimitRange": true,
+                            "maxValue": "FallingAnthem_FallingDamageRatio_Lv4",
+                            "minValue": "FallingAnthem_FallingDamageRatio_Lv4"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "FallingAnthem_FallingDamageImmune_02"
+                        }
+                    ]
+                },
+                "FallingAnthem_FallingDamageImmune_02": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValueToOverrideMap",
+                            "globalValueKey": "_ABILITY_FallingAttack_Altitude",
+                            "overrideMapKey": "FallingAnthem_FallingDamageRatio"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "FallingAnthem_FallingDamageImmune_03"
+                        }
+                    ]
+                },
+                "FallingAnthem_FallingDamageImmune_03": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_FallingDamageRatio": "FallingAnthem_FallingDamageRatio"
+                    }
+                },
+                "Inertia": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ApplyInertiaVelocityMixin",
+                            "useXZ": false,
+                            "useY": false
+                        }
+                    ]
+                },
+                "FallingAnthem_Height_Detect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "logic": "LesserOrEqual",
+                                    "value": 2.4000000953674316
+                                }
+                            ],
+                            "value": 0.0,
+                            "key": "_ABILITY_FallingAnthem_UseCamera",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "value": 2.4000000953674316
+                                }
+                            ],
+                            "value": 5.0,
+                            "key": "_ABILITY_FallingAnthem_UseCamera",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "SetAnimatorFloat",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "logic": "LesserOrEqual",
+                                    "value": 2.4000000953674316
+                                }
+                            ],
+                            "floatID": "FallingAnthem_UseCamera",
+                            "value": 0.0
+                        },
+                        {
+                            "$type": "SetAnimatorFloat",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetAltitude",
+                                    "value": 2.4000000953674316
+                                }
+                            ],
+                            "floatID": "FallingAnthem_UseCamera",
+                            "value": 1.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetAnimatorFloat",
+                            "floatID": "FallingAnthem_UseCamera",
+                            "value": 0.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 0.0,
+                            "key": "_ABILITY_FallingAnthem_UseCamera",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "FallingAnthem_OverHead_Camera": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AvatarCameraParam",
+                            "predicates": [
+                                {
+                                    "$type": "ByAnimatorFloat",
+                                    "logic": "Equal",
+                                    "value": 1.0,
+                                    "parameter": "FallingAnthem_UseCamera"
+                                }
+                            ],
+                            "cameraParam": {
+                                "forceRadius": 4.5,
+                                "forceRadiusDuration": 0.20000000298023224,
+                                "shouldKeepForceRadius": true
+                            }
+                        }
+                    ]
+                },
+                "FallingAnthem_OverHead_Camera_Remover": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AvatarExitCameraShot",
+                            "doOffStage": true
+                        }
+                    ]
+                },
+                "FallingAnthem_Landed_Camera": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AvatarCameraParam",
+                            "predicates": [
+                                {
+                                    "$type": "ByAnimatorFloat",
+                                    "logic": "Equal",
+                                    "value": 1.0,
+                                    "parameter": "FallingAnthem_UseCamera"
+                                }
+                            ],
+                            "cameraParam": {
+                                "forceRadius": 6.0,
+                                "forceRadiusDuration": 0.10000000149011612,
+                                "shouldKeepForceRadius": true
+                            }
+                        }
+                    ]
+                },
+                "FallingAnthem_ClearVelocityForce": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "RemoveVelocityForce",
+                            "forces": [
+                                "RushMoveType",
+                                "InertiaType"
+                            ]
+                        }
+                    ]
+                },
+                "FallingAnthem_Attach_SelfEffect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Avatar_Catalyst_FallAnthem_Self_Water"
+                        }
+                    ]
+                },
+                "FallingAnthem_Remove_SelfEffect": {
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "FallingAnthem_Attach_SelfEffect"
+                        }
+                    ]
+                },
+                "FallingAnthem_BSCameraRadialBlur": {
+                    "modifierName": "",
+                    "duration": 0.30000001192092896,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CameraBlurMixin",
+                            "cameraRadialBlur": {
+                                "power": 0.30000001192092896,
+                                "fadeTime": 0.15000000596046448
+                            }
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerAttackEvent",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ABILITY_FallingAnthem_UseCamera",
+                            "value": 0.0,
+                            "forceByCaster": true,
+                            "compareType": "NoneOrEqual"
+                        }
+                    ],
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackCircle",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": -0.5,
+                                    "z": 0.0
+                                }
+                            },
+                            "height": 2.0,
+                            "radius": 3.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "FallingAttack",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": "FallingAnthem_Normal_Rank_1_Damage",
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Water",
+                                "elementDurability": 25.0,
+                                "strikeType": "Default",
+                                "enBreak": 50.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "none",
+                                "hitImpulseType": "LV3",
+                                "hitHaltTimeScale": 0.10000000149011612
+                            },
+                            "forceCameraShake": true,
+                            "cameraShake": {
+                                "shakeType": "CustomVector",
+                                "shakeRange": 0.23999999463558197,
+                                "shakeTime": 0.11999999731779099,
+                                "shakeDistance": 30.0,
+                                "shakeDir": {
+                                    "y": 1.0
+                                },
+                                "extension": {
+                                    "baseCycle": 0.23999999463558197,
+                                    "cycleDamping": 0.0,
+                                    "rangeAttenuation": 0.30000001192092896
+                                }
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ABILITY_FallingAnthem_UseCamera",
+                            "value": 1.0,
+                            "forceByCaster": true
+                        }
+                    ],
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackCircle",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": -0.5,
+                                    "z": 0.0
+                                }
+                            },
+                            "height": 2.0,
+                            "radius": 3.5
+                        },
+                        "attackInfo": {
+                            "attackTag": "FallingAttack",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": "FallingAnthem_Normal_Rank_2_Damage",
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Water",
+                                "elementDurability": 25.0,
+                                "strikeType": "Default",
+                                "enBreak": 100.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "none",
+                                "hitImpulseType": "LV4",
+                                "hitHaltTimeScale": 0.10000000149011612
+                            },
+                            "forceCameraShake": true,
+                            "cameraShake": {
+                                "shakeType": "CustomVector",
+                                "shakeRange": 0.5,
+                                "shakeTime": 0.20000000298023224,
+                                "shakeDistance": 30.0,
+                                "shakeDir": {
+                                    "y": 1.0,
+                                    "z": 1.0
+                                },
+                                "extension": {
+                                    "baseCycle": 0.4000000059604645,
+                                    "cycleDamping": 0.0,
+                                    "rangeAttenuation": 0.30000001192092896
+                                }
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ABILITY_FallingAnthem_UseCamera",
+                            "value": 0.0,
+                            "forceByCaster": true,
+                            "compareType": "NoneOrEqual"
+                        }
+                    ],
+                    "effectPattern": "Eff_Avatar_Catalyst_FallAnthem_Strike_01_Water"
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ABILITY_FallingAnthem_UseCamera",
+                            "value": 1.0,
+                            "forceByCaster": true
+                        }
+                    ],
+                    "effectPattern": "Eff_Avatar_Catalyst_FallAnthem_Strike_02_Water"
+                }
+            ]
+        }
+    }
+]

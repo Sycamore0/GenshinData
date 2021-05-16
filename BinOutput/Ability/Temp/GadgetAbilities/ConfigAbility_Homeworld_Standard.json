@@ -1,0 +1,208 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Homeworld_Standard_Cooking_Ability",
+            "abilityMixins": [
+                {
+                    "$type": "HomeworldEnterEditorMixin",
+                    "editorModifierNames": [
+                        "OnHomeEditor"
+                    ],
+                    "worldModifierNames": [
+                        "OnHomeWorld"
+                    ]
+                }
+            ],
+            "modifiers": {
+                "OnHomeEditor": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "OnHomeWorld": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_Homeworld_Cooking",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "Fire_State"
+                        }
+                    ]
+                },
+                "Fire_State": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "_Homeworld_Cooking",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5
+                            ],
+                            "modifierNameSteps": [
+                                "Fire_Off",
+                                "Fire_On"
+                            ]
+                        }
+                    ]
+                },
+                "Fire_Off": {
+                    "modifierName": "",
+                    "duration": 5.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_Homeworld_Cooking",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onBeingHit": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitElement",
+                                    "element": "Fire"
+                                }
+                            ],
+                            "value": 1.0,
+                            "key": "_Homeworld_Cooking",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "Fire_On": {
+                    "modifierName": "",
+                    "elementType": "Fire",
+                    "elementDurability": 25.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_Griller_FireCook_01",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "FirePoint"
+                            }
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "FireBasin_Smoke",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "FirePoint"
+                            }
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_Homeworld_Cooking",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Homeworld_Standard_Candlelight_Ability",
+            "onAdded": [
+                {
+                    "$type": "AttachEffect",
+                    "effectPattern": "Eff_SceneObj_LYG_Common_Candlestick01_01"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Homeworld_Standard_Bush_Ability",
+            "modifiers": {
+                "Restart": {
+                    "modifierName": "",
+                    "duration": 10.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "FireBasin_Smoke",
+                            "born": {
+                                "$type": "ConfigBornType",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": -0.20000000298023224,
+                                    "z": 0.0
+                                },
+                                "onGround": true
+                            }
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "GrassMaterial"
+                        }
+                    ]
+                },
+                "GrassMaterial": {
+                    "modifierName": "",
+                    "elementType": "Grass",
+                    "elementDurability": 30.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_ABILITY_BURNING_IGNITE_ONLY",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 1.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Restart"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "GrassMaterial"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Homeworld_Standard_MainBuilding_Ability",
+            "onAdded": [
+                {
+                    "$type": "ChangeTag",
+                    "tag": "Homeworld_Standard_MainBuilding"
+                }
+            ]
+        }
+    }
+]

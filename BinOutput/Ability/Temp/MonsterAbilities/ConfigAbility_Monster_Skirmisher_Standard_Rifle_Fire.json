@@ -1,0 +1,1500 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Rifle_Fire_JumpBack",
+            "onAbilityStart": [
+                {
+                    "$type": "FixedMonsterRushMove",
+                    "toPos": {
+                        "$type": "ConfigBornBySelf",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": -6.0
+                        }
+                    },
+                    "timeRange": 0.25,
+                    "maxRange": 6.0,
+                    "animatorStateIDs": [
+                        "DodgeOnce",
+                        "DodgeTwice_1"
+                    ],
+                    "overrideMoveCollider": ""
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Rifle_Fire_ForceImprove_Pose",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        101
+                    ],
+                    "modifierName": "Monster_Skirmisher_Rifle_Fire_TickHP"
+                },
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_MONSTER_SKIRMISHER_ROCKWALL_BROADCAST",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5
+                    ],
+                    "modifierNameSteps": [
+                        "Monster_Skirmisher_Rifle_Fire_BatteryModeOff",
+                        "Monster_Skirmisher_Rifle_Fire_BatteryModeOn"
+                    ]
+                },
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        104,
+                        202,
+                        105
+                    ],
+                    "modifierName": "Monster_Skirmisher_Rifle_Fire_BatteryMode"
+                }
+            ],
+            "modifiers": {
+                "Monster_Skirmisher_Rifle_Fire_BatteryMode": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetAISkillGCD"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetAISkillGCD",
+                            "value": 2.0
+                        }
+                    ]
+                },
+                "Monster_Skirmisher_Rifle_Fire_BatteryModeOff": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "BatteryMode"
+                        }
+                    ]
+                },
+                "Monster_Skirmisher_Rifle_Fire_BatteryModeOn": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "BatteryMode",
+                            "value": true
+                        }
+                    ]
+                },
+                "Monster_Skirmisher_Rifle_Fire_TickHP": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetHPRatio",
+                                    "logic": "LesserOrEqual",
+                                    "HPRatio": 0.5
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_MONSTER_SKIRMISHER_RIFLE_FIRE_IMPROVENUM",
+                                    "value": 0.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetPoseBool",
+                                    "boolID": "ForceImprove",
+                                    "value": true
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetPoseBool",
+                                    "boolID": "ForceImprove"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": 0.0,
+                    "key": "_MONSTER_SKIRMISHER_RIFLE_FIRE_IMPROVENUM",
+                    "useLimitRange": true,
+                    "maxValue": 10.0,
+                    "minValue": 0.0
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Standard_Rifle_Fire_EyeEffect",
+            "modifiers": {
+                "UNIQUE_Monster_Skirmisher_Rifle_Fire_Eye_NormalEffect": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Skirmisher_Male_Standard_Rifle_Fire_EyeNormal"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Monster_Skirmisher_Rifle_Fire_Eye_NormalEffect"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Monster_Skirmisher_Rifle_Fire_Eye_NormalEffect"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Rifle_Fire_PreCombatRecover",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        9001,
+                        9002,
+                        9003,
+                        9011,
+                        9012,
+                        9013,
+                        9014
+                    ],
+                    "modifierName": "Monster_Skirmisher_Rifle_Fire_BeHitChangePose"
+                }
+            ],
+            "modifiers": {
+                "Monster_Skirmisher_Rifle_Fire_BeHitChangePose": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerHideWeapon",
+                            "partNames": [
+                                "equip01"
+                            ]
+                        },
+                        {
+                            "$type": "TriggerHideWeapon",
+                            "partNames": [
+                                "equip02"
+                            ]
+                        }
+                    ],
+                    "onBeingHit": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "Search"
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "Threat"
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "Attention"
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "Afraid"
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "Practice"
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "Threat"
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "Think"
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "Agree"
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "Talk"
+                        },
+                        {
+                            "$type": "TriggerHideWeapon",
+                            "visible": true,
+                            "partNames": [
+                                "equip01"
+                            ]
+                        },
+                        {
+                            "$type": "TriggerHideWeapon",
+                            "visible": true,
+                            "partNames": [
+                                "equip02"
+                            ]
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01"
+                                ]
+                            },
+                            "effectPattern": "Eff_Monster_Weapon_Disappear"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip02"
+                                ]
+                            },
+                            "effectPattern": "Eff_Monster_Weapon_Disappear"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "SetPoseBool",
+                    "boolID": "Search"
+                },
+                {
+                    "$type": "SetPoseBool",
+                    "boolID": "Threat"
+                },
+                {
+                    "$type": "SetPoseBool",
+                    "boolID": "Attention"
+                },
+                {
+                    "$type": "SetPoseBool",
+                    "boolID": "Afraid"
+                },
+                {
+                    "$type": "SetPoseBool",
+                    "boolID": "Practice"
+                },
+                {
+                    "$type": "SetPoseBool",
+                    "boolID": "Threat"
+                },
+                {
+                    "$type": "SetPoseBool",
+                    "boolID": "Think"
+                },
+                {
+                    "$type": "SetPoseBool",
+                    "boolID": "Agree"
+                },
+                {
+                    "$type": "SetPoseBool",
+                    "boolID": "Talk"
+                },
+                {
+                    "$type": "TriggerHideWeapon",
+                    "visible": true,
+                    "partNames": [
+                        "equip01"
+                    ]
+                },
+                {
+                    "$type": "TriggerHideWeapon",
+                    "visible": true,
+                    "partNames": [
+                        "equip02"
+                    ]
+                },
+                {
+                    "$type": "FireEffect",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByEquipParts",
+                        "equipPartNames": [
+                            "equip01"
+                        ]
+                    },
+                    "effectPattern": "Eff_Monster_Weapon_Disappear"
+                },
+                {
+                    "$type": "FireEffect",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByEquipParts",
+                        "equipPartNames": [
+                            "equip02"
+                        ]
+                    },
+                    "effectPattern": "Eff_Monster_Weapon_Disappear"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Standard_Rifle_Fire_WeaponEffect",
+            "modifiers": {
+                "UNIQUE_Monster_Skirmisher_Standard_Rifle_Fire_Weapon_PowerUp": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Skirmisher_Male_Standard_Rifle_Fire_WeaponPowerUp"
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "PowerUp",
+                            "value": true
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Monster_Skirmisher_Standard_Rifle_Fire_Weapon_PowerUp"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Standard_Rifle_Fire_ReturnToBorn",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        901,
+                        902,
+                        903
+                    ],
+                    "modifierName": "Monster_Skirmisher_Standard_Rifle_Fire_ReturnToBorn_Invincible"
+                }
+            ],
+            "modifiers": {
+                "Monster_Skirmisher_Standard_Rifle_Fire_ReturnToBorn_Invincible": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "Invincible",
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Monster_Skirmisher_Standard_Rifle_Fire_ReturnToBorn_RemoveImproveDelay"
+                        },
+                        {
+                            "$type": "ReTriggerAISkillInitialCD",
+                            "skillIDs": [
+                                401,
+                                403
+                            ]
+                        },
+                        {
+                            "$type": "SetAISkillCDAvailableNow",
+                            "skillIDs": [
+                                401,
+                                403
+                            ]
+                        }
+                    ]
+                },
+                "Monster_Skirmisher_Standard_Rifle_Fire_ReturnToBorn_RemoveImproveDelay": {
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Monster_Skirmisher_Standard_Rifle_Fire_Element"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -11.0,
+                            "key": "_MONSTER_SKIRMISHER_RIFLE_FIRE_IMPROVENUM",
+                            "useLimitRange": true,
+                            "maxValue": 10.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Standard_Rifle_Fire_Improve",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToNormalizedTimeMixin",
+                    "stateID": "Improve",
+                    "modifierName": "Monster_Skirmisher_Standard_Rifle_Fire_ChangePose",
+                    "normalizeStart": 0.49000000953674316
+                }
+            ],
+            "modifiers": {
+                "Monster_Skirmisher_Standard_Rifle_Fire_ChangePose": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "InWeak"
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "ImprovedState",
+                            "value": true
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "WeakState"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Monster_Skirmisher_Standard_Rifle_Fire_Element"
+                        }
+                    ]
+                },
+                "UNIQUE_Monster_Skirmisher_Rifle_Fire_Eye_Improve": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Skirmisher_Male_Standard_Rifle_Fire_EyeNormalToImprove",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "EyeEffect"
+                            }
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Skirmisher_Male_Standard_Staff_Rock_EyeImprove",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "EyeEffect"
+                            }
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Skirmisher_Male_Standard_Rifle_Fire_EyeImproveToNormal",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "EyeEffect"
+                            }
+                        }
+                    ]
+                },
+                "UNIQUE_Monster_Skirmisher_Standard_Rifle_Fire_Element": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementType": "Fire",
+                    "elementDurability": 200.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ShieldBarMixin",
+                            "showDamageText": ""
+                        },
+                        {
+                            "$type": "ModifyElementDecrateMixin",
+                            "group": "Monster_SingleElement_Method_Fire"
+                        }
+                    ],
+                    "properties": {
+                        "Actor_EndureDelta": 0.0,
+                        "Entity_WeightRatio": 5.0,
+                        "Actor_PhysicalSubHurtDelta": 1.0,
+                        "Actor_FireSubHurtDelta": 1.0,
+                        "Actor_ElecSubHurtDelta": 1.0,
+                        "Actor_WaterSubHurtDelta": 1.0,
+                        "Actor_GrassSubHurtDelta": 1.0,
+                        "Actor_WindSubHurtDelta": 1.0,
+                        "Actor_IceSubHurtDelta": 1.0,
+                        "Actor_RockSubHurtDelta": 1.0
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Monster_Skirmisher_Rifle_Fire_AtkTag"
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "ForceImprove"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_MONSTER_SKIRMISHER_RIFLE_FIRE_IMPROVENUM",
+                            "useLimitRange": true,
+                            "maxValue": 10.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Monster_Skirmisher_Rifle_Fire_Eye_NormalEffect"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_Monster_Skirmisher_Rifle_Fire_Eye_Improve"
+                        },
+                        {
+                            "$type": "TriggerAbility",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByChildren",
+                                "configID": 50004048
+                            },
+                            "abilityName": "Monster_Skirmisher_Standard_Rifle_Fire_WeaponEffect"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByAnimatorFloat",
+                                            "logic": "Equal",
+                                            "value": 201.0,
+                                            "parameter": "PoseID"
+                                        },
+                                        {
+                                            "$type": "ByAnimatorFloat",
+                                            "logic": "Equal",
+                                            "value": 202.0,
+                                            "parameter": "PoseID"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "value": 1.0,
+                            "key": "_MONSTER_SKIRMISHER_WEAK_",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "predicates": [
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByAnimatorFloat",
+                                            "logic": "Equal",
+                                            "value": 201.0,
+                                            "parameter": "PoseID"
+                                        },
+                                        {
+                                            "$type": "ByAnimatorFloat",
+                                            "logic": "Equal",
+                                            "value": 202.0,
+                                            "parameter": "PoseID"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "boolID": "InWeak",
+                            "value": true
+                        },
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "predicates": [
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByAnimatorFloat",
+                                            "logic": "Equal",
+                                            "value": 201.0,
+                                            "parameter": "PoseID"
+                                        },
+                                        {
+                                            "$type": "ByAnimatorFloat",
+                                            "logic": "Equal",
+                                            "value": 202.0,
+                                            "parameter": "PoseID"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "triggerID": "WeakStart"
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "predicates": [
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByAnimatorFloat",
+                                            "logic": "Equal",
+                                            "value": 201.0,
+                                            "parameter": "PoseID"
+                                        },
+                                        {
+                                            "$type": "ByAnimatorFloat",
+                                            "logic": "Equal",
+                                            "value": 202.0,
+                                            "parameter": "PoseID"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "boolID": "WeakState",
+                            "value": true
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "ImprovedState"
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01"
+                                ]
+                            },
+                            "boolID": "PowerUp"
+                        },
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Monster_Skirmisher_Rifle_Fire_Eye_Improve"
+                        },
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "Monster_Skirmisher_Standard_Rifle_Fire_EyeEffect"
+                        },
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01"
+                                ]
+                            },
+                            "modifierName": "UNIQUE_Monster_Skirmisher_Standard_Rifle_Fire_Weapon_PowerUp"
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Monster_Skirmisher_Rifle_Fire_Eye_Improve"
+                        },
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01"
+                                ]
+                            },
+                            "modifierName": "UNIQUE_Monster_Skirmisher_Standard_Rifle_Fire_Weapon_PowerUp"
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01"
+                                ]
+                            },
+                            "boolID": "PowerUp"
+                        }
+                    ]
+                },
+                "Monster_Skirmisher_Rifle_Fire_EnterWeak": {
+                    "modifierName": "",
+                    "duration": 0.5,
+                    "elementDurability": 100.0
+                },
+                "Monster_Skirmisher_Rifle_Fire_AtkTag": {
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "Target",
+                            "modifierName": "Monster_Skirmisher_Rifle_Fire_FireTag"
+                        }
+                    ]
+                },
+                "Monster_Skirmisher_Rifle_Fire_FireTag": {
+                    "modifierName": "",
+                    "duration": 8.0,
+                    "elementType": "Fire",
+                    "elementDurability": 50.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_SKIRMISHER_ELEMENT_FIRE_",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "target": "Target",
+                            "value": -5.0,
+                            "key": "_SKIRMISHER_ELEMENT_FIRE_",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Standard_Rifle_Fire_ExitWeak",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToNormalizedTimeMixin",
+                    "stateID": "Weak_BS",
+                    "modifierName": "Monster_Skirmisher_Standard_Rifle_Fire_ExitWeakModiferTimer"
+                },
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_MONSTER_SKIRMISHER_RECOVER",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5
+                    ],
+                    "modifierNameSteps": [
+                        "Empty",
+                        "Skirmisher_RecoverFromWeak"
+                    ]
+                }
+            ],
+            "modifiers": {
+                "Empty": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "Monster_Skirmisher_Standard_Rifle_Fire_ExitWeakModiferTimer": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Monster_Skirmisher_Standard_Rifle_Fire_ExitWeakDelay"
+                        }
+                    ]
+                },
+                "Monster_Skirmisher_Standard_Rifle_Fire_ExitWeakDelay": {
+                    "modifierName": "",
+                    "duration": 10.0,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_EndureDelta": 0.0
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -2.0,
+                            "key": "_MONSTER_SKIRMISHER_RECOVER",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_MONSTER_SKIRMISHER_RECOVER",
+                                    "value": 1.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetAISkillCDAvailableNow",
+                                    "skillIDs": [
+                                        401,
+                                        403
+                                    ]
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "ReTriggerAISkillInitialCD",
+                                    "skillIDs": [
+                                        401,
+                                        403
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Skirmisher_RecoverFromWeak"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -2.0,
+                            "key": "_MONSTER_SKIRMISHER_RECOVER",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Monster_Skirmisher_Standard_Rifle_Fire_ExitWeakDelay"
+                        }
+                    ]
+                },
+                "Skirmisher_RecoverFromWeak": {
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "InWeak"
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "WeakState"
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "AfterFirstImprove",
+                            "value": true
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -2.0,
+                            "key": "_MONSTER_SKIRMISHER_WEAK_",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Standard_Rifle_Fire_Steer",
+            "abilityMixins": [
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "Turn"
+                    ],
+                    "angularSpeed": 120.0,
+                    "attackTrigger": "",
+                    "attackDistance": 2.0
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "RangeAtk"
+                    ],
+                    "endNormalizedTime": 0.550000011920929,
+                    "angularSpeed": 300.0,
+                    "attackTrigger": "",
+                    "attackDistance": 2.0
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "ImprovedRangeAtk"
+                    ],
+                    "endNormalizedTime": 0.4399999976158142,
+                    "angularSpeed": 300.0,
+                    "attackTrigger": "",
+                    "attackDistance": 2.0
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "DodgeState"
+                    ],
+                    "endNormalizedTime": 0.2800000011920929,
+                    "angularSpeed": 150.0,
+                    "attackTrigger": "",
+                    "attackDistance": 2.0
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Male_Standard_Rifle_Fire_TriggerBullet",
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerBullet",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByChildren",
+                        "configID": 50004048
+                    },
+                    "bulletID": 42301008,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "direction": {
+                            "$type": "ConfigDirectionByAttackTarget",
+                            "maxAngleType": "Vertical",
+                            "maxAngle": 20.0
+                        },
+                        "attachPointName": "Head"
+                    },
+                    "lifeByOwnerIsAlive": true
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Skirmisher_Male_Standard_Rifle_Fire_NormalShoot_Launch",
+                    "born": {
+                        "$type": "ConfigBornBySelf",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 1.850000023841858,
+                            "z": 1.399999976158142
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Standard_Rifle_Fire_NoramalShoot_ChargeEffect",
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByChildren",
+                        "configID": 50004048
+                    },
+                    "effectPattern": "Eff_Monster_Skirmisher_Male_Standard_Rifle_Fire_NormalShoot_Charge",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "Head"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Male_Standard_Rifle_Fire_TriggerPowerBullet",
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerBullet",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByChildren",
+                        "configID": 50004048
+                    },
+                    "bulletID": 42301009,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "direction": {
+                            "$type": "ConfigDirectionByAttackTarget",
+                            "maxAngleType": "Vertical",
+                            "maxAngle": 20.0
+                        },
+                        "attachPointName": "Head"
+                    },
+                    "lifeByOwnerIsAlive": true
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Skirmisher_Male_Standard_Rifle_Fire_ImproveShoot_Launch",
+                    "born": {
+                        "$type": "ConfigBornBySelf",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 1.6799999475479126,
+                            "z": 1.399999976158142
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Standard_Rifle_Fire_ImproveShoot_ChargeEffect",
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByChildren",
+                        "configID": 50004048
+                    },
+                    "effectPattern": "Eff_Monster_Skirmisher_Male_Standard_Rifle_Fire_ImproveShoot_Charge",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "Head"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Male_Standard_Rifle_Fire_TriggerBurstBullet",
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerBullet",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByChildren",
+                        "configID": 50004048
+                    },
+                    "bulletID": 42301009,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "direction": {
+                            "$type": "ConfigDirectionByAttackTarget",
+                            "maxAngleType": "Vertical",
+                            "maxAngle": 20.0
+                        },
+                        "attachPointName": "Head"
+                    },
+                    "lifeByOwnerIsAlive": true
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Skirmisher_Male_Standard_Rifle_Fire_BurstShoot_Launch",
+                    "born": {
+                        "$type": "ConfigBornBySelf",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 1.850000023841858,
+                            "z": 1.399999976158142
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Standard_Rifle_Fire_BurstShoot_ChargeEffect",
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByChildren",
+                        "configID": 50004048
+                    },
+                    "effectPattern": "Eff_Monster_Skirmisher_Male_Standard_Rifle_Fire_BurstShoot_Charge",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "Head"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Skirmisher_Rifle_Fire_NormalBullet_Explode",
+            "modifiers": {
+                "Skirmisher_Rifle_Fire_NormalBulletEffect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Skirmisher_Male_Standard_Rifle_Fire_NormalShoot_Bullet"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Skirmisher_Male_Standard_Rifle_Fire_NormalShoot_BulletTrail"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "Skirmisher_Rifle_Fire_NormalBulletEffect"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveModifier",
+                    "modifierName": "Skirmisher_Rifle_Fire_NormalBulletEffect"
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Skirmisher_Male_Standard_Rifle_Fire_NormalShoot_BulletHit"
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackSphere",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornBySelf"
+                            },
+                            "radius": 1.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 1.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementDurability": 100.0,
+                                "strikeType": "Blunt",
+                                "enBreak": 100.0,
+                                "attackType": "Range"
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "none",
+                                "hitImpulseType": "LV2"
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Skirmisher_Rifle_Fire_ImproveBullet_Explode",
+            "modifiers": {
+                "Skirmisher_Rifle_Fire_ImproveBulletEffect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Skirmisher_Male_Standard_Rifle_Fire_ImproveShoot_Bullet"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Skirmisher_Male_Standard_Rifle_Fire_ImproveShoot_BulletTrail"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "Skirmisher_Rifle_Fire_ImproveBulletEffect"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveModifier",
+                    "modifierName": "Skirmisher_Rifle_Fire_ImproveBulletEffect"
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Skirmisher_Male_Standard_Rifle_Fire_ImproveShoot_BulletHit"
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackSphere",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornBySelf"
+                            },
+                            "radius": 1.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 1.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Fire",
+                                "elementDurability": 50.0,
+                                "strikeType": "Blunt",
+                                "enBreak": 100.0,
+                                "attackType": "Range"
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "none",
+                                "hitImpulseType": "LV2"
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Skirmisher_Rifle_Fire_BurstBullet_Explode",
+            "modifiers": {
+                "Skirmisher_Rifle_Fire_BurstBulletEffect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Skirmisher_Male_Standard_Rifle_Fire_BurstShoot_Bullet"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Skirmisher_Male_Standard_Rifle_Fire_BurstShoot_BulletTrail"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "Skirmisher_Rifle_Fire_BurstBulletEffect"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveModifier",
+                    "modifierName": "Skirmisher_Rifle_Fire_BurstBulletEffect"
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Skirmisher_Male_Standard_Rifle_Fire_BurstShoot_BulletExplode"
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackSphere",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornBySelf"
+                            },
+                            "radius": 1.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "Improve_FireShoot",
+                            "attenuationTag": "Improve_FireShoot",
+                            "attenuationGroup": "Skirmisher_Fat_SprayGun_Ice",
+                            "attackProperty": {
+                                "damagePercentage": 1.5,
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Fire",
+                                "elementDurability": 50.0,
+                                "strikeType": "Blunt",
+                                "enBreak": 100.0,
+                                "attackType": "Range"
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "none",
+                                "hitImpulseType": "LV2"
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Standard_Rifle_Fire_StruggleHideWeapon",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToNormalizedTimeMixin",
+                    "stateID": "Struggle",
+                    "modifierName": "Monster_Skirmisher_Standard_Rifle_Fire_StruggleHideWeapon"
+                },
+                {
+                    "$type": "AttachToNormalizedTimeMixin",
+                    "stateID": "SwimDie",
+                    "modifierName": "Monster_Skirmisher_Standard_Rifle_Fire_StruggleHideWeapon"
+                },
+                {
+                    "$type": "AttachToNormalizedTimeMixin",
+                    "stateID": "SwimDie_AS",
+                    "modifierName": "Monster_Skirmisher_Standard_Rifle_Fire_StruggleHideWeapon"
+                }
+            ],
+            "modifiers": {
+                "Monster_Skirmisher_Standard_Rifle_Fire_StruggleHideWeapon": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerHideWeapon",
+                            "partNames": [
+                                "equip01"
+                            ]
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerHideWeapon",
+                            "visible": true,
+                            "partNames": [
+                                "equip01"
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Standard_Rifle_Fire_WeaponSpecialState",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToAbilityStateMixin",
+                    "abilityStates": [
+                        "ElementFreeze"
+                    ],
+                    "modifierName": "Monster_Skirmisher_Standard_Rifle_Fire_WeaponFrozen"
+                },
+                {
+                    "$type": "AttachToAbilityStateMixin",
+                    "abilityStates": [
+                        "ElementPetrifaction"
+                    ],
+                    "modifierName": "Monster_Skirmisher_Standard_Rifle_Fire_WeaponPetrifaction"
+                }
+            ],
+            "modifiers": {
+                "Monster_Skirmisher_Standard_Rifle_Fire_WeaponFrozen": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01"
+                                ]
+                            },
+                            "modifierName": "Monster_Skirmisher_Standard_Rifle_Fire_WeaponBeFrozen"
+                        }
+                    ]
+                },
+                "Monster_Skirmisher_Standard_Rifle_Fire_WeaponPetrifaction": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01"
+                                ]
+                            },
+                            "modifierName": "Monster_Skirmisher_Standard_Rifle_Fire_WeaponBePetrifaction"
+                        }
+                    ]
+                },
+                "Monster_Skirmisher_Standard_Rifle_Fire_WeaponBeFrozen": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "ElementFreeze"
+                },
+                "Monster_Skirmisher_Standard_Rifle_Fire_WeaponBePetrifaction": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "ElementPetrifaction"
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Skirmisher_Standard_Rifle_Fire_Die",
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Monster_Skirmisher_Standard_Rifle_Fire_Element"
+                }
+            ]
+        }
+    }
+]

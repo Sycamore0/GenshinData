@@ -1,0 +1,266 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Player_StaminaReduced_AbilityGroup",
+            "modifiers": {
+                "UNIQUE_Avatar_StaminaReduced_AbilityGroup": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachToStateIDMixin",
+                            "stateIDs": [
+                                "Fly"
+                            ],
+                            "modifierName": "Avatar_Flying_StaminaReduced"
+                        },
+                        {
+                            "$type": "AttachToAnimatorStateIDMixin",
+                            "stateIDs": [
+                                "Run"
+                            ],
+                            "modifierName": "Avatar_Flying_StaminaReduced"
+                        }
+                    ]
+                },
+                "Avatar_Flying_StaminaReduced": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_CostStaminaRatio": -0.8999999761581421,
+                        "Actor_EndureDelta": 0.0
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachAbilityStateResistance",
+                            "resistanceListID": 11002
+                        },
+                        {
+                            "$type": "SetAvatarHitBuckets",
+                            "overrideAvatarHitBucketSetting": {
+                                "rangedBucketCount": 4
+                            }
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Avatar_StaminaReduced_AbilityGroup"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Remove_Avatar_Player_StaminaReduced_AbilityGroup",
+            "onAdded": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Avatar_StaminaReduced_AbilityGroup"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Player_QuestFireDrug_AbilityGroup",
+            "modifiers": {
+                "UNIQUE_AlbedoQuest_Fire_DrugWater": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 8.0,
+                    "elementType": "Fire",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onAdded": [
+                        {
+                            "$type": "DamageByAttackValue",
+                            "attackInfo": {
+                                "attackTag": "",
+                                "attenuationTag": "",
+                                "attenuationGroup": "default",
+                                "attackProperty": {
+                                    "damagePercentageRatio": 0.0,
+                                    "elementType": "Fire",
+                                    "elementDurability": 100.0,
+                                    "strikeType": "Default",
+                                    "enBreak": 0.0,
+                                    "damageExtra": 10.0
+                                },
+                                "hitPattern": {
+                                    "onHitEffectName": "",
+                                    "hitImpulseType": "LV0"
+                                }
+                            }
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "DamageByAttackValue",
+                            "attackInfo": {
+                                "attackTag": "",
+                                "attenuationTag": "",
+                                "attenuationGroup": "default",
+                                "attackProperty": {
+                                    "damagePercentageRatio": 0.0,
+                                    "elementType": "Fire",
+                                    "elementDurability": 100.0,
+                                    "strikeType": "Default",
+                                    "enBreak": 0.0,
+                                    "damageExtra": 10.0
+                                },
+                                "hitPattern": {
+                                    "onHitEffectName": "",
+                                    "hitImpulseType": "LV0"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_AlbedoQuest_Fire_DrugWater"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_QuestAbility_XiaoTriggerElementalBurst",
+            "modifiers": {
+                "AutoTriggerAbility": {
+                    "stacking": "Multiple",
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "DoSkill"
+                        },
+                        {
+                            "$type": "SetAnimatorInt",
+                            "intID": "SkillID",
+                            "value": 5.0
+                        }
+                    ]
+                },
+                "UNIQUE_QuestBuff_DeductElemEnergy": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 5.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "DoActionByEnergyChangeMixin",
+                            "elementTypes": [
+                                "Water",
+                                "Rock",
+                                "Fire",
+                                "Electric",
+                                "Grass",
+                                "Wind",
+                                "Ice"
+                            ],
+                            "doWhenEnergyMax": true,
+                            "onGainEnergyByBall": [
+                                {
+                                    "$type": "HealHP",
+                                    "amountByTargetMaxHPRatio": 0.10000000149011612
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "ReviveElemEnergyMixin",
+                            "period": 0.5,
+                            "baseEnergy": -30.0,
+                            "ratio": 1.0
+                        },
+                        {
+                            "$type": "StageReadyMixin",
+                            "onStageReady": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "CurLocalAvatar",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHasFeatureTag",
+                                            "featureTagIDs": [
+                                                10026
+                                            ]
+                                        }
+                                    ],
+                                    "modifierName": "AutoTriggerAbility"
+                                }
+                            ]
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "QuestBuff_XiaoTriggerElementalBurst",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ClearGlobalValue",
+                            "key": "QuestBuff_XiaoTriggerElementalBurst"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "AddElementDurability",
+                            "value": 100.0,
+                            "modifierName": "UNIQUE_HowlingSoul_Main_Handler",
+                            "maxValue": 3.4028234663852886e+38
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "ApplyModifier",
+                    "target": "CurLocalAvatar",
+                    "predicates": [
+                        {
+                            "$type": "ByHasFeatureTag",
+                            "featureTagIDs": [
+                                10026
+                            ]
+                        }
+                    ],
+                    "modifierName": "AutoTriggerAbility"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "target": "CurLocalAvatar",
+                    "doOffStage": true,
+                    "predicates": [
+                        {
+                            "$type": "ByHasFeatureTag",
+                            "featureTagIDs": [
+                                10026
+                            ]
+                        }
+                    ],
+                    "modifierName": "UNIQUE_QuestBuff_DeductElemEnergy"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    }
+]

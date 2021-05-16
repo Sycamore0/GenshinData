@@ -1,0 +1,1021 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Team_TeamChargeMark",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_Ability_TeamChargeMark",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        19.5,
+                        20.5
+                    ],
+                    "modifierNameSteps": [
+                        "Blank"
+                    ],
+                    "actionQueues": [
+                        [
+                            {
+                                "$type": "AddGlobalValue",
+                                "value": 1.0,
+                                "key": "_Ability_TeamFullChargeMark",
+                                "useLimitRange": true,
+                                "maxValue": 1.0,
+                                "minValue": 0.0
+                            },
+                            {
+                                "$type": "AddGlobalValue",
+                                "value": -20.0,
+                                "key": "_Ability_TeamChargeMark",
+                                "useLimitRange": true,
+                                "maxValue": 20.0,
+                                "minValue": 0.0
+                            }
+                        ]
+                    ]
+                },
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_Ability_TeamFullChargeMark",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5
+                    ],
+                    "modifierNameSteps": [
+                        "Blank",
+                        "Blank"
+                    ],
+                    "actionQueues": [
+                        [
+                            {
+                                "$type": "RemoveModifier",
+                                "target": "CurTeamAvatars",
+                                "doOffStage": true,
+                                "modifierName": "TeamFullChargeEffect"
+                            }
+                        ],
+                        [
+                            {
+                                "$type": "ApplyModifier",
+                                "target": "CurLocalAvatar",
+                                "modifierName": "TeamFullChargeEffect"
+                            }
+                        ]
+                    ]
+                },
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_Ability_AvatarFullChargeMark",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5
+                    ],
+                    "modifierNameSteps": [
+                        "Blank",
+                        "Blank"
+                    ],
+                    "actionQueues": [
+                        [
+                            {
+                                "$type": "RemoveModifier",
+                                "target": "CurTeamAvatars",
+                                "doOffStage": true,
+                                "modifierName": "AvatarFullChargeEffect"
+                            }
+                        ],
+                        [
+                            {
+                                "$type": "ApplyModifier",
+                                "target": "CurTeamAvatars",
+                                "doOffStage": true,
+                                "modifierName": "AvatarFullChargeEffect"
+                            }
+                        ]
+                    ]
+                }
+            ],
+            "modifiers": {
+                "Blank": {
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0
+                },
+                "TeamChargeMark_Decay": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 5.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "_Ability_TeamChargeMark",
+                            "useLimitRange": true,
+                            "maxValue": 20.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "TeamFullChargeEffect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Avatar_WhiteBox_TeamChargeMark"
+                        }
+                    ]
+                },
+                "AvatarFullChargeEffect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "doOffStage": true,
+                            "effectPattern": ""
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "TeamChargeMark_Decay"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "TeamTalentSwitch",
+            "modifiers": {
+                "UNIQUE_TeamTalentSwitch": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 10.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_TeamTalent_Switch",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_WhiteBox_TeamTalent_Switch"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -1.0,
+                            "key": "_ABILITY_TeamTalent_Switch",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "TeamTalent_CoolDown_Trigger",
+            "modifiers": {
+                "UNIQUE_CoolDown_Trigger": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_TeamTalent_CoolDown_Trigger",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -1.0,
+                            "key": "_ABILITY_TeamTalent_CoolDown_Trigger",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "ApplyModifier",
+                    "target": "CurTeamAvatars",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_CoolDown_Trigger"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Team_Talent_ReduceFlyStamina"
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Team_Talent_FallingDamageReduction"
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Team_Talent_DashStaminaReduction"
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Team_WindSeedSpawner_Manager",
+            "abilityMixins": [
+                {
+                    "$type": "WindSeedSpawnerMixin",
+                    "spawnerRadius": 15.0,
+                    "spawnerAreaAngle": 120.0,
+                    "moveRefreshAngleFreeze": 15.0,
+                    "moveRefreshAngleSlow": 45.0,
+                    "minNumPerSpawn": 1,
+                    "maxNumPerSpawn": 2,
+                    "minSeparateRange": 6.0,
+                    "maxSeparateRange": 10.0,
+                    "removeSeedDistance": 30.0,
+                    "refreshMeterPerMeter": 6.0,
+                    "refreshMeterPerSecond": 15.0,
+                    "windForceModifier": "WindForce_Handle",
+                    "windExplodeModifier": "WindSeed_Explode",
+                    "windBulletAbility": "WindSeed_Bullet_Manager",
+                    "globalValueKey": "_HAS_ELEMFORCE_WIND",
+                    "spawnNumArray": [
+                        1,
+                        2,
+                        2,
+                        0
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Team_Chemistry_PlayerUidNotify",
+            "abilitySpecials": {
+                "BrustDuration": 60.0
+            },
+            "modifiers": {
+                "AddPlayerUidNotifyMixin": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "PlayerUidNotifyMixin",
+                            "opParam": "random_buff",
+                            "opType": 1,
+                            "logic": "Equal",
+                            "actions": [
+                                {
+                                    "$type": "AddServerBuff",
+                                    "target": "CurTeamAvatars",
+                                    "sBuffId": 600101
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "PlayerUidNotifyMixin",
+                            "opParam": "random_user",
+                            "opType": 1,
+                            "logic": "Equal",
+                            "actions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Team",
+                                    "modifierName": "ElementBurst_Water"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "PlayerUidNotifyMixin",
+                            "opParam": "random_user",
+                            "opType": 2,
+                            "logic": "Equal",
+                            "actions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Team",
+                                    "modifierName": "ElementBurst_Fire"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "PlayerUidNotifyMixin",
+                            "opParam": "random_user",
+                            "opType": 3,
+                            "logic": "Equal",
+                            "actions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Team",
+                                    "modifierName": "ElementBurst_Electric"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "PlayerUidNotifyMixin",
+                            "opParam": "random_user",
+                            "opType": 4,
+                            "logic": "Equal",
+                            "actions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Team",
+                                    "modifierName": "ElementBurst_Ice"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "PlayerUidNotifyMixin",
+                            "opParam": "random_user",
+                            "opType": 5,
+                            "logic": "Equal",
+                            "actions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Team",
+                                    "modifierName": "ElementBurst_Wind"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "PlayerUidNotifyMixin",
+                            "opParam": "random_user",
+                            "opType": 6,
+                            "logic": "Equal",
+                            "actions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Team",
+                                    "modifierName": "ElementBurst_Rock"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "PlayerUidNotifyMixin",
+                            "opParam": "random_user",
+                            "opType": 7,
+                            "logic": "Equal",
+                            "actions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Team",
+                                    "modifierName": "ElementBurst_Grass"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "ElementBurst_Water": {
+                    "modifierName": "",
+                    "duration": "BrustDuration",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "target": "Team",
+                            "value": 1.0,
+                            "key": "_Crucible_Grume_Player_In_Burst",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "target": "Team",
+                            "value": -1.0,
+                            "key": "_Crucible_Grume_Player_In_Burst",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "ElementBurst_Wind": {
+                    "modifierName": "",
+                    "duration": "BrustDuration",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "target": "Team",
+                            "value": 1.0,
+                            "key": "_Crucible_Grume_Player_In_Burst",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "target": "Team",
+                            "value": -1.0,
+                            "key": "_Crucible_Grume_Player_In_Burst",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "ElementBurst_Fire": {
+                    "modifierName": "",
+                    "duration": "BrustDuration",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "target": "Team",
+                            "value": 1.0,
+                            "key": "_Crucible_Grume_Player_In_Burst",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "target": "Team",
+                            "value": -1.0,
+                            "key": "_Crucible_Grume_Player_In_Burst",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "ElementBurst_Electric": {
+                    "modifierName": "",
+                    "duration": "BrustDuration",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "target": "Team",
+                            "value": 1.0,
+                            "key": "_Crucible_Grume_Player_In_Burst",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "target": "Team",
+                            "value": -1.0,
+                            "key": "_Crucible_Grume_Player_In_Burst",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "ElementBurst_Ice": {
+                    "modifierName": "",
+                    "duration": "BrustDuration",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "target": "Team",
+                            "value": 1.0,
+                            "key": "_Crucible_Grume_Player_In_Burst",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "target": "Team",
+                            "value": -1.0,
+                            "key": "_Crucible_Grume_Player_In_Burst",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "ElementBurst_Rock": {
+                    "modifierName": "",
+                    "duration": "BrustDuration",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "target": "Team",
+                            "value": 1.0,
+                            "key": "_Crucible_Grume_Player_In_Burst",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "target": "Team",
+                            "value": -1.0,
+                            "key": "_Crucible_Grume_Player_In_Burst",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "ElementBurst_Grass": {
+                    "modifierName": "",
+                    "duration": "BrustDuration",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "target": "Team",
+                            "value": 1.0,
+                            "key": "_Crucible_Grume_Player_In_Burst",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "target": "Team",
+                            "value": -1.0,
+                            "key": "_Crucible_Grume_Player_In_Burst",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "AddPlayerUidNotifyMixin"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Team_AsterMiddle_PlayerUidNotify",
+            "abilitySpecials": {
+                "BrustDuration": 10.0
+            },
+            "modifiers": {
+                "AddPlayerUidNotifyMixin": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "PlayerUidNotifyMixin",
+                            "opParam": "random_call",
+                            "opType": 1,
+                            "logic": "Equal",
+                            "actions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Team",
+                                    "modifierName": "UNIQUE_Atk_Up"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "PlayerUidNotifyMixin",
+                            "opParam": "random_call",
+                            "opType": 2,
+                            "logic": "Equal",
+                            "actions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Team",
+                                    "modifierName": "UNIQUE_Def_Up"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "PlayerUidNotifyMixin",
+                            "opParam": "random_call",
+                            "opType": 3,
+                            "logic": "Equal",
+                            "actions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Team",
+                                    "modifierName": "UNIQUE_Spd_Up"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Atk_Up": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "BrustDuration",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": 0.5
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Def_Up": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "BrustDuration",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_DefenceRatio": 0.5
+                    },
+                    "state": "DefenseUp",
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Spd_Up": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "BrustDuration",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Animator_MoveSpeedRatio": 0.5
+                    },
+                    "state": "SpeedUp",
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "AddPlayerUidNotifyMixin"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "WindSeed_Bullet_Manager",
+            "modifiers": {
+                "WindForce_Avatar_Handler": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "OnAvatarUseSkillMixin",
+                            "onTriggerSkill": [
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "target": "Team",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByAvatarElementType",
+                                            "target": "CurLocalAvatar",
+                                            "elementType": "Wind"
+                                        }
+                                    ],
+                                    "value": 3.0,
+                                    "key": "_HAS_ELEMFORCE_WIND",
+                                    "useLimitRange": true,
+                                    "maxValue": 3.0,
+                                    "minValue": 3.0
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Team",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByAvatarElementType",
+                                            "target": "CurLocalAvatar",
+                                            "elementType": "Wind"
+                                        }
+                                    ],
+                                    "modifierName": "WindSeed_Explode"
+                                }
+                            ],
+                            "onTriggerUltimateSkill": [
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "target": "Team",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByAvatarElementType",
+                                            "target": "CurLocalAvatar",
+                                            "elementType": "Wind"
+                                        }
+                                    ],
+                                    "value": 3.0,
+                                    "key": "_HAS_ELEMFORCE_WIND",
+                                    "useLimitRange": true,
+                                    "maxValue": 3.0,
+                                    "minValue": 3.0
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Team",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByAvatarElementType",
+                                            "target": "CurLocalAvatar",
+                                            "elementType": "Wind"
+                                        }
+                                    ],
+                                    "modifierName": "WindSeed_Explode"
+                                }
+                            ]
+                        }
+                    ],
+                    "properties": {
+                        "Actor_CostStaminaRatio": -0.30000001192092896
+                    },
+                    "isLimitedProperties": true
+                },
+                "WindSeed": {
+                    "modifierName": "",
+                    "duration": 15.0,
+                    "elementDurability": 50.0,
+                    "onAdded": [
+                        {
+                            "$type": "CreateGadget",
+                            "target": "CurLocalAvatar",
+                            "ownerIs": "Other",
+                            "gadgetID": 70900333,
+                            "campID": 1001,
+                            "campTargetType": "Enemy"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "target": "CurTeamAvatars",
+                            "modifierName": "WindForce_Avatar_Handler"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR2",
+                                "centerBasedOn": "CurLocalAvatar",
+                                "campTargetType": "All",
+                                "campBasedOn": "CurLocalAvatar",
+                                "sizeRatio": 1.0
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_IS_ELEMENT_WIND_BULLET",
+                                    "value": 1.0
+                                }
+                            ],
+                            "modifierName": "Kill_Bullet"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "target": "Team",
+                            "value": -1.0,
+                            "key": "_HAS_ELEMFORCE_WIND",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "Kill_Bullet": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ]
+                },
+                "Bullet_Eff2": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Item_Element_WindForce_02"
+                        }
+                    ]
+                },
+                "Bullet_Eff3": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Item_Element_WindForce_03"
+                        }
+                    ]
+                },
+                "WindSeed_Explode": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR2",
+                                "centerBasedOn": "CurLocalAvatar",
+                                "campTargetType": "All",
+                                "campBasedOn": "CurLocalAvatar",
+                                "sizeRatio": 1.0
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_IS_ELEMENT_WIND_BULLET",
+                                    "value": 1.0
+                                }
+                            ],
+                            "modifierName": "Bullet_Eff3"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR2",
+                                "centerBasedOn": "CurLocalAvatar",
+                                "campTargetType": "All",
+                                "campBasedOn": "CurLocalAvatar",
+                                "sizeRatio": 1.0
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_IS_ELEMENT_WIND_BULLET",
+                                    "value": 1.0
+                                }
+                            ],
+                            "modifierName": "Kill_Bullet"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "WindSeed"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Item_WindSeed_Merge"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "CreateGadget",
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "direction": {
+                                    "$type": "ConfigDirectionByWorld"
+                                }
+                            },
+                            "gadgetID": 70900321,
+                            "campID": 1001,
+                            "campTargetType": "All"
+                        }
+                    ],
+                    "fireEventWhenApply": true
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "AddGlobalValue",
+                    "target": "Team",
+                    "value": 1.0,
+                    "key": "_HAS_ELEMFORCE_WIND",
+                    "useLimitRange": true,
+                    "maxValue": 3.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "FireEffect",
+                    "target": "Team",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_HAS_ELEMFORCE_WIND",
+                            "value": 2.0,
+                            "compareType": "LessAndEqual"
+                        }
+                    ],
+                    "effectPattern": "Eff_Item_WindSeed_Pre"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "target": "Team",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_HAS_ELEMFORCE_WIND",
+                            "value": 1.0,
+                            "compareType": "LessAndEqual"
+                        }
+                    ],
+                    "modifierName": "WindSeed"
+                },
+                {
+                    "$type": "AddElementDurability",
+                    "target": "Team",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_HAS_ELEMFORCE_WIND",
+                            "value": 2.0
+                        }
+                    ],
+                    "value": 50.0,
+                    "modifierName": "WindSeed",
+                    "useLimitRange": true,
+                    "maxValue": 50.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByShape",
+                        "shapeName": "CircleR2",
+                        "centerBasedOn": "CurLocalAvatar",
+                        "campTargetType": "All",
+                        "campBasedOn": "CurLocalAvatar",
+                        "sizeRatio": 1.0
+                    },
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_IS_ELEMENT_WIND_BULLET",
+                            "value": 1.0
+                        },
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "target": "Team",
+                            "key": "_HAS_ELEMFORCE_WIND",
+                            "value": 2.0
+                        }
+                    ],
+                    "modifierName": "Bullet_Eff2"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "target": "Team",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_HAS_ELEMFORCE_WIND",
+                            "value": 3.0
+                        }
+                    ],
+                    "modifierName": "WindSeed_Explode"
+                }
+            ]
+        }
+    }
+]

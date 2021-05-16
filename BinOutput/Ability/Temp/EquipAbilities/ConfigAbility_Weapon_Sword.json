@@ -1,0 +1,3848 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_DamageUpToEnemy",
+            "abilitySpecials": {
+                "Rate": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_DamageUpToEnemy_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "ignoreEventInfo": true,
+                            "damagePercentageRatio": "Rate",
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHasElement",
+                                            "element": "Water"
+                                        },
+                                        {
+                                            "$type": "ByHasElement",
+                                            "element": "Ice"
+                                        },
+                                        {
+                                            "$type": "ByHasElement",
+                                            "element": "Frozen"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Sword_DamageUpToEnemy_Handler"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_FullHPCriticUp",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToPredicateMixin",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetHPRatio",
+                            "logic": "GreaterOrEqual",
+                            "HPRatio": 0.8999999761581421
+                        }
+                    ],
+                    "modifierName": "UNIQUE_Sword_FullHPCriticUp"
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_FullHPCriticUp": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_CriticalDelta": "Rate"
+                    },
+                    "isLimitedProperties": true
+                }
+            },
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_OnGainEnergyHealHP",
+            "abilitySpecials": {
+                "HealHP": 0.0,
+                "CDTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_OnGainEnergyHealHP_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "DoActionByEnergyChangeMixin",
+                            "elementTypes": [
+                                "Electric",
+                                "Fire",
+                                "Water",
+                                "Grass",
+                                "Ice",
+                                "Wind",
+                                "Rock"
+                            ],
+                            "doWhenEnergyMax": true,
+                            "onGainEnergyByBall": [
+                                {
+                                    "$type": "HealHP",
+                                    "amountByTargetMaxHPRatio": "HealHP"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_OnGainEnergyHealHP_Handler"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_AttacktUpAfterReaction",
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "BuffTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_AttacktUpAfterReaction_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "DoActionByElementReactionMixin",
+                            "entityTypes": [
+                                "Monster"
+                            ],
+                            "reactionTypes": [
+                                "Explode",
+                                "Shock",
+                                "Superconductor",
+                                "SwirlElectric"
+                            ],
+                            "actions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Sword_AttacktUpAfterReaction"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_AttacktUpAfterReaction": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "BuffTime",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Rate"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Sword_AttacktUpAfterReaction_Handler"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_ExtraDamageWhenCDReady",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Weapon_Sword_ExtraDamageWhenCDReady",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -1.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Sword_ExtraDamageWhenCDReady_CD",
+                        "UNIQUE_Sword_ExtraDamageWhenCDReady_Handler"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "C_Rate": 0.0,
+                "D_Rate": 0.0,
+                "CDTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_ExtraDamageWhenCDReady_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                },
+                                {
+                                    "$type": "ByEquipAffixReady",
+                                    "target": "Self",
+                                    "equipAffixDataID": 111305
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "Randomed",
+                                    "target": "Target",
+                                    "chance": "C_Rate",
+                                    "successActions": [
+                                        {
+                                            "$type": "FireEffect",
+                                            "target": "Target",
+                                            "effectPattern": "Eff_Weapon_Blast_Small",
+                                            "born": {
+                                                "$type": "ConfigBornByHitPoint"
+                                            }
+                                        },
+                                        {
+                                            "$type": "DamageByAttackValue",
+                                            "target": "Target",
+                                            "born": {
+                                                "$type": "ConfigBornByTarget"
+                                            },
+                                            "attackInfo": {
+                                                "attackTag": "",
+                                                "attenuationTag": "",
+                                                "attenuationGroup": "default",
+                                                "attackProperty": {
+                                                    "damagePercentage": "D_Rate",
+                                                    "damagePercentageRatio": 0.0,
+                                                    "elementDurability": 100.0,
+                                                    "strikeType": "Default",
+                                                    "enBreak": 50.0
+                                                },
+                                                "hitPattern": {
+                                                    "onHitEffectName": "default",
+                                                    "hitImpulseType": "Default",
+                                                    "hitHaltTimeScale": 0.009999999776482582
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "$type": "AddGlobalValue",
+                                            "value": -1.0,
+                                            "key": "_ABILITY_Weapon_Sword_ExtraDamageWhenCDReady",
+                                            "useLimitRange": true,
+                                            "maxValue": -1.0,
+                                            "minValue": -1.0
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_ExtraDamageWhenCDReady_CD": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "EquipAffixStart",
+                            "CD": "CDTime",
+                            "equipAffixDataID": 111305
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Sword_ExtraDamageWhenCDReady",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            },
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_MoveSpeedAfterULT",
+            "abilityMixins": [
+                {
+                    "$type": "OnAvatarUseSkillMixin",
+                    "onTriggerUltimateSkill": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_Sword_MoveSpeedAfterULT"
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "BuffTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_MoveSpeedAfterULT": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "BuffTime",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Rate",
+                        "Animator_MoveSpeedRatio": "Rate"
+                    },
+                    "state": "AttackUp",
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "Weapon_Sword_MoveSpeedAfterULT_SpeedUpState"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "Weapon_Sword_MoveSpeedAfterULT_SpeedUpState": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "SpeedUp"
+                }
+            },
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_GenerateBallWhenCritic",
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "CDTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_GenerateBallWhenCritic_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Randomed",
+                            "target": "Target",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitCritical"
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                },
+                                {
+                                    "$type": "ByEquipAffixReady",
+                                    "target": "Self",
+                                    "equipAffixDataID": 111401
+                                }
+                            ],
+                            "chance": "Rate",
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Sword_GenerateBallWhenCritic"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_GenerateBallWhenCritic": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "EquipAffixStart",
+                            "CD": "CDTime",
+                            "equipAffixDataID": 111401
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Weapon_ExtraElementBall"
+                        },
+                        {
+                            "$type": "GenerateElemBall",
+                            "configID": 2024,
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": -1.0
+                                },
+                                "bornRandom": {
+                                    "$type": "BornRandomFromCenter",
+                                    "minRandomRange": 0.0,
+                                    "maxRandomRange": 0.5
+                                }
+                            },
+                            "ratio": 1.0,
+                            "baseEnergy": 6.0
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Sword_GenerateBallWhenCritic_Handler"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_MusicBlast",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_WEAPONSKILL_MusicBlast_COUNT",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        4.5,
+                        6.0,
+                        100.0
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Sword_MusicBlast_Handler",
+                        "UNIQUE_Sword_MusicBlast",
+                        "UNIQUE_Sword_MusicBlast"
+                    ],
+                    "removeAppliedModifier": false
+                },
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_WEAPONSKILL_MusicBlast_COUNT",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        0.5,
+                        1.5,
+                        2.5,
+                        3.5,
+                        4.5,
+                        5.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Sword_MusicBlast_Buff1",
+                        "UNIQUE_Sword_MusicBlast_Buff2",
+                        "UNIQUE_Sword_MusicBlast_Buff3",
+                        "UNIQUE_Sword_MusicBlast_Buff4",
+                        "UNIQUE_Sword_MusicBlast_Buff5"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Chance": 0.0,
+                "Rate": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_MusicBlast_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "NormalAttack_01",
+                                        "NormalAttack_02",
+                                        "NormalAttack_03",
+                                        "NormalAttack_04",
+                                        "NormalAttack_05",
+                                        "NormalAttack_06",
+                                        "ExtraAttack"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "Randomed",
+                                    "chance": "Chance",
+                                    "successActions": [
+                                        {
+                                            "$type": "AttachModifier",
+                                            "modifierName": "UNIQUE_Sword_MusicBlast_Add"
+                                        },
+                                        {
+                                            "$type": "AttachModifier",
+                                            "modifierName": "UNIQUE_Sword_MusicBlast_Timer"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_MusicBlast_Timer": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 30.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -10.0,
+                            "key": "_ABILITY_WEAPONSKILL_MusicBlast_COUNT",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_MusicBlast_Add": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.5,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_ABILITY_WEAPONSKILL_MusicBlast_COUNT",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_MusicBlast": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.20000000298023224,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Weapon_MusicBlast"
+                        },
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackSphere",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornByTarget"
+                                    },
+                                    "radius": 4.0
+                                },
+                                "attackInfo": {
+                                    "attackTag": "",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": "Rate",
+                                        "damagePercentageRatio": 0.0,
+                                        "elementDurability": 100.0,
+                                        "strikeType": "Default",
+                                        "enBreak": 100.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV2",
+                                        "hitHaltTimeScale": 0.009999999776482582
+                                    }
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -10.0,
+                            "key": "_ABILITY_WEAPONSKILL_MusicBlast_COUNT",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_MusicBlast_Buff1": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_MusicTag1"
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_MusicBlast_Buff2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_MusicTag2"
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_MusicBlast_Buff3": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_MusicTag3"
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_MusicBlast_Buff4": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_MusicTag4"
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_MusicBlast_Buff5": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_MusicTag5"
+                        }
+                    ]
+                }
+            },
+            "onRemoved": [
+                {
+                    "$type": "AddGlobalValue",
+                    "doOffStage": true,
+                    "value": 0.0,
+                    "key": "_ABILITY_WEAPONSKILL_MusicBlast_COUNT",
+                    "useLimitRange": true,
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_GetShieldBeingHit",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Weapon_Sword_GetShieldBeingHit",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -1.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Sword_GetShieldBeingHit_CD",
+                        "UNIQUE_Sword_GetShieldBeingHit_Handler"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "BuffTime": 0.0,
+                "CDTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_GetShieldBeingHit_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onBeingHit": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByEquipAffixReady",
+                                    "equipAffixDataID": 111403
+                                },
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                }
+                            ],
+                            "value": -1.0,
+                            "key": "_ABILITY_Weapon_Sword_GetShieldBeingHit",
+                            "useLimitRange": true,
+                            "maxValue": -1.0,
+                            "minValue": -1.0
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_GetShieldBeingHit_CD": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "EquipAffixStart",
+                            "CD": "CDTime",
+                            "equipAffixDataID": 111403
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Sword_GetShieldBeingHit_Shield"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Sword_GetShieldBeingHit",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_GetShieldBeingHit_Shield": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "BuffTime",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "EliteShieldMixin",
+                            "shieldType": "default",
+                            "shieldAngle": 360.0,
+                            "shieldHPRatio": "Rate",
+                            "costShieldRatioName": "",
+                            "showDamageText": "INFO_ELITE_DEFENCE",
+                            "onShieldBroken": [
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_Properties_Shield_AS"
+                                }
+                            ]
+                        }
+                    ],
+                    "properties": {
+                        "Actor_EndureDelta": 0.0
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Avatar_Properties_Shield"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Properties_Shield_AS"
+                        }
+                    ],
+                    "onBeingHit": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByHitEnBreak",
+                                    "enBreak": 0.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "UNIQUE_Hit_Effect"
+                                }
+                            ]
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Sword_GetShieldBeingHit_Shield"
+                        }
+                    ]
+                },
+                "UNIQUE_Hit_Effect": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.30000001192092896,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Properties_Shield_Hit_Invalid",
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_ResetCDWhenSkillHit",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Weapon_Sword_ResetCDWhenSkillHit",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -1.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Sword_ResetCDWhenSkillHit_CD",
+                        "UNIQUE_Sword_ResetCDWhenSkillHit_Handler"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "CDTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_ResetCDWhenSkillHit_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                },
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "Elemental_Art"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEquipAffixReady",
+                                    "target": "Self",
+                                    "equipAffixDataID": 111403
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Sword_ResetCDWhenSkillHit_SanCheck"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_ResetCDWhenSkillHit_SanCheck": {
+                    "stacking": "Multiple",
+                    "stackingOption": {
+                        "abilitySpecialName": "",
+                        "maxModifierNumForMultipleType": 3.0
+                    },
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 1.899999976158142,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "Randomed",
+                            "chance": "Rate",
+                            "successActions": [
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "value": -1.0,
+                                    "key": "_ABILITY_Weapon_Sword_ResetCDWhenSkillHit",
+                                    "useLimitRange": true,
+                                    "maxValue": -1.0,
+                                    "minValue": -1.0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_ResetCDWhenSkillHit_CD": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Weapon_ResetCD"
+                        },
+                        {
+                            "$type": "EquipAffixStart",
+                            "CD": "CDTime",
+                            "equipAffixDataID": 111403
+                        },
+                        {
+                            "$type": "ModifyAvatarSkillCD",
+                            "skillSlot": [
+                                2
+                            ],
+                            "cdRatio": -1.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Sword_ResetCDWhenSkillHit",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            },
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_CritUpWhenHitNoCrit",
+            "abilitySpecials": {
+                "Rate": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_CritUpWhenHitNoCrit_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "doOffStage": true,
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                },
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHitCritical"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "UNIQUE_Sword_CritUpWhenHitNoCrit_CD"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "doOffStage": true,
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                },
+                                {
+                                    "$type": "ByHitCritical"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "RemoveModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "UNIQUE_Sword_CritUpWhenHitNoCrit"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_CritUpWhenHitNoCrit_CD": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.30000001192092896,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Sword_CritUpWhenHitNoCrit"
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_CritUpWhenHitNoCrit": {
+                    "stacking": "Multiple",
+                    "stackingOption": {
+                        "abilitySpecialName": "",
+                        "maxModifierNumForMultipleType": 5.0
+                    },
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_CriticalDelta": "Rate"
+                    },
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Sword_CritUpWhenHitNoCrit_Handler"
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "RemoveModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Sword_CritUpWhenHitNoCrit"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_DamageUpToWindEnemy",
+            "abilitySpecials": {
+                "Rate": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_DamageUpToWindEnemy_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "ignoreEventInfo": true,
+                            "damagePercentageRatio": "Rate",
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHasElement",
+                                            "element": "Electric"
+                                        },
+                                        {
+                                            "$type": "ByHasElement",
+                                            "element": "Fire"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Sword_DamageUpToWindEnemy_Handler"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_AttackGainAKTDEFBuff",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_WEAPONSKILL_AttackGainAKTDEFBuff_COUNT",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        0.5,
+                        1.5,
+                        2.5,
+                        3.5,
+                        4.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Sword_AttackGainAKTDEFBuff_Buff1",
+                        "UNIQUE_Sword_AttackGainAKTDEFBuff_Buff2",
+                        "UNIQUE_Sword_AttackGainAKTDEFBuff_Buff3",
+                        "UNIQUE_Sword_AttackGainAKTDEFBuff_Buff4"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_AttackGainAKTDEFBuff_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "NormalAttack_01",
+                                        "NormalAttack_02",
+                                        "NormalAttack_03",
+                                        "NormalAttack_04",
+                                        "NormalAttack_05",
+                                        "NormalAttack_06",
+                                        "ExtraAttack"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "UNIQUE_Sword_AttackGainAKTDEFBuff_CD"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_AttackGainAKTDEFBuff_CD": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.30000001192092896,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_ABILITY_WEAPONSKILL_AttackGainAKTDEFBuff_COUNT",
+                            "useLimitRange": true,
+                            "maxValue": 4.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Sword_AttackGainAKTDEFBuff_Timer"
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_AttackGainAKTDEFBuff_Timer": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 6.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -10.0,
+                            "key": "_ABILITY_WEAPONSKILL_AttackGainAKTDEFBuff_COUNT",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_AttackGainAKTDEFBuff_Buff1": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Rate",
+                        "Actor_DefenceRatio": "Rate"
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_Attack_Stack1"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Sword_AttackGainAKTDEFBuff_Buff2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Rate",
+                            2.0,
+                            "Mul"
+                        ],
+                        "Actor_DefenceRatio": [
+                            "Rate",
+                            2.0,
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_Attack_Stack2"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Sword_AttackGainAKTDEFBuff_Buff3": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Rate",
+                            3.0,
+                            "Mul"
+                        ],
+                        "Actor_DefenceRatio": [
+                            "Rate",
+                            3.0,
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_Attack_Stack3"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Sword_AttackGainAKTDEFBuff_Buff4": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Rate",
+                            4.0,
+                            "Mul"
+                        ],
+                        "Actor_DefenceRatio": [
+                            "Rate",
+                            4.0,
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_Attack_Stack4"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Sword_AttackGainAKTDEFBuff_Handler"
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "AddGlobalValue",
+                    "doOffStage": true,
+                    "value": 0.0,
+                    "key": "_ABILITY_WEAPONSKILL_AttackGainAKTDEFBuff_COUNT",
+                    "useLimitRange": true,
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_AttackGainFullDamgeUpBuff",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Sword_AttackGainFullDamgeUpBuff",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        0.5,
+                        1.5,
+                        2.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Sword_AttackGainFullDamgeUpBuff1",
+                        "UNIQUE_Sword_AttackGainFullDamgeUpBuff2"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "Inter_CD": 0.0,
+                "Time": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_AttackGainFullDamgeUpBuff_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHitElement",
+                                            "element": "Wind"
+                                        },
+                                        {
+                                            "$type": "ByHitElement",
+                                            "element": "Fire"
+                                        },
+                                        {
+                                            "$type": "ByHitElement",
+                                            "element": "Water"
+                                        },
+                                        {
+                                            "$type": "ByHitElement",
+                                            "element": "Ice"
+                                        },
+                                        {
+                                            "$type": "ByHitElement",
+                                            "element": "Electric"
+                                        },
+                                        {
+                                            "$type": "ByHitElement",
+                                            "element": "Rock"
+                                        },
+                                        {
+                                            "$type": "ByHitElement",
+                                            "element": "Grass"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "UNIQUE_Sword_AttackGainFullDamgeUpBuff_CD"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_AttackGainFullDamgeUpBuff_CD": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Inter_CD",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_ABILITY_Sword_AttackGainFullDamgeUpBuff",
+                            "useLimitRange": true,
+                            "maxValue": 2.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Sword_AttackGainFullDamgeUpBuff_Timer"
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_AttackGainFullDamgeUpBuff_Timer": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Time",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -2.0,
+                            "key": "_ABILITY_Sword_AttackGainFullDamgeUpBuff",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_AttackGainFullDamgeUpBuff1": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AddHurtDelta": "Rate"
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_Attack_Stack1"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Sword_AttackGainFullDamgeUpBuff2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AddHurtDelta": [
+                            "Rate",
+                            2.0,
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_Attack_Stack2"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Sword_AttackGainFullDamgeUpBuff_Handler"
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "AddGlobalValue",
+                    "doOffStage": true,
+                    "value": 0.0,
+                    "key": "_ABILITY_Sword_AttackGainFullDamgeUpBuff",
+                    "useLimitRange": true,
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_Blackrock",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_WEAPON_Blackrock_COUNT",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        0.5,
+                        1.5,
+                        2.5,
+                        3.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Sword_Blackrock_Buff1",
+                        "UNIQUE_Sword_Blackrock_Buff2",
+                        "UNIQUE_Sword_Blackrock_Buff3"
+                    ]
+                },
+                {
+                    "$type": "DoActionByKillingMixin",
+                    "detectWindow": 0.6000000238418579,
+                    "onKill": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Other",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Sword_Blackrock_Timer_Ind"
+                                },
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "doOffStage": true,
+                                    "value": 1.0,
+                                    "key": "_ABILITY_WEAPON_Blackrock_COUNT",
+                                    "useLimitRange": true,
+                                    "maxValue": 3.0,
+                                    "minValue": 0.0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "Dua": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_Blackrock_Timer_Ind": {
+                    "stacking": "MultipleRefresh",
+                    "stackingOption": {
+                        "abilitySpecialName": "",
+                        "maxModifierNumForMultipleType": 3.0
+                    },
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Dua",
+                    "elementDurability": 100.0,
+                    "state": "AttackUp",
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -1.0,
+                            "key": "_ABILITY_WEAPON_Blackrock_COUNT",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_Blackrock_Buff1": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Rate"
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "effectPattern": "Eff_Weapon_Blackrock1_Sword"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Sword_Blackrock_Buff2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Rate",
+                            2.0,
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "effectPattern": "Eff_Weapon_Blackrock2_Sword"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Sword_Blackrock_Buff3": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Rate",
+                            3.0,
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "effectPattern": "Eff_Weapon_Blackrock3_Sword"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                }
+            },
+            "onRemoved": [
+                {
+                    "$type": "AddGlobalValue",
+                    "doOffStage": true,
+                    "value": 0.0,
+                    "key": "_ABILITY_WEAPON_Blackrock_COUNT",
+                    "useLimitRange": true,
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_Bloodstained",
+            "abilityMixins": [
+                {
+                    "$type": "ModifyDamageMixin",
+                    "attackTags": [
+                        "NormalAttack_01",
+                        "NormalAttack_02",
+                        "NormalAttack_03",
+                        "NormalAttack_04",
+                        "NormalAttack_05",
+                        "NormalAttack_06",
+                        "ExtraAttack"
+                    ],
+                    "damagePercentageRatio": "Rate"
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "HealRate": 0.0,
+                "CDTime": 0.0,
+                "Chance": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_Bloodstained": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "NormalAttack_01",
+                                        "NormalAttack_02",
+                                        "NormalAttack_03",
+                                        "NormalAttack_04",
+                                        "NormalAttack_05",
+                                        "NormalAttack_06",
+                                        "ExtraAttack"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHitCritical"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "Randomed",
+                                    "chance": "Chance",
+                                    "successActions": [
+                                        {
+                                            "$type": "ApplyModifier",
+                                            "modifierName": "UNIQUE_Sword_Bloodstained_Heal"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_Bloodstained_Heal": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "HealHP",
+                            "amountByCasterAttackRatio": "HealRate"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Sword_Bloodstained"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_Outlaw",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Sword_Outlaw",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5
+                    ],
+                    "modifierNameSteps": [
+                        "Blank",
+                        "UNIQUE_Sword_Outlaw_Buff"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Hurt_Rate": 0.0,
+                "Timer": 0.0
+            },
+            "modifiers": {
+                "Blank": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "UNIQUE_Sword_Outlaw_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onBeingHit": [
+                        {
+                            "$type": "AttachModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                }
+                            ],
+                            "modifierName": "Hit_Timer"
+                        }
+                    ]
+                },
+                "Hit_Timer": {
+                    "modifierName": "",
+                    "duration": "Timer",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_ABILITY_Sword_Outlaw",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Sword_Outlaw",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_Outlaw_Buff": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AddHurtDelta": "Hurt_Rate"
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Weapon_Sword_Outlaw_Tip"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "doOffStage": true,
+                    "value": 1.0,
+                    "key": "_ABILITY_Sword_Outlaw",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Sword_Outlaw_Handler"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_ElmDmgEnhanceEleResistAtk",
+            "abilitySpecials": {
+                "ResistUp": 0.0,
+                "AtkUpRate": 0.0,
+                "BuffTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_ElmDmgEnhanceEleResistAtk_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onBeingHit": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHitElement"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHitDamage",
+                                    "logic": "GreaterOrEqual",
+                                    "damage": 1.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHitElement",
+                                            "element": "Fire"
+                                        }
+                                    ],
+                                    "modifierName": "UNIQUE_ElementFireResistAtkUp"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHitElement",
+                                            "element": "Water"
+                                        }
+                                    ],
+                                    "modifierName": "UNIQUE_ElementWaterResistAtkUp"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHitElement",
+                                            "element": "Grass"
+                                        }
+                                    ],
+                                    "modifierName": "UNIQUE_ElementGrassResistAtkUp"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHitElement",
+                                            "element": "Electric"
+                                        }
+                                    ],
+                                    "modifierName": "UNIQUE_ElementElectricResistAtkUp"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHitElement",
+                                            "element": "Ice"
+                                        }
+                                    ],
+                                    "modifierName": "UNIQUE_ElementIceResistAtkUp"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHitElement",
+                                            "element": "Wind"
+                                        }
+                                    ],
+                                    "modifierName": "UNIQUE_ElementWindResistAtkUp"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHitElement",
+                                            "element": "Rock"
+                                        }
+                                    ],
+                                    "modifierName": "UNIQUE_ElementRockResistAtkUp"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Sword_ElmDmgEnhanceAtk"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_ElementFireResistAtkUp": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "BuffTime",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_FireSubHurtDelta": "ResistUp"
+                    },
+                    "state": "DefenseUp",
+                    "onAdded": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementWaterResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementWindResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementElectricResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementIceResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementRockResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementGrassResistAtkUp"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_ElementWaterResistAtkUp": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "BuffTime",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_WaterSubHurtDelta": "ResistUp"
+                    },
+                    "state": "DefenseUp",
+                    "onAdded": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementFireResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementWindResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementElectricResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementIceResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementRockResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementGrassResistAtkUp"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_ElementWindResistAtkUp": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "BuffTime",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_WindSubHurtDelta": "ResistUp"
+                    },
+                    "state": "DefenseUp",
+                    "onAdded": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementFireResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementWaterResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementElectricResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementIceResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementRockResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementGrassResistAtkUp"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_ElementElectricResistAtkUp": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "BuffTime",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_ElecSubHurtDelta": "ResistUp"
+                    },
+                    "state": "DefenseUp",
+                    "onAdded": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementFireResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementWaterResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementWindResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementIceResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementRockResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementGrassResistAtkUp"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_ElementIceResistAtkUp": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "BuffTime",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_IceSubHurtDelta": "ResistUp"
+                    },
+                    "state": "DefenseUp",
+                    "onAdded": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementFireResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementWaterResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementWindResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementElectricResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementRockResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementGrassResistAtkUp"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_ElementRockResistAtkUp": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "BuffTime",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_RockSubHurtDelta": "ResistUp"
+                    },
+                    "state": "DefenseUp",
+                    "onAdded": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementFireResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementWaterResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementWindResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementElectricResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementIceResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementGrassResistAtkUp"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_ElementGrassResistAtkUp": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "BuffTime",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_GrassSubHurtDelta": "ResistUp"
+                    },
+                    "state": "DefenseUp",
+                    "onAdded": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementFireResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementWaterResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementWindResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementElectricResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementIceResistAtkUp"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "UNIQUE_ElementRockResistAtkUp"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Sword_ElmDmgEnhanceAtk": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "BuffTime",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "AtkUpRate"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Sword_ElmDmgEnhanceEleResistAtk_Handler"
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_ElementFireResistAtkUp"
+                },
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_ElementWaterResistAtkUp"
+                },
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_ElementWindResistAtkUp"
+                },
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_ElementElectricResistAtkUp"
+                },
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_ElementGrassResistAtkUp"
+                },
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_ElementRockResistAtkUp"
+                },
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_ElementIceResistAtkUp"
+                },
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Sword_ElmDmgEnhanceAtk"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_Psalmus",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Sword_Psalmus",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -1.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Sword_Psalmus_CD",
+                        "UNIQUE_Sword_Psalmus_Handler"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "ChanceProb": 0.0,
+                "AtkRate": 0.0,
+                "CDTime": 0.0,
+                "Atk": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_Psalmus_Atk": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackDelta": "Atk"
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Sword_Psalmus_CD": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "EquipAffixStart",
+                            "CD": "CDTime",
+                            "equipAffixDataID": 111412
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Sword_Psalmus",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_Psalmus_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Randomed",
+                            "target": "Target",
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "NormalAttack_01",
+                                        "NormalAttack_02",
+                                        "NormalAttack_03",
+                                        "NormalAttack_04",
+                                        "NormalAttack_05",
+                                        "NormalAttack_06",
+                                        "ExtraAttack"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                },
+                                {
+                                    "$type": "ByEquipAffixReady",
+                                    "target": "Self",
+                                    "equipAffixDataID": 111412
+                                }
+                            ],
+                            "chance": "ChanceProb",
+                            "successActions": [
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Weapon_Psalmus",
+                                    "born": {
+                                        "$type": "ConfigBornByHitPoint",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.4000000059604645,
+                                            "z": 0.0
+                                        },
+                                        "direction": {
+                                            "$type": "ConfigDirectionByEntity"
+                                        }
+                                    }
+                                },
+                                {
+                                    "$type": "TriggerAttackEvent",
+                                    "attackEvent": {
+                                        "attackPattern": {
+                                            "$type": "ConfigAttackCircle",
+                                            "triggerType": "TriggerNoRepeat",
+                                            "born": {
+                                                "$type": "ConfigBornByHitPoint",
+                                                "offset": {
+                                                    "x": 0.0,
+                                                    "y": 0.0,
+                                                    "z": 0.0
+                                                }
+                                            },
+                                            "radius": 1.5
+                                        },
+                                        "attackInfo": {
+                                            "attackTag": "WeaponSkill",
+                                            "attenuationTag": "",
+                                            "attenuationGroup": "default",
+                                            "attackProperty": {
+                                                "damagePercentage": "AtkRate",
+                                                "damagePercentageRatio": 0.0,
+                                                "elementDurability": 100.0,
+                                                "enBreak": 25.0,
+                                                "bonusCritical": 0.0,
+                                                "bonusCriticalHurt": 0.0
+                                            },
+                                            "hitPattern": {
+                                                "onHitEffectName": "none",
+                                                "hitImpulseType": "LV2",
+                                                "hitHaltTimeScale": 0.009999999776482582
+                                            }
+                                        }
+                                    },
+                                    "targetType": "Enemy"
+                                },
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "value": -1.0,
+                                    "key": "_ABILITY_Sword_Psalmus",
+                                    "useLimitRange": true,
+                                    "maxValue": -1.0,
+                                    "minValue": -1.0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "predicates": [
+                        {
+                            "$type": "ByHasFeatureTag",
+                            "featureTagIDs": [
+                                1011
+                            ]
+                        }
+                    ],
+                    "modifierName": "UNIQUE_Sword_Psalmus_Atk"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_Magnum",
+            "abilityMixins": [
+                {
+                    "$type": "ModifyDamageMixin",
+                    "attackTags": [
+                        "Elemental_Art",
+                        "Elemental_Art_Hold",
+                        "Elemental_Art_Extra"
+                    ],
+                    "damagePercentageRatio": "Damage_Rate",
+                    "bonusCritical": "Crit_Rate"
+                }
+            ],
+            "abilitySpecials": {
+                "Damage_Rate": 0.0,
+                "Crit_Rate": 0.0
+            },
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "doOffStage": true,
+                    "value": 1.0,
+                    "key": "_Weapon_EquipMagnum",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "SetGlobalValue",
+                    "doOffStage": true,
+                    "value": 0.0,
+                    "key": "_Weapon_EquipMagnum",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_Legend_Falcon",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Weapon_Sword_Legend_Falcon",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -1.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Sword_Legend_Falcon_CD",
+                        "UNIQUE_Sword_Legend_Falcon_Handler"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Atk_Rate": 0.0,
+                "H_Rate": 0.0,
+                "D_Rate": 0.0,
+                "CDTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_Legend_Falcon_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onBeingHit": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEquipAffixReady",
+                                    "target": "Self",
+                                    "equipAffixDataID": 111501
+                                },
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Weapon_Falcon",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    }
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Weapon_Falcon_Head"
+                                },
+                                {
+                                    "$type": "TriggerAttackEvent",
+                                    "attackEvent": {
+                                        "attackPattern": {
+                                            "$type": "ConfigAttackCircle",
+                                            "triggerType": "TriggerNoRepeat",
+                                            "born": {
+                                                "$type": "ConfigBornByHitPoint",
+                                                "offset": {
+                                                    "x": 0.0,
+                                                    "y": 0.0,
+                                                    "z": 0.0
+                                                },
+                                                "direction": {
+                                                    "$type": "ConfigDirectionByEntity"
+                                                }
+                                            },
+                                            "radius": 6.0
+                                        },
+                                        "attackInfo": {
+                                            "attackTag": "WeaponSkill",
+                                            "attenuationTag": "",
+                                            "attenuationGroup": "default",
+                                            "attackProperty": {
+                                                "damagePercentage": "D_Rate",
+                                                "damagePercentageRatio": 0.0,
+                                                "elementDurability": 100.0,
+                                                "enBreak": 25.0,
+                                                "bonusCritical": 0.0,
+                                                "bonusCriticalHurt": 0.0
+                                            },
+                                            "hitPattern": {
+                                                "onHitEffectName": "default",
+                                                "hitImpulseType": "LV3",
+                                                "retreatType": "ByHitDirection",
+                                                "hitHaltTimeScale": 0.009999999776482582
+                                            },
+                                            "forceCameraShake": true,
+                                            "cameraShake": {
+                                                "shakeType": "CustomVector",
+                                                "shakeRange": 0.15000000596046448,
+                                                "shakeTime": 0.11999999731779099,
+                                                "shakeDistance": 30.0,
+                                                "shakeDir": {
+                                                    "z": -1.0
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "targetType": "Enemy"
+                                },
+                                {
+                                    "$type": "HealHP",
+                                    "amountByCasterAttackRatio": "H_Rate"
+                                },
+                                {
+                                    "$type": "EquipAffixStart",
+                                    "CD": "CDTime",
+                                    "equipAffixDataID": 111501
+                                },
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "value": -1.0,
+                                    "key": "_ABILITY_Weapon_Sword_Legend_Falcon",
+                                    "useLimitRange": true,
+                                    "maxValue": -1.0,
+                                    "minValue": -1.0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_Legend_Falcon_CD": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Sword_Legend_Falcon",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            },
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_Legend_Dvalin",
+            "abilityMixins": [
+                {
+                    "$type": "OnAvatarUseSkillMixin",
+                    "onTriggerUltimateSkill": [
+                        {
+                            "$type": "AttachModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByEquipAffixReady",
+                                    "target": "Self",
+                                    "equipAffixDataID": 111502
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Sword_Legend_Dvalin_MoveSpeed_Up"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByEquipAffixReady",
+                                    "target": "Self",
+                                    "equipAffixDataID": 111502
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Sword_Legend_Dvalin"
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Crit": 0.0,
+                "Speed": 0.0,
+                "AtkSpeed": 0.0,
+                "ExtraDamge": 0.0,
+                "Time": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_Legend_Dvalin_MoveSpeed_Up": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Time",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Animator_MoveSpeedRatio": "Speed",
+                        "Animator_AttackSpeedRatio": "AtkSpeed"
+                    },
+                    "state": "SpeedUp",
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Sword_Legend_Dvalin": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Time",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "EquipAffixStart",
+                            "CD": "Time",
+                            "equipAffixDataID": 111502
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "effectPattern": "Eff_Weapon_Dvalin_Sword"
+                        }
+                    ],
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "NormalAttack_01",
+                                        "NormalAttack_02",
+                                        "NormalAttack_03",
+                                        "NormalAttack_04",
+                                        "NormalAttack_05",
+                                        "NormalAttack_06",
+                                        "ExtraAttack"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "DamageByAttackValue",
+                                    "target": "Target",
+                                    "born": {
+                                        "$type": "ConfigBornByTarget",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    },
+                                    "attackInfo": {
+                                        "attackTag": "",
+                                        "attenuationTag": "",
+                                        "attenuationGroup": "default",
+                                        "attackProperty": {
+                                            "damagePercentage": "ExtraDamge",
+                                            "damagePercentageRatio": 0.0,
+                                            "elementDurability": 100.0,
+                                            "strikeType": "Default",
+                                            "enBreak": 0.0
+                                        },
+                                        "hitPattern": {
+                                            "onHitEffectName": "none",
+                                            "hitImpulseType": "Default",
+                                            "hitHaltTimeScale": 0.009999999776482582
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_EnergyPoem",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionByEnergyChangeMixin",
+                    "elementTypes": [
+                        "Electric",
+                        "Fire",
+                        "Water",
+                        "Grass",
+                        "Ice",
+                        "Wind",
+                        "Rock"
+                    ],
+                    "doWhenEnergyMax": true,
+                    "onGainEnergyByBall": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Sword_EnergyPoem_Trigger"
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Weapon_Sword_EnergyPoem",
+                                    "value": 5.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "Predicated",
+                                    "targetPredicates": [
+                                        {
+                                            "$type": "ByEquipAffixReady",
+                                            "target": "Self",
+                                            "equipAffixDataID": 111503
+                                        }
+                                    ],
+                                    "successActions": [
+                                        {
+                                            "$type": "AttachModifier",
+                                            "modifierName": "UNIQUE_Sword_EnergyPoem_Extra"
+                                        }
+                                    ],
+                                    "failActions": [
+                                        {
+                                            "$type": "Predicated",
+                                            "targetPredicates": [
+                                                {
+                                                    "$type": "ByTargetGlobalValue",
+                                                    "key": "_ABILITY_Weapon_Sword_EnergyPoem_BurstTrigger",
+                                                    "value": 0.0
+                                                }
+                                            ],
+                                            "successActions": [
+                                                {
+                                                    "$type": "AttachModifier",
+                                                    "modifierName": "UNIQUE_Sword_EnergyPoem_4"
+                                                },
+                                                {
+                                                    "$type": "AddGlobalValue",
+                                                    "value": -1.0,
+                                                    "key": "_ABILITY_Weapon_Sword_EnergyPoem",
+                                                    "useLimitRange": true,
+                                                    "maxValue": 4.0,
+                                                    "minValue": 4.0
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Sword_EnergyPoem_Timer"
+                        }
+                    ]
+                },
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Weapon_Sword_EnergyPoem",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5,
+                        2.5,
+                        3.5,
+                        4.5,
+                        5.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Sword_EnergyPoem_0",
+                        "UNIQUE_Sword_EnergyPoem_1",
+                        "UNIQUE_Sword_EnergyPoem_2",
+                        "UNIQUE_Sword_EnergyPoem_3",
+                        "UNIQUE_Sword_EnergyPoem_4",
+                        "UNIQUE_Sword_EnergyPoem_0"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "Timer": 0.0,
+                "CritRate": 0.0,
+                "SpeedRate": 0.0,
+                "Dura": 0.0,
+                "CDTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_EnergyPoem_Trigger": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.5,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Weapon_Sword_EnergyPoem",
+                                    "value": 4.0,
+                                    "compareType": "LessAndEqual"
+                                }
+                            ],
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Sword_EnergyPoem",
+                            "useLimitRange": true,
+                            "maxValue": 5.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_EnergyPoem_Timer": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Timer",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Weapon_Sword_EnergyPoem",
+                                    "value": 4.0,
+                                    "compareType": "LessAndEqual"
+                                }
+                            ],
+                            "value": -100.0,
+                            "key": "_ABILITY_Weapon_Sword_EnergyPoem",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_EnergyPoem_0": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0
+                },
+                "UNIQUE_Sword_EnergyPoem_1": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Rate",
+                            1.0,
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_EnergyPoem_Stack1"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Sword_EnergyPoem_2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Rate",
+                            2.0,
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_EnergyPoem_Stack2"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Sword_EnergyPoem_3": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Rate",
+                            3.0,
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_EnergyPoem_Stack3"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Sword_EnergyPoem_4": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Rate",
+                            4.0,
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_EnergyPoem_Stack4"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Sword_EnergyPoem_Extra": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Dura",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Rate",
+                            4.0,
+                            "Mul"
+                        ],
+                        "Actor_CriticalDelta": "CritRate",
+                        "Animator_AttackSpeedRatio": "SpeedRate"
+                    },
+                    "state": "AttackUp",
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Weapon_EnergyPoem_Burst"
+                        },
+                        {
+                            "$type": "EquipAffixStart",
+                            "CD": "CDTime",
+                            "equipAffixDataID": 111503
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "effectPattern": "Eff_Weapon_Sword_Widsith"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Sword_EnergyPoem_BurstTrigger",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 1.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -100.0,
+                            "key": "_ABILITY_Weapon_Sword_EnergyPoem",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -1.0,
+                            "key": "_ABILITY_Weapon_Sword_EnergyPoem_BurstTrigger",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "boolID": "Equip_Lighting"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "parameter": "Trigger_Kill_Effect",
+                            "effectPattern": "Eff_Weapon_Sword_Widsith"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AddGlobalValue",
+                    "doOffStage": true,
+                    "value": -1.0,
+                    "key": "_ABILITY_Weapon_Sword_EnergyPoem_BurstTrigger",
+                    "useLimitRange": true,
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "AddGlobalValue",
+                    "doOffStage": true,
+                    "value": 0.0,
+                    "key": "_ABILITY_Weapon_Sword_EnergyPoem",
+                    "useLimitRange": true,
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_Kunwu_DamageUpWithShield",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Sword_Kunwu_IsHasShield",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Weapon_Sword_Kunwu_NoShieldBuff",
+                        "UNIQUE_Weapon_Sword_Kunwu_HasShieldBuff"
+                    ]
+                },
+                {
+                    "$type": "AttachModifierToPredicateMixin",
+                    "type": "Current",
+                    "predicates": [
+                        {
+                            "$type": "ByHasShield",
+                            "type": "All"
+                        }
+                    ],
+                    "modifierName": "UNIQUE_Weapon_Sword_Kunwu_CheckShield"
+                }
+            ],
+            "abilitySpecials": {
+                "Shield_Up": 0.0,
+                "Dmg_Rate": 0.0,
+                "Timer": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Weapon_Sword_Kunwu_DamageUpWithShield_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "UNIQUE_Weapon_Sword_Kunwu_AddCount"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Sword_Kunwu_CheckShield": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 0.0,
+                            "key": "_ABILITY_Sword_Kunwu_IsHasShield",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 1.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 0.0,
+                            "key": "_ABILITY_Sword_Kunwu_IsHasShield",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Sword_Kunwu_AddCount": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.30000001192092896,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Sword_Kunwu_BuffLevel",
+                            "useLimitRange": true,
+                            "maxValue": 5.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Weapon_Sword_Kunwu_BuffTimer"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Sword_Kunwu_BuffTimer": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Timer",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 0.0,
+                            "key": "_ABILITY_Sword_Kunwu_BuffLevel",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Sword_Kunwu_NoShieldBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "_ABILITY_Sword_Kunwu_BuffLevel",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5,
+                                2.5,
+                                3.5,
+                                4.5,
+                                5.5
+                            ],
+                            "modifierNameSteps": [
+                                "UNIQUE_Weapon_Sword_Kunwu_NoShieldBuff_Blank",
+                                "UNIQUE_Weapon_Sword_Kunwu_NoShieldBuff_Level01",
+                                "UNIQUE_Weapon_Sword_Kunwu_NoShieldBuff_Level02",
+                                "UNIQUE_Weapon_Sword_Kunwu_NoShieldBuff_Level03",
+                                "UNIQUE_Weapon_Sword_Kunwu_NoShieldBuff_Level04",
+                                "UNIQUE_Weapon_Sword_Kunwu_NoShieldBuff_Level05"
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Sword_Kunwu_NoShieldBuff_Blank": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0
+                },
+                "UNIQUE_Weapon_Sword_Kunwu_NoShieldBuff_Level01": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Dmg_Rate"
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Sword_Kunwu_NoShieldBuff_Level02": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Dmg_Rate",
+                            2.0,
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Sword_Kunwu_NoShieldBuff_Level03": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Dmg_Rate",
+                            3.0,
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Sword_Kunwu_NoShieldBuff_Level04": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Dmg_Rate",
+                            4.0,
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Sword_Kunwu_NoShieldBuff_Level05": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Dmg_Rate",
+                            5.0,
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Sword_Kunwu_HasShieldBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "_ABILITY_Sword_Kunwu_BuffLevel",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5,
+                                2.5,
+                                3.5,
+                                4.5,
+                                5.5
+                            ],
+                            "modifierNameSteps": [
+                                "UNIQUE_Weapon_Sword_Kunwu_HasShieldBuff_Blank",
+                                "UNIQUE_Weapon_Sword_Kunwu_HasShieldBuff_Level01",
+                                "UNIQUE_Weapon_Sword_Kunwu_HasShieldBuff_Level02",
+                                "UNIQUE_Weapon_Sword_Kunwu_HasShieldBuff_Level03",
+                                "UNIQUE_Weapon_Sword_Kunwu_HasShieldBuff_Level04",
+                                "UNIQUE_Weapon_Sword_Kunwu_HasShieldBuff_Level05"
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Sword_Kunwu_HasShieldBuff_Blank": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0
+                },
+                "UNIQUE_Weapon_Sword_Kunwu_HasShieldBuff_Level01": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Dmg_Rate",
+                            2.0,
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Sword_Kunwu_HasShieldBuff_Level02": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Dmg_Rate",
+                            4.0,
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Sword_Kunwu_HasShieldBuff_Level03": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Dmg_Rate",
+                            6.0,
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Sword_Kunwu_HasShieldBuff_Level04": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Dmg_Rate",
+                            8.0,
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Sword_Kunwu_HasShieldBuff_Level05": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            "Dmg_Rate",
+                            10.0,
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Sword_Kunwu_BuffEffHandler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "_ABILITY_Sword_Kunwu_BuffLevel",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5,
+                                2.5,
+                                3.5,
+                                4.5,
+                                5.5
+                            ],
+                            "modifierNameSteps": [
+                                "Weapon_Sword_Kunwu_Eff_Blank",
+                                "Weapon_Sword_Kunwu_Eff_1",
+                                "Weapon_Sword_Kunwu_Eff_2",
+                                "Weapon_Sword_Kunwu_Eff_3",
+                                "Weapon_Sword_Kunwu_Eff_4",
+                                "Weapon_Sword_Kunwu_Eff_5"
+                            ]
+                        }
+                    ]
+                },
+                "Weapon_Sword_Kunwu_Eff_Blank": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "Weapon_Sword_Kunwu_Eff_1": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_Kunwu_Stack_01"
+                        }
+                    ]
+                },
+                "Weapon_Sword_Kunwu_Eff_2": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_Kunwu_Stack_02"
+                        }
+                    ]
+                },
+                "Weapon_Sword_Kunwu_Eff_3": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_Kunwu_Stack_03"
+                        }
+                    ]
+                },
+                "Weapon_Sword_Kunwu_Eff_4": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_Kunwu_Stack_04"
+                        }
+                    ]
+                },
+                "Weapon_Sword_Kunwu_Eff_5": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Weapon_Kunwu_Stack_05"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Weapon_Sword_Kunwu_DamageUpWithShield_Handler"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Weapon_Sword_Kunwu_BuffEffHandler"
+                },
+                {
+                    "$type": "AddGlobalValue",
+                    "doOffStage": true,
+                    "value": 0.0,
+                    "key": "_ABILITY_Sword_Kunwu_BuffLevel",
+                    "useLimitRange": true,
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "AddGlobalValue",
+                    "doOffStage": true,
+                    "value": 0.0,
+                    "key": "_ABILITY_Sword_Kunwu_IsHasShield",
+                    "useLimitRange": true,
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_Morax_HpToAtk",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionByEventMixin",
+                    "onEvent": "HP",
+                    "predicates": [
+                        {
+                            "$type": "ByNot",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Sword_Morax_Last_MaxHp",
+                                    "value": "FIGHT_PROP_MAX_HP"
+                                }
+                            ]
+                        }
+                    ],
+                    "actions": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "value": "FIGHT_PROP_MAX_HP",
+                            "key": "_ABILITY_Sword_Morax_Last_MaxHp",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Sword_Morax_HpToAtk_Buff"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Sword_Morax_HpToAtk_Buff"
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Hp_Rate": 0.0,
+                "HptoAtk_Factor": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_Morax_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 2.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_Sword_Morax_HpToAtk_Buff"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "Predicated",
+                            "doOffStage": true,
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Sword_Morax_Last_MaxHp",
+                                    "value": "FIGHT_PROP_MAX_HP"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetGlobalValue",
+                                    "doOffStage": true,
+                                    "value": "FIGHT_PROP_MAX_HP",
+                                    "key": "_ABILITY_Sword_Morax_Last_MaxHp",
+                                    "maxValue": 0.0,
+                                    "minValue": 0.0
+                                },
+                                {
+                                    "$type": "RemoveUniqueModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "UNIQUE_Sword_Morax_HpToAtk_Buff"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "UNIQUE_Sword_Morax_HpToAtk_Buff"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_Morax_HpToAtk_Buff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackExtraDelta": [
+                            "FIGHT_PROP_MAX_HP",
+                            "HptoAtk_Factor",
+                            "Mul"
+                        ]
+                    },
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "doOffStage": true,
+                    "value": "FIGHT_PROP_MAX_HP",
+                    "key": "_ABILITY_Sword_Morax_Last_MaxHp",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Sword_Morax_Handler"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    }
+]

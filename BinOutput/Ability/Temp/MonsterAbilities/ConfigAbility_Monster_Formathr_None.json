@@ -1,0 +1,3367 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_PowerOff",
+            "modifiers": {
+                "UNIQUE_Formathr_None_PowerOff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Entity_MassRatio": 1000.0,
+                        "Entity_WeightRatio": 5.0,
+                        "Actor_EndureDelta": 0.0
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "PowerOff_Invincible"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "PowerOff_IsGhostToAllied"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "PowerOff_IsGhostToEnemy"
+                        },
+                        {
+                            "$type": "HideUIBillBoard",
+                            "hide": true
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "PowerOff",
+                            "value": true
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "HideUIBillBoard"
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "PowerOff"
+                        }
+                    ]
+                },
+                "PowerOff_Invincible": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "Invincible"
+                },
+                "PowerOff_IsGhostToAllied": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "IsGhostToAllied"
+                },
+                "PowerOff_IsGhostToEnemy": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "IsGhostToEnemy"
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorFloat",
+                            "logic": "Equal",
+                            "value": 101.0,
+                            "parameter": "PoseID"
+                        }
+                    ],
+                    "modifierName": "UNIQUE_Formathr_None_PowerOff"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_WakeUp",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "WakeUp"
+                    ],
+                    "modifierName": "Monster_Formathr_None_WakeUp"
+                }
+            ],
+            "modifiers": {
+                "Monster_Formathr_None_WakeUp": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_WeaknessTurnOn",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "Weakness"
+                            }
+                        },
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Formathr_None_PowerOff"
+                        },
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Formathr_None_AirState"
+                        },
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Formathr_None_WeakState"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Formathr_None_LandState"
+                        }
+                    ]
+                },
+                "UNIQUE_Formathr_None_LandState": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_SwitchToAir",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToAIAlertnessMixin",
+                    "alertness": [
+                        0
+                    ],
+                    "modifierName": "ResetMode"
+                }
+            ],
+            "modifiers": {
+                "ResetMode": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "modifierName": "UNIQUE_Formathr_None_AirState"
+                        }
+                    ]
+                },
+                "UNIQUE_Formathr_None_AirState": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "AirState",
+                            "value": true
+                        },
+                        {
+                            "$type": "EnablePushColliderName",
+                            "pushColliderNames": [
+                                "PushCollider",
+                                "PushColliderExtra"
+                            ]
+                        },
+                        {
+                            "$type": "EnablePushColliderName",
+                            "pushColliderNames": [
+                                "PushCollider_Air",
+                                "PushColliderExtra_Air"
+                            ],
+                            "setEnable": true
+                        },
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "Monster_Formathr_None_EnableWeakness"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "ReadyForLand"
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "AirState"
+                        },
+                        {
+                            "$type": "EnablePushColliderName",
+                            "pushColliderNames": [
+                                "PushCollider",
+                                "PushColliderExtra"
+                            ],
+                            "setEnable": true
+                        },
+                        {
+                            "$type": "EnablePushColliderName",
+                            "pushColliderNames": [
+                                "PushCollider_Air",
+                                "PushColliderExtra_Air"
+                            ]
+                        },
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "Monster_Formathr_None_DisableWeakness"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "UNIQUE_Formathr_None_AirState"
+                },
+                {
+                    "$type": "ReTriggerAISkillInitialCD",
+                    "skillIDs": [
+                        302,
+                        321,
+                        341
+                    ]
+                },
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Formathr_None_LandState"
+                },
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Formathr_None_WeakState"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_WindZone",
+            "modifiers": {
+                "Formathr_None_WindZone": {
+                    "modifierName": "",
+                    "duration": 0.5,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "WindZoneMixin",
+                            "shapeName": "CircleR15",
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
+                            },
+                            "strength": -30.0,
+                            "attenuation": 2.0,
+                            "innerRadius": 0.0,
+                            "targetType": "Enemy",
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Avatar"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetWeight",
+                                    "logic": "LesserOrEqual",
+                                    "weight": 250.0
+                                }
+                            ],
+                            "modifierName": ""
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_BlowAway"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Formathr_None_WindZone"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_SwitchToLand",
+            "modifiers": {
+                "UNIQUE_Formathr_None_LandState": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Formathr_None_AirState"
+                },
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Formathr_None_WeakState"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "UNIQUE_Formathr_None_LandState"
+                },
+                {
+                    "$type": "ReTriggerAISkillInitialCD",
+                    "skillIDs": [
+                        201
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_EnableWeakness",
+            "modifiers": {
+                "UNIQUE_Formathr_None_Weakness": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "EnableHitBoxByName",
+                            "hitBoxNames": [
+                                "HeadBox"
+                            ],
+                            "setEnable": true
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "EnableHitBoxByName",
+                            "hitBoxNames": [
+                                "HeadBox"
+                            ]
+                        }
+                    ],
+                    "onBeingHit": [
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByHitBoxName",
+                                    "hitBoxNames": [
+                                        "HeadBox"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHitEnBreak",
+                                    "logic": "GreaterOrEqual",
+                                    "enBreak": 80.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetAnimatorTrigger",
+                                    "triggerID": "WeakStartTrigger"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "UNIQUE_Formathr_None_Weakness"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_DisableWeakness",
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Formathr_None_Weakness"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_WeakState",
+            "modifiers": {
+                "UNIQUE_Formathr_None_WeakState": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "WeakState",
+                            "value": true
+                        },
+                        {
+                            "$type": "ReTriggerAISkillInitialCD",
+                            "skillIDs": [
+                                111
+                            ]
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "WeakState"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Formathr_None_AirState"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "UNIQUE_Formathr_None_WeakState"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_WeakEnd",
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Formathr_None_WeakState"
+                },
+                {
+                    "$type": "TriggerAbility",
+                    "abilityName": "Monster_Formathr_None_SwitchToLand"
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Formathr_None_WeaknessTurnOn",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "Weakness"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_StateAttachEffect",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        100,
+                        201
+                    ],
+                    "modifierName": "Formathr_None_StateEffect_FlowUpLand"
+                },
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        202,
+                        204
+                    ],
+                    "modifierName": "Formathr_None_StateEffect_FlowUpAir"
+                },
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        203
+                    ],
+                    "modifierName": "Formathr_None_StateEffect_Weak"
+                }
+            ],
+            "modifiers": {
+                "Formathr_None_StateEffect_FlowUpLand": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_WeaknessNormal",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "Weakness"
+                            }
+                        }
+                    ]
+                },
+                "Formathr_None_StateEffect_FlowUpAir": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_WeaknessLightOn",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "Weakness"
+                            }
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_AirIdle_LeftDown"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_AirIdle_LeftUp"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_AirIdle_RightDown"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_AirIdle_RightUp"
+                        }
+                    ]
+                },
+                "Formathr_None_StateEffect_Weak": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_WeakState"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_WeaknessTurnOff",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "Weakness"
+                            }
+                        }
+                    ]
+                }
+            },
+            "onKill": [
+                {
+                    "$type": "RemoveModifier",
+                    "modifierName": "Formathr_None_StateEffect_FlowUpLand"
+                },
+                {
+                    "$type": "RemoveModifier",
+                    "modifierName": "Formathr_None_StateEffect_FlowUpAir"
+                },
+                {
+                    "$type": "RemoveModifier",
+                    "modifierName": "Formathr_None_StateEffect_Weak"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_CreateFollowBullet",
+            "modifiers": {
+                "UNIQUE_Formathr_None_FollowBullet": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerBullet",
+                            "predicates": [
+                                {
+                                    "$type": "ByAnimatorInt",
+                                    "value": 230,
+                                    "parameter": "SkillID"
+                                },
+                                {
+                                    "$type": "ByAnimatorInt",
+                                    "logic": "Lesser",
+                                    "value": 240,
+                                    "parameter": "SkillID"
+                                }
+                            ],
+                            "bulletID": 42304010,
+                            "born": {
+                                "$type": "ConfigBornBySelf"
+                            },
+                            "lifeByOwnerIsAlive": true,
+                            "trackTarget": "Self"
+                        },
+                        {
+                            "$type": "EnablePushColliderName",
+                            "pushColliderNames": [
+                                "PushCollider",
+                                "PushColliderExtra"
+                            ]
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "KillGadget",
+                            "gadgetInfo": {
+                                "sortType": "Reversed",
+                                "configID": 42304010
+                            }
+                        },
+                        {
+                            "$type": "EnablePushColliderName",
+                            "pushColliderNames": [
+                                "PushCollider",
+                                "PushColliderExtra"
+                            ],
+                            "setEnable": true
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "UNIQUE_Formathr_None_FollowBullet"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_RemoveFollowBullet",
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Formathr_None_FollowBullet"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_FollowHitBox3",
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackSphere",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornByCollisionPoint"
+                            },
+                            "radius": 1.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 2.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementDurability": 100.0,
+                                "strikeType": "Slash",
+                                "enBreak": 200.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "default",
+                                "hitImpulseType": "LV5",
+                                "hitHaltTimeScale": 0.05000000074505806
+                            },
+                            "cameraShake": {
+                                "shakeType": "HitVector",
+                                "shakeRange": 0.05999999865889549,
+                                "shakeTime": 0.11999999731779099,
+                                "shakeDir": {
+                                    "z": 1.0
+                                }
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_ComboAtk",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToHPPercentMixin",
+                    "valueSteps": [
+                        0.6000000238418579
+                    ],
+                    "modifierNameSteps": [
+                        "Formathr_None_ComboAtk",
+                        "Formathr_None_ComboAtkExtra"
+                    ]
+                },
+                {
+                    "$type": "DoActionByAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "ComboAtkExtra1"
+                    ],
+                    "enterActions": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_FORMATHR_COMBOATKEXTRA",
+                            "useLimitRange": true,
+                            "maxValue": 2.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "exitActions": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "_FORMATHR_COMBOATKEXTRA",
+                            "useLimitRange": true,
+                            "maxValue": 2.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                {
+                    "$type": "DoActionByAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "ComboAtkExtra2"
+                    ],
+                    "enterActions": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 2.0,
+                            "key": "_FORMATHR_COMBOATKEXTRA",
+                            "useLimitRange": true,
+                            "maxValue": 2.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "exitActions": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -2.0,
+                            "key": "_FORMATHR_COMBOATKEXTRA",
+                            "useLimitRange": true,
+                            "maxValue": 2.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            ],
+            "modifiers": {
+                "Formathr_None_ComboAtk": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "Formathr_None_ComboAtkExtra": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "ComboExtra",
+                            "value": true
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "ComboExtra"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_RightDownCannon_Effect",
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 311,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeNormalAtkBS_RightDown",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "RightDown_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 321,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeAtk1BS_RightDown",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "RightDown_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 331,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeAtk2BS_RightDown",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "RightDown_Cannon"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_RightUpCannon_Effect",
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 311,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeNormalAtkBS_RightUp",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "RightUp_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 321,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeAtk1BS_RightUp",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "RightUp_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 331,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeAtk2BS_RightUp",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "RightUp_Cannon"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_LeftDownCannon_Effect",
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 311,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeNormalAtkBS_LeftDown",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "LeftDown_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 321,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeAtk1BS_LeftDown",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "LeftDown_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 331,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeAtk2BS_LeftDown",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "LeftDown_Cannon"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_LeftUpCannon_Effect",
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 311,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeNormalAtkBS_LeftUp",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "LeftUp_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 321,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeAtk1BS_LeftUp",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "LeftUp_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 331,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeAtk2BS_LeftUp",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "attachPointName": "LeftUp_Cannon"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_RightDownCannon",
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerBullet",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 311,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "bulletID": 42304016,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttackTarget",
+                            "randomAngleHor": 0.800000011920929,
+                            "randomAngleVer": 0.5
+                        },
+                        "attachPointName": "RightDown_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 311,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeNormalAtk",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttackTarget"
+                        },
+                        "attachPointName": "RightDown_Cannon"
+                    }
+                },
+                {
+                    "$type": "TriggerBullet",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 321,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "bulletID": 42304004,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttachPoint",
+                            "attachPointName": "RightDown_Cannon",
+                            "attachPointTargetType": "Self"
+                        },
+                        "attachPointName": "RightDown_Cannon"
+                    }
+                },
+                {
+                    "$type": "TriggerBullet",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 321,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "bulletID": 42304005,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttachPoint",
+                            "attachPointName": "RightDown_Cannon",
+                            "attachPointTargetType": "Self"
+                        },
+                        "attachPointName": "RightDown_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 321,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeAtk1",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttachPoint",
+                            "attachPointName": "RightDown_Cannon",
+                            "attachPointTargetType": "Self"
+                        },
+                        "attachPointName": "RightDown_Cannon"
+                    }
+                },
+                {
+                    "$type": "TriggerBullet",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 331,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "bulletID": 42304007,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttachPoint",
+                            "attachPointName": "RightDown_Cannon",
+                            "attachPointTargetType": "Self"
+                        },
+                        "attachPointName": "RightDown_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 331,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeAtk2",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttachPoint",
+                            "attachPointName": "RightDown_Cannon",
+                            "attachPointTargetType": "Self"
+                        },
+                        "attachPointName": "RightDown_Cannon"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_RightUpCannon",
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerBullet",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 311,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "bulletID": 42304016,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttackTarget",
+                            "randomAngleHor": 1.5,
+                            "randomAngleVer": 1.0
+                        },
+                        "attachPointName": "RightUp_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 311,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeNormalAtk",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttackTarget"
+                        },
+                        "attachPointName": "RightUp_Cannon"
+                    }
+                },
+                {
+                    "$type": "TriggerBullet",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 321,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "bulletID": 42304004,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttachPoint",
+                            "attachPointName": "RightUp_Cannon",
+                            "attachPointTargetType": "Self"
+                        },
+                        "attachPointName": "RightUp_Cannon"
+                    }
+                },
+                {
+                    "$type": "TriggerBullet",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 321,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "bulletID": 42304005,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttachPoint",
+                            "attachPointName": "RightUp_Cannon",
+                            "attachPointTargetType": "Self"
+                        },
+                        "attachPointName": "RightUp_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 321,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeAtk1",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttachPoint",
+                            "attachPointName": "RightUp_Cannon",
+                            "attachPointTargetType": "Self"
+                        },
+                        "attachPointName": "RightUp_Cannon"
+                    }
+                },
+                {
+                    "$type": "TriggerBullet",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 331,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "bulletID": 42304007,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttachPoint",
+                            "attachPointName": "RightUp_Cannon",
+                            "attachPointTargetType": "Self"
+                        },
+                        "attachPointName": "RightUp_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 331,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeAtk2",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttachPoint",
+                            "attachPointName": "RightUp_Cannon",
+                            "attachPointTargetType": "Self"
+                        },
+                        "attachPointName": "RightUp_Cannon"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_LeftDownCannon",
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerBullet",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 311,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "bulletID": 42304016,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttackTarget",
+                            "randomAngleHor": 1.5,
+                            "randomAngleVer": 1.0
+                        },
+                        "attachPointName": "LeftDown_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 311,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeNormalAtk",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttackTarget"
+                        },
+                        "attachPointName": "LeftDown_Cannon"
+                    }
+                },
+                {
+                    "$type": "TriggerBullet",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 321,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "bulletID": 42304004,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttachPoint",
+                            "attachPointName": "LeftDown_Cannon",
+                            "attachPointTargetType": "Self"
+                        },
+                        "attachPointName": "LeftDown_Cannon"
+                    }
+                },
+                {
+                    "$type": "TriggerBullet",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 321,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "bulletID": 42304005,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttachPoint",
+                            "attachPointName": "LeftDown_Cannon",
+                            "attachPointTargetType": "Self"
+                        },
+                        "attachPointName": "LeftDown_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 321,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeAtk1",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttachPoint",
+                            "attachPointName": "LeftDown_Cannon",
+                            "attachPointTargetType": "Self"
+                        },
+                        "attachPointName": "LeftDown_Cannon"
+                    }
+                },
+                {
+                    "$type": "TriggerBullet",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 331,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "bulletID": 42304007,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttachPoint",
+                            "attachPointName": "LeftDown_Cannon",
+                            "attachPointTargetType": "Self"
+                        },
+                        "attachPointName": "LeftDown_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 331,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeAtk2",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttachPoint",
+                            "attachPointName": "LeftDown_Cannon",
+                            "attachPointTargetType": "Self"
+                        },
+                        "attachPointName": "LeftDown_Cannon"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_LeftUpCannon",
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerBullet",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 311,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "bulletID": 42304016,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttackTarget",
+                            "randomAngleHor": 1.5,
+                            "randomAngleVer": 1.0
+                        },
+                        "attachPointName": "LeftUp_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 311,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeNormalAtk",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttackTarget"
+                        },
+                        "attachPointName": "LeftUp_Cannon"
+                    }
+                },
+                {
+                    "$type": "TriggerBullet",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 321,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "bulletID": 42304004,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttachPoint",
+                            "attachPointName": "LeftUp_Cannon",
+                            "attachPointTargetType": "Self"
+                        },
+                        "attachPointName": "LeftUp_Cannon"
+                    }
+                },
+                {
+                    "$type": "TriggerBullet",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 321,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "bulletID": 42304005,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttachPoint",
+                            "attachPointName": "LeftUp_Cannon",
+                            "attachPointTargetType": "Self"
+                        },
+                        "attachPointName": "LeftUp_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 321,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeAtk1",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttachPoint",
+                            "attachPointName": "LeftUp_Cannon",
+                            "attachPointTargetType": "Self"
+                        },
+                        "attachPointName": "LeftUp_Cannon"
+                    }
+                },
+                {
+                    "$type": "TriggerBullet",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 331,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "bulletID": 42304007,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttachPoint",
+                            "attachPointName": "LeftUp_Cannon",
+                            "attachPointTargetType": "Self"
+                        },
+                        "attachPointName": "LeftUp_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAnimatorInt",
+                            "logic": "Equal",
+                            "value": 331,
+                            "parameter": "SkillID"
+                        }
+                    ],
+                    "effectPattern": "Eff_Monster_Formathr_None_RangeAtk2",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttachPoint",
+                            "attachPointName": "LeftUp_Cannon",
+                            "attachPointTargetType": "Self"
+                        },
+                        "attachPointName": "LeftUp_Cannon"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_NormalBullet",
+            "modifiers": {
+                "Formathr_None_NormalBullet_Effect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_Bullet_Straight"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Formathr_None_NormalBullet_Effect"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "FireHitEffect",
+                    "hitEntity": "Eff_Monster_Formathr_None_StraightBullet_Hit",
+                    "hitScene": {
+                        "defaultEffect": "Eff_Monster_Formathr_None_StraightBullet_HitScene"
+                    }
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackSphere",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornByCollisionPoint"
+                            },
+                            "radius": 0.5
+                        },
+                        "attackInfo": {
+                            "attackTag": "",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 0.20000000298023224,
+                                "damagePercentageRatio": 0.0,
+                                "elementDurability": 100.0,
+                                "strikeType": "Pierce",
+                                "enBreak": 50.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "",
+                                "hitImpulseType": "LV3",
+                                "hitHaltTimeScale": 0.05000000074505806
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "RemoveModifier",
+                    "modifierName": "Formathr_None_NormalBullet_Effect"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_ChaseBullet",
+            "modifiers": {
+                "Formathr_None_ChaseBullet_Effect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_Bullet_Chase"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Formathr_None_ChaseBullet_Effect"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Formathr_None_ChaseBullet_Hit",
+                    "born": {
+                        "$type": "ConfigBornByCollisionPoint"
+                    }
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackSphere",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornByCollisionPoint"
+                            },
+                            "radius": 1.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 0.10000000149011612,
+                                "damagePercentageRatio": 0.0,
+                                "elementDurability": 100.0,
+                                "strikeType": "Blunt",
+                                "enBreak": 50.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "",
+                                "hitImpulseType": "LV3",
+                                "hitHaltTimeScale": 0.05000000074505806
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "RemoveModifier",
+                    "modifierName": "Formathr_None_ChaseBullet_Effect"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_LaserTrigger",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToNormalizedTimeMixin",
+                    "stateID": "RangeAtk1",
+                    "modifierName": "LaserCharging_Effect",
+                    "normalizeStart": 0.23800000548362732,
+                    "normalizeEnd": 0.75
+                }
+            ],
+            "modifiers": {
+                "LaserCharging_Effect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_LaserCharging",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "LaserNode"
+                            }
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_LaserChargingLeftDownCannon",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "LeftDown_Cannon"
+                            }
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_LaserChargingLeftUpCannon",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "LeftUp_Cannon"
+                            }
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_LaserChargingRightDownCannon",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "RightDown_Cannon"
+                            }
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_LaserChargingRightUpCannon",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "RightUp_Cannon"
+                            }
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerBullet",
+                    "bulletID": 42304006,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttackTarget",
+                            "maxAngleType": "Horizontal"
+                        },
+                        "attachPointName": "LaserNode"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_Laser",
+            "modifiers": {
+                "Formathr_None_Laser_Effect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_Bullet_Laser"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Formathr_None_Laser_Effect"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Formathr_None_LaserBullet_Hit",
+                    "born": {
+                        "$type": "ConfigBornByCollisionPoint"
+                    }
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackSphere",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornByCollisionPoint"
+                            },
+                            "radius": 3.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 2.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Fire",
+                                "elementDurability": 100.0,
+                                "strikeType": "Blunt",
+                                "enBreak": 200.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "",
+                                "hitImpulseType": "LV8",
+                                "hitHaltTimeScale": 0.05000000074505806
+                            },
+                            "forceCameraShake": true,
+                            "cameraShake": {
+                                "shakeRange": 0.6399999856948853,
+                                "shakeTime": 0.30000001192092896,
+                                "shakeDistance": 35.0,
+                                "extension": {
+                                    "rangeAttenuation": 0.8999999761581421
+                                }
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "RemoveModifier",
+                    "modifierName": "Formathr_None_Laser_Effect"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_ClusterBulletToAir",
+            "modifiers": {
+                "Formathr_None_ClusterBulletToAir_Effect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_Bullet_ClusterToAir"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Formathr_None_ClusterBulletToAir_Effect"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveModifier",
+                    "modifierName": "Formathr_None_ClusterBulletToAir_Effect"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_ClusterBulletToGround",
+            "modifiers": {
+                "Formathr_None_ClusterBulletToGround_Effect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_Bullet_ClusterToGround"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Formathr_None_ClusterBulletToGround_Effect"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Formathr_None_ClusterBullet_HitScene"
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackSphere",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornByCollisionPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
+                            },
+                            "radius": 5.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 0.5,
+                                "damagePercentageRatio": 0.0,
+                                "elementDurability": 100.0,
+                                "strikeType": "Blunt",
+                                "enBreak": 100.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "default",
+                                "hitImpulseType": "LV4",
+                                "hitHaltTimeScale": 0.05000000074505806
+                            },
+                            "cameraShake": {
+                                "shakeType": "HitVector",
+                                "shakeRange": 0.05999999865889549,
+                                "shakeTime": 0.11999999731779099,
+                                "shakeDir": {
+                                    "z": 1.0
+                                }
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "RemoveModifier",
+                    "modifierName": "Formathr_None_ClusterBulletToGround_Effect"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_RangeAtk2_FindGroundPoint",
+            "abilitySpecials": {
+                "RandomLatency": 0.10000000149011612
+            },
+            "modifiers": {
+                "Formathr_None_ClusterBullet_Latency_1": {
+                    "modifierName": "",
+                    "duration": "RandomLatency",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerBullet",
+                            "target": "SelfAttackTarget",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                    "value": 2.0,
+                                    "compareType": "MoreThan"
+                                }
+                            ],
+                            "bulletID": 42304011,
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 8.0,
+                                    "y": 30.0,
+                                    "z": 8.0
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByWorld",
+                                    "eularAngles": {
+                                        "x": 90.0
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "target": "SelfAttackTarget",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                    "value": 2.0,
+                                    "compareType": "MoreThan"
+                                }
+                            ],
+                            "effectPattern": "Eff_Monster_Formathr_None_ClusterBullet_Alert",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 8.0,
+                                    "y": 0.0,
+                                    "z": 8.0
+                                }
+                            }
+                        }
+                    ]
+                },
+                "Formathr_None_ClusterBullet_Latency_2": {
+                    "modifierName": "",
+                    "duration": "RandomLatency",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerBullet",
+                            "target": "SelfAttackTarget",
+                            "predicates": [
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 3.0,
+                                            "compareType": "MoreThan"
+                                        },
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 2.0,
+                                            "compareType": "LessAndEqual"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "bulletID": 42304011,
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 30.0,
+                                    "z": 8.0
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByWorld",
+                                    "eularAngles": {
+                                        "x": 90.0
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "target": "SelfAttackTarget",
+                            "predicates": [
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 3.0,
+                                            "compareType": "MoreThan"
+                                        },
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 2.0,
+                                            "compareType": "LessAndEqual"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "effectPattern": "Eff_Monster_Formathr_None_ClusterBullet_Alert",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 8.0
+                                }
+                            }
+                        }
+                    ]
+                },
+                "Formathr_None_ClusterBullet_Latency_3": {
+                    "modifierName": "",
+                    "duration": "RandomLatency",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerBullet",
+                            "target": "SelfAttackTarget",
+                            "predicates": [
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 4.0,
+                                            "compareType": "MoreThan"
+                                        },
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 3.0,
+                                            "compareType": "LessAndEqual"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "bulletID": 42304011,
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": -8.0,
+                                    "y": 30.0,
+                                    "z": 8.0
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByWorld",
+                                    "eularAngles": {
+                                        "x": 90.0
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "target": "SelfAttackTarget",
+                            "predicates": [
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 4.0,
+                                            "compareType": "MoreThan"
+                                        },
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 3.0,
+                                            "compareType": "LessAndEqual"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "effectPattern": "Eff_Monster_Formathr_None_ClusterBullet_Alert",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": -8.0,
+                                    "y": 0.0,
+                                    "z": 8.0
+                                }
+                            }
+                        }
+                    ]
+                },
+                "Formathr_None_ClusterBullet_Latency_4": {
+                    "modifierName": "",
+                    "duration": "RandomLatency",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerBullet",
+                            "target": "SelfAttackTarget",
+                            "predicates": [
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 5.0,
+                                            "compareType": "MoreThan"
+                                        },
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 4.0,
+                                            "compareType": "LessAndEqual"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "bulletID": 42304011,
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 8.0,
+                                    "y": 30.0,
+                                    "z": 0.0
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByWorld",
+                                    "eularAngles": {
+                                        "x": 90.0
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "target": "SelfAttackTarget",
+                            "predicates": [
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 5.0,
+                                            "compareType": "MoreThan"
+                                        },
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 4.0,
+                                            "compareType": "LessAndEqual"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "effectPattern": "Eff_Monster_Formathr_None_ClusterBullet_Alert",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 8.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
+                            }
+                        }
+                    ]
+                },
+                "Formathr_None_ClusterBullet_Latency_5": {
+                    "modifierName": "",
+                    "duration": "RandomLatency",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerBullet",
+                            "target": "SelfAttackTarget",
+                            "predicates": [
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 6.0,
+                                            "compareType": "MoreThan"
+                                        },
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 5.0,
+                                            "compareType": "LessAndEqual"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "bulletID": 42304011,
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 30.0,
+                                    "z": 0.0
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByWorld",
+                                    "eularAngles": {
+                                        "x": 90.0
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "target": "SelfAttackTarget",
+                            "predicates": [
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 6.0,
+                                            "compareType": "MoreThan"
+                                        },
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 5.0,
+                                            "compareType": "LessAndEqual"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "effectPattern": "Eff_Monster_Formathr_None_ClusterBullet_Alert",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
+                            }
+                        }
+                    ]
+                },
+                "Formathr_None_ClusterBullet_Latency_6": {
+                    "modifierName": "",
+                    "duration": "RandomLatency",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerBullet",
+                            "target": "SelfAttackTarget",
+                            "predicates": [
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 7.0,
+                                            "compareType": "MoreThan"
+                                        },
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 6.0,
+                                            "compareType": "LessAndEqual"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "bulletID": 42304011,
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": -8.0,
+                                    "y": 30.0,
+                                    "z": 0.0
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByWorld",
+                                    "eularAngles": {
+                                        "x": 90.0
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "target": "SelfAttackTarget",
+                            "predicates": [
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 7.0,
+                                            "compareType": "MoreThan"
+                                        },
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 6.0,
+                                            "compareType": "LessAndEqual"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "effectPattern": "Eff_Monster_Formathr_None_ClusterBullet_Alert",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": -8.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
+                            }
+                        }
+                    ]
+                },
+                "Formathr_None_ClusterBullet_Latency_7": {
+                    "modifierName": "",
+                    "duration": "RandomLatency",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerBullet",
+                            "target": "SelfAttackTarget",
+                            "predicates": [
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 8.0,
+                                            "compareType": "MoreThan"
+                                        },
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 7.0,
+                                            "compareType": "LessAndEqual"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "bulletID": 42304011,
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 8.0,
+                                    "y": 30.0,
+                                    "z": -8.0
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByWorld",
+                                    "eularAngles": {
+                                        "x": 90.0
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "target": "SelfAttackTarget",
+                            "predicates": [
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 8.0,
+                                            "compareType": "MoreThan"
+                                        },
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 7.0,
+                                            "compareType": "LessAndEqual"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "effectPattern": "Eff_Monster_Formathr_None_ClusterBullet_Alert",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 8.0,
+                                    "y": 0.0,
+                                    "z": -8.0
+                                }
+                            }
+                        }
+                    ]
+                },
+                "Formathr_None_ClusterBullet_Latency_8": {
+                    "modifierName": "",
+                    "duration": "RandomLatency",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerBullet",
+                            "target": "SelfAttackTarget",
+                            "predicates": [
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 9.0,
+                                            "compareType": "MoreThan"
+                                        },
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 8.0,
+                                            "compareType": "LessAndEqual"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "bulletID": 42304011,
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 30.0,
+                                    "z": -8.0
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByWorld",
+                                    "eularAngles": {
+                                        "x": 90.0
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "target": "SelfAttackTarget",
+                            "predicates": [
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 9.0,
+                                            "compareType": "MoreThan"
+                                        },
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                            "value": 8.0,
+                                            "compareType": "LessAndEqual"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "effectPattern": "Eff_Monster_Formathr_None_ClusterBullet_Alert",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": -8.0
+                                }
+                            }
+                        }
+                    ]
+                },
+                "Formathr_None_ClusterBullet_Latency_9": {
+                    "modifierName": "",
+                    "duration": "RandomLatency",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerBullet",
+                            "target": "SelfAttackTarget",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                    "value": 9.0,
+                                    "compareType": "LessAndEqual"
+                                }
+                            ],
+                            "bulletID": 42304011,
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": -8.0,
+                                    "y": 30.0,
+                                    "z": -8.0
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByWorld",
+                                    "eularAngles": {
+                                        "x": 90.0
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "target": "SelfAttackTarget",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                                    "value": 9.0,
+                                    "compareType": "LessAndEqual"
+                                }
+                            ],
+                            "effectPattern": "Eff_Monster_Formathr_None_ClusterBullet_Alert",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": -8.0,
+                                    "y": 0.0,
+                                    "z": -8.0
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": -999.0,
+                    "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                    "useLimitRange": true,
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "AddGlobalValue",
+                    "value": 0.0,
+                    "key": "_FORMATHR_NONE_RANGEATK2_MISSPOINT",
+                    "useLimitRange": true,
+                    "randomInRange": true,
+                    "maxValue": 10.0,
+                    "minValue": 1.0
+                },
+                {
+                    "$type": "SetRandomOverrideMapValue",
+                    "valueRangeMax": 2.0,
+                    "overrideMapKey": "RandomLatency"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Formathr_None_ClusterBullet_Latency_1"
+                },
+                {
+                    "$type": "SetRandomOverrideMapValue",
+                    "valueRangeMax": 2.0,
+                    "overrideMapKey": "RandomLatency"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Formathr_None_ClusterBullet_Latency_2"
+                },
+                {
+                    "$type": "SetRandomOverrideMapValue",
+                    "valueRangeMax": 2.0,
+                    "overrideMapKey": "RandomLatency"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Formathr_None_ClusterBullet_Latency_3"
+                },
+                {
+                    "$type": "SetRandomOverrideMapValue",
+                    "valueRangeMax": 2.0,
+                    "overrideMapKey": "RandomLatency"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Formathr_None_ClusterBullet_Latency_4"
+                },
+                {
+                    "$type": "SetRandomOverrideMapValue",
+                    "valueRangeMax": 2.0,
+                    "overrideMapKey": "RandomLatency"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Formathr_None_ClusterBullet_Latency_5"
+                },
+                {
+                    "$type": "SetRandomOverrideMapValue",
+                    "valueRangeMax": 2.0,
+                    "overrideMapKey": "RandomLatency"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Formathr_None_ClusterBullet_Latency_6"
+                },
+                {
+                    "$type": "SetRandomOverrideMapValue",
+                    "valueRangeMax": 2.0,
+                    "overrideMapKey": "RandomLatency"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Formathr_None_ClusterBullet_Latency_7"
+                },
+                {
+                    "$type": "SetRandomOverrideMapValue",
+                    "valueRangeMax": 2.0,
+                    "overrideMapKey": "RandomLatency"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Formathr_None_ClusterBullet_Latency_8"
+                },
+                {
+                    "$type": "SetRandomOverrideMapValue",
+                    "valueRangeMax": 2.0,
+                    "overrideMapKey": "RandomLatency"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Formathr_None_ClusterBullet_Latency_9"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_DiveAtk",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToNormalizedTimeMixin",
+                    "stateID": "DiveAtk",
+                    "modifierName": "DiveAtkBS_Effect",
+                    "normalizeStart": 0.10000000149011612,
+                    "normalizeEnd": 0.42500001192092896
+                }
+            ],
+            "modifiers": {
+                "DiveAtkBS_Effect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_DiveAtkBS_RightDown",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "direction": {
+                                    "$type": "ConfigDirectionByAttachPoint",
+                                    "attachPointName": "RightDown_Cannon",
+                                    "attachPointTargetType": "Self"
+                                },
+                                "attachPointName": "RightDown_Cannon"
+                            }
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_DiveAtkBS_RightUp",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "direction": {
+                                    "$type": "ConfigDirectionByAttachPoint",
+                                    "attachPointName": "RightUp_Cannon",
+                                    "attachPointTargetType": "Self"
+                                },
+                                "attachPointName": "RightUp_Cannon"
+                            }
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_DiveAtkBS_LeftDown",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "direction": {
+                                    "$type": "ConfigDirectionByAttachPoint",
+                                    "attachPointName": "LeftDown_Cannon",
+                                    "attachPointTargetType": "Self"
+                                },
+                                "attachPointName": "LeftDown_Cannon"
+                            }
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Formathr_None_DiveAtkBS_LeftUp",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "direction": {
+                                    "$type": "ConfigDirectionByAttachPoint",
+                                    "attachPointName": "LeftUp_Cannon",
+                                    "attachPointTargetType": "Self"
+                                },
+                                "attachPointName": "LeftUp_Cannon"
+                            }
+                        }
+                    ]
+                },
+                "UNIQUE_Formathr_None_DiveAtkDamage": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.5,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "DamageByAttackValue",
+                            "attackInfo": {
+                                "attackTag": "",
+                                "attenuationTag": "",
+                                "attenuationGroup": "default",
+                                "attackProperty": {
+                                    "damagePercentage": 1.0,
+                                    "damagePercentageRatio": 0.0,
+                                    "elementDurability": 100.0,
+                                    "strikeType": "Default",
+                                    "enBreak": 200.0
+                                },
+                                "hitPattern": {
+                                    "onHitEffectName": "default",
+                                    "hitImpulseType": "LV7"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Formathr_None_DiveAtk",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByWorld",
+                            "eularAngles": {
+                                "x": 90.0
+                            }
+                        },
+                        "attachPointName": "RightDown_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Formathr_None_DiveAtk",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByWorld",
+                            "eularAngles": {
+                                "x": 90.0
+                            }
+                        },
+                        "attachPointName": "RightUp_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Formathr_None_DiveAtk",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByWorld",
+                            "eularAngles": {
+                                "x": 90.0
+                            }
+                        },
+                        "attachPointName": "LeftDown_Cannon"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Formathr_None_DiveAtk",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByWorld",
+                            "eularAngles": {
+                                "x": 90.0
+                            }
+                        },
+                        "attachPointName": "LeftUp_Cannon"
+                    }
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackBox",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 5.0
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByWorld"
+                                },
+                                "attachPointName": "RightDown_Cannon"
+                            },
+                            "size": {
+                                "x": 1.0,
+                                "y": 12.5,
+                                "z": 1.0
+                            }
+                        },
+                        "attackInfo": {
+                            "attackTag": "",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 1.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementDurability": 100.0,
+                                "strikeType": "Default",
+                                "enBreak": 200.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "default",
+                                "hitImpulseType": "LV4"
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackBox",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 5.0
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByWorld"
+                                },
+                                "attachPointName": "RightUp_Cannon"
+                            },
+                            "size": {
+                                "x": 1.0,
+                                "y": 12.5,
+                                "z": 1.0
+                            }
+                        },
+                        "attackInfo": {
+                            "attackTag": "",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 1.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementDurability": 100.0,
+                                "strikeType": "Default",
+                                "enBreak": 200.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "default",
+                                "hitImpulseType": "LV4"
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackBox",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 5.0
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByWorld"
+                                },
+                                "attachPointName": "LeftDown_Cannon"
+                            },
+                            "size": {
+                                "x": 1.0,
+                                "y": 12.5,
+                                "z": 1.0
+                            }
+                        },
+                        "attackInfo": {
+                            "attackTag": "",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 1.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementDurability": 100.0,
+                                "strikeType": "Default",
+                                "enBreak": 200.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "default",
+                                "hitImpulseType": "LV4"
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackBox",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 5.0
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByWorld"
+                                },
+                                "attachPointName": "LeftUp_Cannon"
+                            },
+                            "size": {
+                                "x": 1.0,
+                                "y": 12.5,
+                                "z": 1.0
+                            }
+                        },
+                        "attackInfo": {
+                            "attackTag": "",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 1.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementDurability": 100.0,
+                                "strikeType": "Default",
+                                "enBreak": 200.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "default",
+                                "hitImpulseType": "LV4"
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByShape",
+                        "shapeName": "CircleR8",
+                        "campTargetType": "Enemy",
+                        "sizeRatio": 1.0
+                    },
+                    "modifierName": "UNIQUE_Formathr_None_DiveAtkDamage"
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Monster_Formathr_None_DiveBullet_Hit"
+                },
+                {
+                    "$type": "SetPoseBool",
+                    "boolID": "ReadyForLand",
+                    "value": true
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_AnimationSteer",
+            "abilityMixins": [
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "NormalIdleAir"
+                    ],
+                    "endNormalizedTime": 99999.0,
+                    "angularSpeed": 30.0,
+                    "attackTrigger": "",
+                    "attackDistance": 1.5
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "ChangeState"
+                    ],
+                    "endNormalizedTime": 2.0,
+                    "angularSpeed": 50.0,
+                    "attackTrigger": "",
+                    "attackDistance": 1.5
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "WakeUp",
+                        "WeakEnd"
+                    ],
+                    "startNormalizedTime": 0.6000000238418579,
+                    "endNormalizedTime": 0.800000011920929,
+                    "angularSpeed": 180.0,
+                    "attackTrigger": "",
+                    "attackDistance": 1.5
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "ComboAtk"
+                    ],
+                    "startNormalizedTime": 0.6000000238418579,
+                    "endNormalizedTime": 0.6499999761581421,
+                    "angularSpeed": 360.0,
+                    "attackTrigger": "",
+                    "attackDistance": 1.5
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "ComboAtkExtra1"
+                    ],
+                    "endNormalizedTime": 0.10000000149011612,
+                    "angularSpeed": 240.0,
+                    "attackTrigger": "",
+                    "attackDistance": 1.5
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "ComboAtkExtra2"
+                    ],
+                    "endNormalizedTime": 0.10000000149011612,
+                    "angularSpeed": 240.0,
+                    "attackTrigger": "",
+                    "attackDistance": 1.5
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "HangAtkBS"
+                    ],
+                    "endNormalizedTime": 0.75,
+                    "angularSpeed": 150.0,
+                    "attackTrigger": "",
+                    "attackDistance": 1.5
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "RangeNormalAtk"
+                    ],
+                    "angularSpeed": 30.0,
+                    "attackTrigger": "",
+                    "attackDistance": 1.5
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "RangeAtk1"
+                    ],
+                    "startNormalizedTime": 0.20000000298023224,
+                    "endNormalizedTime": 0.75,
+                    "angularSpeed": 30.0,
+                    "attackTrigger": "",
+                    "attackDistance": 1.5
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "RangeAtk2"
+                    ],
+                    "angularSpeed": 60.0,
+                    "attackTrigger": "",
+                    "attackDistance": 1.5
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_DieEffect",
+            "modifiers": {
+                "UNIQUE_Formathr_None_DieEffect": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "predicates": [
+                                {
+                                    "$type": "ByAnimatorFloat",
+                                    "logic": "Equal",
+                                    "value": 201.0,
+                                    "parameter": "PoseID"
+                                }
+                            ],
+                            "effectPattern": "Eff_Monster_Formathr_None_Die"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "predicates": [
+                                {
+                                    "$type": "ByAnimatorFloat",
+                                    "logic": "Equal",
+                                    "value": 202.0,
+                                    "parameter": "PoseID"
+                                }
+                            ],
+                            "effectPattern": "Eff_Monster_Formathr_None_DieAir"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "predicates": [
+                                {
+                                    "$type": "ByAnimatorFloat",
+                                    "logic": "Equal",
+                                    "value": 204.0,
+                                    "parameter": "PoseID"
+                                }
+                            ],
+                            "effectPattern": "Eff_Monster_Formathr_None_DieAir"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "predicates": [
+                                {
+                                    "$type": "ByAnimatorFloat",
+                                    "logic": "Equal",
+                                    "value": 203.0,
+                                    "parameter": "PoseID"
+                                }
+                            ],
+                            "effectPattern": "Eff_Monster_Formathr_None_DieWeak"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "UNIQUE_Formathr_None_DieEffect"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Formathr_None_Die",
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Formathr_None_DieEffect"
+                }
+            ]
+        }
+    }
+]
