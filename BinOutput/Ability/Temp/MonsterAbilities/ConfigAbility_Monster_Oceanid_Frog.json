@@ -199,6 +199,16 @@
                                     "value": 1.0
                                 }
                             ]
+                        },
+                        {
+                            "$type": "ByNot",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_MONSTERAFFIX_OCEANID_ANIMAL_FOOTEFFECT_OFF",
+                                    "value": 1.0
+                                }
+                            ]
                         }
                     ],
                     "modifierName": "Monster_Oceanid_Frog_CommonEffect"
@@ -438,14 +448,14 @@
                     "elementDurability": 100.0,
                     "onAdded": [
                         {
-                            "$type": "SetGlobalValue",
+                            "$type": "Predicated",
                             "otherTargets": {
                                 "$type": "SelectTargetsByShape",
                                 "shapeName": "CircleR62",
                                 "campTargetType": "Enemy",
                                 "sizeRatio": 1.0
                             },
-                            "predicates": [
+                            "targetPredicates": [
                                 {
                                     "$type": "ByTargetGlobalValue",
                                     "key": "_STAGE_",
@@ -459,6 +469,23 @@
                                     ]
                                 }
                             ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Target",
+                                    "modifierName": "Frog_Exploded_Handler"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "Frog_Exploded_Handler": {
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
                             "value": 1.0,
                             "key": "_OCEANID_DEATHEXPLODED_",
                             "maxValue": 0.0,
@@ -475,6 +502,76 @@
                 {
                     "$type": "ApplyModifier",
                     "modifierName": "Oceanid_Frog_Explode_Watcher"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Oceanid_Affix_DeathExplode",
+            "modifiers": {
+                "Oceanid_Affix_DeathExplode_LifeTimer": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "duration": 4.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Oceanid_Frog_DeathWaterBall_EffigyChallenge"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Oceanid_Frog_DeathWaterBallExplode_EffigyChallenge"
+                        },
+                        {
+                            "$type": "DamageByAttackValue",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR7",
+                                "campTargetType": "Enemy",
+                                "sizeRatio": 1.0
+                            },
+                            "attackInfo": {
+                                "attackTag": "Oceanid_Frog_Explode",
+                                "attenuationTag": "",
+                                "attenuationGroup": "default",
+                                "attackProperty": {
+                                    "damagePercentage": 1.0,
+                                    "damagePercentageRatio": 0.0,
+                                    "elementType": "Water",
+                                    "elementDurability": 50.0,
+                                    "strikeType": "Default",
+                                    "enBreak": 1.0
+                                },
+                                "hitPattern": {
+                                    "onHitEffectName": "default",
+                                    "hitImpulseType": "LV1",
+                                    "hitHaltTimeScale": 0.05000000074505806
+                                },
+                                "forceCameraShake": true,
+                                "cameraShake": {
+                                    "shakeType": "CustomVector",
+                                    "shakeRange": 1.0,
+                                    "shakeTime": 0.30000001192092896,
+                                    "shakeDistance": 50.0
+                                }
+                            }
+                        },
+                        {
+                            "$type": "KillSelf",
+                            "duration": 2.0
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Oceanid_Affix_DeathExplode_LifeTimer"
                 }
             ]
         }

@@ -92,7 +92,7 @@
                     ],
                     "onThinkInterval": [
                         {
-                            "$type": "ApplyModifier",
+                            "$type": "AttachModifier",
                             "target": "CurTeamAvatars",
                             "predicates": [
                                 {
@@ -105,7 +105,7 @@
                     ],
                     "onAvatarIn": [
                         {
-                            "$type": "ApplyModifier",
+                            "$type": "AttachModifier",
                             "target": "CurTeamAvatars",
                             "predicates": [
                                 {
@@ -194,7 +194,7 @@
                 "CDTime": 0.0
             },
             "modifiers": {
-                "UNIQUE_OnGainEnergyHealHP_Handler": {
+                "UNIQUE_Catalyst_OnGainEnergyHealHP_Handler": {
                     "stacking": "Unique",
                     "modifierName": "",
                     "isUnique": true,
@@ -225,7 +225,7 @@
             "onAdded": [
                 {
                     "$type": "AttachModifier",
-                    "modifierName": "UNIQUE_OnGainEnergyHealHP_Handler"
+                    "modifierName": "UNIQUE_Catalyst_OnGainEnergyHealHP_Handler"
                 }
             ],
             "isDynamicAbility": true
@@ -1130,6 +1130,12 @@
                                     "entityTypes": [
                                         "Monster"
                                     ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ANIMAL_ENTITY_TYPE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
                                 }
                             ],
                             "successActions": [
@@ -1228,6 +1234,7 @@
                     "onTriggerUltimateSkill": [
                         {
                             "$type": "ApplyModifier",
+                            "doOffStage": true,
                             "modifierName": "UNIQUE_Weapon_Catalyst_TeamHealAfterElementalBurst_Energy"
                         },
                         {
@@ -1256,7 +1263,8 @@
                             ],
                             "modifierName": "UNIQUE_Weapon_Catalyst_TeamHealAfterElementalBurst_Heal"
                         }
-                    ]
+                    ],
+                    "OIIDACCCPKO": 0.20000000298023224
                 }
             ],
             "abilitySpecials": {
@@ -1271,7 +1279,7 @@
                     "isUnique": true,
                     "duration": [
                         "Time",
-                        0.10000000149011612,
+                        1.0,
                         "Add"
                     ],
                     "elementDurability": 100.0,
@@ -1289,7 +1297,7 @@
                     "isUnique": true,
                     "duration": [
                         "Time",
-                        0.10000000149011612,
+                        1.0,
                         "Add"
                     ],
                     "elementDurability": 100.0,
@@ -1662,12 +1670,9 @@
                                             "minValue": "Times"
                                         },
                                         {
-                                            "$type": "AddGlobalValue",
+                                            "$type": "ApplyModifier",
                                             "target": "SelfAttackTarget",
-                                            "value": 1.0,
-                                            "key": "_ABILITY_Weapon_BouncingBall_Recently_Hit",
-                                            "maxValue": 0.0,
-                                            "minValue": 0.0
+                                            "modifierName": "Weapon_SetMark"
                                         },
                                         {
                                             "$type": "AddGlobalValue",
@@ -1702,6 +1707,20 @@
                             "value": 1.0,
                             "key": "_ABILITY_Weapon_Catalyst_BouncingBall",
                             "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "Weapon_SetMark": {
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_BouncingBall_Recently_Hit",
                             "maxValue": 0.0,
                             "minValue": 0.0
                         }
@@ -1745,6 +1764,20 @@
                             "value": -10.0,
                             "key": "_ABILITY_Weapon_BouncingBall_Recently_Hit",
                             "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "Weapon_SetMark": {
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_BouncingBall_Recently_Hit",
                             "maxValue": 0.0,
                             "minValue": 0.0
                         }
@@ -1835,7 +1868,7 @@
                     ]
                 },
                 {
-                    "$type": "AddGlobalValue",
+                    "$type": "ApplyModifier",
                     "target": "SelfAttackTarget",
                     "predicates": [
                         {
@@ -1846,10 +1879,7 @@
                             "compareType": "MoreThanAndEqual"
                         }
                     ],
-                    "value": 1.0,
-                    "key": "_ABILITY_Weapon_BouncingBall_Recently_Hit",
-                    "maxValue": 0.0,
-                    "minValue": 0.0
+                    "modifierName": "Weapon_SetMark"
                 },
                 {
                     "$type": "AddGlobalValue",
@@ -2552,6 +2582,126 @@
     {
         "Default": {
             "$type": "ConfigAbility",
+            "abilityName": "Weapon_Catalyst_NormalAttackAndExtraAttack",
+            "abilitySpecials": {
+                "Rate_1": 0.0,
+                "Duration_1": 0.0,
+                "Rate_2": 0.0,
+                "Duration_2": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Catalyst_NormalAttackAndExtraAttack_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "NormalAttack_01",
+                                        "NormalAttack_02",
+                                        "NormalAttack_03",
+                                        "NormalAttack_04",
+                                        "NormalAttack_05",
+                                        "NormalAttack_06"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ANIMAL_ENTITY_TYPE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Catalyst_NormalAttackHit_Buff"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "ExtraAttack"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ANIMAL_ENTITY_TYPE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Catalyst_ExtraAttackHit_Buff"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Catalyst_NormalAttackHit_Buff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Duration_1",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "ExtraAttack"
+                            ],
+                            "damagePercentageRatio": "Rate_1"
+                        }
+                    ],
+                    "state": "AttackUp"
+                },
+                "UNIQUE_Catalyst_ExtraAttackHit_Buff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Duration_2",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Rate_2"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Catalyst_NormalAttackAndExtraAttack_Handler"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
             "abilityName": "Weapon_Catalyst_Legend_Dvalin",
             "abilityMixins": [
                 {
@@ -3123,7 +3273,7 @@
                     "minValue": 0.0
                 }
             ],
-            "onAvatarOut": [
+            "NGGOAJMKDHM": [
                 {
                     "$type": "AddGlobalValue",
                     "doOffStage": true,
@@ -3131,394 +3281,6 @@
                     "key": "_ABILITY_Catalyst_Fourwinds_AttackBuffLevel",
                     "useLimitRange": true,
                     "maxValue": 4.0,
-                    "minValue": 0.0
-                }
-            ],
-            "isDynamicAbility": true
-        }
-    },
-    {
-        "Default": {
-            "$type": "ConfigAbility",
-            "abilityName": "Weapon_Catalyst_EnergyPoem",
-            "abilityMixins": [
-                {
-                    "$type": "DoActionByEnergyChangeMixin",
-                    "elementTypes": [
-                        "Electric",
-                        "Fire",
-                        "Water",
-                        "Grass",
-                        "Ice",
-                        "Wind",
-                        "Rock"
-                    ],
-                    "doWhenEnergyMax": true,
-                    "onGainEnergyByBall": [
-                        {
-                            "$type": "ApplyModifier",
-                            "modifierName": "UNIQUE_Catalyst_EnergyPoem_Trigger"
-                        },
-                        {
-                            "$type": "Predicated",
-                            "targetPredicates": [
-                                {
-                                    "$type": "ByTargetGlobalValue",
-                                    "key": "_ABILITY_Weapon_Catalyst_EnergyPoem",
-                                    "value": 5.0
-                                }
-                            ],
-                            "successActions": [
-                                {
-                                    "$type": "Predicated",
-                                    "targetPredicates": [
-                                        {
-                                            "$type": "ByEquipAffixReady",
-                                            "target": "Self",
-                                            "equipAffixDataID": 114503
-                                        }
-                                    ],
-                                    "successActions": [
-                                        {
-                                            "$type": "AttachModifier",
-                                            "modifierName": "UNIQUE_Catalyst_EnergyPoem_Extra"
-                                        }
-                                    ],
-                                    "failActions": [
-                                        {
-                                            "$type": "Predicated",
-                                            "targetPredicates": [
-                                                {
-                                                    "$type": "ByTargetGlobalValue",
-                                                    "key": "_ABILITY_Weapon_Catalyst_EnergyPoem_BurstTrigger",
-                                                    "value": 0.0
-                                                }
-                                            ],
-                                            "successActions": [
-                                                {
-                                                    "$type": "AttachModifier",
-                                                    "modifierName": "UNIQUE_Catalyst_EnergyPoem_4"
-                                                },
-                                                {
-                                                    "$type": "AddGlobalValue",
-                                                    "value": -1.0,
-                                                    "key": "_ABILITY_Weapon_Catalyst_EnergyPoem",
-                                                    "useLimitRange": true,
-                                                    "maxValue": 4.0,
-                                                    "minValue": 4.0
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "$type": "ApplyModifier",
-                            "modifierName": "UNIQUE_Catalyst_EnergyPoem_Timer"
-                        }
-                    ]
-                },
-                {
-                    "$type": "AttachModifierToSelfGlobalValueMixin",
-                    "globalValueKey": "_ABILITY_Weapon_Catalyst_EnergyPoem",
-                    "defaultGlobalValueOnCreate": 0.0,
-                    "valueSteps": [
-                        -0.5,
-                        0.5,
-                        1.5,
-                        2.5,
-                        3.5,
-                        4.5,
-                        5.5
-                    ],
-                    "modifierNameSteps": [
-                        "UNIQUE_Catalyst_EnergyPoem_0",
-                        "UNIQUE_Catalyst_EnergyPoem_1",
-                        "UNIQUE_Catalyst_EnergyPoem_2",
-                        "UNIQUE_Catalyst_EnergyPoem_3",
-                        "UNIQUE_Catalyst_EnergyPoem_4",
-                        "UNIQUE_Catalyst_EnergyPoem_0"
-                    ]
-                }
-            ],
-            "abilitySpecials": {
-                "Rate": 0.0,
-                "Timer": 0.0,
-                "ElementDamageUp": 0.0,
-                "SpeedRate": 0.0,
-                "Dura": 0.0,
-                "CDTime": 0.0
-            },
-            "modifiers": {
-                "UNIQUE_Catalyst_EnergyPoem_Trigger": {
-                    "stacking": "Unique",
-                    "modifierName": "",
-                    "isUnique": true,
-                    "duration": 0.5,
-                    "elementDurability": 100.0,
-                    "onAdded": [
-                        {
-                            "$type": "AddGlobalValue",
-                            "predicates": [
-                                {
-                                    "$type": "ByTargetGlobalValue",
-                                    "key": "_ABILITY_Weapon_Catalyst_EnergyPoem",
-                                    "value": 4.0,
-                                    "compareType": "LessAndEqual"
-                                }
-                            ],
-                            "value": 1.0,
-                            "key": "_ABILITY_Weapon_Catalyst_EnergyPoem",
-                            "useLimitRange": true,
-                            "maxValue": 5.0,
-                            "minValue": 0.0
-                        }
-                    ]
-                },
-                "UNIQUE_Catalyst_EnergyPoem_Timer": {
-                    "modifierName": "",
-                    "isUnique": true,
-                    "duration": "Timer",
-                    "elementDurability": 100.0,
-                    "onRemoved": [
-                        {
-                            "$type": "AddGlobalValue",
-                            "doOffStage": true,
-                            "predicates": [
-                                {
-                                    "$type": "ByTargetGlobalValue",
-                                    "key": "_ABILITY_Weapon_Catalyst_EnergyPoem",
-                                    "value": 4.0,
-                                    "compareType": "LessAndEqual"
-                                }
-                            ],
-                            "value": -100.0,
-                            "key": "_ABILITY_Weapon_Catalyst_EnergyPoem",
-                            "useLimitRange": true,
-                            "maxValue": 0.0,
-                            "minValue": 0.0
-                        }
-                    ]
-                },
-                "UNIQUE_Catalyst_EnergyPoem_0": {
-                    "stacking": "Unique",
-                    "modifierName": "",
-                    "isUnique": true,
-                    "elementDurability": 100.0
-                },
-                "UNIQUE_Catalyst_EnergyPoem_1": {
-                    "modifierName": "",
-                    "isUnique": true,
-                    "elementDurability": 100.0,
-                    "properties": {
-                        "Actor_AttackRatio": [
-                            "Rate",
-                            1.0,
-                            "Mul"
-                        ]
-                    },
-                    "onAdded": [
-                        {
-                            "$type": "AttachEffect",
-                            "effectPattern": "Eff_Weapon_EnergyPoem_Stack1"
-                        }
-                    ],
-                    "isLimitedProperties": true
-                },
-                "UNIQUE_Catalyst_EnergyPoem_2": {
-                    "modifierName": "",
-                    "isUnique": true,
-                    "elementDurability": 100.0,
-                    "properties": {
-                        "Actor_AttackRatio": [
-                            "Rate",
-                            2.0,
-                            "Mul"
-                        ]
-                    },
-                    "onAdded": [
-                        {
-                            "$type": "AttachEffect",
-                            "effectPattern": "Eff_Weapon_EnergyPoem_Stack2"
-                        }
-                    ],
-                    "isLimitedProperties": true
-                },
-                "UNIQUE_Catalyst_EnergyPoem_3": {
-                    "modifierName": "",
-                    "isUnique": true,
-                    "elementDurability": 100.0,
-                    "properties": {
-                        "Actor_AttackRatio": [
-                            "Rate",
-                            3.0,
-                            "Mul"
-                        ]
-                    },
-                    "onAdded": [
-                        {
-                            "$type": "AttachEffect",
-                            "effectPattern": "Eff_Weapon_EnergyPoem_Stack3"
-                        }
-                    ],
-                    "isLimitedProperties": true
-                },
-                "UNIQUE_Catalyst_EnergyPoem_4": {
-                    "modifierName": "",
-                    "isUnique": true,
-                    "elementDurability": 100.0,
-                    "properties": {
-                        "Actor_AttackRatio": [
-                            "Rate",
-                            4.0,
-                            "Mul"
-                        ]
-                    },
-                    "onAdded": [
-                        {
-                            "$type": "AttachEffect",
-                            "effectPattern": "Eff_Weapon_EnergyPoem_Stack4"
-                        }
-                    ],
-                    "isLimitedProperties": true
-                },
-                "UNIQUE_Catalyst_EnergyPoem_Extra": {
-                    "stacking": "Unique",
-                    "modifierName": "",
-                    "isUnique": true,
-                    "duration": "Dura",
-                    "elementDurability": 100.0,
-                    "properties": {
-                        "Actor_AttackRatio": [
-                            "Rate",
-                            4.0,
-                            "Mul"
-                        ],
-                        "Animator_AttackSpeedRatio": "SpeedRate",
-                        "Actor_FireAddHurtDelta": "ElementDamageUp",
-                        "Actor_WaterAddHurtDelta": "ElementDamageUp",
-                        "Actor_GrassAddHurtDelta": "ElementDamageUp",
-                        "Actor_IceAddHurtDelta": "ElementDamageUp",
-                        "Actor_RockAddHurtDelta": "ElementDamageUp",
-                        "Actor_ElecAddHurtDelta": "ElementDamageUp",
-                        "Actor_WindAddHurtDelta": "ElementDamageUp"
-                    },
-                    "state": "AttackUp",
-                    "onAdded": [
-                        {
-                            "$type": "FireEffect",
-                            "effectPattern": "Eff_Weapon_EnergyPoem_Burst"
-                        },
-                        {
-                            "$type": "EquipAffixStart",
-                            "CD": "CDTime",
-                            "equipAffixDataID": 114503
-                        },
-                        {
-                            "$type": "AttachEffect",
-                            "otherTargets": {
-                                "$type": "SelectTargetsByEquipParts",
-                                "equipPartNames": [
-                                    "equip01",
-                                    "equip02",
-                                    "sheathPoint"
-                                ]
-                            },
-                            "effectPattern": "Eff_Weapon_Catalyst_Widsith_L"
-                        },
-                        {
-                            "$type": "AttachEffect",
-                            "otherTargets": {
-                                "$type": "SelectTargetsByEquipParts",
-                                "equipPartNames": [
-                                    "equip01",
-                                    "equip02",
-                                    "sheathPoint"
-                                ]
-                            },
-                            "effectPattern": "Eff_Weapon_Catalyst_Widsith_R"
-                        },
-                        {
-                            "$type": "AddGlobalValue",
-                            "doOffStage": true,
-                            "value": 1.0,
-                            "key": "_ABILITY_Weapon_Catalyst_EnergyPoem_BurstTrigger",
-                            "useLimitRange": true,
-                            "maxValue": 1.0,
-                            "minValue": 1.0
-                        }
-                    ],
-                    "onRemoved": [
-                        {
-                            "$type": "AddGlobalValue",
-                            "doOffStage": true,
-                            "value": -100.0,
-                            "key": "_ABILITY_Weapon_Catalyst_EnergyPoem",
-                            "useLimitRange": true,
-                            "maxValue": 0.0,
-                            "minValue": 0.0
-                        },
-                        {
-                            "$type": "AddGlobalValue",
-                            "doOffStage": true,
-                            "value": -1.0,
-                            "key": "_ABILITY_Weapon_Catalyst_EnergyPoem_BurstTrigger",
-                            "useLimitRange": true,
-                            "maxValue": 0.0,
-                            "minValue": 0.0
-                        },
-                        {
-                            "$type": "SendEffectTrigger",
-                            "otherTargets": {
-                                "$type": "SelectTargetsByEquipParts",
-                                "equipPartNames": [
-                                    "equip01",
-                                    "equip02",
-                                    "sheathPoint"
-                                ]
-                            },
-                            "doOffStage": true,
-                            "parameter": "Trigger_Kill_Effect",
-                            "effectPattern": "Eff_Weapon_Catalyst_Widsith_L"
-                        },
-                        {
-                            "$type": "SendEffectTrigger",
-                            "otherTargets": {
-                                "$type": "SelectTargetsByEquipParts",
-                                "equipPartNames": [
-                                    "equip01",
-                                    "equip02",
-                                    "sheathPoint"
-                                ]
-                            },
-                            "doOffStage": true,
-                            "parameter": "Trigger_Kill_Effect",
-                            "effectPattern": "Eff_Weapon_Catalyst_Widsith_R"
-                        }
-                    ],
-                    "isLimitedProperties": true
-                }
-            },
-            "onAdded": [
-                {
-                    "$type": "AddGlobalValue",
-                    "doOffStage": true,
-                    "value": -1.0,
-                    "key": "_ABILITY_Weapon_Catalyst_EnergyPoem_BurstTrigger",
-                    "useLimitRange": true,
-                    "maxValue": 0.0,
-                    "minValue": 0.0
-                }
-            ],
-            "onRemoved": [
-                {
-                    "$type": "AddGlobalValue",
-                    "doOffStage": true,
-                    "value": 0.0,
-                    "key": "_ABILITY_Weapon_Catalyst_EnergyPoem",
-                    "useLimitRange": true,
-                    "maxValue": 0.0,
                     "minValue": 0.0
                 }
             ],
@@ -4001,7 +3763,8 @@
                             "doOffStage": true,
                             "modifierName": "UNIQUE_Catalyst_Morax_HpToAtk_Buff"
                         }
-                    ]
+                    ],
+                    "JNLGLIJLODK": ""
                 }
             ],
             "abilitySpecials": {
@@ -4083,6 +3846,834 @@
                     "modifierName": "UNIQUE_Catalyst_Morax_Handler"
                 }
             ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Catalyst_Kaleido",
+            "abilityMixins": [
+                {
+                    "$type": "ModifyDamageMixin",
+                    "attackTags": [
+                        "NormalAttack_01",
+                        "NormalAttack_02",
+                        "NormalAttack_03",
+                        "NormalAttack_04",
+                        "NormalAttack_05",
+                        "NormalAttack_06"
+                    ],
+                    "damagePercentageRatio": 0.0,
+                    "damageExtra": [
+                        "FIGHT_PROP_MAX_HP",
+                        "HptoExtraDamage_Factor",
+                        "Mul"
+                    ]
+                },
+                {
+                    "$type": "OnAvatarUseSkillMixin",
+                    "onTriggerUltimateSkill": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_Catalyst_Kaleido_BurstBuff"
+                        }
+                    ],
+                    "OIIDACCCPKO": 0.20000000298023224
+                }
+            ],
+            "abilitySpecials": {
+                "HptoExtraDamage_Factor": 0.0,
+                "Dura": 0.0,
+                "Energy": 0.0,
+                "CDTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Catalyst_Kaleido_BurstBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Dura",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "effectPattern": "Eff_Weapon_Catalyst_Kaleido_Inner"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "effectPattern": "Eff_Weapon_Catalyst_Kaleido_Outer"
+                        }
+                    ],
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "NormalAttack_01",
+                                        "NormalAttack_02",
+                                        "NormalAttack_03",
+                                        "NormalAttack_04",
+                                        "NormalAttack_05",
+                                        "NormalAttack_06"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ANIMAL_ENTITY_TYPE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "UNIQUE_Catalyst_Kaleido_ReviveEnergy"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Catalyst_Kaleido_ReviveEnergy": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ReviveElemEnergy",
+                            "value": "Energy"
+                        }
+                    ]
+                }
+            },
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Catalyst_Bakufu",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionByElementReactionMixin",
+                    "entityTypes": [
+                        "Monster"
+                    ],
+                    "reactionTypes": [
+                        "Explode"
+                    ],
+                    "actions": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_FireBuff_Handler"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_ElecBuff_Handler"
+                        }
+                    ]
+                },
+                {
+                    "$type": "DoActionByElementReactionMixin",
+                    "entityTypes": [
+                        "Monster"
+                    ],
+                    "reactionTypes": [
+                        "Shock"
+                    ],
+                    "actions": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_WaterBuff_Handler"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_ElecBuff_Handler"
+                        }
+                    ]
+                },
+                {
+                    "$type": "DoActionByElementReactionMixin",
+                    "entityTypes": [
+                        "Monster"
+                    ],
+                    "reactionTypes": [
+                        "Superconductor"
+                    ],
+                    "actions": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_IceBuff_Handler"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_ElecBuff_Handler"
+                        }
+                    ]
+                },
+                {
+                    "$type": "DoActionByElementReactionMixin",
+                    "entityTypes": [
+                        "Monster"
+                    ],
+                    "reactionTypes": [
+                        "SwirlElectric"
+                    ],
+                    "actions": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_WindBuff_Handler"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_ElecBuff_Handler"
+                        }
+                    ]
+                },
+                {
+                    "$type": "DoActionByElementReactionMixin",
+                    "entityTypes": [
+                        "Monster"
+                    ],
+                    "reactionTypes": [
+                        "CrystallizeElectric"
+                    ],
+                    "actions": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_RockBuff_Handler"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_ElecBuff_Handler"
+                        }
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Rate": 0.0,
+                "BuffTime": 0.0,
+                "CDTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Catalyst_Bakufu_ElecBuff_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "target": "AllPlayerAvatars",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "value": 40.0
+                                },
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Electric"
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_ElecBuff"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "AllPlayerAvatars",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "value": 40.0
+                                },
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Electric"
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_ElecBuff"
+                        }
+                    ]
+                },
+                "UNIQUE_Catalyst_Bakufu_FireBuff_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "target": "AllPlayerAvatars",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "value": 40.0
+                                },
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Fire"
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_FireBuff"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "AllPlayerAvatars",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "value": 40.0
+                                },
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Fire"
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_FireBuff"
+                        }
+                    ]
+                },
+                "UNIQUE_Catalyst_Bakufu_WaterBuff_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "target": "AllPlayerAvatars",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "value": 40.0
+                                },
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Water"
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_WaterBuff"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "AllPlayerAvatars",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "value": 40.0
+                                },
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Water"
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_WaterBuff"
+                        }
+                    ]
+                },
+                "UNIQUE_Catalyst_Bakufu_IceBuff_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "target": "AllPlayerAvatars",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "value": 40.0
+                                },
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Ice"
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_IceBuff"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "AllPlayerAvatars",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "value": 40.0
+                                },
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Ice"
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_IceBuff"
+                        }
+                    ]
+                },
+                "UNIQUE_Catalyst_Bakufu_WindBuff_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "target": "AllPlayerAvatars",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "value": 40.0
+                                },
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Wind"
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_WindBuff"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "AllPlayerAvatars",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "value": 40.0
+                                },
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Wind"
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_WindBuff"
+                        }
+                    ]
+                },
+                "UNIQUE_Catalyst_Bakufu_RockBuff_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "target": "AllPlayerAvatars",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "value": 40.0
+                                },
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Rock"
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_RockBuff"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "AllPlayerAvatars",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "value": 40.0
+                                },
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Rock"
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Catalyst_Bakufu_RockBuff"
+                        }
+                    ]
+                },
+                "UNIQUE_Catalyst_Bakufu_ElecBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "BuffTime",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_ElecAddHurtDelta": "Rate"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Catalyst_Bakufu_FireBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "BuffTime",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_FireAddHurtDelta": "Rate"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Catalyst_Bakufu_WaterBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "BuffTime",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_WaterAddHurtDelta": "Rate"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Catalyst_Bakufu_IceBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "BuffTime",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_IceAddHurtDelta": "Rate"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Catalyst_Bakufu_WindBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "BuffTime",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_WindAddHurtDelta": "Rate"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Catalyst_Bakufu_RockBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "BuffTime",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_RockAddHurtDelta": "Rate"
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                }
+            },
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Catalyst_Narukami",
+            "abilityMixins": [
+                {
+                    "$type": "OnAvatarUseSkillMixin",
+                    "onTriggerSkill": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Catalyst_Narukami_Buff_Timer"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Catalyst_Narukami_BuffLevel",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 1.0
+                        }
+                    ],
+                    "OIIDACCCPKO": 0.20000000298023224
+                },
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Catalyst_Narukami_BuffLevel",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        0.5,
+                        1.5,
+                        2.5,
+                        10.0
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Catalyst_Narukami_Buff_1",
+                        "UNIQUE_Catalyst_Narukami_Buff_2",
+                        "UNIQUE_Catalyst_Narukami_Buff_3"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "DamageRatio": 0.0,
+                "Dura": 0.0,
+                "Rate": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Catalyst_Narukami_Buff_Timer": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Dura",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Weapon_Catalyst_Narukami"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "value": 0.0,
+                            "key": "_ABILITY_Catalyst_Narukami_BuffLevel",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Catalyst_Narukami_Buff_1": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "Elemental_Art",
+                                "Elemental_Art_Extra",
+                                "Elemental_Art_Hold"
+                            ],
+                            "damagePercentageRatio": "DamageRatio"
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "parameter": "Level",
+                            "type": "Int",
+                            "value": 1,
+                            "effectPattern": "Eff_Weapon_Catalyst_Narukami"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "parameter": "Change",
+                            "effectPattern": "Eff_Weapon_Catalyst_Narukami"
+                        }
+                    ]
+                },
+                "UNIQUE_Catalyst_Narukami_Buff_2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "Elemental_Art",
+                                "Elemental_Art_Extra",
+                                "Elemental_Art_Hold"
+                            ],
+                            "damagePercentageRatio": [
+                                "DamageRatio",
+                                2.0,
+                                "Mul"
+                            ]
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "parameter": "Level",
+                            "type": "Int",
+                            "value": 2,
+                            "effectPattern": "Eff_Weapon_Catalyst_Narukami"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "parameter": "Change",
+                            "effectPattern": "Eff_Weapon_Catalyst_Narukami"
+                        }
+                    ]
+                },
+                "UNIQUE_Catalyst_Narukami_Buff_3": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "Elemental_Art",
+                                "Elemental_Art_Extra",
+                                "Elemental_Art_Hold"
+                            ],
+                            "damagePercentageRatio": [
+                                "DamageRatio",
+                                3.0,
+                                "Mul"
+                            ]
+                        }
+                    ],
+                    "properties": {
+                        "Actor_FireAddHurtDelta": "Rate",
+                        "Actor_ElecAddHurtDelta": "Rate",
+                        "Actor_WaterAddHurtDelta": "Rate",
+                        "Actor_GrassAddHurtDelta": "Rate",
+                        "Actor_WindAddHurtDelta": "Rate",
+                        "Actor_IceAddHurtDelta": "Rate",
+                        "Actor_RockAddHurtDelta": "Rate"
+                    },
+                    "state": "AttackUp",
+                    "onAdded": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "parameter": "Level",
+                            "type": "Int",
+                            "value": 3,
+                            "effectPattern": "Eff_Weapon_Catalyst_Narukami"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "parameter": "Change",
+                            "effectPattern": "Eff_Weapon_Catalyst_Narukami"
+                        }
+                    ]
+                }
+            },
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Catalyst_Jyanome",
+            "abilityMixins": [
+                {
+                    "$type": "OnAvatarUseSkillMixin",
+                    "onTriggerSkill": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "UNIQUE_Catalyst_Jyanome_ArtBuff"
+                        }
+                    ],
+                    "OIIDACCCPKO": 0.20000000298023224
+                }
+            ],
+            "abilitySpecials": {
+                "ChargeEfficiency": 0.0,
+                "Dura": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Catalyst_Jyanome_ArtBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Dura",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_ChargeEfficiencyDelta": "ChargeEfficiency"
+                    },
+                    "state": "AttackUp"
+                }
+            },
             "isDynamicAbility": true
         }
     }

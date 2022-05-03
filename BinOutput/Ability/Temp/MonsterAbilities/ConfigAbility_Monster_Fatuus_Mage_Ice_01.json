@@ -1691,6 +1691,16 @@
                     "angularSpeed": 360.0,
                     "attackTrigger": "",
                     "attackDistance": 1.5
+                },
+                {
+                    "$type": "SteerAttackMixin",
+                    "steerStateIDs": [
+                        "Turn"
+                    ],
+                    "endNormalizedTime": 3.0,
+                    "angularSpeed": 120.0,
+                    "attackTrigger": "",
+                    "attackDistance": 12.0
                 }
             ]
         }
@@ -1833,6 +1843,217 @@
                     "useLimitRange": true,
                     "maxValue": 1.0,
                     "minValue": 0.0
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Fatuus_Mage_Ice_Elite_MeleeAttack",
+            "modifiers": {
+                "MeleeAttack_Elite_Actions": {
+                    "modifierName": "",
+                    "duration": 0.20000000298023224,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerBullet",
+                            "bulletID": 42304051,
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 3.0
+                                }
+                            }
+                        },
+                        {
+                            "$type": "TriggerBullet",
+                            "bulletID": 42304051,
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 3.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByDefault",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 90.0,
+                                        "z": 0.0
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "$type": "TriggerBullet",
+                            "bulletID": 42304051,
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": -3.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByDefault",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": -90.0,
+                                        "z": 0.0
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "$type": "TriggerBullet",
+                            "bulletID": 42304051,
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": -3.0
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByDefault",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 180.0,
+                                        "z": 0.0
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "ApplyModifier",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ELITEAFFIX_ATTACK_ENHANCE",
+                            "value": 1.0
+                        }
+                    ],
+                    "modifierName": "MeleeAttack_Elite_Actions"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Fatuus_Mage_Ice_Elite_IceSpike",
+            "modifiers": {
+                "IceSpike_Damage": {
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.30000001192092896,
+                    "onThinkInterval": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackCircle",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": -2.0,
+                                            "z": 0.0
+                                        },
+                                        "direction": {
+                                            "$type": "ConfigDirectionByDefault",
+                                            "angleOffset": {
+                                                "x": 0.0,
+                                                "y": 0.0,
+                                                "z": 0.0
+                                            }
+                                        }
+                                    },
+                                    "height": 4.0,
+                                    "radius": 1.5
+                                },
+                                "attackInfo": {
+                                    "attackTag": "",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 0.75,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Ice",
+                                        "elementDurability": 50.0,
+                                        "strikeType": "Pierce",
+                                        "enBreak": 200.0,
+                                        "attackType": "Melee"
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV5",
+                                        "retreatType": "ByHitDirection"
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
+                                }
+                            },
+                            "targetType": "Enemy"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Fatuus_Mage_Ice_IceSpike",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "onGround": true
+                            }
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "IceSpike_Damage"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Fatuus_Mage_Ice_EliteSet",
+            "modifiers": {
+                "UNIQUE_MonsterEliteAffix_DefaultState": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "UseSkillEliteSet",
+                            "skillEliteSetID": 1
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ELITEAFFIX_ATTACK_ENHANCE",
+                            "value": 0.0,
+                            "compareType": "NoneOrEqual"
+                        }
+                    ],
+                    "modifierName": "UNIQUE_MonsterEliteAffix_DefaultState"
                 }
             ]
         }

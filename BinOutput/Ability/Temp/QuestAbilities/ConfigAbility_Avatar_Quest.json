@@ -262,5 +262,186 @@
             ],
             "isDynamicAbility": true
         }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_QuestAbility_ClearFollowPet",
+            "abilityMixins": [
+                {
+                    "$type": "FollowAttachPointEffectMixin",
+                    "modifierName": "ClearFollowPet",
+                    "EJDMCBPKLHD": "QuestBlank"
+                }
+            ],
+            "modifiers": {
+                "ClearFollowPet": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_QuestAbility_RandomDeadTime",
+            "abilitySpecials": {
+                "DeadTime_RandomInterval": 25.0
+            },
+            "modifiers": {
+                "UNIQUE_QuestAbility_RandomDeadTime_Interval": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "DeadTime_RandomInterval",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "Avatar_QuestAbility_DeadTime"
+                        },
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "Avatar_QuestAbility_RandomDeadTime"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "SetRandomOverrideMapValue",
+                    "doOffStage": true,
+                    "valueRangeMax": 30.0,
+                    "valueRangeMin": 20.0,
+                    "overrideMapKey": "DeadTime_RandomInterval"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_QuestAbility_RandomDeadTime_Interval"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "SetRandomOverrideMapValue",
+                    "doOffStage": true,
+                    "valueRangeMax": 30.0,
+                    "valueRangeMin": 20.0,
+                    "overrideMapKey": "DeadTime_RandomInterval"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_QuestAbility_RandomDeadTime_Interval"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_QuestAbility_DeadTime",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionByEventMixin",
+                    "onAbilityStateAdded": [
+                        {
+                            "abilityState": "ElementDeadTime",
+                            "actions": [
+                                {
+                                    "$type": "DebugLog",
+                                    "doOffStage": true,
+                                    "content": "!!!!!!!!!!!SetAvatarCanShakeOn!!!!!!!!!!"
+                                },
+                                {
+                                    "$type": "ForceEnableShakeOffButton",
+                                    "enable": true
+                                }
+                            ]
+                        }
+                    ],
+                    "onAbilityStateRemoved": [
+                        {
+                            "abilityState": "ElementDeadTime",
+                            "actions": [
+                                {
+                                    "$type": "DebugLog",
+                                    "doOffStage": true,
+                                    "content": "!!!!!!!!!!!SetAvatarCanShakeOff!!!!!!!!!!"
+                                },
+                                {
+                                    "$type": "ForceEnableShakeOffButton",
+                                    "doOffStage": true
+                                }
+                            ]
+                        }
+                    ],
+                    "JNLGLIJLODK": ""
+                }
+            ],
+            "abilitySpecials": {
+                "DeadTime": 5.0
+            },
+            "modifiers": {
+                "UNIQUE_QuestAbility_DeadTime": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "DeadTime",
+                    "elementDurability": 350.0,
+                    "state": "ElementDeadTime",
+                    "onAdded": [
+                        {
+                            "$type": "CallLuaTask",
+                            "targetAlias": "12041",
+                            "valueString": "ShougunQuest_Timestop"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "DebugLog",
+                            "doOffStage": true,
+                            "content": "!!!!!!!!!!!SetAvatarCanShakeOff!!!!!!!!!!"
+                        },
+                        {
+                            "$type": "ForceEnableShakeOffButton",
+                            "doOffStage": true
+                        }
+                    ]
+                }
+            },
+            "onRemoved": [
+                {
+                    "$type": "DebugLog",
+                    "doOffStage": true,
+                    "content": "!!!!!!!!!!!SetAvatarCanShakeOff!!!!!!!!!!"
+                },
+                {
+                    "$type": "ForceEnableShakeOffButton",
+                    "doOffStage": true
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_QuestAbility_DeadTime"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_QuestAbility_ReviveEnergy",
+            "onAdded": [
+                {
+                    "$type": "ReviveElemEnergy",
+                    "doOffStage": true,
+                    "value": 100.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
     }
 ]

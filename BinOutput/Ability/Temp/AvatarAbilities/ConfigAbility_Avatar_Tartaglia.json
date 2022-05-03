@@ -305,7 +305,8 @@
                                 "Aim",
                                 "FastAim"
                             ],
-                            "modifierName": "ExtraAttack_Mode_Error_Handler"
+                            "modifierName": "ExtraAttack_Mode_Error_Handler",
+                            "isCheckOnAttach": true
                         }
                     ],
                     "onAdded": [
@@ -373,11 +374,19 @@
                     "thinkInterval": 0.20000000298023224,
                     "onAdded": [
                         {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "AimEnd"
+                        },
+                        {
                             "$type": "AvatarExitFocus",
                             "keepRotation": true
                         }
                     ],
                     "onThinkInterval": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "AimEnd"
+                        },
                         {
                             "$type": "AvatarExitFocus",
                             "keepRotation": true
@@ -421,7 +430,7 @@
                                     "useGyro": true
                                 }
                             },
-                            "vcam_fov": 30.0
+                            "vcamFov": 30.0
                         }
                     ],
                     "onRemoved": [
@@ -590,7 +599,7 @@
                                     "useGyro": true
                                 }
                             },
-                            "vcam_fov": 30.0
+                            "vcamFov": 30.0
                         }
                     ],
                     "onRemoved": [
@@ -1393,6 +1402,16 @@
                     "modifierName": "ShootAimingArrow_Charge_Handler"
                 },
                 {
+                    "$type": "AttachToNormalizedTimeMixin",
+                    "stateID": "AimLoop",
+                    "modifierName": "Aim_ChangeAlpha"
+                },
+                {
+                    "$type": "AttachToNormalizedTimeMixin",
+                    "stateID": "FastAimLoop",
+                    "modifierName": "FastAim_ChangeAlpha"
+                },
+                {
                     "$type": "AttachToStateIDMixin",
                     "stateIDs": [
                         "FastAim",
@@ -1428,6 +1447,30 @@
                         {
                             "$type": "AttachModifier",
                             "modifierName": "AimChargeMark"
+                        }
+                    ]
+                },
+                "Aim_ChangeAlpha": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "EffectChangeAlphaMixin",
+                            "target": "Team",
+                            "FAOMIAACPGM": 0.20000000298023224,
+                            "DFJOFJLKGPB": 0.30000001192092896
+                        }
+                    ]
+                },
+                "FastAim_ChangeAlpha": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "EffectChangeAlphaMixin",
+                            "target": "Team",
+                            "FAOMIAACPGM": 0.20000000298023224,
+                            "DFJOFJLKGPB": 0.30000001192092896
                         }
                     ]
                 },
@@ -2956,7 +2999,7 @@
                             "value": 20.0,
                             "modifierName": "UNIQUE_Gandalfr_Main_Handler",
                             "useLimitRange": true,
-                            "maxValue": 100.0,
+                            "maxValue": 125.0,
                             "minValue": 0.0
                         }
                     ],
@@ -2966,7 +3009,7 @@
                             "value": -20.0,
                             "modifierName": "UNIQUE_Gandalfr_Main_Handler",
                             "useLimitRange": true,
-                            "maxValue": 100.0,
+                            "maxValue": 125.0,
                             "minValue": 0.0
                         }
                     ]
@@ -2981,7 +3024,7 @@
                             "modifierName": "UNIQUE_Gandalfr_Main_Handler"
                         }
                     ],
-                    "onAvatarOut": [
+                    "NGGOAJMKDHM": [
                         {
                             "$type": "RemoveUniqueModifier",
                             "doOffStage": true,
@@ -3157,7 +3200,12 @@
                             "born": {
                                 "$type": "ConfigBornBySelf",
                                 "direction": {
-                                    "$type": "ConfigDirectionByEntity"
+                                    "$type": "ConfigDirectionByEntity",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
                                 }
                             }
                         }

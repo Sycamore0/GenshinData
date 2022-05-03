@@ -64,6 +64,30 @@
     {
         "Default": {
             "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Gather_Small_Shining_Mushroom",
+            "modifiers": {
+                "mushroom": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_ShiningSparkle_02"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "mushroom"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
             "abilityName": "SceneObj_Gather_ElectricRock02_Interact",
             "modifiers": {
                 "ElectricElementModifier": {
@@ -783,6 +807,30 @@
     {
         "Default": {
             "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Gather_Advance_Ore_Shining",
+            "modifiers": {
+                "NormalModifier": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_ShiningSparkle_01"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "NormalModifier"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
             "abilityName": "SceneObj_Gather_MagicOre_Interact",
             "modifiers": {
                 "NormalModifier": {
@@ -985,7 +1033,9 @@
                                         "direction": {
                                             "$type": "ConfigDirectionByLookAtEntity",
                                             "angleOffset": {
-                                                "y": 180.0
+                                                "x": 0.0,
+                                                "y": 180.0,
+                                                "z": 0.0
                                             }
                                         }
                                     },
@@ -1002,7 +1052,9 @@
                                         "direction": {
                                             "$type": "ConfigDirectionByBackToHitBoxCenter",
                                             "angleOffset": {
-                                                "y": 180.0
+                                                "x": 0.0,
+                                                "y": 180.0,
+                                                "z": 0.0
                                             }
                                         }
                                     },
@@ -2137,6 +2189,200 @@
                     ]
                 }
             }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Gather_ElectricCrystal_Fly_Gather",
+            "onAdded": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_SceneObj_ElectricCrystal_Smash"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Area_Common_Property_Prop_Cherrypetals_01",
+            "modifiers": {
+                "ReceiveElectric": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.20000000298023224,
+                    "onBeingHit": [
+                        {
+                            "$type": "AttachModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitElement",
+                                    "element": "Electric"
+                                }
+                            ],
+                            "modifierName": "Contract"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR1.5",
+                                "campTargetType": "Enemy",
+                                "sizeRatio": 1.0
+                            },
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Avatar"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "Predicated",
+                                    "target": "Target",
+                                    "targetPredicates": [
+                                        {
+                                            "$type": "ByAny",
+                                            "predicates": [
+                                                {
+                                                    "$type": "ByHasElement",
+                                                    "element": "Electric"
+                                                },
+                                                {
+                                                    "$type": "ByTargetGlobalValue",
+                                                    "key": "HAS_ELECTRIC_FAIRY_BUFF",
+                                                    "value": 1.0
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "successActions": [
+                                        {
+                                            "$type": "AttachModifier",
+                                            "modifierName": "Contract"
+                                        }
+                                    ],
+                                    "failActions": [
+                                        {
+                                            "$type": "ApplyModifier",
+                                            "predicates": [
+                                                {
+                                                    "$type": "ByTargetGlobalValue",
+                                                    "target": "Self",
+                                                    "key": "canSpread",
+                                                    "value": 1.0
+                                                }
+                                            ],
+                                            "modifierName": "Spread"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "Normal": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "canSpread",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_Cherrypetals_01",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "AttachPoint"
+                            }
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "ReceiveElectric"
+                        }
+                    ]
+                },
+                "Spread": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "canSpread",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_Cherrypetals_01_Spread",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "AttachPoint"
+                            }
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Normal"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "ReceiveElectric"
+                        }
+                    ]
+                },
+                "Contract": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "canSpread",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_Cherrypetals_01_Contract",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "AttachPoint"
+                            }
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_Hint_01_Big",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "AttachPoint"
+                            }
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Spread"
+                        },
+                        {
+                            "$type": "ExecuteGadgetLua"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "Normal"
+                }
+            ]
         }
     }
 ]

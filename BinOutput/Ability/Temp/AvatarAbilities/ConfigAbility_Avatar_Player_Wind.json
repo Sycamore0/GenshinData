@@ -1327,7 +1327,7 @@
             },
             "onAdded": [
                 {
-                    "$type": "ApplyModifier",
+                    "$type": "AttachModifier",
                     "predicates": [
                         {
                             "$type": "ByUnlockTalentParam",
@@ -1352,7 +1352,7 @@
                     "modifierName": "UNIQUE_UziExplode_Warden_Handler"
                 },
                 {
-                    "$type": "ApplyModifier",
+                    "$type": "AttachModifier",
                     "predicates": [
                         {
                             "$type": "ByUnlockTalentParam",
@@ -1606,7 +1606,7 @@
                     "minValue": 0.0
                 },
                 {
-                    "$type": "ApplyModifier",
+                    "$type": "AttachModifier",
                     "modifierName": "GenerateElemBall_UziExplode"
                 }
             ],
@@ -2674,6 +2674,7 @@
                     "onRemoved": [
                         {
                             "$type": "AddGlobalValue",
+                            "doOffStage": true,
                             "value": -999.0,
                             "key": "_ABILITY_UziExplode_IsMixed",
                             "useLimitRange": true,
@@ -2682,6 +2683,7 @@
                         },
                         {
                             "$type": "AddGlobalValue",
+                            "doOffStage": true,
                             "value": -10.0,
                             "key": "_ABILITY_UziExplode_IsMixed_Ice",
                             "useLimitRange": true,
@@ -2690,6 +2692,7 @@
                         },
                         {
                             "$type": "AddGlobalValue",
+                            "doOffStage": true,
                             "value": -10.0,
                             "key": "_ABILITY_UziExplode_IsMixed_Water",
                             "useLimitRange": true,
@@ -2698,6 +2701,7 @@
                         },
                         {
                             "$type": "AddGlobalValue",
+                            "doOffStage": true,
                             "value": -10.0,
                             "key": "_ABILITY_UziExplode_IsMixed_Fire",
                             "useLimitRange": true,
@@ -2706,6 +2710,7 @@
                         },
                         {
                             "$type": "AddGlobalValue",
+                            "doOffStage": true,
                             "value": -10.0,
                             "key": "_ABILITY_UziExplode_IsMixed_Electric",
                             "useLimitRange": true,
@@ -2714,22 +2719,27 @@
                         },
                         {
                             "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
                             "modifierName": "UNIQUE_UziExplode_Mix_Handler"
                         },
                         {
                             "$type": "RemoveModifier",
+                            "doOffStage": true,
                             "modifierName": "UziExplode_Mix_Fire_Material"
                         },
                         {
                             "$type": "RemoveModifier",
+                            "doOffStage": true,
                             "modifierName": "UziExplode_Mix_Water_Material"
                         },
                         {
                             "$type": "RemoveModifier",
+                            "doOffStage": true,
                             "modifierName": "UziExplode_Mix_Ice_Material"
                         },
                         {
                             "$type": "RemoveModifier",
+                            "doOffStage": true,
                             "modifierName": "UziExplode_Mix_Electric_Material"
                         }
                     ]
@@ -2881,7 +2891,7 @@
                             "doOffStage": true
                         }
                     ],
-                    "onAvatarOut": [
+                    "NGGOAJMKDHM": [
                         {
                             "$type": "AvatarExitCameraShot",
                             "doOffStage": true
@@ -4296,28 +4306,61 @@
             "abilitySpecials": {
                 "Player_Wind_Arashi_Damage": 0.6000000238418579
             },
-            "modifiers": {
-                "Player_Wind_Arashi_Bullet_Damage_Modifier": {
-                    "modifierName": "",
-                    "duration": 0.10000000149011612,
-                    "elementDurability": 100.0,
-                    "onAdded": [
+            "onAbilityStart": [
+                {
+                    "$type": "Predicated",
+                    "target": "Target",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByEntityTypes",
+                            "entityTypes": [
+                                "MonsterEquip"
+                            ]
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "DamageByAttackValue",
+                            "target": "Target",
+                            "attackInfo": {
+                                "attackTag": "NormalAttack_05",
+                                "attenuationTag": "NormalAttack_05",
+                                "attenuationGroup": "Avatar_Pole_ExtraAttack",
+                                "attackProperty": {
+                                    "damagePercentage": "Player_Wind_Arashi_Damage",
+                                    "damagePercentageRatio": 0.0,
+                                    "elementType": "Wind",
+                                    "elementDurability": 25.0,
+                                    "strikeType": "Slash",
+                                    "enBreak": 36.0,
+                                    "attackType": "Melee"
+                                },
+                                "hitPattern": {
+                                    "onHitEffectName": "default",
+                                    "hitImpulseType": "LV2",
+                                    "retreatType": "ByOriginOwner",
+                                    "hitHaltTimeScale": 0.05000000074505806
+                                },
+                                "canBeModifiedBy": "OriginOwner"
+                            }
+                        }
+                    ],
+                    "failActions": [
                         {
                             "$type": "TriggerAttackEvent",
-                            "target": "Caster",
                             "attackEvent": {
                                 "attackPattern": {
                                     "$type": "ConfigAttackSphere",
                                     "triggerType": "TriggerNoRepeat",
                                     "born": {
-                                        "$type": "ConfigBornBySelf"
+                                        "$type": "ConfigBornByCollisionPoint"
                                     },
                                     "radius": 1.0
                                 },
                                 "attackInfo": {
                                     "attackTag": "NormalAttack_05",
-                                    "attenuationTag": "",
-                                    "attenuationGroup": "default",
+                                    "attenuationTag": "NormalAttack_05",
+                                    "attenuationGroup": "Avatar_Pole_ExtraAttack",
                                     "attackProperty": {
                                         "damagePercentage": "Player_Wind_Arashi_Damage",
                                         "damagePercentageRatio": 0.0,
@@ -4339,13 +4382,6 @@
                             "targetType": "Enemy"
                         }
                     ]
-                }
-            },
-            "onAbilityStart": [
-                {
-                    "$type": "ApplyModifier",
-                    "target": "Target",
-                    "modifierName": "Player_Wind_Arashi_Bullet_Damage_Modifier"
                 }
             ]
         }

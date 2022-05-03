@@ -230,7 +230,8 @@
                                 "shakeDir": {
                                     "z": 1.0
                                 }
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -286,7 +287,8 @@
                                 "shakeDir": {
                                     "z": 1.0
                                 }
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -1053,13 +1055,81 @@
         "Default": {
             "$type": "ConfigAbility",
             "abilityName": "Monster_Wyrm_Rock_CrushAtk",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "CrushAtk_NoHit"
+                    ],
+                    "modifierName": "Wyrm_Rock_CrushAtk_NoHit"
+                },
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "CrushAtk_FailedBS"
+                    ],
+                    "modifierName": "Wyrm_Rock_CrushAtk_Failed"
+                },
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "CrushAtk_FinalHit"
+                    ],
+                    "modifierName": "Wyrm_Rock_CrushAtk_FinalHit"
+                }
+            ],
             "modifiers": {
                 "UNIQUE_Wyrm_Rock_CrushAtk_HitCheck": {
                     "modifierName": "",
                     "isUnique": true,
-                    "duration": 0.5,
+                    "duration": 0.30000001192092896,
                     "elementDurability": 100.0,
+                    "thinkInterval": 0.20000000298023224,
                     "onAdded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Applier",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "Lesser",
+                                    "value": 3.0
+                                },
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "Lesser",
+                                    "compareType": "Y",
+                                    "value": 3.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "Predicated",
+                                    "target": "Other",
+                                    "targetPredicates": [
+                                        {
+                                            "$type": "ByHasShield",
+                                            "target": "Self",
+                                            "type": "All"
+                                        }
+                                    ],
+                                    "successActions": [
+                                        {
+                                            "$type": "ApplyModifier",
+                                            "target": "Caster",
+                                            "modifierName": "Monster_Wyrm_Rock_CrushAtk_HitOnShield"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Caster",
+                                    "modifierName": "Monster_Wyrm_Rock_CrushAtk_HitResult"
+                                }
+                            ]
+                        }
+                    ],
+                    "onThinkInterval": [
                         {
                             "$type": "Predicated",
                             "target": "Applier",
@@ -1124,98 +1194,29 @@
                             "$type": "SetAnimatorBool",
                             "boolID": "CrushHitFlag",
                             "value": true
-                        },
+                        }
+                    ]
+                },
+                "Wyrm_Rock_CrushAtk_NoHit": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
                         {
                             "$type": "FireEffect",
-                            "predicates": [
-                                {
-                                    "$type": "ByAnimatorBool",
-                                    "parameter": "CrushHitFlag"
-                                }
-                            ],
                             "effectPattern": "Eff_Monster_Wyrm_Rock_CrushAtk_Miss"
-                        },
+                        }
+                    ]
+                },
+                "Wyrm_Rock_CrushAtk_Failed": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
                         {
                             "$type": "FireEffect",
-                            "predicates": [
-                                {
-                                    "$type": "ByAnimatorBool",
-                                    "parameter": "FinalHitFlag"
-                                }
-                            ],
                             "effectPattern": "Eff_Monster_Wyrm_Rock_CrushAtk_Failed"
                         },
                         {
-                            "$type": "FireEffect",
-                            "predicates": [
-                                {
-                                    "$type": "ByAnimatorBool",
-                                    "value": true,
-                                    "parameter": "FinalHitFlag"
-                                }
-                            ],
-                            "effectPattern": "Eff_Monster_Wyrm_Rock_CrushAtk_Hit"
-                        },
-                        {
                             "$type": "TriggerAttackEvent",
-                            "predicates": [
-                                {
-                                    "$type": "ByAnimatorBool",
-                                    "value": true,
-                                    "parameter": "FinalHitFlag"
-                                }
-                            ],
-                            "attackEvent": {
-                                "attackPattern": {
-                                    "$type": "ConfigAttackCircle",
-                                    "triggerType": "TriggerNoRepeat",
-                                    "born": {
-                                        "$type": "ConfigBornBySelf",
-                                        "offset": {
-                                            "x": 0.0,
-                                            "y": 0.0,
-                                            "z": 0.0
-                                        }
-                                    },
-                                    "fanAngle": 270.0,
-                                    "radius": 3.0
-                                },
-                                "attackInfo": {
-                                    "attackTag": "",
-                                    "attenuationTag": "",
-                                    "attenuationGroup": "default",
-                                    "attackProperty": {
-                                        "damagePercentage": 1.5,
-                                        "damagePercentageRatio": 0.0,
-                                        "elementDurability": 100.0,
-                                        "strikeType": "Blunt",
-                                        "enBreak": 200.0
-                                    },
-                                    "hitPattern": {
-                                        "onHitEffectName": "default",
-                                        "hitImpulseType": "LV7"
-                                    },
-                                    "cameraShake": {
-                                        "shakeType": "CustomVector",
-                                        "shakeRange": 0.36000001430511475,
-                                        "shakeTime": 0.36000001430511475,
-                                        "shakeDistance": 30.0,
-                                        "shakeDir": {
-                                            "y": -1.0
-                                        }
-                                    }
-                                }
-                            },
-                            "targetType": "Enemy"
-                        },
-                        {
-                            "$type": "TriggerAttackEvent",
-                            "predicates": [
-                                {
-                                    "$type": "ByAnimatorBool",
-                                    "parameter": "FinalHitFlag"
-                                }
-                            ],
                             "attackEvent": {
                                 "attackPattern": {
                                     "$type": "ConfigAttackCircle",
@@ -1245,6 +1246,61 @@
                                     "hitPattern": {
                                         "onHitEffectName": "default",
                                         "hitImpulseType": "LV2"
+                                    },
+                                    "cameraShake": {
+                                        "shakeType": "CustomVector",
+                                        "shakeRange": 0.36000001430511475,
+                                        "shakeTime": 0.36000001430511475,
+                                        "shakeDistance": 30.0,
+                                        "shakeDir": {
+                                            "y": -1.0
+                                        }
+                                    }
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ]
+                },
+                "Wyrm_Rock_CrushAtk_FinalHit": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Wyrm_Rock_CrushAtk_Hit"
+                        },
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackCircle",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    },
+                                    "fanAngle": 270.0,
+                                    "radius": 3.0
+                                },
+                                "attackInfo": {
+                                    "attackTag": "",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 1.5,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementDurability": 100.0,
+                                        "strikeType": "Blunt",
+                                        "enBreak": 200.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV7"
                                     },
                                     "cameraShake": {
                                         "shakeType": "CustomVector",
@@ -1379,7 +1435,9 @@
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
                             "angleOffset": {
-                                "y": 1.0
+                                "x": 0.0,
+                                "y": 1.0,
+                                "z": 0.0
                             },
                             "randomAngleHor": 90.0
                         },
@@ -1399,7 +1457,9 @@
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
                             "angleOffset": {
-                                "y": 1.0
+                                "x": 0.0,
+                                "y": 1.0,
+                                "z": 0.0
                             },
                             "randomAngleHor": 90.0
                         },
@@ -1419,7 +1479,9 @@
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
                             "angleOffset": {
-                                "y": 1.0
+                                "x": 0.0,
+                                "y": 1.0,
+                                "z": 0.0
                             },
                             "randomAngleHor": 90.0
                         }
@@ -1926,21 +1988,6 @@
                             "$type": "RemoveUniqueModifier",
                             "target": "Team",
                             "modifierName": "UNIQUE_CrystalSeed_Rock_Shield"
-                        },
-                        {
-                            "$type": "RemoveUniqueModifier",
-                            "target": "Team",
-                            "modifierName": "UNIQUE_CrystalSeed_Fire_Shield"
-                        },
-                        {
-                            "$type": "RemoveUniqueModifier",
-                            "target": "Team",
-                            "modifierName": "UNIQUE_CrystalSeed_Ice_Shield"
-                        },
-                        {
-                            "$type": "RemoveUniqueModifier",
-                            "target": "Team",
-                            "modifierName": "UNIQUE_CrystalSeed_Electric_Shield"
                         },
                         {
                             "$type": "ApplyModifier",

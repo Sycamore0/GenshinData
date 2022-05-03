@@ -157,6 +157,19 @@
                             "useLimitRange": true,
                             "maxValue": 0.0,
                             "minValue": 0.0
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_STONEPILLARCOUNT_",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "KillServerGadget",
+                            "gadgetInfo": {
+                                "configID": 42004201
+                            }
                         }
                     ],
                     "onRemoved": [
@@ -179,6 +192,12 @@
                         {
                             "$type": "TriggerAbility",
                             "abilityName": "Monster_Effigy_Rock_SetOnGroundPose"
+                        },
+                        {
+                            "$type": "KillServerGadget",
+                            "gadgetInfo": {
+                                "configID": 42004201
+                            }
                         }
                     ]
                 },
@@ -216,6 +235,12 @@
                                 "$type": "SelectTargetsByChildren",
                                 "configID": 42004201
                             }
+                        },
+                        {
+                            "$type": "KillServerGadget",
+                            "gadgetInfo": {
+                                "configID": 42004201
+                            }
                         }
                     ],
                     "onRemoved": [
@@ -238,6 +263,12 @@
                         {
                             "$type": "TriggerAbility",
                             "abilityName": "Monster_Effigy_Rock_SetOnGroundPose"
+                        },
+                        {
+                            "$type": "KillServerGadget",
+                            "gadgetInfo": {
+                                "configID": 42004201
+                            }
                         }
                     ]
                 }
@@ -1166,7 +1197,6 @@
                 "UNIQUE_Effigy_Rock_SetDyingPose": {
                     "modifierName": "",
                     "isUnique": true,
-                    "duration": 2.5,
                     "elementDurability": 100.0,
                     "onAdded": [
                         {
@@ -1220,12 +1250,44 @@
                         "Dying"
                     ],
                     "modifierName": "UNIQUE_DyingInvincible"
+                },
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "Dying_Blink"
+                    ],
+                    "modifierName": "Effigy_Rock_DyingBS"
                 }
             ],
             "modifiers": {
+                "Effigy_Rock_DyingBS": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "DyingState"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Reborn_Timer"
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "DyingState"
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "RebornState",
+                            "value": true
+                        }
+                    ]
+                },
                 "Reborn_Timer": {
                     "modifierName": "",
-                    "duration": 1.5,
+                    "duration": 1.0,
                     "elementDurability": 100.0,
                     "onAdded": [
                         {
@@ -1343,11 +1405,6 @@
                         {
                             "$type": "RemoveUniqueModifier",
                             "modifierName": "UNIQUE_Effigy_Rock_SetDyingPose"
-                        },
-                        {
-                            "$type": "SetAnimatorBool",
-                            "boolID": "RebornState",
-                            "value": true
                         },
                         {
                             "$type": "SetPoseBool",
@@ -1651,6 +1708,13 @@
                             },
                             "canBeHandledOnRecover": true
                         }
+                    ],
+                    "onReconnect": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "DyingState",
+                            "value": true
+                        }
                     ]
                 },
                 "EffigyDie": {
@@ -1690,16 +1754,6 @@
                     "useLimitRange": true,
                     "maxValue": 99.0,
                     "minValue": 0.0
-                }
-            ],
-            "onAbilityStart": [
-                {
-                    "$type": "ApplyModifier",
-                    "modifierName": "Reborn_Timer"
-                },
-                {
-                    "$type": "SetAnimatorBool",
-                    "boolID": "DyingState"
                 }
             ]
         }
@@ -3705,7 +3759,8 @@
                                 "hitHaltTimeScale": 0.05000000074505806,
                                 "canBeDefenceHalt": true,
                                 "muteHitText": true
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -4190,7 +4245,8 @@
                                         "shakeRange": 2.0,
                                         "shakeTime": 0.30000001192092896,
                                         "shakeDistance": 50.0
-                                    }
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
                                 }
                             },
                             "targetType": "Enemy"
@@ -4254,7 +4310,8 @@
                                     "onHitEffectName": "default",
                                     "hitImpulseType": "LV5",
                                     "hitHaltTimeScale": 0.05000000074505806
-                                }
+                                },
+                                "canBeModifiedBy": "OriginOwner"
                             }
                         }
                     ]
@@ -4516,7 +4573,12 @@
                                 },
                                 "onGround": true,
                                 "direction": {
-                                    "$type": "ConfigDirectionByEntity"
+                                    "$type": "ConfigDirectionByEntity",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
                                 },
                                 "alongGround": true
                             }
@@ -4535,7 +4597,9 @@
                                 "direction": {
                                     "$type": "ConfigDirectionByEntity",
                                     "angleOffset": {
-                                        "y": -30.0
+                                        "x": 0.0,
+                                        "y": -30.0,
+                                        "z": 0.0
                                     }
                                 },
                                 "alongGround": true
@@ -4555,7 +4619,9 @@
                                 "direction": {
                                     "$type": "ConfigDirectionByEntity",
                                     "angleOffset": {
-                                        "y": 30.0
+                                        "x": 0.0,
+                                        "y": 30.0,
+                                        "z": 0.0
                                     }
                                 },
                                 "alongGround": true
@@ -4658,7 +4724,8 @@
                                 "hitImpulseType": "LV4",
                                 "retreatType": "ByHitDirection",
                                 "hitHaltTimeScale": 0.009999999776482582
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -4827,6 +4894,11 @@
                         },
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
+                            "angleOffset": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
                             "randomAngleHor": 2.0,
                             "randomAngleVer": 2.0
                         },
@@ -4847,6 +4919,11 @@
                         },
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
+                            "angleOffset": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
                             "randomAngleHor": 2.0,
                             "randomAngleVer": 2.0
                         },
@@ -4867,6 +4944,11 @@
                         },
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
+                            "angleOffset": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
                             "randomAngleHor": 2.0,
                             "randomAngleVer": 2.0
                         },
@@ -4887,6 +4969,11 @@
                         },
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
+                            "angleOffset": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
                             "randomAngleHor": 2.0,
                             "randomAngleVer": 2.0
                         },
@@ -4907,6 +4994,11 @@
                         },
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
+                            "angleOffset": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
                             "randomAngleHor": 2.0,
                             "randomAngleVer": 2.0
                         },
@@ -4927,6 +5019,11 @@
                         },
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
+                            "angleOffset": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
                             "randomAngleHor": 2.0,
                             "randomAngleVer": 2.0
                         },
@@ -4947,6 +5044,11 @@
                         },
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
+                            "angleOffset": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
                             "randomAngleHor": 2.0,
                             "randomAngleVer": 2.0
                         },
@@ -4967,6 +5069,11 @@
                         },
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
+                            "angleOffset": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
                             "randomAngleHor": 2.0,
                             "randomAngleVer": 2.0
                         },
@@ -5013,6 +5120,11 @@
                                 },
                                 "direction": {
                                     "$type": "ConfigDirectionByAttackTarget",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
                                     "randomAngleHor": 1.5,
                                     "randomAngleVer": 1.5
                                 },
@@ -5075,7 +5187,8 @@
                                         "onHitEffectName": "default",
                                         "hitImpulseType": "LV2",
                                         "hitHaltTimeScale": 0.009999999776482582
-                                    }
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
                                 }
                             },
                             "targetType": "AllExceptSelf"
@@ -5507,6 +5620,7 @@
                             "z": 0.0
                         }
                     },
+                    "sightGroupWithOwner": true,
                     "gadgetID": 42004006,
                     "byServer": true
                 }
@@ -5578,7 +5692,8 @@
                                     "onHitEffectName": "default",
                                     "hitImpulseType": "LV2",
                                     "hitHaltTimeScale": 0.05000000074505806
-                                }
+                                },
+                                "canBeModifiedBy": "OriginOwner"
                             }
                         }
                     ]
@@ -5739,7 +5854,8 @@
                                 "shakeRange": 1.0,
                                 "shakeTime": 0.30000001192092896,
                                 "shakeDistance": 30.0
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -7090,31 +7206,10 @@
                                 },
                                 "direction": {
                                     "$type": "ConfigDirectionByEntity",
-                                    "randomAngleHor": 120.0
-                                },
-                                "useRotation": true,
-                                "attachPointName": "RootNode"
-                            }
-                        },
-                        {
-                            "$type": "TriggerBullet",
-                            "bulletID": 42004215,
-                            "born": {
-                                "$type": "ConfigBornByAttachPoint",
-                                "offset": {
-                                    "x": 0.0,
-                                    "y": 0.5,
-                                    "z": 0.0
-                                },
-                                "bornRandom": {
-                                    "$type": "BornRandomFromCenter",
-                                    "minRandomRange": 0.0,
-                                    "maxRandomRange": 1.5
-                                },
-                                "direction": {
-                                    "$type": "ConfigDirectionByEntity",
                                     "angleOffset": {
-                                        "y": 120.0
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
                                     },
                                     "randomAngleHor": 120.0
                                 },
@@ -7140,7 +7235,37 @@
                                 "direction": {
                                     "$type": "ConfigDirectionByEntity",
                                     "angleOffset": {
-                                        "y": 240.0
+                                        "x": 0.0,
+                                        "y": 120.0,
+                                        "z": 0.0
+                                    },
+                                    "randomAngleHor": 120.0
+                                },
+                                "useRotation": true,
+                                "attachPointName": "RootNode"
+                            }
+                        },
+                        {
+                            "$type": "TriggerBullet",
+                            "bulletID": 42004215,
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.5,
+                                    "z": 0.0
+                                },
+                                "bornRandom": {
+                                    "$type": "BornRandomFromCenter",
+                                    "minRandomRange": 0.0,
+                                    "maxRandomRange": 1.5
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByEntity",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 240.0,
+                                        "z": 0.0
                                     },
                                     "randomAngleHor": 120.0
                                 },
@@ -7167,6 +7292,11 @@
                                 },
                                 "direction": {
                                     "$type": "ConfigDirectionByEntity",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
                                     "randomAngleHor": 360.0
                                 },
                                 "useRotation": true,
@@ -7285,21 +7415,6 @@
                             "$type": "RemoveUniqueModifier",
                             "target": "Team",
                             "modifierName": "UNIQUE_CrystalSeed_Rock_Shield"
-                        },
-                        {
-                            "$type": "RemoveUniqueModifier",
-                            "target": "Team",
-                            "modifierName": "UNIQUE_CrystalSeed_Fire_Shield"
-                        },
-                        {
-                            "$type": "RemoveUniqueModifier",
-                            "target": "Team",
-                            "modifierName": "UNIQUE_CrystalSeed_Ice_Shield"
-                        },
-                        {
-                            "$type": "RemoveUniqueModifier",
-                            "target": "Team",
-                            "modifierName": "UNIQUE_CrystalSeed_Electric_Shield"
                         },
                         {
                             "$type": "ApplyModifier",
@@ -7607,6 +7722,11 @@
                                 },
                                 "direction": {
                                     "$type": "ConfigDirectionByEntity",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
                                     "randomAngleHor": 360.0
                                 },
                                 "useRotation": true,
@@ -7672,7 +7792,8 @@
                                         "hitHaltTime": 0.009999999776482582,
                                         "hitHaltTimeScale": 0.009999999776482582,
                                         "canBeDefenceHalt": true
-                                    }
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
                                 }
                             },
                             "targetType": "Enemy"
@@ -8656,6 +8777,11 @@
                                 },
                                 "direction": {
                                     "$type": "ConfigDirectionByEntity",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
                                     "randomAngleHor": 2.0,
                                     "randomAngleVer": 2.0
                                 },
@@ -8676,6 +8802,11 @@
                                 },
                                 "direction": {
                                     "$type": "ConfigDirectionByEntity",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
                                     "randomAngleHor": 2.0,
                                     "randomAngleVer": 2.0
                                 },
@@ -8696,6 +8827,11 @@
                                 },
                                 "direction": {
                                     "$type": "ConfigDirectionByEntity",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
                                     "randomAngleHor": 2.0,
                                     "randomAngleVer": 2.0
                                 },
@@ -8716,6 +8852,11 @@
                                 },
                                 "direction": {
                                     "$type": "ConfigDirectionByEntity",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
                                     "randomAngleHor": 2.0,
                                     "randomAngleVer": 2.0
                                 },
@@ -8736,6 +8877,11 @@
                                 },
                                 "direction": {
                                     "$type": "ConfigDirectionByEntity",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
                                     "randomAngleHor": 2.0,
                                     "randomAngleVer": 2.0
                                 },
@@ -8756,6 +8902,11 @@
                                 },
                                 "direction": {
                                     "$type": "ConfigDirectionByEntity",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
                                     "randomAngleHor": 2.0,
                                     "randomAngleVer": 2.0
                                 },
@@ -8776,6 +8927,11 @@
                                 },
                                 "direction": {
                                     "$type": "ConfigDirectionByEntity",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
                                     "randomAngleHor": 2.0,
                                     "randomAngleVer": 2.0
                                 },
@@ -8796,6 +8952,11 @@
                                 },
                                 "direction": {
                                     "$type": "ConfigDirectionByEntity",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
                                     "randomAngleHor": 2.0,
                                     "randomAngleVer": 2.0
                                 },
@@ -9051,7 +9212,7 @@
                         {
                             "$type": "TriggerAbility",
                             "target": "Owner",
-                            "abilityName": ""
+                            "abilityName": "Monster_Effigy_Rock_Elite_StoneBall_Select"
                         },
                         {
                             "$type": "SendEffectTrigger",
@@ -9142,7 +9303,7 @@
                         {
                             "$type": "TriggerAbility",
                             "target": "Owner",
-                            "abilityName": ""
+                            "abilityName": "Monster_Effigy_Rock_Elite_StoneBall_Select"
                         },
                         {
                             "$type": "Predicated",
@@ -9224,6 +9385,11 @@
                                 },
                                 "direction": {
                                     "$type": "ConfigDirectionByAttackTarget",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
                                     "randomAngleHor": 2.0,
                                     "randomAngleVer": 1.0
                                 },
@@ -9245,6 +9411,11 @@
                                 },
                                 "direction": {
                                     "$type": "ConfigDirectionByAttackTarget",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
                                     "randomAngleHor": 2.0,
                                     "randomAngleVer": 1.0
                                 },
@@ -9340,7 +9511,8 @@
                                             "hitImpulseY": 0.0
                                         },
                                         "hitHaltTimeScale": 0.05000000074505806
-                                    }
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
                                 }
                             },
                             "targetType": "Enemy"
@@ -10085,7 +10257,8 @@
                                         "shakeRange": 2.0,
                                         "shakeTime": 0.30000001192092896,
                                         "shakeDistance": 50.0
-                                    }
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
                                 }
                             },
                             "targetType": "Enemy"
@@ -10173,7 +10346,8 @@
                                         "shakeRange": 2.0,
                                         "shakeTime": 0.30000001192092896,
                                         "shakeDistance": 50.0
-                                    }
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
                                 }
                             },
                             "targetType": "Enemy"

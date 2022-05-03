@@ -172,9 +172,14 @@
                             "triggerType": "TriggerNoRepeat",
                             "massiveAttackRatio": 0.5,
                             "born": {
-                                "$type": "ConfigBornByCollisionPoint"
+                                "$type": "ConfigBornByCollisionPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
                             },
-                            "radius": 0.5
+                            "radius": 0.75
                         },
                         "attackInfo": {
                             "attackTag": "NormalAttack_01",
@@ -226,9 +231,14 @@
                             "triggerType": "TriggerNoRepeat",
                             "massiveAttackRatio": 0.5,
                             "born": {
-                                "$type": "ConfigBornByCollisionPoint"
+                                "$type": "ConfigBornByCollisionPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
                             },
-                            "radius": 0.5
+                            "radius": 0.75
                         },
                         "attackInfo": {
                             "attackTag": "NormalAttack_02",
@@ -279,9 +289,14 @@
                             "triggerType": "TriggerNoRepeat",
                             "massiveAttackRatio": 0.5,
                             "born": {
-                                "$type": "ConfigBornByCollisionPoint"
+                                "$type": "ConfigBornByCollisionPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
                             },
-                            "radius": 0.5
+                            "radius": 0.75
                         },
                         "attackInfo": {
                             "attackTag": "NormalAttack_03",
@@ -411,6 +426,11 @@
                     "secondChargeTime": 0.11999999731779099,
                     "OnBeginUncharged": [
                         {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "Check_Hold"
+                        },
+                        {
                             "$type": "SetAnimatorTrigger",
                             "predicates": [
                                 {
@@ -456,6 +476,10 @@
                             "$type": "SetAnimatorBool",
                             "boolID": "IsCharging",
                             "value": true
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "IsHoldCharging"
                         }
                     ],
                     "OnReleaseCharged": [
@@ -506,6 +530,20 @@
                 {
                     "$type": "AttachToStateIDMixin",
                     "stateIDs": [
+                        "ExtraAttack_Charge",
+                        "ExtraAttack"
+                    ],
+                    "modifierName": "Feiyan_Talent_EndureDelta",
+                    "predicates": [
+                        {
+                            "$type": "ByUnlockTalentParam",
+                            "talentParam": "Avatar_Feiyan_Talent_SpecialCost"
+                        }
+                    ]
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
                         "ElementalArt_BS",
                         "ElementalBurst_BS"
                     ],
@@ -537,7 +575,7 @@
                 },
                 "Check_Hold": {
                     "modifierName": "",
-                    "duration": 2.0,
+                    "duration": 1.0,
                     "elementDurability": 100.0,
                     "thinkInterval": 0.11999999731779099,
                     "onAdded": [
@@ -548,6 +586,11 @@
                         {
                             "$type": "SetAnimatorBool",
                             "boolID": "IsCanMove"
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "IsHoldCharging",
+                            "value": true
                         },
                         {
                             "$type": "SetGlobalValueToOverrideMap",
@@ -623,25 +666,17 @@
                             "$type": "SetAnimatorBool",
                             "boolID": "IsCanMove",
                             "value": true
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "IsHoldCharging"
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "IsCharging"
                         }
                     ],
                     "onThinkInterval": [
-                        {
-                            "$type": "SetAnimatorInt",
-                            "intID": "SkillID",
-                            "value": 99.0
-                        },
-                        {
-                            "$type": "ApplyModifier",
-                            "modifierName": "Check_Hold_02"
-                        }
-                    ]
-                },
-                "Check_Hold_02": {
-                    "modifierName": "",
-                    "duration": 0.10000000149011612,
-                    "elementDurability": 100.0,
-                    "onAdded": [
                         {
                             "$type": "SetGlobalValueToOverrideMap",
                             "globalValueKey": "_ABILITY_Feiyan_ExtraAttack_Weight_Bullet_Count",
@@ -671,7 +706,7 @@
                             "overrideMapKey": "Feiyan_Temp_CostStaminaRatio"
                         },
                         {
-                            "$type": "SetAnimatorTrigger",
+                            "$type": "AttachModifier",
                             "predicates": [
                                 {
                                     "$type": "ByLocalAvatarStamina",
@@ -687,46 +722,32 @@
                                     ]
                                 }
                             ],
-                            "triggerID": "DoSkill"
+                            "modifierName": "Check_Hold_02"
+                        }
+                    ]
+                },
+                "Check_Hold_02": {
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetAnimatorInt",
+                            "intID": "SkillID",
+                            "value": 99.0
                         },
                         {
                             "$type": "SetAnimatorInt",
-                            "predicates": [
-                                {
-                                    "$type": "ByLocalAvatarStamina",
-                                    "logic": "GreaterOrEqual",
-                                    "stamina": [
-                                        "ExtraAttack_Catalyst_Stamina_Cost",
-                                        "Feiyan_ExtraAttack_StaminaCost",
-                                        "Mul",
-                                        "Feiyan_Temp_CostStaminaRatio",
-                                        "Mul",
-                                        "Flexible_Stamina",
-                                        "Add"
-                                    ]
-                                }
-                            ],
                             "intID": "SkillID",
                             "value": 6.0
                         },
                         {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "DoSkill"
+                        },
+                        {
                             "$type": "SetAnimatorBool",
-                            "predicates": [
-                                {
-                                    "$type": "ByLocalAvatarStamina",
-                                    "logic": "GreaterOrEqual",
-                                    "stamina": [
-                                        "ExtraAttack_Catalyst_Stamina_Cost",
-                                        "Feiyan_ExtraAttack_StaminaCost",
-                                        "Mul",
-                                        "Feiyan_Temp_CostStaminaRatio",
-                                        "Mul",
-                                        "Flexible_Stamina",
-                                        "Add"
-                                    ]
-                                }
-                            ],
-                            "boolID": "IsCharging"
+                            "boolID": "IsHoldCharging"
                         }
                     ]
                 },
@@ -788,7 +809,14 @@
                             "Feiyan_Talent_WeightReduceStaminaRatio_ExtraAttack",
                             "Feiyan_Temp_WeightCount",
                             "Mul"
-                        ],
+                        ]
+                    },
+                    "isLimitedProperties": true
+                },
+                "Feiyan_Talent_EndureDelta": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
                         "Actor_EndureDelta": [
                             1.0,
                             "Feiyan_Talent_EndureDelta",
@@ -932,7 +960,8 @@
                             "y": 0.0,
                             "z": 5.0
                         },
-                        "onGround": true
+                        "onGround": true,
+                        "onGroundRaycastUpDist": 4.0
                     },
                     "setTarget": false
                 },
@@ -945,6 +974,15 @@
                         }
                     ],
                     "key": "_ABILITY_FEIYAN_EXTRAATTACK_POS",
+                    "born": {
+                        "$type": "ConfigBornBySelectedPoint",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "onGround": true
+                    },
                     "setTarget": false
                 },
                 {
@@ -1036,8 +1074,9 @@
                     "elementDurability": 100.0,
                     "onAttackLanded": [
                         {
-                            "$type": "ApplyModifier",
-                            "predicates": [
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
                                 {
                                     "$type": "ByAttackTags",
                                     "attackTags": [
@@ -1048,11 +1087,29 @@
                                     "$type": "ByHitCritical"
                                 },
                                 {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ANIMAL_ENTITY_TYPE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                },
+                                {
                                     "$type": "ByHitStrikeType",
                                     "strikeType": "Blunt"
                                 }
                             ],
-                            "modifierName": "Talent_CriticalAttack"
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Caster",
+                                    "modifierName": "Talent_CriticalAttack"
+                                }
+                            ]
                         }
                     ]
                 },
@@ -1209,8 +1266,7 @@
                                     "x": 0.0,
                                     "y": 0.0,
                                     "z": 0.0
-                                },
-                                "onGround": true
+                                }
                             }
                         },
                         {
@@ -1225,12 +1281,11 @@
                                         "$type": "ConfigBornBySelf",
                                         "offset": {
                                             "x": 0.0,
-                                            "y": 0.0,
+                                            "y": -1.0,
                                             "z": 0.0
-                                        },
-                                        "onGround": true
+                                        }
                                     },
-                                    "height": 1.5,
+                                    "height": 2.5,
                                     "radius": "Feiyan_ExtraAttack_Weight_Range_Lv00"
                                 },
                                 "attackInfo": {
@@ -1286,12 +1341,11 @@
                                         "$type": "ConfigBornBySelf",
                                         "offset": {
                                             "x": 0.0,
-                                            "y": 0.0,
+                                            "y": -1.0,
                                             "z": 0.0
-                                        },
-                                        "onGround": true
+                                        }
                                     },
-                                    "height": 1.5,
+                                    "height": 2.5,
                                     "radius": "Feiyan_ExtraAttack_Weight_Range_Lv01"
                                 },
                                 "attackInfo": {
@@ -1347,12 +1401,11 @@
                                         "$type": "ConfigBornBySelf",
                                         "offset": {
                                             "x": 0.0,
-                                            "y": 0.0,
+                                            "y": -1.0,
                                             "z": 0.0
-                                        },
-                                        "onGround": true
+                                        }
                                     },
-                                    "height": 1.5,
+                                    "height": 2.5,
                                     "radius": "Feiyan_ExtraAttack_Weight_Range_Lv02"
                                 },
                                 "attackInfo": {
@@ -1408,12 +1461,11 @@
                                         "$type": "ConfigBornBySelf",
                                         "offset": {
                                             "x": 0.0,
-                                            "y": 0.0,
+                                            "y": -1.0,
                                             "z": 0.0
-                                        },
-                                        "onGround": true
+                                        }
                                     },
-                                    "height": 1.5,
+                                    "height": 2.5,
                                     "radius": "Feiyan_ExtraAttack_Weight_Range_Lv03"
                                 },
                                 "attackInfo": {
@@ -1508,12 +1560,11 @@
                                         "$type": "ConfigBornBySelf",
                                         "offset": {
                                             "x": 0.0,
-                                            "y": 0.0,
+                                            "y": -1.0,
                                             "z": 0.0
-                                        },
-                                        "onGround": true
+                                        }
                                     },
-                                    "height": 1.5,
+                                    "height": 2.5,
                                     "radius": "Feiyan_ExtraAttack_Weight_Range_Lv04"
                                 },
                                 "attackInfo": {
@@ -1672,22 +1723,6 @@
                 "ExtraAttack_WeightCount_Handler": {
                     "modifierName": "",
                     "elementDurability": 100.0,
-                    "onAdded": [
-                        {
-                            "$type": "AddGlobalValue",
-                            "doOffStage": true,
-                            "canBeHandledOnRecover": true,
-                            "value": [
-                                0.0,
-                                "Feiyan_ExtraAttack_MaxCount",
-                                "Sub"
-                            ],
-                            "key": "_ABILITY_Feiyan_ExtraAttack_Weight_Bullet_Count",
-                            "useLimitRange": true,
-                            "maxValue": "Feiyan_ExtraAttack_MaxCount",
-                            "minValue": 0.0
-                        }
-                    ],
                     "onAttackLanded": [
                         {
                             "$type": "Predicated",
@@ -1734,6 +1769,17 @@
                                     "modifierName": "AddGlobalValueToGadget_Full"
                                 }
                             ]
+                        }
+                    ],
+                    "onReconnect": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "value": 0.0,
+                            "key": "_ABILITY_Feiyan_ExtraAttack_Weight_Bullet_Count",
+                            "useLimitRange": true,
+                            "maxValue": "Feiyan_ExtraAttack_MaxCount",
+                            "minValue": 0.0
                         }
                     ]
                 },
@@ -1985,94 +2031,80 @@
                     "state": "AttackUp",
                     "isLimitedProperties": true
                 },
-                "UNIQUE_Feiyan_Talent_FireAddHurt_ShowCountHandle": {
+                "Feiyan_Talent_FireAddHurt_ShowCount_Lv00": {
                     "modifierName": "",
-                    "isUnique": true,
+                    "duration": 0.10000000149011612,
                     "elementDurability": 100.0,
-                    "modifierMixins": [
+                    "onAdded": [
                         {
-                            "$type": "AttachModifierToSelfGlobalValueMixin",
-                            "globalValueKey": "_ABILITY_Feiyan_Talent_FireAddHurt_ShowCount",
-                            "defaultGlobalValueOnCreate": 0.0,
-                            "valueSteps": [
-                                -0.5,
-                                0.5,
-                                1.5,
-                                2.5,
-                                3.5,
-                                4.5,
-                                100.0
-                            ],
-                            "modifierNameSteps": [
-                                "Feiyan_Talent_FireAddHurt_ShowCount_Lv00",
-                                "Feiyan_Talent_FireAddHurt_ShowCount_Lv01",
-                                "Feiyan_Talent_FireAddHurt_ShowCount_Lv02",
-                                "Feiyan_Talent_FireAddHurt_ShowCount_Lv03",
-                                "Feiyan_Talent_FireAddHurt_ShowCount_Lv04",
-                                "Feiyan_Talent_FireAddHurt_ShowCount_Lv05"
-                            ]
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Feiyan_Talent_NumberFlash"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Feiyan_Talent_Number0"
                         }
                     ]
                 },
-                "Feiyan_Talent_FireAddHurt_ShowCount_Lv00": {
-                    "modifierName": "",
-                    "elementDurability": 100.0
-                },
                 "Feiyan_Talent_FireAddHurt_ShowCount_Lv01": {
                     "modifierName": "",
+                    "duration": 0.10000000149011612,
                     "elementDurability": 100.0,
-                    "properties": {
-                        "Actor_FireAddHurtDelta": "Feiyan_Talent_FireAddHurtDelta"
-                    },
-                    "state": "AttackUp"
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Feiyan_Talent_NumberFlash"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Feiyan_Talent_Number1"
+                        }
+                    ]
                 },
                 "Feiyan_Talent_FireAddHurt_ShowCount_Lv02": {
                     "modifierName": "",
+                    "duration": 0.10000000149011612,
                     "elementDurability": 100.0,
-                    "properties": {
-                        "Actor_FireAddHurtDelta": [
-                            "Feiyan_Talent_FireAddHurtDelta",
-                            2.0,
-                            "Mul"
-                        ]
-                    },
-                    "state": "AttackUp"
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Feiyan_Talent_NumberFlash"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Feiyan_Talent_Number2"
+                        }
+                    ]
                 },
                 "Feiyan_Talent_FireAddHurt_ShowCount_Lv03": {
                     "modifierName": "",
+                    "duration": 0.10000000149011612,
                     "elementDurability": 100.0,
-                    "properties": {
-                        "Actor_FireAddHurtDelta": [
-                            "Feiyan_Talent_FireAddHurtDelta",
-                            3.0,
-                            "Mul"
-                        ]
-                    },
-                    "state": "AttackUp"
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Feiyan_Talent_NumberFlash"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Feiyan_Talent_Number3"
+                        }
+                    ]
                 },
                 "Feiyan_Talent_FireAddHurt_ShowCount_Lv04": {
                     "modifierName": "",
+                    "duration": 0.10000000149011612,
                     "elementDurability": 100.0,
-                    "properties": {
-                        "Actor_FireAddHurtDelta": [
-                            "Feiyan_Talent_FireAddHurtDelta",
-                            4.0,
-                            "Mul"
-                        ]
-                    },
-                    "state": "AttackUp"
-                },
-                "Feiyan_Talent_FireAddHurt_ShowCount_Lv05": {
-                    "modifierName": "",
-                    "elementDurability": 100.0,
-                    "properties": {
-                        "Actor_FireAddHurtDelta": [
-                            "Feiyan_Talent_FireAddHurtDelta",
-                            5.0,
-                            "Mul"
-                        ]
-                    },
-                    "state": "AttackUp"
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Feiyan_Talent_NumberFlash"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Avatar_Girl_Catalyst_Feiyan_Talent_Number4"
+                        }
+                    ]
                 }
             },
             "onAbilityStart": [
@@ -2086,20 +2118,83 @@
                     "modifierName": "UNIQUE_Feiyan_Talent_FireAddHurt"
                 },
                 {
-                    "$type": "AttachModifier",
-                    "predicates": [
+                    "$type": "Predicated",
+                    "target": "Caster",
+                    "targetPredicates": [
                         {
                             "$type": "ByUnlockTalentParam",
                             "talentParam": "Avatar_Feiyan_Talent_FireAddHurt"
-                        },
-                        {
-                            "$type": "ByTargetGlobalValue",
-                            "key": "_ABILITY_Feiyan_ExtraAttack_Weight_Bullet_Count",
-                            "value": 0.0,
-                            "compareType": "MoreThan"
                         }
                     ],
-                    "modifierName": "UNIQUE_Feiyan_Talent_FireAddHurt"
+                    "successActions": [
+                        {
+                            "$type": "AttachModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Feiyan_ExtraAttack_Weight_Bullet_Count",
+                                    "value": 0.0,
+                                    "compareType": "MoreThan"
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Feiyan_Talent_FireAddHurt"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Feiyan_ExtraAttack_Weight_Bullet_Count",
+                                    "value": 0.0
+                                }
+                            ],
+                            "modifierName": "Feiyan_Talent_FireAddHurt_ShowCount_Lv00"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Feiyan_ExtraAttack_Weight_Bullet_Count",
+                                    "value": 1.0
+                                }
+                            ],
+                            "modifierName": "Feiyan_Talent_FireAddHurt_ShowCount_Lv01"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Feiyan_ExtraAttack_Weight_Bullet_Count",
+                                    "value": 2.0
+                                }
+                            ],
+                            "modifierName": "Feiyan_Talent_FireAddHurt_ShowCount_Lv02"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Feiyan_ExtraAttack_Weight_Bullet_Count",
+                                    "value": 3.0
+                                }
+                            ],
+                            "modifierName": "Feiyan_Talent_FireAddHurt_ShowCount_Lv03"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Feiyan_ExtraAttack_Weight_Bullet_Count",
+                                    "value": 4.0
+                                }
+                            ],
+                            "modifierName": "Feiyan_Talent_FireAddHurt_ShowCount_Lv04"
+                        }
+                    ]
                 },
                 {
                     "$type": "SetGlobalValue",
@@ -2156,7 +2251,7 @@
                     "modifierName": "UNIQUE_Feiyan_ExtraAttack_Weight_Count_Timer"
                 }
             ],
-            "onAvatarOut": [
+            "NGGOAJMKDHM": [
                 {
                     "$type": "ApplyModifier",
                     "doOffStage": true,
@@ -2238,7 +2333,12 @@
                                     "z": 0.0
                                 },
                                 "direction": {
-                                    "$type": "ConfigDirectionByDefault"
+                                    "$type": "ConfigDirectionByDefault",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
                                 },
                                 "attachPointName": "Ponit1"
                             }
@@ -2279,7 +2379,12 @@
                                     "z": 0.0
                                 },
                                 "direction": {
-                                    "$type": "ConfigDirectionByDefault"
+                                    "$type": "ConfigDirectionByDefault",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
                                 },
                                 "attachPointName": "Ponit2"
                             }
@@ -2320,7 +2425,12 @@
                                     "z": 0.0
                                 },
                                 "direction": {
-                                    "$type": "ConfigDirectionByDefault"
+                                    "$type": "ConfigDirectionByDefault",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
                                 },
                                 "attachPointName": "Ponit3"
                             }
@@ -2361,7 +2471,12 @@
                                     "z": 0.0
                                 },
                                 "direction": {
-                                    "$type": "ConfigDirectionByDefault"
+                                    "$type": "ConfigDirectionByDefault",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
                                 },
                                 "attachPointName": "Ponit4"
                             }
@@ -2411,7 +2526,8 @@
                             "y": 0.0,
                             "z": 5.0
                         },
-                        "onGround": true
+                        "onGround": true,
+                        "onGroundRaycastUpDist": 4.0
                     },
                     "setTarget": false
                 },
@@ -2425,7 +2541,12 @@
                     ],
                     "key": "_ABILITY_Feiyan_ElementalArt_Pos",
                     "born": {
-                        "$type": "ConfigBornByTarget"
+                        "$type": "ConfigBornBySelectedPoint",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
                     },
                     "setTarget": false
                 },
@@ -2829,6 +2950,47 @@
                                 "ExtraAttack"
                             ],
                             "damagePercentageRatio": "Feiyan_ElementalBurst_Buff_ExtraAttackDamageUp"
+                        },
+                        {
+                            "$type": "StageReadyMixin",
+                            "onStageReady": [
+                                {
+                                    "$type": "Predicated",
+                                    "targetPredicates": [
+                                        {
+                                            "$type": "ByHasChildGadget",
+                                            "configIdArray": [
+                                                41048007
+                                            ],
+                                            "compareType": "NoneOrEqual"
+                                        }
+                                    ],
+                                    "successActions": [
+                                        {
+                                            "$type": "CreateGadget",
+                                            "born": {
+                                                "$type": "ConfigBornByTarget",
+                                                "offset": {
+                                                    "x": 0.0,
+                                                    "y": 0.0,
+                                                    "z": 0.0
+                                                }
+                                            },
+                                            "gadgetID": 41048007,
+                                            "campID": 1001,
+                                            "campTargetType": "Enemy"
+                                        },
+                                        {
+                                            "$type": "AttachModifier",
+                                            "otherTargets": {
+                                                "$type": "SelectTargetsByChildren",
+                                                "configID": 41048007
+                                            },
+                                            "modifierName": "UNIQUE_Feiyan_ElementalBurst_Gadget"
+                                        }
+                                    ]
+                                }
+                            ]
                         }
                     ],
                     "onAdded": [
@@ -2843,28 +3005,6 @@
                                 "configID": 41048007
                             },
                             "modifierName": "UNIQUE_Feiyan_ElementalBurst_Gadget"
-                        },
-                        {
-                            "$type": "RemoveUniqueModifier",
-                            "target": "Team",
-                            "predicates": [
-                                {
-                                    "$type": "ByUnlockTalentParam",
-                                    "talentParam": "Avatar_Feiyan_Talent_ElementalBurst_Shield"
-                                }
-                            ],
-                            "modifierName": "UNIQUE_Feiyan_ElementalBurst_Talent_FireShield_Team"
-                        },
-                        {
-                            "$type": "ApplyModifier",
-                            "target": "Team",
-                            "predicates": [
-                                {
-                                    "$type": "ByUnlockTalentParam",
-                                    "talentParam": "Avatar_Feiyan_Talent_ElementalBurst_Shield"
-                                }
-                            ],
-                            "modifierName": "UNIQUE_Feiyan_ElementalBurst_Talent_FireShield_Team"
                         }
                     ],
                     "onRemoved": [
@@ -2888,7 +3028,7 @@
                             "abilityName": "Avatar_Feiyan_ExtraAttack_Weight_Timer"
                         }
                     ],
-                    "onAvatarOut": [
+                    "NGGOAJMKDHM": [
                         {
                             "$type": "RemoveUniqueModifier",
                             "otherTargets": {
@@ -3197,6 +3337,28 @@
                 {
                     "$type": "ApplyModifier",
                     "modifierName": "UNIQUE_Feiyan_ElementalBurstBuff_Handle"
+                },
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "target": "Team",
+                    "predicates": [
+                        {
+                            "$type": "ByUnlockTalentParam",
+                            "talentParam": "Avatar_Feiyan_Talent_ElementalBurst_Shield"
+                        }
+                    ],
+                    "modifierName": "UNIQUE_Feiyan_ElementalBurst_Talent_FireShield_Team"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "target": "Team",
+                    "predicates": [
+                        {
+                            "$type": "ByUnlockTalentParam",
+                            "talentParam": "Avatar_Feiyan_Talent_ElementalBurst_Shield"
+                        }
+                    ],
+                    "modifierName": "UNIQUE_Feiyan_ElementalBurst_Talent_FireShield_Team"
                 }
             ],
             "onKill": [

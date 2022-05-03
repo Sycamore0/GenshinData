@@ -1,0 +1,3785 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_LudiHarpastum_Racket",
+            "modifiers": {
+                "ActivityAbility_LudiHarpastum_Racket_EffectHandler": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 2.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "target": "Team",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_ActivityAbility_LudiHarpastum_Racket"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "AttachModifier",
+                            "target": "Team",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_ActivityAbility_LudiHarpastum_Racket"
+                        }
+                    ]
+                },
+                "UNIQUE_ActivityAbility_LudiHarpastum_Racket": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Activity_LudiHarpastum_Racket_Swing"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Activity_LudiHarpastum_Racket_Disappear"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "doOffStage": true,
+                    "value": 0.0,
+                    "key": "Is_Gold_Bat",
+                    "useLimitRange": true,
+                    "maxValue": 1.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "ActivityAbility_LudiHarpastum_Racket_EffectHandler"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_LudiHarpastum_Serve_SwitchSkill",
+            "modifiers": {
+                "UNIQUE_ActivityAbility_LudiHarpastum_Serve_AddSkillInfo": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddAvatarSkillInfo",
+                            "doOffStage": true,
+                            "skillID": 20021
+                        },
+                        {
+                            "$type": "AvatarSkillStart",
+                            "skillID": 20021,
+                            "cdRatio": 0.05000000074505806,
+                            "costStaminaRatio": 1.0
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "target": "Team",
+                            "parameter": "SwitchSkill",
+                            "type": "Bool",
+                            "value": 1,
+                            "effectPattern": "Eff_Activity_LudiHarpastum"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "SwitchSkill"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "target": "Team",
+                            "parameter": "SwitchSkill",
+                            "type": "Bool",
+                            "effectPattern": "Eff_Activity_LudiHarpastum"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "SwitchSkill"
+                        },
+                        {
+                            "$type": "RemoveAvatarSkillInfo",
+                            "doOffStage": true,
+                            "skillID": 20021
+                        }
+                    ]
+                },
+                "SwitchSkill": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "SwitchSkillIDMixin",
+                            "priority": "Playmode",
+                            "skillIndex": 1,
+                            "skillID": 20021
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_ActivityAbility_LudiHarpastum_Serve_AddSkillInfo"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_LudiHarpastum_Serve",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "Channel_BS",
+                        "Channel_Loop"
+                    ],
+                    "modifierName": "CheckChannelLoop"
+                },
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "Channel_BS",
+                        "Channel_Loop",
+                        "Channel_AS"
+                    ],
+                    "modifierName": "Trigger_OnExit"
+                },
+                {
+                    "$type": "ButtonHoldChargeMixin",
+                    "skillID": 20021,
+                    "secondChargeTime": 0.11999999731779099,
+                    "OnBeginCharged": [
+                        {
+                            "$type": "ChangePlayMode",
+                            "doOffStage": true,
+                            "canBeHandledOnRecover": true,
+                            "muteRemoteAction": true,
+                            "toPlayMode": "ActivityAimState"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "value": 0.0,
+                            "key": "_ABILITY_Common_Channel_IsTrigger",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "OnReleaseCharged": [
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ActivityAbility_Endora_IsFocus",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "modifierName": "Shoot_Short"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ActivityAbility_Endora_IsFocus",
+                                    "value": 1.0
+                                }
+                            ],
+                            "modifierName": "Shoot"
+                        },
+                        {
+                            "$type": "ChangePlayMode",
+                            "doOffStage": true,
+                            "muteRemoteAction": true
+                        }
+                    ],
+                    "OnBeginSecondCharged": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "Focus"
+                        }
+                    ],
+                    "OnReleaseSecondCharged": [
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Common_Channel_IsTrigger",
+                                    "value": 0.0
+                                }
+                            ],
+                            "modifierName": "Shoot"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Common_Channel_IsTrigger",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "doOffStage": true,
+                            "triggerID": "EndChannelTrigger"
+                        }
+                    ],
+                    "PIGLAPCLNGA": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "doOffStage": true,
+                            "triggerID": "EndChannelTrigger"
+                        }
+                    ],
+                    "chargeStateIDs": [
+                        "Channel_Loop"
+                    ]
+                }
+            ],
+            "modifiers": {
+                "Trigger_OnExit": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Common_Channel_IsTrigger",
+                                    "value": 0.0
+                                }
+                            ],
+                            "modifierName": "Shoot_Short"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Common_Channel_IsTrigger",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "Shoot_Short": {
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AvatarSkillStart",
+                            "skillID": 20021,
+                            "cdRatio": 1.0,
+                            "costStaminaRatio": 1.0
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Activity_LudiHarpastum_Serve_OnShooting",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.5,
+                                    "z": 1.2000000476837158
+                                },
+                                "attachPointName": "FocusAnchor",
+                                "attachPointTargetType": "Self"
+                            }
+                        },
+                        {
+                            "$type": "TriggerBullet",
+                            "bulletID": 44000110,
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.5,
+                                    "z": 1.2000000476837158
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByAttachPoint",
+                                    "angleOffset": {
+                                        "x": -1.5,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "attachPointName": "FocusAnchor",
+                                    "attachPointTargetType": "Self"
+                                },
+                                "attachPointName": "FocusAnchor",
+                                "attachPointTargetType": "Self"
+                            }
+                        }
+                    ]
+                },
+                "Shoot": {
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AvatarSkillStart",
+                            "skillID": 20021,
+                            "cdRatio": 1.0,
+                            "costStaminaRatio": 1.0
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "Focus"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Activity_LudiHarpastum_Serve_OnShooting",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.5,
+                                    "z": 1.2000000476837158
+                                },
+                                "attachPointName": "FocusAnchor",
+                                "attachPointTargetType": "Self"
+                            }
+                        },
+                        {
+                            "$type": "TriggerBullet",
+                            "predicates": [
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByAvatarWeaponType",
+                                            "weaponTypes": [
+                                                "WEAPON_BOW"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "bulletID": 44000111,
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.5,
+                                    "z": 1.2000000476837158
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByAttachPoint",
+                                    "angleOffset": {
+                                        "x": -1.5,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "attachPointName": "FocusAnchor",
+                                    "attachPointTargetType": "Self"
+                                },
+                                "attachPointName": "FocusAnchor",
+                                "attachPointTargetType": "Self"
+                            }
+                        },
+                        {
+                            "$type": "TriggerBullet",
+                            "predicates": [
+                                {
+                                    "$type": "ByAvatarWeaponType",
+                                    "weaponTypes": [
+                                        "WEAPON_BOW"
+                                    ]
+                                }
+                            ],
+                            "bulletID": 44000111,
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "offset": {
+                                    "x": 0.30000001192092896,
+                                    "y": 0.0,
+                                    "z": 1.2000000476837158
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByAttachPoint",
+                                    "angleOffset": {
+                                        "x": -1.5,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "attachPointName": "FocusAnchor",
+                                    "attachPointTargetType": "Self"
+                                },
+                                "attachPointName": "FocusAnchor",
+                                "attachPointTargetType": "Self"
+                            }
+                        }
+                    ]
+                },
+                "Focus": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "StartChannelTrigger"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_ActivityAbility_Endora_IsFocus",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "LockMotionFlagExitChannel",
+                            "value": true
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Activity_LudiHarpastum_Serve_Charge"
+                        },
+                        {
+                            "$type": "DummyAction"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "doOffStage": true,
+                            "triggerID": "EndChannelTrigger"
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "doOffStage": true,
+                            "boolID": "LockMotionFlagExitChannel"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "RemovedFocusStateDelay"
+                        },
+                        {
+                            "$type": "ClearGlobalValue",
+                            "doOffStage": true,
+                            "key": "_ActivityAbility_Endora_IsFocus"
+                        }
+                    ]
+                },
+                "CheckChannelLoop": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.10000000149011612,
+                    "onAdded": [
+                        {
+                            "$type": "AvatarEnterFocus",
+                            "cameraFollowLower": {
+                                "x": 0.800000011920929,
+                                "y": 0.20000000298023224,
+                                "z": -1.5
+                            },
+                            "cameraFollowUpper": {
+                                "x": 0.5,
+                                "y": -0.20000000298023224
+                            },
+                            "dragButtonName": "Skill2",
+                            "assistance": {
+                                "ps4": {},
+                                "ps5": {},
+                                "other": {}
+                            },
+                            "canMove": false,
+                            "vcamFov": 30.0,
+                            "disableAnim": true
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "RemovedFocusState"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ActivityAbility_Endora_IsFocus",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "triggerID": "EndChannelTrigger"
+                        }
+                    ]
+                },
+                "RemovedFocusState": {
+                    "stacking": "Multiple",
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "Focus"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "RemovedFocusStateDelay"
+                        }
+                    ]
+                },
+                "RemovedFocusStateDelay": {
+                    "modifierName": "",
+                    "duration": 0.30000001192092896,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "ChangePlayMode",
+                            "doOffStage": true,
+                            "muteRemoteAction": true
+                        },
+                        {
+                            "$type": "AvatarExitFocus",
+                            "doOffStage": true
+                        }
+                    ]
+                }
+            },
+            "onKill": [
+                {
+                    "$type": "ChangePlayMode",
+                    "doOffStage": true,
+                    "muteRemoteAction": true
+                }
+            ],
+            "NGGOAJMKDHM": [
+                {
+                    "$type": "ApplyModifier",
+                    "doOffStage": true,
+                    "modifierName": "RemovedFocusState"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_LudiHarpastum_Hit_SwitchSkill_02_Mark",
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "doOffStage": true,
+                    "value": 1.0,
+                    "key": "_ActivityAbility_LudiHarpastum_Hit_SwitchSkill_02_Mark",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "SetGlobalValue",
+                    "doOffStage": true,
+                    "value": 0.0,
+                    "key": "_ActivityAbility_LudiHarpastum_Hit_SwitchSkill_02_Mark",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_LudiHarpastum_Hit_SwitchSkill_02",
+            "modifiers": {
+                "UNIQUE_ActivityAbility_LudiHarpastum_Hit_02_AddSkillInfo": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddAvatarSkillInfo",
+                            "doOffStage": true,
+                            "skillID": 20029
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "SwitchSkill_Handle"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "SwitchSkill_Handle"
+                        },
+                        {
+                            "$type": "RemoveAvatarSkillInfo",
+                            "doOffStage": true,
+                            "skillID": 20029
+                        }
+                    ]
+                },
+                "SwitchSkill_Handle": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "_ActivityAbility_LudiHarpastum_Hit_SwitchSkill_02_Mark",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5
+                            ],
+                            "modifierNameSteps": [
+                                "SwitchSkill_Blank",
+                                "SwitchSkill"
+                            ]
+                        }
+                    ]
+                },
+                "SwitchSkill_Blank": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "SwitchSkill": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "SwitchSkillIDMixin",
+                            "priority": "Playmode",
+                            "skillID": 20029
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "target": "Team",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_ActivityAbility_LudiHarpastum_Racket"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "target": "Team",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_ActivityAbility_LudiHarpastum_Racket"
+                        }
+                    ]
+                },
+                "UNIQUE_ActivityAbility_LudiHarpastum_Racket": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Activity_LudiHarpastum_Racket_Swing"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Activity_LudiHarpastum_Racket_Disappear"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_ActivityAbility_LudiHarpastum_Hit_02_AddSkillInfo"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_LudiHarpastum_Hit_02",
+            "modifiers": {
+                "DoHit": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "duration": 0.30000001192092896,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "target": "Team",
+                            "parameter": "Hit",
+                            "effectPattern": "Eff_Activity_LudiHarpastum_Racket_Swing"
+                        },
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackCircle",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    },
+                                    "height": 3.0,
+                                    "fanAngle": 240.0,
+                                    "radius": 2.5
+                                },
+                                "attackInfo": {
+                                    "attackTag": "Activity_LudiHarpastum_Hit",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 0.0,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementDurability": 100.0,
+                                        "damageExtra": 0.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV0",
+                                        "hitHaltTimeScale": 0.009999999776482582,
+                                        "muteHitText": true
+                                    }
+                                }
+                            },
+                            "targetType": "All"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "AvatarSkillStart",
+                    "skillID": 20029,
+                    "cdRatio": 1.0,
+                    "costStaminaRatio": 1.0
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "DoHit"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_LudiHarpastumGadgetSkill_ParabolaBall",
+            "modifiers": {
+                "ElementController": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "GV_BallElementType",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5,
+                                2.5,
+                                3.5
+                            ],
+                            "modifierNameSteps": [
+                                "NoElement",
+                                "FireElement",
+                                "ElectricElement",
+                                "WaterElement"
+                            ]
+                        }
+                    ]
+                },
+                "NoElement": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_LudiHarpastum_BasicTrail"
+                        }
+                    ]
+                },
+                "FireElement": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_LudiHarpastum_FireTrail"
+                        }
+                    ]
+                },
+                "WaterElement": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_LudiHarpastum_WaterTrail"
+                        }
+                    ]
+                },
+                "ElectricElement": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_LudiHarpastum_ElectroTrail"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "GV_BallElementType",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 1.0,
+                    "key": "GV_Is_PlayerBall",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "ElementController"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_SceneObj_LudiReboundShooter_01_Hit",
+                    "born": {
+                        "$type": "ConfigBornByCollisionPoint",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": -0.5
+                        }
+                    }
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "GV_BallElementType",
+                            "value": 0.0
+                        }
+                    ],
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackBox",
+                            "triggerType": "TriggerNoRepeat",
+                            "checkHitLayerType": "Both",
+                            "born": {
+                                "$type": "ConfigBornByCollisionPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": -0.5
+                                }
+                            },
+                            "size": {
+                                "x": 0.10000000149011612,
+                                "y": 0.10000000149011612,
+                                "z": 1.0
+                            }
+                        },
+                        "attackInfo": {
+                            "attackTag": "Activity_LudiHarpastum_ParabolaBall_Hit",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 0.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementDurability": 100.0,
+                                "damageExtra": 0.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "default",
+                                "hitImpulseType": "LV0",
+                                "hitHaltTimeScale": 0.009999999776482582,
+                                "muteHitText": true
+                            }
+                        }
+                    },
+                    "targetType": "All"
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "GV_BallElementType",
+                            "value": 1.0
+                        }
+                    ],
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackCircle",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornBySelf"
+                            },
+                            "radius": 2.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "Activity_LudiHarpastum_ParabolaBall_Hit",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 0.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Fire",
+                                "elementDurability": 25.0,
+                                "damageExtra": 0.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "default",
+                                "hitImpulseType": "LV0",
+                                "hitHaltTimeScale": 0.009999999776482582,
+                                "muteHitText": true
+                            }
+                        }
+                    },
+                    "targetType": "All"
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "GV_BallElementType",
+                            "value": 2.0
+                        }
+                    ],
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackCircle",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornBySelf"
+                            },
+                            "radius": 2.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "Activity_LudiHarpastum_ParabolaBall_Hit",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 0.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Electric",
+                                "elementDurability": 25.0,
+                                "damageExtra": 0.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "default",
+                                "hitImpulseType": "LV0",
+                                "hitHaltTimeScale": 0.009999999776482582,
+                                "muteHitText": true
+                            }
+                        }
+                    },
+                    "targetType": "All"
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "GV_BallElementType",
+                            "value": 3.0
+                        }
+                    ],
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackCircle",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornBySelf"
+                            },
+                            "radius": 2.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "Activity_LudiHarpastum_ParabolaBall_Hit",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 0.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Water",
+                                "elementDurability": 25.0,
+                                "damageExtra": 0.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "default",
+                                "hitImpulseType": "LV0",
+                                "hitHaltTimeScale": 0.009999999776482582,
+                                "muteHitText": true
+                            }
+                        }
+                    },
+                    "targetType": "All"
+                },
+                {
+                    "$type": "Predicated",
+                    "target": "Target",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_Is_LudiHarpastum_Buttom",
+                            "value": 0.0,
+                            "compareType": "NoneOrEqual"
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_LudiHarpastum_Hit_SwitchSkill",
+            "modifiers": {
+                "UNIQUE_ActivityAbility_LudiHarpastum_Hit_AddSkillInfo": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddAvatarSkillInfo",
+                            "doOffStage": true,
+                            "skillID": 20022
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "SwitchSkill"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "SwitchSkill"
+                        },
+                        {
+                            "$type": "RemoveAvatarSkillInfo",
+                            "doOffStage": true,
+                            "skillID": 20022
+                        }
+                    ]
+                },
+                "SwitchSkill": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "SwitchSkillIDMixin",
+                            "priority": "Playmode",
+                            "skillID": 20022
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "ChangePlayMode",
+                            "doOffStage": true,
+                            "canBeHandledOnRecover": true,
+                            "toPlayMode": "BounceConjuring"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ChangePlayMode",
+                            "doOffStage": true,
+                            "canBeHandledOnRecover": true
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_ActivityAbility_LudiHarpastum_Hit_AddSkillInfo"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_LudiHarpastum_Hit",
+            "abilitySpecials": {
+                "Auto_Time": 9.0,
+                "AutoStyle_Time": 4.0
+            },
+            "modifiers": {
+                "UNIQUE_ActivityAbility_LudiHarpastum_GoldBat_Team": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ServerUpdateGlobalValueMixin",
+                            "key": "Is_Gold_Bat",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "Is_Gold_Bat",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5
+                            ],
+                            "modifierNameSteps": [
+                                "RacketMode_False",
+                                "RacketMode_True"
+                            ]
+                        }
+                    ]
+                },
+                "RacketMode_False": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "RacketMode_True": {
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "Team",
+                            "modifierName": "UNIQUE_RacketMode_Auto_Team"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "Team",
+                            "modifierName": "RacketMode_Auto_Style"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "Is_Gold_Bat",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_RacketMode_Auto_Team": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Auto_Time",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixinV2",
+                            "modifierName": "RacketMode_Auto_Avatar"
+                        }
+                    ]
+                },
+                "RacketMode_Auto_Avatar": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.10000000149011612,
+                    "onThinkInterval": [
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR2.5H5",
+                                "campTargetType": "All",
+                                "sizeRatio": 1.0
+                            },
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Avatar"
+                                    ],
+                                    "reject": true
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Bullet"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_Is_LudiHarpastum_Ball_Type",
+                                    "value": 0.0,
+                                    "compareType": "MoreThanAndEqual"
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_Is_LudiHarpastum_BeHit",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_Is_LudiHarpastum_CounterBall",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "DoHit_Effect"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Other",
+                                    "modifierName": "UNIQUE_HitBall"
+                                },
+                                {
+                                    "$type": "ServerLuaCall",
+                                    "luaCallType": "CurGalleryControlGroup",
+                                    "isTarget": true,
+                                    "funcName": "AutoReturnCount",
+                                    "param1": 0.0,
+                                    "param2": 0.0,
+                                    "param3": 0.0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "RacketMode_Auto_Style": {
+                    "modifierName": "",
+                    "duration": "AutoStyle_Time",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "target": "Team",
+                            "parameter": "ToAutoMode",
+                            "effectPattern": "Eff_Activity_LudiHarpastum_Racket_Swing"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "target": "Team",
+                            "parameter": "ToNormalMode",
+                            "effectPattern": "Eff_Activity_LudiHarpastum_Racket_Swing"
+                        }
+                    ]
+                },
+                "DoHit_Effect": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "duration": 0.30000001192092896,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "target": "Team",
+                            "parameter": "Hit",
+                            "effectPattern": "Eff_Activity_LudiHarpastum_Racket_Swing"
+                        }
+                    ]
+                },
+                "DoHit_TriggerAttack": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackCircle",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    },
+                                    "height": 2.200000047683716,
+                                    "radius": 2.4000000953674316
+                                },
+                                "attackInfo": {
+                                    "attackTag": "Activity_LudiHarpastum_ParabolaBall_Hit",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 0.0,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementDurability": 100.0,
+                                        "damageExtra": 0.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV0",
+                                        "hitHaltTimeScale": 0.009999999776482582,
+                                        "muteHitText": true
+                                    }
+                                }
+                            },
+                            "targetType": "All"
+                        }
+                    ]
+                },
+                "CheckHitBall": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Other",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Avatar"
+                                    ],
+                                    "reject": true
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Bullet"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_Is_LudiHarpastum_Ball_Type",
+                                    "value": 0.0,
+                                    "compareType": "MoreThanAndEqual"
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_Is_LudiHarpastum_CounterBall",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_Is_LudiHarpastum_BeHit",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                },
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "Activity_LudiHarpastum_ParabolaBall_Hit"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Other",
+                                    "modifierName": "UNIQUE_HitBall"
+                                },
+                                {
+                                    "$type": "Predicated",
+                                    "target": "Target",
+                                    "targetPredicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_Is_LudiHarpastum_Ball_Type",
+                                            "value": 2.0
+                                        }
+                                    ],
+                                    "successActions": [
+                                        {
+                                            "$type": "ServerLuaCall",
+                                            "luaCallType": "CurGalleryControlGroup",
+                                            "isTarget": true,
+                                            "funcName": "SoilBallCount",
+                                            "param1": 0.0,
+                                            "param2": 0.0,
+                                            "param3": 0.0
+                                        }
+                                    ]
+                                },
+                                {
+                                    "$type": "Predicated",
+                                    "target": "Target",
+                                    "targetPredicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_Is_LudiHarpastum_Ball_Type",
+                                            "value": 3.0
+                                        }
+                                    ],
+                                    "successActions": [
+                                        {
+                                            "$type": "ServerLuaCall",
+                                            "luaCallType": "CurGalleryControlGroup",
+                                            "isTarget": true,
+                                            "funcName": "IceBallCount",
+                                            "param1": 0.0,
+                                            "param2": 0.0,
+                                            "param3": 0.0
+                                        }
+                                    ]
+                                },
+                                {
+                                    "$type": "Predicated",
+                                    "target": "Target",
+                                    "targetPredicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_Is_LudiHarpastum_Ball_Type",
+                                            "value": 4.0
+                                        }
+                                    ],
+                                    "successActions": [
+                                        {
+                                            "$type": "ServerLuaCall",
+                                            "luaCallType": "CurGalleryControlGroup",
+                                            "isTarget": true,
+                                            "funcName": "CurveBallCount",
+                                            "param1": 0.0,
+                                            "param2": 0.0,
+                                            "param3": 0.0
+                                        }
+                                    ]
+                                },
+                                {
+                                    "$type": "Predicated",
+                                    "target": "Target",
+                                    "targetPredicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_Is_LudiHarpastum_Ball_Type",
+                                            "value": 5.0
+                                        }
+                                    ],
+                                    "successActions": [
+                                        {
+                                            "$type": "ServerLuaCall",
+                                            "luaCallType": "CurGalleryControlGroup",
+                                            "isTarget": true,
+                                            "funcName": "SpeedBallCount",
+                                            "param1": 0.0,
+                                            "param2": 0.0,
+                                            "param3": 0.0
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_HitBall": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.5,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalPos",
+                            "key": "BallPos",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
+                            }
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "Applier",
+                            "doOffStage": true,
+                            "modifierName": "HitBall_Avatar"
+                        },
+                        {
+                            "$type": "KillSelf",
+                            "banDrop": true,
+                            "banExp": true,
+                            "killSelfType": "Disappear"
+                        }
+                    ]
+                },
+                "HitBall_Avatar": {
+                    "stacking": "Multiple",
+                    "modifierName": "",
+                    "duration": 0.5,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "target": "Applier",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_Is_LudiHarpastum_BeHit",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "value": 0.0,
+                            "key": "_Is_LudiHarpastum_Ball_Perfect",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Team",
+                                    "key": "Is_Gold_Bat",
+                                    "value": 1.0
+                                }
+                            ],
+                            "value": 1.0,
+                            "key": "_Is_LudiHarpastum_Ball_Perfect",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "target": "Applier",
+                                    "logic": "LesserOrEqual",
+                                    "value": 2.200000047683716
+                                },
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "target": "Applier",
+                                    "value": 1.2000000476837158
+                                }
+                            ],
+                            "value": 1.0,
+                            "key": "_Is_LudiHarpastum_Ball_Perfect",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "_Is_LudiHarpastum_Ball_Perfect",
+                                    "value": 1.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ActCameraShake",
+                                    "muteRemoteAction": true,
+                                    "cameraShake": {
+                                        "shakeRange": 0.20000000298023224,
+                                        "shakeTime": 0.11999999731779099,
+                                        "shakeDistance": 30.0,
+                                        "extension": {
+                                            "baseOnCamera": true
+                                        }
+                                    }
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "target": "Applier",
+                                    "effectPattern": "Eff_Activity_LudiHarpastum_Serve_BallHit_Prefect",
+                                    "born": {
+                                        "$type": "ConfigBornByTarget"
+                                    }
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "FireEffect",
+                                    "target": "Applier",
+                                    "effectPattern": "Eff_Activity_LudiHarpastum_Serve_BallHit_Good",
+                                    "born": {
+                                        "$type": "ConfigBornByTarget"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "CopyGlobalValue",
+                            "doOffStage": true,
+                            "srcTarget": "Applier",
+                            "dstTarget": "Self",
+                            "srcKey": "BallPos_0",
+                            "dstKey": "BallPos_0"
+                        },
+                        {
+                            "$type": "CopyGlobalValue",
+                            "doOffStage": true,
+                            "srcTarget": "Applier",
+                            "dstTarget": "Self",
+                            "srcKey": "BallPos_1",
+                            "dstKey": "BallPos_1"
+                        },
+                        {
+                            "$type": "CopyGlobalValue",
+                            "doOffStage": true,
+                            "srcTarget": "Applier",
+                            "dstTarget": "Self",
+                            "srcKey": "BallPos_2",
+                            "dstKey": "BallPos_2"
+                        },
+                        {
+                            "$type": "CopyGlobalValue",
+                            "doOffStage": true,
+                            "srcTarget": "Applier",
+                            "dstTarget": "Self",
+                            "srcKey": "_Is_LudiHarpastum_Ball_Type",
+                            "dstKey": "_Is_LudiHarpastum_Ball_Type"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "HitBall_CasterCreateBall"
+                        }
+                    ]
+                },
+                "HitBall_CasterCreateBall": {
+                    "stacking": "Multiple",
+                    "modifierName": "",
+                    "duration": 0.5,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetSelfAttackTarget",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR30",
+                                "campTargetType": "All",
+                                "sizeRatio": 1.0
+                            },
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "Is_LudiHarpastum_Shooter",
+                                    "value": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "target": "SelfAttackTarget",
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Activity_LudiHarpastum_BombTypeA_OnShoot",
+                            "born": {
+                                "$type": "ConfigBornByTarget"
+                            }
+                        },
+                        {
+                            "$type": "TriggerBullet",
+                            "doOffStage": true,
+                            "bulletID": 44000113,
+                            "born": {
+                                "$type": "ConfigBornByGlobalValue",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "direction": {
+                                    "$type": "ConfigDirectionByAttackTarget",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "randomAngleHor": 3.0,
+                                    "randomAngleVer": 3.0
+                                },
+                                "positionKey": "BallPos",
+                                "directionKey": ""
+                            }
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "target": "Team",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_ActivityAbility_LudiHarpastum_GoldBat_Team"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "CheckHitBall"
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "target": "Team",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_ActivityAbility_LudiHarpastum_GoldBat_Team"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "AvatarSkillStart",
+                    "skillID": 20022,
+                    "cdRatio": 1.0,
+                    "costStaminaRatio": 1.0
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "DoHit_Effect"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "DoHit_TriggerAttack"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_LudiHarpastumGadgetSkill_CounterBall",
+            "abilitySpecials": {
+                "SpeedFix": 0.0
+            },
+            "modifiers": {
+                "SpeedFix": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_BulletMoveSpeedRatio": [
+                            1.0,
+                            "SpeedFix",
+                            "Add"
+                        ]
+                    }
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "CopyGlobalValue",
+                    "srcTarget": "OriginOwner",
+                    "dstTarget": "Self",
+                    "srcKey": "_Is_LudiHarpastum_Ball_Perfect",
+                    "dstKey": "_Is_LudiHarpastum_Ball_Perfect"
+                },
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 1.0,
+                    "key": "_Is_LudiHarpastum_CounterBall",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "CopyGlobalValue",
+                    "srcTarget": "OriginOwner",
+                    "dstTarget": "Self",
+                    "srcKey": "_Is_LudiHarpastum_Ball_Type",
+                    "dstKey": "_Is_LudiHarpastum_Ball_Type"
+                },
+                {
+                    "$type": "SetGlobalValue",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "target": "Self",
+                            "key": "_Is_LudiHarpastum_Ball_Type",
+                            "value": 6.0
+                        }
+                    ],
+                    "value": 1.0,
+                    "key": "_Is_LudiHarpastum_Ball_Attract",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "AttachEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_Is_LudiHarpastum_Ball_Type",
+                            "value": 1.0
+                        }
+                    ],
+                    "effectPattern": "Eff_SceneObj_BadmintonBasic_01"
+                },
+                {
+                    "$type": "AttachEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_Is_LudiHarpastum_Ball_Type",
+                            "value": 2.0
+                        }
+                    ],
+                    "effectPattern": "Eff_SceneObj_BadmintonSoil_01"
+                },
+                {
+                    "$type": "AttachEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_Is_LudiHarpastum_Ball_Type",
+                            "value": 3.0
+                        }
+                    ],
+                    "effectPattern": "Eff_SceneObj_BadmintonIce_01"
+                },
+                {
+                    "$type": "AttachEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_Is_LudiHarpastum_Ball_Type",
+                            "value": 4.0
+                        }
+                    ],
+                    "effectPattern": "Eff_SceneObj_BadmintonCurve_01"
+                },
+                {
+                    "$type": "AttachEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_Is_LudiHarpastum_Ball_Type",
+                            "value": 5.0
+                        }
+                    ],
+                    "effectPattern": "Eff_SceneObj_BadmintonSpeed_01"
+                },
+                {
+                    "$type": "AttachEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_Is_LudiHarpastum_Ball_Type",
+                            "value": 6.0
+                        }
+                    ],
+                    "effectPattern": "Eff_SceneObj_BadmintonAttract_01"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "Predicated",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_Is_LudiHarpastum_Ball_Perfect",
+                            "value": 1.0,
+                            "forceByCaster": true
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_SceneObj_Badminton_01_Hit_03"
+                        }
+                    ],
+                    "failActions": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_SceneObj_Badminton_01_Hit_02"
+                        }
+                    ]
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackBox",
+                            "triggerType": "TriggerNoRepeat",
+                            "checkHitLayerType": "Both",
+                            "born": {
+                                "$type": "ConfigBornByCollisionPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": -0.5
+                                }
+                            },
+                            "size": {
+                                "x": 0.10000000149011612,
+                                "y": 0.10000000149011612,
+                                "z": 1.0
+                            }
+                        },
+                        "attackInfo": {
+                            "attackTag": "Activity_LudiHarpastum_CounterBall",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 0.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementDurability": 100.0,
+                                "damageExtra": 0.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "",
+                                "hitImpulseType": "LV0",
+                                "hitHaltTimeScale": 0.009999999776482582
+                            },
+                            "canHitHead": true
+                        }
+                    },
+                    "targetType": "Enemy"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_LudiHarpastum_Camera",
+            "abilityMixins": [
+                {
+                    "$type": "StageReadyMixin",
+                    "onStageReady": [
+                        {
+                            "$type": "AvatarEnterCameraShot",
+                            "cameraMoveCfgPath": "Camera_LudiHarpastum_01"
+                        }
+                    ]
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "AvatarExitCameraShot"
+                }
+            ],
+            "onAvatarIn": [
+                {
+                    "$type": "AvatarEnterCameraShot",
+                    "cameraMoveCfgPath": "Camera_LudiHarpastum_01"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_LudiHarpastumGadgetSkill_GlodBat",
+            "abilitySpecials": {
+                "SpeedFix": 0.0
+            },
+            "modifiers": {
+                "SpeedFix": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_LudiHarpastum_Bomb_Mark",
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "doOffStage": true,
+                    "value": 1.0,
+                    "key": "_ActivityAbility_LudiHarpastum_BombMark",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "SetGlobalValue",
+                    "doOffStage": true,
+                    "value": 0.0,
+                    "key": "_ActivityAbility_LudiHarpastum_BombMark",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_LudiHarpastum_Bomb_Forbid",
+            "onAbilityStart": [
+                {
+                    "$type": "ShowTextMap",
+                    "doOffStage": true,
+                    "id": "UI_WIDGET_AREA_LIMITED"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_LudiHarpastum_BombTypeA_SwitchSkill",
+            "modifiers": {
+                "UNIQUE_ActivityAbility_LudiHarpastum_BombTypeA_AddSkillInfo": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddAvatarSkillInfo",
+                            "doOffStage": true,
+                            "skillID": 20023
+                        },
+                        {
+                            "$type": "AddAvatarSkillInfo",
+                            "doOffStage": true,
+                            "skillID": 20026
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "SwitchSkill"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "SwitchSkill"
+                        },
+                        {
+                            "$type": "RemoveAvatarSkillInfo",
+                            "doOffStage": true,
+                            "skillID": 20023
+                        },
+                        {
+                            "$type": "RemoveAvatarSkillInfo",
+                            "doOffStage": true,
+                            "skillID": 20026
+                        }
+                    ]
+                },
+                "SwitchSkill": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "_ActivityAbility_LudiHarpastum_BombMark",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5
+                            ],
+                            "modifierNameSteps": [
+                                "SwitchSkill_BombForbid",
+                                "SwitchSkill_Bomb"
+                            ]
+                        }
+                    ]
+                },
+                "SwitchSkill_Bomb": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "SwitchSkillIDMixin",
+                            "priority": "Playmode",
+                            "skillIndex": 1,
+                            "skillID": 20023
+                        }
+                    ]
+                },
+                "SwitchSkill_BombForbid": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "SwitchSkillIDMixin",
+                            "priority": "Playmode",
+                            "skillIndex": 1,
+                            "skillID": 20026
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_ActivityAbility_LudiHarpastum_BombTypeA_AddSkillInfo"
+                },
+                {
+                    "$type": "SetGlobalValue",
+                    "doOffStage": true,
+                    "value": 1.0,
+                    "key": "_ActivityAbility_LudiHarpastum_BombType",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_LudiHarpastum_BombTypeB_SwitchSkill",
+            "modifiers": {
+                "UNIQUE_ActivityAbility_LudiHarpastum_BombTypeB_AddSkillInfo": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddAvatarSkillInfo",
+                            "doOffStage": true,
+                            "skillID": 20024
+                        },
+                        {
+                            "$type": "AddAvatarSkillInfo",
+                            "doOffStage": true,
+                            "skillID": 20027
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "SwitchSkill"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "SwitchSkill"
+                        },
+                        {
+                            "$type": "RemoveAvatarSkillInfo",
+                            "doOffStage": true,
+                            "skillID": 20024
+                        },
+                        {
+                            "$type": "RemoveAvatarSkillInfo",
+                            "doOffStage": true,
+                            "skillID": 20027
+                        }
+                    ]
+                },
+                "SwitchSkill": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "_ActivityAbility_LudiHarpastum_BombMark",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5
+                            ],
+                            "modifierNameSteps": [
+                                "SwitchSkill_BombForbid",
+                                "SwitchSkill_Bomb"
+                            ]
+                        }
+                    ]
+                },
+                "SwitchSkill_Bomb": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "SwitchSkillIDMixin",
+                            "priority": "Playmode",
+                            "skillIndex": 1,
+                            "skillID": 20024
+                        }
+                    ]
+                },
+                "SwitchSkill_BombForbid": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "SwitchSkillIDMixin",
+                            "priority": "Playmode",
+                            "skillIndex": 1,
+                            "skillID": 20027
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_ActivityAbility_LudiHarpastum_BombTypeB_AddSkillInfo"
+                },
+                {
+                    "$type": "SetGlobalValue",
+                    "doOffStage": true,
+                    "value": 2.0,
+                    "key": "_ActivityAbility_LudiHarpastum_BombType",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_LudiHarpastum_BombTypeC_SwitchSkill",
+            "modifiers": {
+                "UNIQUE_ActivityAbility_LudiHarpastum_BombTypeC_AddSkillInfo": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddAvatarSkillInfo",
+                            "doOffStage": true,
+                            "skillID": 20025
+                        },
+                        {
+                            "$type": "AddAvatarSkillInfo",
+                            "doOffStage": true,
+                            "skillID": 20028
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "SwitchSkill"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "SwitchSkill"
+                        },
+                        {
+                            "$type": "RemoveAvatarSkillInfo",
+                            "doOffStage": true,
+                            "skillID": 20025
+                        },
+                        {
+                            "$type": "RemoveAvatarSkillInfo",
+                            "doOffStage": true,
+                            "skillID": 20028
+                        }
+                    ]
+                },
+                "SwitchSkill": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "_ActivityAbility_LudiHarpastum_BombMark",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5
+                            ],
+                            "modifierNameSteps": [
+                                "SwitchSkill_BombForbid",
+                                "SwitchSkill_Bomb"
+                            ]
+                        }
+                    ]
+                },
+                "SwitchSkill_Bomb": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "SwitchSkillIDMixin",
+                            "priority": "Playmode",
+                            "skillIndex": 1,
+                            "skillID": 20025
+                        }
+                    ]
+                },
+                "SwitchSkill_BombForbid": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "SwitchSkillIDMixin",
+                            "priority": "Playmode",
+                            "skillIndex": 1,
+                            "skillID": 20028
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_ActivityAbility_LudiHarpastum_BombTypeC_AddSkillInfo"
+                },
+                {
+                    "$type": "SetGlobalValue",
+                    "doOffStage": true,
+                    "value": 3.0,
+                    "key": "_ActivityAbility_LudiHarpastum_BombType",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_LudiHarpastum_Bomb_AimPress",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "Channel_BS",
+                        "Channel_Loop"
+                    ],
+                    "modifierName": "CheckChannelLoop"
+                },
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ActivityAbility_LudiHarpastum_BombType",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5,
+                        2.5,
+                        3.5
+                    ],
+                    "modifierNameSteps": [
+                        "UI_ItemState_Check_Blank",
+                        "UI_ItemState_Check_TypeA",
+                        "UI_ItemState_Check_TypeB",
+                        "UI_ItemState_Check_TypeC"
+                    ]
+                }
+            ],
+            "modifiers": {
+                "Focus": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "StartChannelTrigger"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_ActivityAbility_Endora_IsFocus",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "LockMotionFlagExitChannel",
+                            "value": true
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ActivityAbility_LudiHarpastum_BombType",
+                                    "value": 1.0
+                                }
+                            ],
+                            "effectPattern": "Eff_Activity_LudiHarpastum_BombTypeA_Charge"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ActivityAbility_LudiHarpastum_BombType",
+                                    "value": 2.0
+                                }
+                            ],
+                            "effectPattern": "Eff_Activity_LudiHarpastum_BombTypeB_Charge"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ActivityAbility_LudiHarpastum_BombType",
+                                    "value": 3.0
+                                }
+                            ],
+                            "effectPattern": "Eff_Activity_LudiHarpastum_BombTypeC_Charge"
+                        },
+                        {
+                            "$type": "DummyAction"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "doOffStage": true,
+                            "triggerID": "EndChannelTrigger"
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "doOffStage": true,
+                            "boolID": "LockMotionFlagExitChannel"
+                        },
+                        {
+                            "$type": "ChangePlayMode",
+                            "doOffStage": true,
+                            "muteRemoteAction": true
+                        },
+                        {
+                            "$type": "AvatarExitFocus",
+                            "doOffStage": true
+                        },
+                        {
+                            "$type": "ClearGlobalValue",
+                            "doOffStage": true,
+                            "key": "_ActivityAbility_Endora_IsFocus"
+                        }
+                    ]
+                },
+                "CheckChannelLoop": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.10000000149011612,
+                    "onAdded": [
+                        {
+                            "$type": "AvatarEnterFocus",
+                            "cameraFollowLower": {
+                                "x": 0.800000011920929,
+                                "y": 0.20000000298023224,
+                                "z": -1.5
+                            },
+                            "cameraFollowUpper": {
+                                "x": 0.5,
+                                "y": -0.20000000298023224
+                            },
+                            "dragButtonName": "Skill2",
+                            "assistance": {
+                                "ps4": {},
+                                "ps5": {},
+                                "other": {}
+                            },
+                            "canMove": false,
+                            "vcamFov": 30.0,
+                            "disableAnim": true
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "RemovedFocusState"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ActivityAbility_Endora_IsFocus",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "triggerID": "EndChannelTrigger"
+                        }
+                    ]
+                },
+                "RemovedFocusState": {
+                    "stacking": "Multiple",
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "Focus"
+                        },
+                        {
+                            "$type": "ChangePlayMode",
+                            "doOffStage": true,
+                            "muteRemoteAction": true
+                        },
+                        {
+                            "$type": "AvatarExitFocus",
+                            "doOffStage": true
+                        }
+                    ]
+                },
+                "SkillStart": {
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ActivityAbility_LudiHarpastum_BombType",
+                                    "value": 1.0
+                                },
+                                {
+                                    "$type": "ByItemNumber",
+                                    "itemId": 220029,
+                                    "itemNum": 1
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AvatarSkillStart",
+                                    "doOffStage": true,
+                                    "skillID": 20023,
+                                    "cdRatio": 1.0,
+                                    "costStaminaRatio": 1.0
+                                },
+                                {
+                                    "$type": "AvatarSkillStart",
+                                    "doOffStage": true,
+                                    "skillID": 20026,
+                                    "cdRatio": 1.0,
+                                    "costStaminaRatio": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ActivityAbility_LudiHarpastum_BombType",
+                                    "value": 2.0
+                                },
+                                {
+                                    "$type": "ByItemNumber",
+                                    "itemId": 220030,
+                                    "itemNum": 1
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AvatarSkillStart",
+                                    "doOffStage": true,
+                                    "skillID": 20024,
+                                    "cdRatio": 1.0,
+                                    "costStaminaRatio": 1.0
+                                },
+                                {
+                                    "$type": "AvatarSkillStart",
+                                    "doOffStage": true,
+                                    "skillID": 20027,
+                                    "cdRatio": 1.0,
+                                    "costStaminaRatio": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ActivityAbility_LudiHarpastum_BombType",
+                                    "value": 3.0
+                                },
+                                {
+                                    "$type": "ByItemNumber",
+                                    "itemId": 220031,
+                                    "itemNum": 1
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AvatarSkillStart",
+                                    "doOffStage": true,
+                                    "skillID": 20025,
+                                    "cdRatio": 1.0,
+                                    "costStaminaRatio": 1.0
+                                },
+                                {
+                                    "$type": "AvatarSkillStart",
+                                    "doOffStage": true,
+                                    "skillID": 20028,
+                                    "cdRatio": 1.0,
+                                    "costStaminaRatio": 1.0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UseItem": {
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ActivityAbility_LudiHarpastum_BombType",
+                                    "value": 1.0
+                                },
+                                {
+                                    "$type": "ByItemNumber",
+                                    "itemId": 220029,
+                                    "itemNum": 1
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "UseItem",
+                                    "itemId": 220029,
+                                    "itemNum": 1
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ActivityAbility_LudiHarpastum_BombType",
+                                    "value": 2.0
+                                },
+                                {
+                                    "$type": "ByItemNumber",
+                                    "itemId": 220030,
+                                    "itemNum": 1
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "UseItem",
+                                    "itemId": 220030,
+                                    "itemNum": 1
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ActivityAbility_LudiHarpastum_BombType",
+                                    "value": 3.0
+                                },
+                                {
+                                    "$type": "ByItemNumber",
+                                    "itemId": 220031,
+                                    "itemNum": 1
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "UseItem",
+                                    "itemId": 220031,
+                                    "itemNum": 1
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UI_ItemState_Check_Blank": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "UI_ItemState_Check_TypeA": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByItemNumber",
+                                    "itemId": 220029,
+                                    "itemNum": 1
+                                }
+                            ],
+                            "modifierName": "CanUseSkill"
+                        }
+                    ]
+                },
+                "UI_ItemState_Check_TypeB": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByItemNumber",
+                                    "itemId": 220030,
+                                    "itemNum": 1
+                                }
+                            ],
+                            "modifierName": "CanUseSkill"
+                        }
+                    ]
+                },
+                "UI_ItemState_Check_TypeC": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByItemNumber",
+                                    "itemId": 220031,
+                                    "itemNum": 1
+                                }
+                            ],
+                            "modifierName": "CanUseSkill"
+                        }
+                    ]
+                },
+                "CanUseSkill": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ButtonHoldChargeMixin",
+                            "skillID": 20023,
+                            "secondChargeTime": 0.11999999731779099,
+                            "OnBeginCharged": [
+                                {
+                                    "$type": "ChangePlayMode",
+                                    "doOffStage": true,
+                                    "canBeHandledOnRecover": true,
+                                    "muteRemoteAction": true,
+                                    "toPlayMode": "ActivityAimState"
+                                }
+                            ],
+                            "OnReleaseCharged": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "doOffStage": true,
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_ActivityAbility_Bomb_IsFocus",
+                                            "value": 0.0,
+                                            "compareType": "NoneOrEqual"
+                                        }
+                                    ],
+                                    "modifierName": "Shoot_Short"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "doOffStage": true,
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_ActivityAbility_Bomb_IsFocus",
+                                            "value": 1.0
+                                        }
+                                    ],
+                                    "modifierName": "Shoot"
+                                },
+                                {
+                                    "$type": "ChangePlayMode",
+                                    "doOffStage": true,
+                                    "muteRemoteAction": true
+                                }
+                            ],
+                            "OnBeginSecondCharged": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "Focus"
+                                }
+                            ],
+                            "OnReleaseSecondCharged": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "Shoot"
+                                },
+                                {
+                                    "$type": "SetAnimatorTrigger",
+                                    "doOffStage": true,
+                                    "triggerID": "EndChannelTrigger"
+                                }
+                            ],
+                            "PIGLAPCLNGA": [
+                                {
+                                    "$type": "SetAnimatorTrigger",
+                                    "doOffStage": true,
+                                    "triggerID": "EndChannelTrigger"
+                                }
+                            ],
+                            "chargeStateIDs": [
+                                "Channel_Loop"
+                            ]
+                        },
+                        {
+                            "$type": "ButtonHoldChargeMixin",
+                            "skillID": 20024,
+                            "secondChargeTime": 0.11999999731779099,
+                            "OnBeginCharged": [
+                                {
+                                    "$type": "ChangePlayMode",
+                                    "doOffStage": true,
+                                    "canBeHandledOnRecover": true,
+                                    "muteRemoteAction": true,
+                                    "toPlayMode": "ActivityAimState"
+                                }
+                            ],
+                            "OnReleaseCharged": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "doOffStage": true,
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_ActivityAbility_Bomb_IsFocus",
+                                            "value": 0.0,
+                                            "compareType": "NoneOrEqual"
+                                        }
+                                    ],
+                                    "modifierName": "Shoot_Short"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "doOffStage": true,
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_ActivityAbility_Bomb_IsFocus",
+                                            "value": 1.0
+                                        }
+                                    ],
+                                    "modifierName": "Shoot"
+                                },
+                                {
+                                    "$type": "ChangePlayMode",
+                                    "doOffStage": true,
+                                    "muteRemoteAction": true
+                                }
+                            ],
+                            "OnBeginSecondCharged": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "Focus"
+                                }
+                            ],
+                            "OnReleaseSecondCharged": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "Shoot"
+                                },
+                                {
+                                    "$type": "SetAnimatorTrigger",
+                                    "doOffStage": true,
+                                    "triggerID": "EndChannelTrigger"
+                                }
+                            ],
+                            "PIGLAPCLNGA": [
+                                {
+                                    "$type": "SetAnimatorTrigger",
+                                    "doOffStage": true,
+                                    "triggerID": "EndChannelTrigger"
+                                }
+                            ],
+                            "chargeStateIDs": [
+                                "Channel_Loop"
+                            ]
+                        },
+                        {
+                            "$type": "ButtonHoldChargeMixin",
+                            "skillID": 20025,
+                            "secondChargeTime": 0.11999999731779099,
+                            "OnBeginCharged": [
+                                {
+                                    "$type": "ChangePlayMode",
+                                    "doOffStage": true,
+                                    "canBeHandledOnRecover": true,
+                                    "muteRemoteAction": true,
+                                    "toPlayMode": "ActivityAimState"
+                                }
+                            ],
+                            "OnReleaseCharged": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "doOffStage": true,
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_ActivityAbility_Bomb_IsFocus",
+                                            "value": 0.0,
+                                            "compareType": "NoneOrEqual"
+                                        }
+                                    ],
+                                    "modifierName": "Shoot_Short"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "doOffStage": true,
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_ActivityAbility_Bomb_IsFocus",
+                                            "value": 1.0
+                                        }
+                                    ],
+                                    "modifierName": "Shoot"
+                                },
+                                {
+                                    "$type": "ChangePlayMode",
+                                    "doOffStage": true,
+                                    "muteRemoteAction": true
+                                }
+                            ],
+                            "OnBeginSecondCharged": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "Focus"
+                                }
+                            ],
+                            "OnReleaseSecondCharged": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "Shoot"
+                                },
+                                {
+                                    "$type": "SetAnimatorTrigger",
+                                    "doOffStage": true,
+                                    "triggerID": "EndChannelTrigger"
+                                }
+                            ],
+                            "PIGLAPCLNGA": [
+                                {
+                                    "$type": "SetAnimatorTrigger",
+                                    "doOffStage": true,
+                                    "triggerID": "EndChannelTrigger"
+                                }
+                            ],
+                            "chargeStateIDs": [
+                                "Channel_Loop"
+                            ]
+                        }
+                    ]
+                },
+                "Shoot_Short": {
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "CurTeamAvatars",
+                            "doOffStage": true,
+                            "modifierName": "SkillStart"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UseItem"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "TriggerBullet_Short"
+                        }
+                    ]
+                },
+                "TriggerBullet_Short": {
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalPos",
+                            "target": "Caster",
+                            "key": "_Temp_POS",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "FocusAnchor",
+                                "attachPointTargetType": "Self"
+                            }
+                        },
+                        {
+                            "$type": "SetGlobalPos",
+                            "target": "Caster",
+                            "key": "_ActivityAbility_Shoot_POS",
+                            "born": {
+                                "$type": "ConfigBornByGlobalValue",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.5,
+                                    "z": 1.2000000476837158
+                                },
+                                "positionKey": "_Temp_POS",
+                                "directionKey": ""
+                            }
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ActivityAbility_LudiHarpastum_BombType",
+                                    "value": 1.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Activity_LudiHarpastum_BombTypeA_OnShoot",
+                                    "born": {
+                                        "$type": "ConfigBornByGlobalValue",
+                                        "positionKey": "_ActivityAbility_Shoot_POS",
+                                        "directionKey": ""
+                                    }
+                                },
+                                {
+                                    "$type": "TriggerBullet",
+                                    "bulletID": 44000115,
+                                    "born": {
+                                        "$type": "ConfigBornByGlobalValue",
+                                        "positionKey": "_ActivityAbility_Shoot_POS",
+                                        "directionKey": ""
+                                    }
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "Predicated",
+                                    "targetPredicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_ActivityAbility_LudiHarpastum_BombType",
+                                            "value": 2.0
+                                        }
+                                    ],
+                                    "successActions": [
+                                        {
+                                            "$type": "FireEffect",
+                                            "effectPattern": "Eff_Activity_LudiHarpastum_BombTypeB_OnShoot",
+                                            "born": {
+                                                "$type": "ConfigBornByGlobalValue",
+                                                "offset": {
+                                                    "x": 0.0,
+                                                    "y": 0.0,
+                                                    "z": 0.0
+                                                },
+                                                "positionKey": "_ActivityAbility_Shoot_POS",
+                                                "directionKey": ""
+                                            }
+                                        },
+                                        {
+                                            "$type": "TriggerBullet",
+                                            "bulletID": 44000116,
+                                            "born": {
+                                                "$type": "ConfigBornByGlobalValue",
+                                                "positionKey": "_ActivityAbility_Shoot_POS",
+                                                "directionKey": ""
+                                            }
+                                        }
+                                    ],
+                                    "failActions": [
+                                        {
+                                            "$type": "FireEffect",
+                                            "effectPattern": "Eff_Activity_LudiHarpastum_BombTypeC_OnShoot",
+                                            "born": {
+                                                "$type": "ConfigBornByGlobalValue",
+                                                "positionKey": "_ActivityAbility_Shoot_POS",
+                                                "directionKey": ""
+                                            }
+                                        },
+                                        {
+                                            "$type": "TriggerBullet",
+                                            "bulletID": 44000117,
+                                            "born": {
+                                                "$type": "ConfigBornByGlobalValue",
+                                                "positionKey": "_ActivityAbility_Shoot_POS",
+                                                "directionKey": ""
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "Shoot": {
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "CurTeamAvatars",
+                            "doOffStage": true,
+                            "modifierName": "SkillStart"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UseItem"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "doOffStage": true,
+                            "modifierName": "Focus"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "TriggerBullet_Normal"
+                        }
+                    ]
+                },
+                "TriggerBullet_Normal": {
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalPos",
+                            "target": "Caster",
+                            "key": "_Temp_POS",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "FocusAnchor",
+                                "attachPointTargetType": "Self"
+                            }
+                        },
+                        {
+                            "$type": "SetGlobalPos",
+                            "target": "Caster",
+                            "predicates": [
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByAvatarWeaponType",
+                                            "weaponTypes": [
+                                                "WEAPON_BOW"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "key": "_ActivityAbility_Shoot_POS",
+                            "born": {
+                                "$type": "ConfigBornByGlobalValue",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.5,
+                                    "z": 1.2000000476837158
+                                },
+                                "positionKey": "_Temp_POS",
+                                "directionKey": ""
+                            }
+                        },
+                        {
+                            "$type": "SetGlobalPos",
+                            "target": "Caster",
+                            "predicates": [
+                                {
+                                    "$type": "ByAvatarWeaponType",
+                                    "weaponTypes": [
+                                        "WEAPON_BOW"
+                                    ]
+                                }
+                            ],
+                            "key": "_ActivityAbility_Shoot_POS",
+                            "born": {
+                                "$type": "ConfigBornByGlobalValue",
+                                "offset": {
+                                    "x": 0.30000001192092896,
+                                    "y": 0.0,
+                                    "z": 1.2000000476837158
+                                },
+                                "positionKey": "_Temp_POS",
+                                "directionKey": ""
+                            }
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ActivityAbility_LudiHarpastum_BombType",
+                                    "value": 1.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Activity_LudiHarpastum_BombTypeA_OnShoot",
+                                    "born": {
+                                        "$type": "ConfigBornByGlobalValue",
+                                        "positionKey": "_ActivityAbility_Shoot_POS",
+                                        "directionKey": ""
+                                    }
+                                },
+                                {
+                                    "$type": "TriggerBullet",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByNot",
+                                            "predicates": [
+                                                {
+                                                    "$type": "ByAvatarWeaponType",
+                                                    "weaponTypes": [
+                                                        "WEAPON_BOW"
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "bulletID": 44000118,
+                                    "born": {
+                                        "$type": "ConfigBornByGlobalValue",
+                                        "direction": {
+                                            "$type": "ConfigDirectionByAttachPoint",
+                                            "angleOffset": {
+                                                "x": -1.5,
+                                                "y": -2.0,
+                                                "z": 0.0
+                                            },
+                                            "attachPointName": "FocusAnchor",
+                                            "attachPointTargetType": "Self"
+                                        },
+                                        "positionKey": "_ActivityAbility_Shoot_POS",
+                                        "directionKey": ""
+                                    }
+                                },
+                                {
+                                    "$type": "TriggerBullet",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByAvatarWeaponType",
+                                            "weaponTypes": [
+                                                "WEAPON_BOW"
+                                            ]
+                                        }
+                                    ],
+                                    "bulletID": 44000118,
+                                    "born": {
+                                        "$type": "ConfigBornByGlobalValue",
+                                        "direction": {
+                                            "$type": "ConfigDirectionByAttachPoint",
+                                            "angleOffset": {
+                                                "x": -1.5,
+                                                "y": 0.0,
+                                                "z": 0.0
+                                            },
+                                            "attachPointName": "FocusAnchor",
+                                            "attachPointTargetType": "Self"
+                                        },
+                                        "positionKey": "_ActivityAbility_Shoot_POS",
+                                        "directionKey": ""
+                                    }
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "Predicated",
+                                    "targetPredicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_ActivityAbility_LudiHarpastum_BombType",
+                                            "value": 2.0
+                                        }
+                                    ],
+                                    "successActions": [
+                                        {
+                                            "$type": "FireEffect",
+                                            "effectPattern": "Eff_Activity_LudiHarpastum_BombTypeB_OnShoot",
+                                            "born": {
+                                                "$type": "ConfigBornByGlobalValue",
+                                                "positionKey": "_ActivityAbility_Shoot_POS",
+                                                "directionKey": ""
+                                            }
+                                        },
+                                        {
+                                            "$type": "TriggerBullet",
+                                            "predicates": [
+                                                {
+                                                    "$type": "ByNot",
+                                                    "predicates": [
+                                                        {
+                                                            "$type": "ByAvatarWeaponType",
+                                                            "weaponTypes": [
+                                                                "WEAPON_BOW"
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "bulletID": 44000119,
+                                            "born": {
+                                                "$type": "ConfigBornByGlobalValue",
+                                                "direction": {
+                                                    "$type": "ConfigDirectionByAttachPoint",
+                                                    "angleOffset": {
+                                                        "x": -1.5,
+                                                        "y": -2.0,
+                                                        "z": 0.0
+                                                    },
+                                                    "attachPointName": "FocusAnchor",
+                                                    "attachPointTargetType": "Self"
+                                                },
+                                                "positionKey": "_ActivityAbility_Shoot_POS",
+                                                "directionKey": ""
+                                            }
+                                        },
+                                        {
+                                            "$type": "TriggerBullet",
+                                            "predicates": [
+                                                {
+                                                    "$type": "ByAvatarWeaponType",
+                                                    "weaponTypes": [
+                                                        "WEAPON_BOW"
+                                                    ]
+                                                }
+                                            ],
+                                            "bulletID": 44000119,
+                                            "born": {
+                                                "$type": "ConfigBornByGlobalValue",
+                                                "direction": {
+                                                    "$type": "ConfigDirectionByAttachPoint",
+                                                    "angleOffset": {
+                                                        "x": -1.5,
+                                                        "y": 0.0,
+                                                        "z": 0.0
+                                                    },
+                                                    "attachPointName": "FocusAnchor",
+                                                    "attachPointTargetType": "Self"
+                                                },
+                                                "positionKey": "_ActivityAbility_Shoot_POS",
+                                                "directionKey": ""
+                                            }
+                                        }
+                                    ],
+                                    "failActions": [
+                                        {
+                                            "$type": "FireEffect",
+                                            "effectPattern": "Eff_Activity_LudiHarpastum_BombTypeC_OnShoot",
+                                            "born": {
+                                                "$type": "ConfigBornByGlobalValue",
+                                                "positionKey": "_ActivityAbility_Shoot_POS",
+                                                "directionKey": ""
+                                            }
+                                        },
+                                        {
+                                            "$type": "TriggerBullet",
+                                            "predicates": [
+                                                {
+                                                    "$type": "ByNot",
+                                                    "predicates": [
+                                                        {
+                                                            "$type": "ByAvatarWeaponType",
+                                                            "weaponTypes": [
+                                                                "WEAPON_BOW"
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "bulletID": 44000120,
+                                            "born": {
+                                                "$type": "ConfigBornByGlobalValue",
+                                                "direction": {
+                                                    "$type": "ConfigDirectionByAttachPoint",
+                                                    "angleOffset": {
+                                                        "x": -1.5,
+                                                        "y": -2.0,
+                                                        "z": 0.0
+                                                    },
+                                                    "attachPointName": "FocusAnchor",
+                                                    "attachPointTargetType": "Self"
+                                                },
+                                                "positionKey": "_ActivityAbility_Shoot_POS",
+                                                "directionKey": ""
+                                            }
+                                        },
+                                        {
+                                            "$type": "TriggerBullet",
+                                            "predicates": [
+                                                {
+                                                    "$type": "ByAvatarWeaponType",
+                                                    "weaponTypes": [
+                                                        "WEAPON_BOW"
+                                                    ]
+                                                }
+                                            ],
+                                            "bulletID": 44000120,
+                                            "born": {
+                                                "$type": "ConfigBornByGlobalValue",
+                                                "direction": {
+                                                    "$type": "ConfigDirectionByAttachPoint",
+                                                    "angleOffset": {
+                                                        "x": -1.5,
+                                                        "y": 0.0,
+                                                        "z": 0.0
+                                                    },
+                                                    "attachPointName": "FocusAnchor",
+                                                    "attachPointTargetType": "Self"
+                                                },
+                                                "positionKey": "_ActivityAbility_Shoot_POS",
+                                                "directionKey": ""
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "NGGOAJMKDHM": [
+                {
+                    "$type": "ApplyModifier",
+                    "doOffStage": true,
+                    "modifierName": "RemovedFocusState"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_LudiHarpastumGadgetSkill_BombTypeA",
+            "abilitySpecials": {
+                "Value_DamageSystemValue": 0.0,
+                "Value_DamageSystemRate": 288.0,
+                "Value_Durability": 25.0
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachEffect",
+                    "effectPattern": "Eff_Activity_LudiHarpastum_BombTypeA_Trail"
+                },
+                {
+                    "$type": "SetSystemValueToOverrideMap",
+                    "doOffStage": true,
+                    "key": "Value_DamageSystemValue",
+                    "type": "ElementLevelCo"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "doOffStage": true,
+                    "effectPattern": "Eff_Activity_LudiHarpastum_BombTypeA",
+                    "born": {
+                        "$type": "ConfigBornBySelf",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "target": "Caster",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackCircle",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
+                            },
+                            "height": 2.0,
+                            "radius": 1.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Fire",
+                                "elementDurability": "Value_Durability",
+                                "ignoreAttackerProperty": true,
+                                "enBreak": 0.0,
+                                "damageExtra": [
+                                    "Value_DamageSystemValue",
+                                    "Value_DamageSystemRate",
+                                    "Mul"
+                                ],
+                                "trueDamage": true
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "",
+                                "hitImpulseType": "LV1"
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_LudiHarpastumGadgetSkill_BombTypeB",
+            "abilitySpecials": {
+                "Value_DamageSystemValue": 0.0,
+                "Value_DamageSystemRate": 72.0,
+                "Value_Durability": 25.0
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachEffect",
+                    "effectPattern": "Eff_Activity_LudiHarpastum_BombTypeB_Trail"
+                },
+                {
+                    "$type": "SetSystemValueToOverrideMap",
+                    "doOffStage": true,
+                    "key": "Value_DamageSystemValue",
+                    "type": "ElementLevelCo"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "doOffStage": true,
+                    "effectPattern": "Eff_Activity_LudiHarpastum_BombTypeB",
+                    "born": {
+                        "$type": "ConfigBornBySelf",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "target": "Caster",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackSphere",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
+                            },
+                            "radius": 6.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Fire",
+                                "elementDurability": "Value_Durability",
+                                "ignoreAttackerProperty": true,
+                                "enBreak": 0.0,
+                                "damageExtra": [
+                                    "Value_DamageSystemValue",
+                                    "Value_DamageSystemRate",
+                                    "Mul"
+                                ],
+                                "trueDamage": true
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "",
+                                "hitImpulseType": "LV1"
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_LudiHarpastumGadgetSkill_BombTypeC",
+            "abilitySpecials": {
+                "Value_DamageSystemValue": 0.0,
+                "Value_DamageSystemRate": 36.0,
+                "Value_Durability": 300.0
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachEffect",
+                    "effectPattern": "Eff_Activity_LudiHarpastum_BombTypeC_Trail"
+                },
+                {
+                    "$type": "SetSystemValueToOverrideMap",
+                    "doOffStage": true,
+                    "key": "Value_DamageSystemValue",
+                    "type": "ElementLevelCo"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "FireEffect",
+                    "doOffStage": true,
+                    "effectPattern": "Eff_Activity_LudiHarpastum_BombTypeC",
+                    "born": {
+                        "$type": "ConfigBornBySelf",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    }
+                },
+                {
+                    "$type": "TriggerAttackEvent",
+                    "target": "Caster",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackSphere",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornBySelf",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                }
+                            },
+                            "radius": 3.0
+                        },
+                        "attackInfo": {
+                            "attackTag": "",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentageRatio": 0.0,
+                                "elementType": "Fire",
+                                "elementDurability": "Value_Durability",
+                                "ignoreAttackerProperty": true,
+                                "enBreak": 0.0,
+                                "damageExtra": [
+                                    "Value_DamageSystemValue",
+                                    "Value_DamageSystemRate",
+                                    "Mul"
+                                ],
+                                "trueDamage": true
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "",
+                                "hitImpulseType": "LV1"
+                            }
+                        }
+                    },
+                    "targetType": "Enemy"
+                }
+            ]
+        }
+    }
+]

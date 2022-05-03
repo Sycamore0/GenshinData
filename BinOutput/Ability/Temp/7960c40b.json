@@ -1,0 +1,1352 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Vehicle_Skiff_Normal_01",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "Sprint"
+                    ],
+                    "modifierName": "UNIQUE_Skiff_Sprint_Handler"
+                }
+            ],
+            "modifiers": {
+                "UNIQUE_Skiff_Sprint_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "TriggerPostProcessEffectMixin",
+                            "postEffectAssetName": "PostEffect_Skiff_Sprint",
+                            "duration": 0.0
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "CreateGadget",
+                            "lifeByOwnerIsAlive": true,
+                            "born": {
+                                "$type": "ConfigBornBySelf"
+                            },
+                            "gadgetID": 70350276,
+                            "campID": 1001,
+                            "campTargetType": "Enemy"
+                        },
+                        {
+                            "$type": "ActCameraRadialBlur",
+                            "cameraRadialBlur": {
+                                "power": 0.6000000238418579,
+                                "blurTime": 0.20000000298023224,
+                                "fadeTime": 0.20000000298023224
+                            }
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Skiff_Normal_Sprint_Loop_01"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Skiff_Normal_Sprint_Loop_02"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "KillGadget",
+                            "gadgetInfo": {
+                                "configID": 70350276
+                            }
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "KillGadget",
+                            "doOffStage": true,
+                            "gadgetInfo": {
+                                "configID": 70350276
+                            }
+                        }
+                    ]
+                },
+                "UNIQUE_Skiff_MuteIce": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.5,
+                    "onThinkInterval": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackBox",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "checkHitLayerType": "OnlyHitMassiveEntity",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": -3.299999952316284
+                                        }
+                                    },
+                                    "size": {
+                                        "x": 5.0,
+                                        "y": 4.0,
+                                        "z": 8.0
+                                    }
+                                },
+                                "attackInfo": {
+                                    "attackTag": "",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 0.0,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "VehicleMuteIce",
+                                        "elementDurability": 10.0,
+                                        "enBreak": 0.0
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "none",
+                                        "hitImpulseType": "LV0",
+                                        "retreatType": "ByHitDirection",
+                                        "muteHitText": true
+                                    }
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Skiff_Normal_Born"
+                },
+                {
+                    "$type": "AttachAbilityStateResistance",
+                    "resistanceListID": 15001
+                },
+                {
+                    "$type": "AttachAbilityStateResistance",
+                    "resistanceListID": 15002
+                },
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Skiff_MuteIce"
+                },
+                {
+                    "$type": "AttachEffect",
+                    "effectPattern": "Eff_Skiff_Normal_EnergyHalo_01"
+                },
+                {
+                    "$type": "AttachEffect",
+                    "effectPattern": "Eff_Skiff_Normal_EnergyHalo_02"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Vehicle_Skiff_AutoHeal",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Skiff_AutoHeal_Count",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        0.5,
+                        4.5,
+                        5.5
+                    ],
+                    "modifierNameSteps": [
+                        "Blank",
+                        "UNIQUE_Skiff_AutoHeal_Interval"
+                    ]
+                }
+            ],
+            "modifiers": {
+                "UNIQUE_Skiff_AutoHeal_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "DoActionByEventMixin",
+                            "type": "Current",
+                            "onEvent": "HPDown",
+                            "actions": [
+                                {
+                                    "$type": "SetGlobalValue",
+                                    "value": 0.0,
+                                    "key": "_ABILITY_Skiff_AutoHeal_Count",
+                                    "maxValue": 0.0,
+                                    "minValue": 0.0
+                                },
+                                {
+                                    "$type": "SetAnimatorTrigger",
+                                    "triggerID": "Shake_Heavy"
+                                },
+                                {
+                                    "$type": "DebugLog",
+                                    "content": "!!!!!!!!!!!HPDown!!!!!!!!!!"
+                                }
+                            ],
+                            "JNLGLIJLODK": ""
+                        }
+                    ],
+                    "onBeingHit": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Other",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetGlobalValue",
+                                    "value": 0.0,
+                                    "key": "_ABILITY_Skiff_AutoHeal_Count",
+                                    "maxValue": 0.0,
+                                    "minValue": 0.0
+                                },
+                                {
+                                    "$type": "SetAnimatorTrigger",
+                                    "triggerID": "Shake_Heavy"
+                                }
+                            ]
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_ABILITY_Skiff_AutoHeal_Count",
+                            "useLimitRange": true,
+                            "maxValue": 5.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Skiff_AutoHeal_Interval": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 2.0,
+                    "onAdded": [
+                        {
+                            "$type": "HealHP",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetHPRatio",
+                                    "logic": "Lesser",
+                                    "HPRatio": 1.0
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Skiff_AvatarIn_Mark",
+                                    "value": 1.0
+                                }
+                            ],
+                            "amountByTargetMaxHPRatio": 0.05000000074505806
+                        },
+                        {
+                            "$type": "HealHP",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetHPRatio",
+                                    "logic": "Lesser",
+                                    "HPRatio": 1.0
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Skiff_AvatarIn_Mark",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "amountByTargetMaxHPRatio": 0.006500000134110451
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetHPRatio",
+                                    "logic": "Lesser",
+                                    "HPRatio": 1.0
+                                }
+                            ],
+                            "effectPattern": "Eff_Skiff_Normal_Heal"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "HealHP",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetHPRatio",
+                                    "logic": "Lesser",
+                                    "HPRatio": 1.0
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Skiff_AvatarIn_Mark",
+                                    "value": 1.0
+                                }
+                            ],
+                            "amountByTargetMaxHPRatio": 0.05000000074505806
+                        },
+                        {
+                            "$type": "HealHP",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetHPRatio",
+                                    "logic": "Lesser",
+                                    "HPRatio": 1.0
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Skiff_AvatarIn_Mark",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "amountByTargetMaxHPRatio": 0.006500000134110451
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetHPRatio",
+                                    "logic": "Lesser",
+                                    "HPRatio": 1.0
+                                }
+                            ],
+                            "effectPattern": "Eff_Skiff_Normal_Heal"
+                        }
+                    ]
+                },
+                "Blank": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "_ABILITY_Skiff_AutoHeal_Count",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Skiff_AutoHeal_Handler"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Vehicle_Skiff_TestAbility",
+            "modifiers": {
+                "UNIQUE_Skiff_Test_Invincible": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "state": "Invincible"
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Skiff_Test_Invincible"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SkiffStatue_WithOutAvatar",
+            "modifiers": {
+                "UNIQUE_SkiffStatue_WithOutAvatar_DenyLockOn": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "state": "DenyLockOn"
+                },
+                "UNIQUE_SkiffStatue_WithOutAvatar_IsGhostToEnemy": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "state": "IsGhostToEnemy"
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "TriggerAbility",
+                    "abilityName": "SkiffStatue_WithOutAvatar"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_SkiffStatue_WithOutAvatar_DenyLockOn"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_SkiffStatue_WithOutAvatar_IsGhostToEnemy"
+                },
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Skiff_LightOn_Handler"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SkiffStatue_WithAvatar",
+            "modifiers": {
+                "UNIQUE_Skiff_LightOn_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachToDayNightMixin",
+                            "time": "Night",
+                            "modifierName": "Skiff_LightOn_WithAvatar_InNight"
+                        }
+                    ]
+                },
+                "Skiff_LightOn_WithAvatar_InNight": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetAnimatorInt",
+                            "canBeHandledOnRecover": true,
+                            "intID": "Light",
+                            "value": 1.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetAnimatorInt",
+                            "intID": "Light",
+                            "value": 0.0
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_SkiffStatue_WithOutAvatar_DenyLockOn"
+                },
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_SkiffStatue_WithOutAvatar_IsGhostToEnemy"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Skiff_LightOn_Handler"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Vehicle_Skiff_FireCannon_Small",
+            "onAbilityStart": [
+                {
+                    "$type": "Predicated",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByShape",
+                        "topLimit": 1,
+                        "sortType": "Nearest",
+                        "shapeName": "CircleLockEnemyR25H30HC",
+                        "campTargetType": "Enemy",
+                        "sizeRatio": 1.0
+                    },
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ABILITY_Skiff_CannonTargetLockLevel",
+                            "value": 1.0
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "SetSelfAttackTarget",
+                            "target": "Target"
+                        }
+                    ]
+                },
+                {
+                    "$type": "Predicated",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByShape",
+                        "topLimit": 1,
+                        "sortType": "Nearest",
+                        "shapeName": "CircleLockEnemyR25H30HC",
+                        "campTargetType": "Enemy",
+                        "sizeRatio": 1.0
+                    },
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ABILITY_Skiff_CannonTargetLockLevel",
+                            "value": 2.0
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "SetSelfAttackTarget",
+                            "target": "Target"
+                        }
+                    ]
+                },
+                {
+                    "$type": "Predicated",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByShape",
+                        "topLimit": 1,
+                        "sortType": "Nearest",
+                        "shapeName": "CircleLockEnemyR25H30HC",
+                        "campTargetType": "Enemy",
+                        "sizeRatio": 1.0
+                    },
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ABILITY_Skiff_CannonTargetLockLevel",
+                            "value": 3.0
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "SetSelfAttackTarget",
+                            "target": "Target"
+                        }
+                    ]
+                },
+                {
+                    "$type": "Predicated",
+                    "otherTargets": {
+                        "$type": "SelectTargetsByShape",
+                        "topLimit": 1,
+                        "sortType": "Nearest",
+                        "shapeName": "CircleLockEnemyR25H30HC",
+                        "campTargetType": "Enemy",
+                        "sizeRatio": 1.0
+                    },
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ABILITY_Skiff_CannonTargetLockLevel",
+                            "value": 4.0
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "SetSelfAttackTarget",
+                            "target": "Target"
+                        }
+                    ]
+                },
+                {
+                    "$type": "TriggerBullet",
+                    "bulletID": 70350259,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "direction": {
+                            "$type": "ConfigDirectionByAttackTarget"
+                        },
+                        "attachPointName": "CannonFire"
+                    }
+                },
+                {
+                    "$type": "SetAnimatorTrigger",
+                    "triggerID": "Shake_Light"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Vehicle_Skiff_FireCannon_Big",
+            "modifiers": {
+                "Vehicle_Skiff_FireCannon_Big_Delay": {
+                    "stacking": "Multiple",
+                    "modifierName": "",
+                    "duration": 0.4000000059604645,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.30000001192092896,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Skiff_Normal_Cannon_Pre"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_ABILITY_Skiff_CannonMark",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "ApplyModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Skiff_CannonMark",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "modifierName": "Vehicle_Skiff_FireCannon_Big"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_ABILITY_Skiff_CannonMark",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "Vehicle_Skiff_FireCannon_Big": {
+                    "stacking": "Multiple",
+                    "modifierName": "",
+                    "duration": 0.4000000059604645,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "topLimit": 1,
+                                "sortType": "Nearest",
+                                "shapeName": "CircleLockEnemyR25H30HC",
+                                "campTargetType": "Enemy",
+                                "sizeRatio": 1.0
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Skiff_CannonTargetLockLevel",
+                                    "value": 1.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetSelfAttackTarget",
+                                    "target": "Target"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "topLimit": 1,
+                                "sortType": "Nearest",
+                                "shapeName": "CircleLockEnemyR25H30HC",
+                                "campTargetType": "Enemy",
+                                "sizeRatio": 1.0
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Skiff_CannonTargetLockLevel",
+                                    "value": 2.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetSelfAttackTarget",
+                                    "target": "Target"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "topLimit": 1,
+                                "sortType": "Nearest",
+                                "shapeName": "CircleLockEnemyR25H30HC",
+                                "campTargetType": "Enemy",
+                                "sizeRatio": 1.0
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Skiff_CannonTargetLockLevel",
+                                    "value": 3.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetSelfAttackTarget",
+                                    "target": "Target"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "topLimit": 1,
+                                "sortType": "Nearest",
+                                "shapeName": "CircleLockEnemyR25H30HC",
+                                "campTargetType": "Enemy",
+                                "sizeRatio": 1.0
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Skiff_CannonTargetLockLevel",
+                                    "value": 4.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetSelfAttackTarget",
+                                    "target": "Target"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "TriggerBullet",
+                            "bulletID": 70350260,
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "direction": {
+                                    "$type": "ConfigDirectionByAttackTarget"
+                                },
+                                "attachPointName": "CannonFire"
+                            }
+                        },
+                        {
+                            "$type": "ActCameraShake",
+                            "cameraShake": {
+                                "shakeType": "CustomVector",
+                                "shakeRange": 0.7200000286102295,
+                                "shakeTime": 0.23999999463558197,
+                                "shakeDistance": 30.0,
+                                "shakeDir": {
+                                    "z": -1.0
+                                },
+                                "extension": {
+                                    "baseOnCamera": true,
+                                    "baseCycle": 0.47999998927116394,
+                                    "rangeAttenuation": 0.30000001192092896
+                                }
+                            }
+                        },
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "Shake_Heavy"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "Vehicle_Skiff_FireCannon_Big_Delay"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Vehicle_Skiff_CannonTargetLock_LV1",
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 1.0,
+                    "key": "_ABILITY_Skiff_CannonTargetLockLevel",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Vehicle_Skiff_CannonTargetLock_LV2",
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 2.0,
+                    "key": "_ABILITY_Skiff_CannonTargetLockLevel",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Vehicle_Skiff_CannonTargetLock_LV3",
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 3.0,
+                    "key": "_ABILITY_Skiff_CannonTargetLockLevel",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Vehicle_Skiff_CannonTargetLock_LV4",
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 4.0,
+                    "key": "_ABILITY_Skiff_CannonTargetLockLevel",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Bullet_Skiff_Cannon_Small",
+            "onAdded": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Skiff_Normal_Cannon_01"
+                },
+                {
+                    "$type": "AttachEffect",
+                    "effectPattern": "Eff_Skiff_Normal_Cannon_01_Trail"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackSphere",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornByCollisionPoint"
+                            },
+                            "radius": 1.5
+                        },
+                        "attackInfo": {
+                            "attackTag": "Skiff_Cannon_Small",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 1.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementDurability": 25.0,
+                                "strikeType": "Blunt",
+                                "enBreak": 25.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "Eff_Skiff_Normal_Cannon_Explode_01",
+                                "hitImpulseType": "LV3",
+                                "hitHaltTimeScale": 0.05000000074505806
+                            },
+                            "forceCameraShake": true,
+                            "cameraShake": {
+                                "shakeType": "CustomVector",
+                                "shakeRange": 0.11999999731779099,
+                                "shakeTime": 0.11999999731779099,
+                                "shakeDistance": 30.0,
+                                "shakeDir": {
+                                    "z": 1.0
+                                }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "FireHitEffect",
+                    "hitEntity": "",
+                    "hitScene": {
+                        "defaultEffect": "Eff_Skiff_Normal_Cannon_Explode_01",
+                        "surfaceEffect": {
+                            "Water": "Eff_Arrow_Fire_Hit_Water"
+                        }
+                    }
+                },
+                {
+                    "$type": "KillSelf"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Bullet_Skiff_Cannon_Big",
+            "onAdded": [
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Skiff_Normal_Cannon_02"
+                },
+                {
+                    "$type": "AttachEffect",
+                    "effectPattern": "Eff_Skiff_Normal_Cannon_02_Trail"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "TriggerAttackEvent",
+                    "attackEvent": {
+                        "attackPattern": {
+                            "$type": "ConfigAttackSphere",
+                            "triggerType": "TriggerNoRepeat",
+                            "born": {
+                                "$type": "ConfigBornByCollisionPoint"
+                            },
+                            "radius": 3.5
+                        },
+                        "attackInfo": {
+                            "attackTag": "Skiff_Cannon_Big",
+                            "attenuationTag": "",
+                            "attenuationGroup": "default",
+                            "attackProperty": {
+                                "damagePercentage": 2.0,
+                                "damagePercentageRatio": 0.0,
+                                "elementDurability": 25.0,
+                                "strikeType": "Blunt",
+                                "enBreak": 50.0
+                            },
+                            "hitPattern": {
+                                "onHitEffectName": "Eff_Skiff_Normal_Cannon_Explode_02",
+                                "hitImpulseType": "LV3",
+                                "hitHaltTimeScale": 0.05000000074505806
+                            },
+                            "forceCameraShake": true,
+                            "cameraShake": {
+                                "shakeType": "CustomVector",
+                                "shakeRange": 0.11999999731779099,
+                                "shakeTime": 0.11999999731779099,
+                                "shakeDistance": 30.0,
+                                "shakeDir": {
+                                    "z": 1.0
+                                }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
+                        }
+                    },
+                    "targetType": "Enemy"
+                },
+                {
+                    "$type": "FireHitEffect",
+                    "hitEntity": "",
+                    "hitScene": {
+                        "defaultEffect": "Eff_Skiff_Normal_Cannon_Explode_02",
+                        "surfaceEffect": {
+                            "Water": "Eff_Arrow_Fire_Hit_Water"
+                        }
+                    }
+                },
+                {
+                    "$type": "KillSelf"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SkillObj_Skiff_SprintTrigger",
+            "modifiers": {
+                "UNIQUE_Skiff_SprintDamage": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "target": "Owner",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackSphere",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "filterByFrame": true,
+                                    "born": {
+                                        "$type": "ConfigBornByCollisionPoint",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        },
+                                        "direction": {
+                                            "$type": "ConfigDirectionByEntity",
+                                            "angleOffset": {
+                                                "x": 0.0,
+                                                "y": 0.0,
+                                                "z": 0.0
+                                            }
+                                        }
+                                    },
+                                    "radius": 2.0
+                                },
+                                "attackInfo": {
+                                    "attackTag": "Skiff_Sprint",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentage": 1.0,
+                                        "damagePercentageRatio": 0.0,
+                                        "elementDurability": 25.0,
+                                        "strikeType": "Default",
+                                        "enBreak": 25.0,
+                                        "attackType": "Melee"
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV2",
+                                        "hitHaltTimeScale": 0.019999999552965164
+                                    }
+                                }
+                            },
+                            "targetType": "Enemy"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "Owner",
+                            "modifierName": "Skiff_SprintShake"
+                        }
+                    ]
+                },
+                "Skiff_SprintShake": {
+                    "stacking": "Multiple",
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ActCameraShake",
+                            "cameraShake": {
+                                "shakeType": "CustomVector",
+                                "shakeRange": 0.5400000214576721,
+                                "shakeTime": 0.23999999463558197,
+                                "shakeDistance": 30.0,
+                                "shakeDir": {
+                                    "z": -1.0
+                                },
+                                "extension": {
+                                    "baseOnCamera": true,
+                                    "baseCycle": 0.47999998927116394,
+                                    "rangeAttenuation": 0.30000001192092896
+                                }
+                            }
+                        },
+                        {
+                            "$type": "SetAnimatorTrigger",
+                            "triggerID": "Shake_Heavy"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "Predicated",
+                    "target": "Target",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByEntityTypes",
+                            "entityTypes": [
+                                "Monster",
+                                "MonsterEquip",
+                                "Gadget",
+                                "Bullet",
+                                "Field",
+                                "Gear"
+                            ]
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Skiff_SprintDamage"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Vehicle_Skiff_Normal_ServerBuff_Handler",
+            "modifiers": {
+                "SERVER_Skiff_Normal_AvatarStatue_Handler": {
+                    "stacking": "Multiple",
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Skiff_Normal_AvatarStatue_DenyLockOn"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Skiff_Normal_AvatarStatue_Invincible"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Skiff_Normal_AvatarStatue_IsGhostToEnemy"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Skiff_Normal_AvatarStatue_LockHP"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Skiff_Normal_OutofCombat_Handler"
+                        },
+                        {
+                            "$type": "AttachAbilityStateResistance",
+                            "doOffStage": true,
+                            "resistanceListID": 15001
+                        },
+                        {
+                            "$type": "AttachAbilityStateResistance",
+                            "doOffStage": true,
+                            "resistanceListID": 15002
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "Vehicle",
+                            "modifierName": "UNIQUE_Skiff_Normal_AvatarStatue_GrandHandler"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Avatar_InSkiff_Mark",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerAbility",
+                            "target": "Vehicle",
+                            "abilityName": "SkiffStatue_WithOutAvatar"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "target": "Vehicle",
+                            "doOffStage": true,
+                            "value": 0.0,
+                            "key": "_ABILITY_Skiff_AvatarIn_Mark",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "value": 0.0,
+                            "key": "_ABILITY_Avatar_InSkiff_Mark",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "Vehicle",
+                            "modifierName": "UNIQUE_Skiff_Normal_AvatarStatue_GrandHandler"
+                        }
+                    ],
+                    "MIGAIMMKHMB": [
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "Vehicle",
+                            "modifierName": "UNIQUE_Skiff_Normal_AvatarStatue_GrandHandler"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Avatar_InSkiff_Mark",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Skiff_Normal_AvatarStatue_GrandHandler": {
+                    "stacking": "RefreshUniqueDurability",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 1.5,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "SkiffStatue_WithAvatar"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_ABILITY_Skiff_AvatarIn_Mark",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "SkiffStatue_WithOutAvatar"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_ABILITY_Skiff_AvatarIn_Mark",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "KillGadget",
+                            "gadgetInfo": {
+                                "configID": 70350276
+                            }
+                        }
+                    ]
+                },
+                "UNIQUE_Skiff_Normal_AvatarStatue_DenyLockOn": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "state": "DenyLockOn"
+                },
+                "UNIQUE_Skiff_Normal_AvatarStatue_Invincible": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "state": "Invincible"
+                },
+                "UNIQUE_Skiff_Normal_AvatarStatue_IsGhostToEnemy": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "state": "IsGhostToEnemy"
+                },
+                "UNIQUE_Skiff_Normal_AvatarStatue_LockHP": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "state": "LockHP"
+                },
+                "UNIQUE_Skiff_Normal_OutofCombat_Handler": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "target": "Vehicle",
+                            "predicates": [
+                                {
+                                    "$type": "ByVehicleIsCombat",
+                                    "target": "Self"
+                                },
+                                {
+                                    "$type": "ByIsLocalAvatar",
+                                    "target": "Self"
+                                }
+                            ],
+                            "value": 0.0,
+                            "key": "_ABILITY_Skiff_AutoHeal_Count",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "SERVER_Skiff_Normal_HealFromItem_Handler": {
+                    "stacking": "Multiple",
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "target": "Vehicle",
+                            "modifierName": "UNIQUE_Skiff_Normal_HealFromItem"
+                        }
+                    ]
+                },
+                "UNIQUE_Skiff_Normal_HealFromItem": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "HealHP",
+                            "amountByTargetMaxHPRatio": 0.5
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Skiff_Normal_Heal"
+                        }
+                    ]
+                }
+            },
+            "isDynamicAbility": true
+        }
+    }
+]

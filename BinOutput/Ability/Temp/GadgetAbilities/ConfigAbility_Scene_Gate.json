@@ -101,6 +101,31 @@
     {
         "Default": {
             "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Gear_Gate_Temple01_dq",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "Active"
+                }
+            ],
+            "modifiers": {
+                "Active": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_SceneObj_TempleUnlock_01_Dq"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
             "abilityName": "SceneObj_Gear_Gate_Temple02_Electric",
             "onAdded": [
                 {
@@ -293,6 +318,170 @@
                     ]
                 }
             }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Area_Dq_Property_Ani_Prop_CommonRockGate_03",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "modifierName": "Idle"
+                }
+            ],
+            "modifiers": {
+                "Idle": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_SceneObj_CommonRockGate_03_Open",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "EffectNode"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Area_Dq_Property_Ani_Build_CommonRockGate_04",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "modifierName": "Idle"
+                }
+            ],
+            "modifiers": {
+                "Idle": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_SceneObj_CommonRockGate_04_Open"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Area_Dq_Property_Ani_Prop_RuinTrapDoor_01",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "Close"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 203,
+                    "modifierName": "Open"
+                }
+            ],
+            "modifiers": {
+                "Open": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "EnableSceneTransformByName",
+                            "transformNames": [
+                                "Collider"
+                            ]
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_SceneObj_RuinGate_01_Close"
+                        }
+                    ]
+                },
+                "Close": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "EnableSceneTransformByName",
+                            "transformNames": [
+                                "Collider"
+                            ],
+                            "setEnable": true
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "GV_ReginSignal",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_SceneObj_RuinGate_01_Open"
+                        }
+                    ]
+                },
+                "Receiver": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "GV_ReginSignal",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                0.5,
+                                20.0
+                            ],
+                            "modifierNameSteps": [
+                                "OpenByGV"
+                            ]
+                        }
+                    ]
+                },
+                "OpenByGV": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ExecuteGadgetLua",
+                            "param1": 203
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 1.0,
+                    "key": "GV_ReginGadget",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "GV_ReginSignal",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Receiver"
+                }
+            ]
         }
     }
 ]

@@ -98,7 +98,7 @@
                 "CDTime": 0.0
             },
             "modifiers": {
-                "UNIQUE_OnGainEnergyHealHP_Handler": {
+                "UNIQUE_Sword_OnGainEnergyHealHP_Handler": {
                     "stacking": "Unique",
                     "modifierName": "",
                     "isUnique": true,
@@ -129,7 +129,7 @@
             "onAdded": [
                 {
                     "$type": "AttachModifier",
-                    "modifierName": "UNIQUE_OnGainEnergyHealHP_Handler"
+                    "modifierName": "UNIQUE_Sword_OnGainEnergyHealHP_Handler"
                 }
             ],
             "isDynamicAbility": true
@@ -333,7 +333,8 @@
                             "$type": "AttachModifier",
                             "modifierName": "UNIQUE_Sword_MoveSpeedAfterULT"
                         }
-                    ]
+                    ],
+                    "OIIDACCCPKO": 0.20000000298023224
                 }
             ],
             "abilitySpecials": {
@@ -848,7 +849,7 @@
                             "successActions": [
                                 {
                                     "$type": "ApplyModifier",
-                                    "modifierName": "UNIQUE_Hit_Effect"
+                                    "modifierName": "Sword_GetShieldBeingHit_HitEffect"
                                 }
                             ]
                         }
@@ -860,10 +861,9 @@
                         }
                     ]
                 },
-                "UNIQUE_Hit_Effect": {
+                "Sword_GetShieldBeingHit_HitEffect": {
                     "stacking": "Unique",
                     "modifierName": "",
-                    "isUnique": true,
                     "duration": 0.30000001192092896,
                     "elementDurability": 100.0,
                     "onAdded": [
@@ -2802,7 +2802,8 @@
                             ],
                             "modifierName": "UNIQUE_Sword_Legend_Dvalin"
                         }
-                    ]
+                    ],
+                    "OIIDACCCPKO": 0.20000000298023224
                 }
             ],
             "abilitySpecials": {
@@ -2918,365 +2919,345 @@
     {
         "Default": {
             "$type": "ConfigAbility",
-            "abilityName": "Weapon_Sword_EnergyPoem",
+            "abilityName": "Weapon_Sword_Widsith",
             "abilityMixins": [
                 {
-                    "$type": "DoActionByEnergyChangeMixin",
-                    "elementTypes": [
-                        "Electric",
-                        "Fire",
-                        "Water",
-                        "Grass",
-                        "Ice",
-                        "Wind",
-                        "Rock"
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Weapon_Sword_Widsith_Check",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -1.5,
+                        -0.5,
+                        0.5
                     ],
-                    "doWhenEnergyMax": true,
-                    "onGainEnergyByBall": [
+                    "modifierNameSteps": [
+                        "UNIQUE_Weapon_Sword_Widsith_CD",
+                        "UNIQUE_Weapon_Sword_Widsith_Handler"
+                    ]
+                },
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Weapon_Sword_Widsith",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5,
+                        100.0
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Weapon_Sword_Widsith_0",
+                        "UNIQUE_Weapon_Sword_Widsith_1",
+                        "UNIQUE_Weapon_Sword_Widsith_Full"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "TriggerCD": 0.0,
+                "Dura": 0.0,
+                "SwordBuff": 0.0,
+                "CommonBuff": 0.0,
+                "CDTime": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Weapon_Sword_Widsith_CD": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
                         {
-                            "$type": "ApplyModifier",
-                            "modifierName": "UNIQUE_Sword_EnergyPoem_Trigger"
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "value": 0.0,
+                            "key": "_ABILITY_Weapon_Sword_Widsith",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
                         },
                         {
-                            "$type": "Predicated",
-                            "targetPredicates": [
-                                {
-                                    "$type": "ByTargetGlobalValue",
-                                    "key": "_ABILITY_Weapon_Sword_EnergyPoem",
-                                    "value": 5.0
-                                }
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "value": 0.0,
+                            "key": "_ABILITY_Weapon_Sword_Widsith_Check",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Sword_Widsith_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "DoActionByElementReactionMixin",
+                            "entityTypes": [
+                                "Monster"
                             ],
-                            "successActions": [
+                            "reactionTypes": [
+                                "Explode",
+                                "Stream",
+                                "Burning",
+                                "Melt",
+                                "Freeze",
+                                "Shock",
+                                "Superconductor",
+                                "SwirlFire",
+                                "SwirlWater",
+                                "SwirlElectric",
+                                "SwirlIce",
+                                "CrystallizeFire",
+                                "CrystallizeWater",
+                                "CrystallizeElectric",
+                                "CrystallizeIce"
+                            ],
+                            "actions": [
                                 {
-                                    "$type": "Predicated",
-                                    "targetPredicates": [
+                                    "$type": "ApplyModifier",
+                                    "doOffStage": true,
+                                    "predicates": [
                                         {
                                             "$type": "ByEquipAffixReady",
                                             "target": "Self",
                                             "equipAffixDataID": 111503
                                         }
                                     ],
-                                    "successActions": [
-                                        {
-                                            "$type": "AttachModifier",
-                                            "modifierName": "UNIQUE_Sword_EnergyPoem_Extra"
-                                        }
-                                    ],
-                                    "failActions": [
-                                        {
-                                            "$type": "Predicated",
-                                            "targetPredicates": [
-                                                {
-                                                    "$type": "ByTargetGlobalValue",
-                                                    "key": "_ABILITY_Weapon_Sword_EnergyPoem_BurstTrigger",
-                                                    "value": 0.0
-                                                }
-                                            ],
-                                            "successActions": [
-                                                {
-                                                    "$type": "AttachModifier",
-                                                    "modifierName": "UNIQUE_Sword_EnergyPoem_4"
-                                                },
-                                                {
-                                                    "$type": "AddGlobalValue",
-                                                    "value": -1.0,
-                                                    "key": "_ABILITY_Weapon_Sword_EnergyPoem",
-                                                    "useLimitRange": true,
-                                                    "maxValue": 4.0,
-                                                    "minValue": 4.0
-                                                }
-                                            ]
-                                        }
-                                    ]
+                                    "modifierName": "UNIQUE_Weapon_Sword_Widsith_AddGlobalvalue"
                                 }
                             ]
-                        },
-                        {
-                            "$type": "ApplyModifier",
-                            "modifierName": "UNIQUE_Sword_EnergyPoem_Timer"
                         }
                     ]
                 },
-                {
-                    "$type": "AttachModifierToSelfGlobalValueMixin",
-                    "globalValueKey": "_ABILITY_Weapon_Sword_EnergyPoem",
-                    "defaultGlobalValueOnCreate": 0.0,
-                    "valueSteps": [
-                        -0.5,
-                        0.5,
-                        1.5,
-                        2.5,
-                        3.5,
-                        4.5,
-                        5.5
-                    ],
-                    "modifierNameSteps": [
-                        "UNIQUE_Sword_EnergyPoem_0",
-                        "UNIQUE_Sword_EnergyPoem_1",
-                        "UNIQUE_Sword_EnergyPoem_2",
-                        "UNIQUE_Sword_EnergyPoem_3",
-                        "UNIQUE_Sword_EnergyPoem_4",
-                        "UNIQUE_Sword_EnergyPoem_0"
-                    ]
-                }
-            ],
-            "abilitySpecials": {
-                "Rate": 0.0,
-                "Timer": 0.0,
-                "CritRate": 0.0,
-                "SpeedRate": 0.0,
-                "Dura": 0.0,
-                "CDTime": 0.0
-            },
-            "modifiers": {
-                "UNIQUE_Sword_EnergyPoem_Trigger": {
+                "UNIQUE_Weapon_Sword_Widsith_AddGlobalvalue": {
                     "stacking": "Unique",
                     "modifierName": "",
                     "isUnique": true,
-                    "duration": 0.5,
+                    "duration": "TriggerCD",
                     "elementDurability": 100.0,
                     "onAdded": [
                         {
                             "$type": "AddGlobalValue",
-                            "predicates": [
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Sword_Widsith",
+                            "useLimitRange": true,
+                            "maxValue": 2.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Sword_Widsith_Timer"
+                        },
+                        {
+                            "$type": "Predicated",
+                            "doOffStage": true,
+                            "targetPredicates": [
                                 {
                                     "$type": "ByTargetGlobalValue",
-                                    "key": "_ABILITY_Weapon_Sword_EnergyPoem",
-                                    "value": 4.0,
-                                    "compareType": "LessAndEqual"
+                                    "key": "_ABILITY_Weapon_Sword_Widsith",
+                                    "value": 2.0,
+                                    "compareType": "MoreThanAndEqual"
                                 }
                             ],
-                            "value": 1.0,
-                            "key": "_ABILITY_Weapon_Sword_EnergyPoem",
-                            "useLimitRange": true,
-                            "maxValue": 5.0,
-                            "minValue": 0.0
+                            "successActions": [
+                                {
+                                    "$type": "EquipAffixStart",
+                                    "doOffStage": true,
+                                    "CD": "CDTime",
+                                    "equipAffixDataID": 111503
+                                },
+                                {
+                                    "$type": "SetGlobalValue",
+                                    "doOffStage": true,
+                                    "value": -1.0,
+                                    "key": "_ABILITY_Weapon_Sword_Widsith_Check",
+                                    "maxValue": 0.0,
+                                    "minValue": 0.0
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "doOffStage": true,
+                                    "effectPattern": "Eff_Weapon_Widsith_Sword_Burst"
+                                },
+                                {
+                                    "$type": "RemoveUniqueModifier",
+                                    "target": "AllPlayerAvatars",
+                                    "doOffStage": true,
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetPositionToSelfPosition",
+                                            "logic": "LesserOrEqual",
+                                            "value": 40.0
+                                        }
+                                    ],
+                                    "modifierName": "UNIQUE_Weapon_Widsith_CommonBuff"
+                                },
+                                {
+                                    "$type": "RemoveUniqueModifier",
+                                    "target": "AllPlayerAvatars",
+                                    "doOffStage": true,
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetPositionToSelfPosition",
+                                            "logic": "LesserOrEqual",
+                                            "value": 40.0
+                                        }
+                                    ],
+                                    "modifierName": "UNIQUE_Weapon_Sword_Widsith_SwordBuff"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "AllPlayerAvatars",
+                                    "doOffStage": true,
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetPositionToSelfPosition",
+                                            "logic": "LesserOrEqual",
+                                            "value": 40.0
+                                        }
+                                    ],
+                                    "modifierName": "UNIQUE_Weapon_Widsith_CommonBuff"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "AllPlayerAvatars",
+                                    "doOffStage": true,
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetPositionToSelfPosition",
+                                            "logic": "LesserOrEqual",
+                                            "value": 40.0
+                                        }
+                                    ],
+                                    "modifierName": "UNIQUE_Weapon_Sword_Widsith_SwordBuff"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "AllPlayerAvatars",
+                                    "doOffStage": true,
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetPositionToSelfPosition",
+                                            "logic": "LesserOrEqual",
+                                            "value": 40.0
+                                        }
+                                    ],
+                                    "modifierName": "UNIQUE_Weapon_Sword_Widsith_BuffEffect"
+                                }
+                            ]
                         }
                     ]
                 },
-                "UNIQUE_Sword_EnergyPoem_Timer": {
+                "UNIQUE_Weapon_Sword_Widsith_Timer": {
                     "modifierName": "",
                     "isUnique": true,
-                    "duration": "Timer",
+                    "duration": 30.0,
                     "elementDurability": 100.0,
                     "onRemoved": [
                         {
-                            "$type": "AddGlobalValue",
+                            "$type": "SetGlobalValue",
                             "doOffStage": true,
                             "predicates": [
                                 {
                                     "$type": "ByTargetGlobalValue",
-                                    "key": "_ABILITY_Weapon_Sword_EnergyPoem",
-                                    "value": 4.0,
+                                    "key": "_ABILITY_Weapon_Sword_Widsith",
+                                    "value": 1.0,
                                     "compareType": "LessAndEqual"
                                 }
                             ],
-                            "value": -100.0,
-                            "key": "_ABILITY_Weapon_Sword_EnergyPoem",
-                            "useLimitRange": true,
+                            "value": 0.0,
+                            "key": "_ABILITY_Weapon_Sword_Widsith",
                             "maxValue": 0.0,
                             "minValue": 0.0
                         }
                     ]
                 },
-                "UNIQUE_Sword_EnergyPoem_0": {
-                    "stacking": "Unique",
+                "UNIQUE_Weapon_Sword_Widsith_0": {
                     "modifierName": "",
                     "isUnique": true,
                     "elementDurability": 100.0
                 },
-                "UNIQUE_Sword_EnergyPoem_1": {
+                "UNIQUE_Weapon_Sword_Widsith_1": {
                     "modifierName": "",
                     "isUnique": true,
                     "elementDurability": 100.0,
-                    "properties": {
-                        "Actor_AttackRatio": [
-                            "Rate",
-                            1.0,
-                            "Mul"
-                        ]
-                    },
                     "onAdded": [
                         {
                             "$type": "AttachEffect",
+                            "doOffStage": true,
                             "effectPattern": "Eff_Weapon_EnergyPoem_Stack1"
                         }
-                    ],
-                    "isLimitedProperties": true
+                    ]
                 },
-                "UNIQUE_Sword_EnergyPoem_2": {
+                "UNIQUE_Weapon_Sword_Widsith_Full": {
                     "modifierName": "",
                     "isUnique": true,
-                    "elementDurability": 100.0,
-                    "properties": {
-                        "Actor_AttackRatio": [
-                            "Rate",
-                            2.0,
-                            "Mul"
-                        ]
-                    },
-                    "onAdded": [
-                        {
-                            "$type": "AttachEffect",
-                            "effectPattern": "Eff_Weapon_EnergyPoem_Stack2"
-                        }
-                    ],
-                    "isLimitedProperties": true
+                    "elementDurability": 100.0
                 },
-                "UNIQUE_Sword_EnergyPoem_3": {
-                    "modifierName": "",
-                    "isUnique": true,
-                    "elementDurability": 100.0,
-                    "properties": {
-                        "Actor_AttackRatio": [
-                            "Rate",
-                            3.0,
-                            "Mul"
-                        ]
-                    },
-                    "onAdded": [
-                        {
-                            "$type": "AttachEffect",
-                            "effectPattern": "Eff_Weapon_EnergyPoem_Stack3"
-                        }
-                    ],
-                    "isLimitedProperties": true
-                },
-                "UNIQUE_Sword_EnergyPoem_4": {
-                    "modifierName": "",
-                    "isUnique": true,
-                    "elementDurability": 100.0,
-                    "properties": {
-                        "Actor_AttackRatio": [
-                            "Rate",
-                            4.0,
-                            "Mul"
-                        ]
-                    },
-                    "onAdded": [
-                        {
-                            "$type": "AttachEffect",
-                            "effectPattern": "Eff_Weapon_EnergyPoem_Stack4"
-                        }
-                    ],
-                    "isLimitedProperties": true
-                },
-                "UNIQUE_Sword_EnergyPoem_Extra": {
-                    "stacking": "Unique",
+                "UNIQUE_Weapon_Widsith_CommonBuff": {
                     "modifierName": "",
                     "isUnique": true,
                     "duration": "Dura",
                     "elementDurability": 100.0,
                     "properties": {
-                        "Actor_AttackRatio": [
-                            "Rate",
-                            4.0,
-                            "Mul"
-                        ],
-                        "Actor_CriticalDelta": "CritRate",
-                        "Animator_AttackSpeedRatio": "SpeedRate"
+                        "Actor_AttackRatio": "CommonBuff"
                     },
                     "state": "AttackUp",
+                    "isLimitedProperties": true,
+                    "buffID": 10001
+                },
+                "UNIQUE_Weapon_Sword_Widsith_SwordBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Dura",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "NormalAttack_01",
+                                "NormalAttack_02",
+                                "NormalAttack_03",
+                                "NormalAttack_04",
+                                "NormalAttack_05",
+                                "NormalAttack_06",
+                                "ExtraAttack",
+                                "FallingAttack"
+                            ],
+                            "damagePercentageRatio": "SwordBuff"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Sword_Widsith_BuffEffect": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.30000001192092896,
+                    "elementDurability": 100.0,
                     "onAdded": [
                         {
                             "$type": "FireEffect",
-                            "effectPattern": "Eff_Weapon_EnergyPoem_Burst"
+                            "effectPattern": "Eff_Weapon_Widsith_Common_TeamBuff"
                         },
                         {
-                            "$type": "EquipAffixStart",
-                            "CD": "CDTime",
-                            "equipAffixDataID": 111503
-                        },
-                        {
-                            "$type": "AttachEffect",
-                            "otherTargets": {
-                                "$type": "SelectTargetsByEquipParts",
-                                "equipPartNames": [
-                                    "equip01",
-                                    "equip02",
-                                    "sheathPoint"
-                                ]
-                            },
-                            "effectPattern": "Eff_Weapon_Sword_Widsith"
-                        },
-                        {
-                            "$type": "AddGlobalValue",
-                            "doOffStage": true,
-                            "value": 1.0,
-                            "key": "_ABILITY_Weapon_Sword_EnergyPoem_BurstTrigger",
-                            "useLimitRange": true,
-                            "maxValue": 1.0,
-                            "minValue": 1.0
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Weapon_Widsith_Sword_TeamBuff"
                         }
-                    ],
-                    "onRemoved": [
-                        {
-                            "$type": "AddGlobalValue",
-                            "doOffStage": true,
-                            "value": -100.0,
-                            "key": "_ABILITY_Weapon_Sword_EnergyPoem",
-                            "useLimitRange": true,
-                            "maxValue": 0.0,
-                            "minValue": 0.0
-                        },
-                        {
-                            "$type": "AddGlobalValue",
-                            "doOffStage": true,
-                            "value": -1.0,
-                            "key": "_ABILITY_Weapon_Sword_EnergyPoem_BurstTrigger",
-                            "useLimitRange": true,
-                            "maxValue": 0.0,
-                            "minValue": 0.0
-                        },
-                        {
-                            "$type": "SetAnimatorBool",
-                            "otherTargets": {
-                                "$type": "SelectTargetsByEquipParts",
-                                "equipPartNames": [
-                                    "equip01",
-                                    "equip02",
-                                    "sheathPoint"
-                                ]
-                            },
-                            "doOffStage": true,
-                            "boolID": "Equip_Lighting"
-                        },
-                        {
-                            "$type": "SendEffectTrigger",
-                            "otherTargets": {
-                                "$type": "SelectTargetsByEquipParts",
-                                "equipPartNames": [
-                                    "equip01",
-                                    "equip02",
-                                    "sheathPoint"
-                                ]
-                            },
-                            "doOffStage": true,
-                            "parameter": "Trigger_Kill_Effect",
-                            "effectPattern": "Eff_Weapon_Sword_Widsith"
-                        }
-                    ],
-                    "isLimitedProperties": true
+                    ]
                 }
             },
             "onAdded": [
                 {
-                    "$type": "AddGlobalValue",
-                    "doOffStage": true,
-                    "value": -1.0,
-                    "key": "_ABILITY_Weapon_Sword_EnergyPoem_BurstTrigger",
-                    "useLimitRange": true,
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "_ABILITY_Weapon_Sword_Widsith",
                     "maxValue": 0.0,
                     "minValue": 0.0
-                }
-            ],
-            "onRemoved": [
+                },
                 {
-                    "$type": "AddGlobalValue",
-                    "doOffStage": true,
+                    "$type": "SetGlobalValue",
                     "value": 0.0,
-                    "key": "_ABILITY_Weapon_Sword_EnergyPoem",
-                    "useLimitRange": true,
+                    "key": "_ABILITY_Weapon_Sword_Widsith_Check",
                     "maxValue": 0.0,
                     "minValue": 0.0
                 }
@@ -3760,7 +3741,8 @@
                             "doOffStage": true,
                             "modifierName": "UNIQUE_Sword_Morax_HpToAtk_Buff"
                         }
-                    ]
+                    ],
+                    "JNLGLIJLODK": ""
                 }
             ],
             "abilitySpecials": {
@@ -3840,6 +3822,1789 @@
                     "$type": "AttachModifier",
                     "doOffStage": true,
                     "modifierName": "UNIQUE_Sword_Morax_Handler"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_Bakufu",
+            "abilityMixins": [
+                {
+                    "$type": "OnAvatarUseSkillMixin",
+                    "onTriggerSkill": [
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Sword_Bakufu_Stack_Adder"
+                        }
+                    ],
+                    "onTriggerUltimateSkill": [
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Sword_Bakufu_EnergyReviver"
+                        }
+                    ],
+                    "OIIDACCCPKO": 0.20000000298023224
+                },
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Weapon_Sword_Bakufu",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        0.5,
+                        1.5,
+                        2.5,
+                        100.0
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Sword_Bakufu_Buff1",
+                        "UNIQUE_Sword_Bakufu_Buff2",
+                        "UNIQUE_Sword_Bakufu_Buff3"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Dura": 0.0,
+                "MaxStack": 0.0,
+                "CDTime": 0.0,
+                "EnergyPerStack": 0.0,
+                "NowStack": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Weapon_Sword_Bakufu_Stack_Adder": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Sword_Bakufu",
+                            "useLimitRange": true,
+                            "maxValue": "MaxStack",
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Sword_Bakufu_Timer"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Sword_Bakufu_Timer": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Dura",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "value": 0.0,
+                            "key": "_ABILITY_Weapon_Sword_Bakufu",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_Bakufu_Buff1": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Weapon_Bakufu1_Sword"
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_Bakufu_Buff2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Weapon_Bakufu2_Sword"
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_Bakufu_Buff3": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Weapon_Bakufu3_Sword"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Sword_Bakufu_EnergyReviver": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 2.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValueToOverrideMap",
+                            "doOffStage": true,
+                            "globalValueKey": "_ABILITY_Weapon_Sword_Bakufu",
+                            "overrideMapKey": "NowStack"
+                        },
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Sword_Bakufu_Timer"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "value": 0.0,
+                            "key": "_ABILITY_Weapon_Sword_Bakufu",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ReviveElemEnergy",
+                            "doOffStage": true,
+                            "value": [
+                                "EnergyPerStack",
+                                "NowStack",
+                                "Mul"
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onRemoved": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "modifierName": "UNIQUE_Weapon_Sword_Bakufu_Stack_Adder"
+                },
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "_ABILITY_Weapon_Sword_Bakufu",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_Narukami",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Sword_Narukami_BuffLevel",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        0.5,
+                        1.5,
+                        2.5,
+                        3.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Weapon_Sword_Narukami_Buff1",
+                        "UNIQUE_Weapon_Sword_Narukami_Buff2",
+                        "UNIQUE_Weapon_Sword_Narukami_Buff3"
+                    ]
+                },
+                {
+                    "$type": "AttachModifierToPredicateMixin",
+                    "predicates": [
+                        {
+                            "$type": "ByEnergyRatio",
+                            "logic": "Lesser",
+                            "ratio": 1.0
+                        }
+                    ],
+                    "modifierName": "UNIQUE_Sword_Narukami_Mark1"
+                },
+                {
+                    "$type": "OnAvatarUseSkillMixin",
+                    "onTriggerUltimateSkill": [
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Sword_Narukami_Mark3"
+                        }
+                    ],
+                    "OIIDACCCPKO": 0.20000000298023224
+                }
+            ],
+            "abilitySpecials": {
+                "BaseBuff": 0.0,
+                "Rate1": 0.0,
+                "Rate2": 0.0,
+                "Rate3": 0.0,
+                "Dura2": 0.0,
+                "Dura3": 0.0,
+                "Electric": 0.0,
+                "Fire": 0.0,
+                "Wind": 0.0,
+                "Ice": 0.0,
+                "Water": 0.0,
+                "Grass": 0.0,
+                "Rock": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_Narukami_WeaponBaseBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_ElecAddHurtDelta": "BaseBuff",
+                        "Actor_FireAddHurtDelta": "BaseBuff",
+                        "Actor_WindAddHurtDelta": "BaseBuff",
+                        "Actor_IceAddHurtDelta": "BaseBuff",
+                        "Actor_WaterAddHurtDelta": "BaseBuff",
+                        "Actor_GrassAddHurtDelta": "BaseBuff",
+                        "Actor_RockAddHurtDelta": "BaseBuff"
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Sword_Narukami_Check": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "doOffStage": true,
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "NormalAttack_01",
+                                        "NormalAttack_02",
+                                        "NormalAttack_03",
+                                        "NormalAttack_04",
+                                        "NormalAttack_05",
+                                        "NormalAttack_06",
+                                        "ExtraAttack"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ANIMAL_ENTITY_TYPE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                },
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHitElement",
+                                            "element": "Wind"
+                                        },
+                                        {
+                                            "$type": "ByHitElement",
+                                            "element": "Fire"
+                                        },
+                                        {
+                                            "$type": "ByHitElement",
+                                            "element": "Water"
+                                        },
+                                        {
+                                            "$type": "ByHitElement",
+                                            "element": "Ice"
+                                        },
+                                        {
+                                            "$type": "ByHitElement",
+                                            "element": "Electric"
+                                        },
+                                        {
+                                            "$type": "ByHitElement",
+                                            "element": "Rock"
+                                        },
+                                        {
+                                            "$type": "ByHitElement",
+                                            "element": "Grass"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "UNIQUE_Sword_Narukami_Mark2"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_Narukami_Mark1": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Electric"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 1.0,
+                                    "overrideMapKey": "Electric"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 0.0,
+                                    "overrideMapKey": "Electric"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Fire"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 1.0,
+                                    "overrideMapKey": "Fire"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 0.0,
+                                    "overrideMapKey": "Fire"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Wind"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 1.0,
+                                    "overrideMapKey": "Wind"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 0.0,
+                                    "overrideMapKey": "Wind"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Ice"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 1.0,
+                                    "overrideMapKey": "Ice"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 0.0,
+                                    "overrideMapKey": "Ice"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Water"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 1.0,
+                                    "overrideMapKey": "Water"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 0.0,
+                                    "overrideMapKey": "Water"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Grass"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 1.0,
+                                    "overrideMapKey": "Grass"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 0.0,
+                                    "overrideMapKey": "Grass"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Rock"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 1.0,
+                                    "overrideMapKey": "Rock"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 0.0,
+                                    "overrideMapKey": "Rock"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Sword_Narukami_BuffLevel",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -1.0,
+                            "key": "_ABILITY_Sword_Narukami_BuffLevel",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_Narukami_Mark2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Dura2",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Electric"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 1.0,
+                                    "overrideMapKey": "Electric"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 0.0,
+                                    "overrideMapKey": "Electric"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Fire"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 1.0,
+                                    "overrideMapKey": "Fire"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 0.0,
+                                    "overrideMapKey": "Fire"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Wind"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 1.0,
+                                    "overrideMapKey": "Wind"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 0.0,
+                                    "overrideMapKey": "Wind"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Ice"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 1.0,
+                                    "overrideMapKey": "Ice"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 0.0,
+                                    "overrideMapKey": "Ice"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Water"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 1.0,
+                                    "overrideMapKey": "Water"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 0.0,
+                                    "overrideMapKey": "Water"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Grass"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 1.0,
+                                    "overrideMapKey": "Grass"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 0.0,
+                                    "overrideMapKey": "Grass"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Rock"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 1.0,
+                                    "overrideMapKey": "Rock"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 0.0,
+                                    "overrideMapKey": "Rock"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Sword_Narukami_BuffLevel",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -1.0,
+                            "key": "_ABILITY_Sword_Narukami_BuffLevel",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_Narukami_Mark3": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Dura3",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Electric"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 1.0,
+                                    "overrideMapKey": "Electric"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 0.0,
+                                    "overrideMapKey": "Electric"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Fire"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 1.0,
+                                    "overrideMapKey": "Fire"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 0.0,
+                                    "overrideMapKey": "Fire"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Wind"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 1.0,
+                                    "overrideMapKey": "Wind"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 0.0,
+                                    "overrideMapKey": "Wind"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Ice"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 1.0,
+                                    "overrideMapKey": "Ice"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 0.0,
+                                    "overrideMapKey": "Ice"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Water"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 1.0,
+                                    "overrideMapKey": "Water"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 0.0,
+                                    "overrideMapKey": "Water"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Grass"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 1.0,
+                                    "overrideMapKey": "Grass"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 0.0,
+                                    "overrideMapKey": "Grass"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetElement",
+                                    "elementType": "Rock"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 1.0,
+                                    "overrideMapKey": "Rock"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "SetOverrideMapValue",
+                                    "value": 0.0,
+                                    "overrideMapKey": "Rock"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Sword_Narukami_BuffLevel",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -1.0,
+                            "key": "_ABILITY_Sword_Narukami_BuffLevel",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Sword_Narukami_Buff1": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_ElecAddHurtDelta": [
+                            "Rate1",
+                            "Electric",
+                            "Mul"
+                        ],
+                        "Actor_FireAddHurtDelta": [
+                            "Rate1",
+                            "Fire",
+                            "Mul"
+                        ],
+                        "Actor_WindAddHurtDelta": [
+                            "Rate1",
+                            "Wind",
+                            "Mul"
+                        ],
+                        "Actor_IceAddHurtDelta": [
+                            "Rate1",
+                            "Ice",
+                            "Mul"
+                        ],
+                        "Actor_WaterAddHurtDelta": [
+                            "Rate1",
+                            "Water",
+                            "Mul"
+                        ],
+                        "Actor_GrassAddHurtDelta": [
+                            "Rate1",
+                            "Grass",
+                            "Mul"
+                        ],
+                        "Actor_RockAddHurtDelta": [
+                            "Rate1",
+                            "Rock",
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Sword_Narukami_Buff1_EffectDelay"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Sword_Narukami_Buff1_Effect"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Sword_Narukami_Buff1_EffectDelay": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 5.5,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Sword_Narukami_Buff1_Effect"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Sword_Narukami_Buff1_Effect"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Sword_Narukami_Buff1_Effect": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Weapon_NarukamiBuff_Sword_1"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Sword_Narukami_Buff2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_ElecAddHurtDelta": [
+                            "Rate2",
+                            "Electric",
+                            "Mul"
+                        ],
+                        "Actor_FireAddHurtDelta": [
+                            "Rate2",
+                            "Fire",
+                            "Mul"
+                        ],
+                        "Actor_WindAddHurtDelta": [
+                            "Rate2",
+                            "Wind",
+                            "Mul"
+                        ],
+                        "Actor_IceAddHurtDelta": [
+                            "Rate2",
+                            "Ice",
+                            "Mul"
+                        ],
+                        "Actor_WaterAddHurtDelta": [
+                            "Rate2",
+                            "Water",
+                            "Mul"
+                        ],
+                        "Actor_GrassAddHurtDelta": [
+                            "Rate2",
+                            "Grass",
+                            "Mul"
+                        ],
+                        "Actor_RockAddHurtDelta": [
+                            "Rate2",
+                            "Rock",
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Weapon_NarukamiBuff_Sword_2"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Sword_Narukami_Buff3": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_ElecAddHurtDelta": [
+                            "Rate3",
+                            "Electric",
+                            "Mul"
+                        ],
+                        "Actor_FireAddHurtDelta": [
+                            "Rate3",
+                            "Fire",
+                            "Mul"
+                        ],
+                        "Actor_WindAddHurtDelta": [
+                            "Rate3",
+                            "Wind",
+                            "Mul"
+                        ],
+                        "Actor_IceAddHurtDelta": [
+                            "Rate3",
+                            "Ice",
+                            "Mul"
+                        ],
+                        "Actor_WaterAddHurtDelta": [
+                            "Rate3",
+                            "Water",
+                            "Mul"
+                        ],
+                        "Actor_GrassAddHurtDelta": [
+                            "Rate3",
+                            "Grass",
+                            "Mul"
+                        ],
+                        "Actor_RockAddHurtDelta": [
+                            "Rate3",
+                            "Rock",
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Weapon_NarukamiBuff_Sword_3"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "_ABILITY_Sword_Narukami_BuffLevel",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Sword_Narukami_Check"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Sword_Narukami_WeaponBaseBuff"
+                },
+                {
+                    "$type": "Predicated",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetElement",
+                            "elementType": "Electric"
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "SetOverrideMapValue",
+                            "value": 1.0,
+                            "overrideMapKey": "Electric"
+                        }
+                    ],
+                    "failActions": [
+                        {
+                            "$type": "SetOverrideMapValue",
+                            "value": 0.0,
+                            "overrideMapKey": "Electric"
+                        }
+                    ]
+                },
+                {
+                    "$type": "Predicated",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetElement",
+                            "elementType": "Fire"
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "SetOverrideMapValue",
+                            "value": 1.0,
+                            "overrideMapKey": "Fire"
+                        }
+                    ],
+                    "failActions": [
+                        {
+                            "$type": "SetOverrideMapValue",
+                            "value": 0.0,
+                            "overrideMapKey": "Fire"
+                        }
+                    ]
+                },
+                {
+                    "$type": "Predicated",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetElement",
+                            "elementType": "Wind"
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "SetOverrideMapValue",
+                            "value": 1.0,
+                            "overrideMapKey": "Wind"
+                        }
+                    ],
+                    "failActions": [
+                        {
+                            "$type": "SetOverrideMapValue",
+                            "value": 0.0,
+                            "overrideMapKey": "Wind"
+                        }
+                    ]
+                },
+                {
+                    "$type": "Predicated",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetElement",
+                            "elementType": "Ice"
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "SetOverrideMapValue",
+                            "value": 1.0,
+                            "overrideMapKey": "Ice"
+                        }
+                    ],
+                    "failActions": [
+                        {
+                            "$type": "SetOverrideMapValue",
+                            "value": 0.0,
+                            "overrideMapKey": "Ice"
+                        }
+                    ]
+                },
+                {
+                    "$type": "Predicated",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetElement",
+                            "elementType": "Water"
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "SetOverrideMapValue",
+                            "value": 1.0,
+                            "overrideMapKey": "Water"
+                        }
+                    ],
+                    "failActions": [
+                        {
+                            "$type": "SetOverrideMapValue",
+                            "value": 0.0,
+                            "overrideMapKey": "Water"
+                        }
+                    ]
+                },
+                {
+                    "$type": "Predicated",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetElement",
+                            "elementType": "Grass"
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "SetOverrideMapValue",
+                            "value": 1.0,
+                            "overrideMapKey": "Grass"
+                        }
+                    ],
+                    "failActions": [
+                        {
+                            "$type": "SetOverrideMapValue",
+                            "value": 0.0,
+                            "overrideMapKey": "Grass"
+                        }
+                    ]
+                },
+                {
+                    "$type": "Predicated",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetElement",
+                            "elementType": "Rock"
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "SetOverrideMapValue",
+                            "value": 1.0,
+                            "overrideMapKey": "Rock"
+                        }
+                    ],
+                    "failActions": [
+                        {
+                            "$type": "SetOverrideMapValue",
+                            "value": 0.0,
+                            "overrideMapKey": "Rock"
+                        }
+                    ]
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "_ABILITY_Sword_Narukami_BuffLevel",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_Opus",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Weapon_Sword_Opus_Enable",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Weapon_Sword_Opus_Mixin"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "DefToArtRatio": 0.0,
+                "MaxExtraDamage": 0.0,
+                "CDTime": 0.0,
+                "Dura": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Weapon_Sword_Opus_Mixin": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "Elemental_Art",
+                                "Elemental_Art_Hold",
+                                "Elemental_Art_Extra"
+                            ],
+                            "damagePercentageRatio": 0.0,
+                            "damageExtra": [
+                                "DefToArtRatio",
+                                "FIGHT_PROP_CUR_DEFENSE",
+                                "Mul"
+                            ],
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "_ABILITY_Weapon_Sword_Opus_MaxExtraDamage",
+                                    "value": [
+                                        "DefToArtRatio",
+                                        "FIGHT_PROP_CUR_DEFENSE",
+                                        "Mul"
+                                    ],
+                                    "compareType": "MoreThan"
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "_ABILITY_Weapon_Sword_Opus_Zero",
+                                    "value": [
+                                        "DefToArtRatio",
+                                        "FIGHT_PROP_CUR_DEFENSE",
+                                        "Mul"
+                                    ],
+                                    "compareType": "LessAndEqual"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "Elemental_Art",
+                                "Elemental_Art_Hold",
+                                "Elemental_Art_Extra"
+                            ],
+                            "damagePercentageRatio": 0.0,
+                            "damageExtra": "MaxExtraDamage",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "_ABILITY_Weapon_Sword_Opus_MaxExtraDamage",
+                                    "value": [
+                                        "DefToArtRatio",
+                                        "FIGHT_PROP_CUR_DEFENSE",
+                                        "Mul"
+                                    ],
+                                    "compareType": "LessAndEqual"
+                                }
+                            ]
+                        }
+                    ],
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "doOffStage": true,
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ANIMAL_ENTITY_TYPE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                },
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "Elemental_Art",
+                                        "Elemental_Art_Hold",
+                                        "Elemental_Art_Extra"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "UNIQUE_Weapon_Sword_Opus_CD"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "UNIQUE_Weapon_Sword_Opus_MixinCountDown"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Sword_Opus_MixinCountDown": {
+                    "timeScale": "Level",
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Dura",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "target": "Caster",
+                            "doOffStage": true,
+                            "value": -1.0,
+                            "key": "_ABILITY_Weapon_Sword_Opus_Enable",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Sword_Opus_CD": {
+                    "timeScale": "Level",
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "thinkInterval": "CDTime",
+                    "onRemoved": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "target": "Caster",
+                            "doOffStage": true,
+                            "value": 0.0,
+                            "key": "_ABILITY_Weapon_Sword_Opus_Enable",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Sword_Opus_CD"
+                        }
+                    ],
+                    "KHELOPEDNAF": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": "MaxExtraDamage",
+                    "key": "_ABILITY_Weapon_Sword_Opus_MaxExtraDamage",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "_ABILITY_Weapon_Sword_Opus_Zero",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "_ABILITY_Weapon_Sword_Opus_Enable",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Weapon_Sword_Opus_CD"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Sword_Amenoma",
+            "abilityMixins": [
+                {
+                    "$type": "OnAvatarUseSkillMixin",
+                    "onTriggerSkill": [
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Weapon_Sword_Amenoma_Level",
+                                    "value": 0.0,
+                                    "compareType": "MoreThan"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetGlobalValueToOverrideMap",
+                                    "globalValueKey": "_ABILITY_Weapon_Sword_Amenoma_Level",
+                                    "overrideMapKey": "GV_Level"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Sword_Amenoma_ExtraBuff"
+                                },
+                                {
+                                    "$type": "SetGlobalValue",
+                                    "value": 0.0,
+                                    "key": "_ABILITY_Weapon_Sword_Amenoma_Level",
+                                    "maxValue": 0.0,
+                                    "minValue": 0.0
+                                }
+                            ]
+                        }
+                    ],
+                    "OIIDACCCPKO": 0.20000000298023224
+                },
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Weapon_Sword_Amenoma_Level",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        0.5,
+                        1.5,
+                        100.0
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Sword_AmenomaEff1",
+                        "UNIQUE_Sword_AmenomaEff2"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "BaseBuff": 0.0,
+                "MaxLevel": 0.0,
+                "CDTime": 0.0,
+                "Buff_PerLevel": 0.0,
+                "Dura": 0.0,
+                "GV_Level": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Sword_Amenoma_WeaponBaseBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_ElecAddHurtDelta": "BaseBuff",
+                        "Actor_FireAddHurtDelta": "BaseBuff",
+                        "Actor_WindAddHurtDelta": "BaseBuff",
+                        "Actor_IceAddHurtDelta": "BaseBuff",
+                        "Actor_WaterAddHurtDelta": "BaseBuff",
+                        "Actor_GrassAddHurtDelta": "BaseBuff",
+                        "Actor_RockAddHurtDelta": "BaseBuff"
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Sword_AmenomaEff1": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0
+                },
+                "UNIQUE_Sword_AmenomaEff2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "target": "CurLocalAvatar",
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Weapon_Amenoma_Head"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Weapon_Amenoma_Hand"
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_Amenoma_NormalAttack_Counter": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 2.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "AttachModifier",
+                            "target": "AllPlayerAvatars",
+                            "doOffStage": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "value": 40.0
+                                },
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetType",
+                                            "targetType": "Caster"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "modifierName": "Sword_Amenoma_NormalAttack_Counter_Each"
+                        }
+                    ]
+                },
+                "Sword_Amenoma_NormalAttack_Counter_Each": {
+                    "modifierName": "",
+                    "duration": 10.0,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "OnAvatarUseSkillMixin",
+                            "onTriggerSkill": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Caster",
+                                    "modifierName": "UNIQUE_Sword_Amenoma_GV_Adder"
+                                }
+                            ],
+                            "OIIDACCCPKO": 0.20000000298023224
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_Amenoma_GV_Adder": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Sword_Amenoma_Level",
+                            "useLimitRange": true,
+                            "maxValue": "MaxLevel",
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Sword_Amenoma_ExtraBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Dura",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "NormalAttack_01",
+                                "NormalAttack_02",
+                                "NormalAttack_03",
+                                "NormalAttack_04",
+                                "NormalAttack_05",
+                                "NormalAttack_06"
+                            ],
+                            "damagePercentageRatio": [
+                                "Buff_PerLevel",
+                                "GV_Level",
+                                "Mul"
+                            ]
+                        }
+                    ],
+                    "state": "AttackUp"
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Sword_Amenoma_NormalAttack_Counter"
+                },
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "_ABILITY_Weapon_Sword_Amenoma_Level",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Sword_Amenoma_WeaponBaseBuff"
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "ClearGlobalValue",
+                    "doOffStage": true,
+                    "key": "_ABILITY_Weapon_Sword_Amenoma_Level"
                 }
             ],
             "isDynamicAbility": true

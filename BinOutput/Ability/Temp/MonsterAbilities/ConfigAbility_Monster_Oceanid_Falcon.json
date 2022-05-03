@@ -119,5 +119,138 @@
                 }
             ]
         }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Oceanid_Falcon_HealHp_Challenge",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_HEALHP_STATE_",
+                    "defaultGlobalValueOnCreate": 1.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5
+                    ],
+                    "modifierNameSteps": [
+                        "Empty",
+                        "UNIQUE_Falcon_Water_HealHp"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "HealHPHigh": 0.15000000596046448
+            },
+            "modifiers": {
+                "UNIQUE_Falcon_Water_HealHp": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.5,
+                    "onBeingHit": [
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "SGV_MONSTERAFFIX_OCEANID_02_ANIMALHEAL_UP",
+                                    "value": 1.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "HealHP_Pause_AffixUp"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "HealHP_Pause"
+                                }
+                            ]
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "SGV_MONSTERAFFIX_OCEANID_02_ANIMALHEAL_UP",
+                                    "value": 1.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "HealHP",
+                                    "amountByCasterMaxHPRatio": "HealHPHigh"
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Monster_Oceanid_Falcon_Heal"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "HealHP_Pause": {
+                    "modifierName": "",
+                    "duration": 3.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 0.0,
+                            "key": "_HEALHP_STATE_",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_HEALHP_STATE_",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 1.0
+                        }
+                    ]
+                },
+                "HealHP_Pause_AffixUp": {
+                    "modifierName": "",
+                    "duration": 1.5,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 0.0,
+                            "key": "_HEALHP_STATE_",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_HEALHP_STATE_",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 1.0
+                        }
+                    ]
+                },
+                "Empty": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                }
+            }
+        }
     }
 ]

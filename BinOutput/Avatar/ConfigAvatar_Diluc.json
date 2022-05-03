@@ -511,13 +511,13 @@
         }
     },
     "equipController": {
+        "sheathPoint": "WeaponBackPut",
+        "dissolveSheathFadeDelay": 0.07500000298023224,
+        "dissolveSheathFadeTime": 2.0999999046325684,
         "attachPoints": {
             "equip01": "WeaponR",
             "equip02": "WeaponL"
-        },
-        "sheathPoint": "WeaponBackPut",
-        "dissolveSheathFadeDelay": 0.07500000298023224,
-        "dissolveSheathFadeTime": 2.0999999046325684
+        }
     },
     "abilities": [
         {
@@ -706,7 +706,8 @@
                     },
                     "canDoSkill": true,
                     "resetAnimatorTriggerOnEnter": [
-                        "DoSkill"
+                        "DoSkill",
+                        "AimEnd"
                     ],
                     "setAnimatorBoolean": [
                         {
@@ -741,6 +742,20 @@
                     ],
                     "canChangeAvatar": [
                         {}
+                    ],
+                    "animatorTriggerOnLanded": "",
+                    "sheatheOnStart": true
+                },
+                "SkiffNormal": {
+                    "$type": "ConfigAvatarStateIDInfo",
+                    "animatorStates": {
+                        "SkiffNormal": []
+                    },
+                    "massRatio": 100.0,
+                    "resetAnimatorTriggerOnExit": [
+                        "BeHit",
+                        "DoSkill",
+                        "Jump"
                     ],
                     "animatorTriggerOnLanded": "",
                     "sheatheOnStart": true
@@ -901,7 +916,8 @@
                     },
                     "canDoSkill": true,
                     "resetAnimatorTriggerOnEnter": [
-                        "DoSkill"
+                        "DoSkill",
+                        "AimEnd"
                     ],
                     "setAnimatorBoolean": [
                         {
@@ -1055,8 +1071,7 @@
                     "animatorStates": {
                         "StandbyPutaway": [
                             "Male_Claymore_Putaway_Standby",
-                            "Audio_Male_Claymore_StandbyPutAway",
-                            "Audio_Male_StandbyPutaway_Diluc"
+                            "Audio_Male_Claymore_StandbyPutAway"
                         ]
                     },
                     "canDoSkill": true,
@@ -1083,9 +1098,11 @@
                     "animatorStates": {
                         "StandbyPutawayOver": [],
                         "WalkPutawayOver": [
+                            "Audio_Male_Walk_Diluc",
                             "Audio_Male_Walk_Diluc"
                         ],
                         "RunPutawayOver": [
+                            "Audio_Male_Run_Diluc",
                             "Audio_Male_Run_Diluc"
                         ],
                         "RunToSprintWeaponOver": []
@@ -2023,6 +2040,69 @@
                     ],
                     "animatorTriggerOnLanded": "",
                     "sheatheOnStart": true
+                },
+                "PlayMusic_Qin": {
+                    "$type": "ConfigAvatarStateIDInfo",
+                    "animatorStates": {
+                        "PlayMusic_Qin_BS": [
+                            "PlayMusic_Qin_Male"
+                        ],
+                        "PlayMusic_Qin_Loop": []
+                    },
+                    "moveType": "combatMove",
+                    "massRatio": 100.0,
+                    "resetAnimatorTriggerOnExit": [
+                        "BeHit",
+                        "DoSkill",
+                        "Jump"
+                    ],
+                    "animatorTriggerOnLanded": "",
+                    "sheatheOnStart": true
+                },
+                "PlayMusic_Qin_AS": {
+                    "$type": "ConfigAvatarStateIDInfo",
+                    "animatorStates": {
+                        "PlayMusic_Qin_AS": [
+                            "PlayMusic_Qin_Male_AS"
+                        ]
+                    },
+                    "moveType": "combatMove",
+                    "canDoSkill": true,
+                    "massRatio": 100.0,
+                    "resetAnimatorTriggerOnExit": [
+                        "BeHit",
+                        "DoSkill",
+                        "Jump"
+                    ],
+                    "setAnimatorBoolean": [
+                        {
+                            "name": "&CanUseSkill"
+                        }
+                    ],
+                    "canChangeAvatar": [
+                        {}
+                    ],
+                    "animatorTriggerOnLanded": "",
+                    "sheatheOnStart": true
+                },
+                "ActivitySkill_ElectricCoreFly": {
+                    "$type": "ConfigAvatarStateIDInfo",
+                    "animatorStates": {
+                        "ActivitySkill_ElectricCoreFly": []
+                    },
+                    "moveType": "combatAir",
+                    "massRatio": 100.0,
+                    "resetAnimatorTriggerOnEnter": [
+                        "ElectricCoreFly_End"
+                    ],
+                    "resetAnimatorTriggerOnExit": [
+                        "BeHit",
+                        "DoSkill",
+                        "Jump",
+                        "ElectricCoreFly_End"
+                    ],
+                    "animatorTriggerOnLanded": "",
+                    "sheatheOnStart": true
                 }
             }
         }
@@ -2039,6 +2119,18 @@
                         "FallOnGround"
                     ],
                     "usage": "InSet"
+                },
+                {
+                    "currentStateName": "SlipFaceWall",
+                    "audioEvent": {
+                        "text": "Play_sfx_char_slipWall"
+                    }
+                },
+                {
+                    "currentStateName": "SlipBackWall",
+                    "audioEvent": {
+                        "text": "Play_sfx_char_slipWall"
+                    }
                 },
                 {
                     "currentStateName": "ExtraAttack1",
@@ -2424,25 +2516,25 @@
                 {
                     "currentStateName": "SlipFaceWall",
                     "audioEvent": {
-                        "text": "Play_sfx_char_land"
-                    }
-                },
-                {
-                    "currentStateName": "SlipBackWall",
-                    "audioEvent": {
-                        "text": "Play_sfx_char_land"
+                        "text": "Stop_sfx_char_drop"
                     }
                 },
                 {
                     "currentStateName": "SlipFaceWall",
                     "audioEvent": {
-                        "text": "Stop_sfx_char_drop"
+                        "text": "Stop_sfx_char_slipWall"
                     }
                 },
                 {
                     "currentStateName": "SlipBackWall",
                     "audioEvent": {
                         "text": "Stop_sfx_char_drop"
+                    }
+                },
+                {
+                    "currentStateName": "SlipBackWall",
+                    "audioEvent": {
+                        "text": "Stop_sfx_char_slipWall"
                     }
                 },
                 {

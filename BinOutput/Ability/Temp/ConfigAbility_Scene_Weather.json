@@ -3,6 +3,44 @@
         "Default": {
             "$type": "ConfigAbility",
             "abilityName": "SceneAbility_WaterArea",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSurfaceTypeMixin",
+                    "MDKEEIPBPON": "Water",
+                    "HENKIFIBDKP": [
+                        {
+                            "modifierName": "WaterAreaModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByEntityTypes",
+                                            "entityTypes": [
+                                                "Equip"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "modifierName": "WaterAreaModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "MonsterEquip"
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "LHGMMEKPKMM": "",
+                    "BGFCLEMEMAH": "",
+                    "KAMNNMJBOKI": ""
+                }
+            ],
             "modifiers": {
                 "WaterAreaModifier": {
                     "modifierName": "",
@@ -24,39 +62,403 @@
                     "maxElementDurability": 50.0
                 }
             },
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneAbility_ElectricWaterArea_Clear",
             "onAbilityStart": [
                 {
-                    "$type": "AttachModifier",
-                    "target": "Target",
-                    "predicates": [
+                    "$type": "AddGlobalValue",
+                    "target": "Team",
+                    "value": -10.0,
+                    "key": "_ElectricWaterLoseHp",
+                    "useLimitRange": true,
+                    "maxValue": 6.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneAbility_ElectricWaterArea",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSurfaceTypeMixin",
+                    "MDKEEIPBPON": "ElectricWater",
+                    "HENKIFIBDKP": [
                         {
-                            "$type": "ByNot",
+                            "modifierName": "ElectricWaterAreaModifier",
                             "predicates": [
                                 {
-                                    "$type": "ByEntityTypes",
-                                    "entityTypes": [
-                                        "Equip"
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByEntityTypes",
+                                            "entityTypes": [
+                                                "Equip"
+                                            ]
+                                        }
                                     ]
                                 }
                             ]
                         }
                     ],
-                    "modifierName": "WaterAreaModifier"
-                },
-                {
-                    "$type": "AttachModifier",
-                    "target": "Target",
-                    "predicates": [
+                    "LHGMMEKPKMM": "",
+                    "BGFCLEMEMAH": "SceneAbility_ElectricWaterArea_Clear",
+                    "KAMNNMJBOKI": "SceneAbility_ElectricWaterArea_Clear"
+                }
+            ],
+            "abilitySpecials": {
+                "ElectricWaterAreaHurtLevel": 0.0
+            },
+            "modifiers": {
+                "ElectricWaterLoseHp": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 2.0,
+                    "onThinkInterval": [
                         {
-                            "$type": "ByEntityTypes",
-                            "entityTypes": [
-                                "MonsterEquip"
+                            "$type": "AddGlobalValue",
+                            "target": "Team",
+                            "predicates": [
+                                {
+                                    "$type": "ByGameTimeIsLocked"
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "HAS_ELECTRIC_FAIRY_BUFF",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "value": 1.0,
+                            "key": "_ElectricWaterLoseHp",
+                            "useLimitRange": true,
+                            "maxValue": 6.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "CopyGlobalValue",
+                            "doOffStage": true,
+                            "srcTarget": "Team",
+                            "dstTarget": "Self",
+                            "srcKey": "_ElectricWaterLoseHp",
+                            "dstKey": "_ElectricWaterLoseHp"
+                        },
+                        {
+                            "$type": "SetGlobalValueToOverrideMap",
+                            "globalValueKey": "_ElectricWaterLoseHp",
+                            "overrideMapKey": "ElectricWaterAreaHurtLevel"
+                        },
+                        {
+                            "$type": "LoseHP",
+                            "predicates": [
+                                {
+                                    "$type": "ByGameTimeIsLocked"
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "HAS_ELECTRIC_FAIRY_BUFF",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Avatar"
+                                    ]
+                                }
+                            ],
+                            "amount": [
+                                20.469999313354492,
+                                "ElectricWaterAreaHurtLevel",
+                                "Mul",
+                                20.0,
+                                "Add"
+                            ],
+                            "amountByTargetMaxHPRatio": [
+                                0.03150000050663948,
+                                "ElectricWaterAreaHurtLevel",
+                                "Mul",
+                                0.10000000149011612,
+                                "Add"
+                            ],
+                            "enableInvincible": true,
+                            "enableLockHP": true,
+                            "disableWhenLoading": true
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "Team",
+                            "modifierName": "UNIQUE_MinusElectricReject"
+                        }
+                    ]
+                },
+                "UNIQUE_MinusElectricReject": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.5,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "_ABILITY_SceneObj_Electric_Fairy_Immunity_Time",
+                            "useLimitRange": true,
+                            "maxValue": 100.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "ElectricWaterAreaModifier": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.25,
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "ElectricWaterLoseHp"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "ElectricWaterAreaWaterModifier"
+                        }
+                    ]
+                },
+                "ElectricWaterAreaWaterModifier": {
+                    "stacking": "RefreshAndAddDurability",
+                    "modifierName": "",
+                    "duration": 8.0,
+                    "elementType": "Water",
+                    "elementDurability": 10.0,
+                    "maxElementDurability": 50.0
+                }
+            },
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneAbility_BlackMudArea",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSurfaceTypeMixin",
+                    "MDKEEIPBPON": "BlackMud",
+                    "HENKIFIBDKP": [
+                        {
+                            "modifierName": "BlackMudAreaBuff",
+                            "predicates": [
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByEntityTypes",
+                                            "entityTypes": [
+                                                "Equip"
+                                            ]
+                                        }
+                                    ]
+                                }
                             ]
                         }
                     ],
-                    "modifierName": "WaterAreaModifier"
+                    "LHGMMEKPKMM": "",
+                    "BGFCLEMEMAH": "",
+                    "KAMNNMJBOKI": ""
                 }
             ],
+            "abilitySpecials": {
+                "SubHurtDelta_AllType": 0.0,
+                "AttackRatio": 0.0
+            },
+            "modifiers": {
+                "BlackMudAreaBuff": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHasFeatureTag",
+                                            "featureTagIDs": [
+                                                4006
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHasFeatureTag",
+                                            "featureTagIDs": [
+                                                4009
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_MONSTER_Nithhoggr_None_SelfTag",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "modifierName": "BlackMudAreaBuff_Monster"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Avatar"
+                                    ]
+                                }
+                            ],
+                            "modifierName": "BlackMudAreaBuff_Avatar"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Avatar"
+                                    ]
+                                }
+                            ],
+                            "modifierName": "BlackMudAreaBuff_Avatar02"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Avatar"
+                                    ]
+                                }
+                            ],
+                            "modifierName": "BlackMudAreaBuff_Avatar_FX"
+                        }
+                    ]
+                },
+                "BlackMudAreaBuff_Monster": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_PhysicalSubHurtDelta": "SubHurtDelta_AllType",
+                        "Actor_FireSubHurtDelta": "SubHurtDelta_AllType",
+                        "Actor_ElecSubHurtDelta": "SubHurtDelta_AllType",
+                        "Actor_IceSubHurtDelta": "SubHurtDelta_AllType",
+                        "Actor_WaterSubHurtDelta": "SubHurtDelta_AllType",
+                        "Actor_GrassSubHurtDelta": "SubHurtDelta_AllType",
+                        "Actor_WindSubHurtDelta": "SubHurtDelta_AllType",
+                        "Actor_RockSubHurtDelta": "SubHurtDelta_AllType",
+                        "Actor_AttackRatio": "AttackRatio"
+                    },
+                    "state": "AttackUp",
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_AbyssCarpet_Enhanced"
+                        }
+                    ]
+                },
+                "BlackMudAreaBuff_Avatar": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onAdded": [
+                        {
+                            "$type": "DoWatcherSystemAction",
+                            "watcherId": 1137,
+                            "authorityOnly": true
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "AddRegionalPlayVarValue",
+                            "BBBPHHMNIBL": "LightStoneEnergy",
+                            "EDKFOOIMGOL": -1.0
+                        }
+                    ]
+                },
+                "BlackMudAreaBuff_Avatar02": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "LoseHP",
+                            "predicates": [
+                                {
+                                    "$type": "ByGameTimeIsLocked"
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Avatar"
+                                    ]
+                                }
+                            ],
+                            "amount": 60.0,
+                            "amountByTargetMaxHPRatio": 0.004000000189989805,
+                            "enableInvincible": true,
+                            "enableLockHP": true,
+                            "disableWhenLoading": true
+                        }
+                    ]
+                },
+                "BlackMudAreaBuff_Avatar_FX": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachToStateIDMixin",
+                            "stateIDs": [
+                                "NormalMove",
+                                "SprintBS",
+                                "Sprint"
+                            ],
+                            "modifierName": "BlackMudAreaBuff_Avatar_Footprint",
+                            "isCheckOnAttach": true
+                        }
+                    ]
+                },
+                "BlackMudAreaBuff_Avatar_Footprint": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Character_Abyss_Footprint"
+                        }
+                    ]
+                }
+            },
             "isDynamicAbility": true
         }
     },
@@ -68,90 +470,34 @@
                 "LightRainModifier": {
                     "modifierName": "",
                     "duration": 15.0,
-                    "elementDurability": 100.0,
-                    "thinkInterval": 0.5,
-                    "onThinkInterval": [
-                        {
-                            "$type": "ApplyModifier",
-                            "predicates": [
-                                {
-                                    "$type": "ByNot",
-                                    "predicates": [
-                                        {
-                                            "$type": "ByEntityTypes",
-                                            "entityTypes": [
-                                                "Equip"
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ],
-                            "modifierName": "LightRainWaterModifier"
-                        },
-                        {
-                            "$type": "ApplyModifier",
-                            "predicates": [
-                                {
-                                    "$type": "ByEntityTypes",
-                                    "entityTypes": [
-                                        "MonsterEquip"
-                                    ]
-                                }
-                            ],
-                            "modifierName": "LightRainWaterModifier"
-                        }
-                    ]
-                },
-                "LightRainWaterModifier": {
-                    "modifierName": "",
-                    "duration": 8.0,
                     "elementType": "Water",
-                    "elementDurability": 30.0
+                    "elementDurability": 0.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "SelfAddDurabilityMixin",
+                            "value": 8.0,
+                            "useLimitRange": true,
+                            "maxValue": 30.0,
+                            "thinkInterval": 0.5
+                        }
+                    ],
+                    "KLMAPHODDMJ": true
                 },
                 "HeavyRainModifier": {
                     "modifierName": "",
                     "duration": 15.0,
-                    "elementDurability": 100.0,
-                    "thinkInterval": 0.5,
-                    "onThinkInterval": [
-                        {
-                            "$type": "ApplyModifier",
-                            "predicates": [
-                                {
-                                    "$type": "ByNot",
-                                    "predicates": [
-                                        {
-                                            "$type": "ByEntityTypes",
-                                            "entityTypes": [
-                                                "Equip"
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ],
-                            "modifierName": "HeavyRainWaterModifier"
-                        },
-                        {
-                            "$type": "ApplyModifier",
-                            "predicates": [
-                                {
-                                    "$type": "ByEntityTypes",
-                                    "entityTypes": [
-                                        "MonsterEquip"
-                                    ]
-                                }
-                            ],
-                            "modifierName": "HeavyRainWaterModifier"
-                        }
-                    ]
-                },
-                "HeavyRainWaterModifier": {
-                    "stacking": "RefreshAndAddDurability",
-                    "modifierName": "",
-                    "duration": 8.0,
                     "elementType": "Water",
-                    "elementDurability": 10.0,
-                    "maxElementDurability": 30.0
+                    "elementDurability": 0.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "SelfAddDurabilityMixin",
+                            "value": 8.0,
+                            "useLimitRange": true,
+                            "maxValue": 30.0,
+                            "thinkInterval": 0.5
+                        }
+                    ],
+                    "KLMAPHODDMJ": true
                 }
             }
         }
@@ -237,12 +583,13 @@
                                     "cameraShake": {
                                         "shakeType": "CustomVector",
                                         "shakeRange": 0.36000001430511475,
-                                        "shakeTime": 0.23999999463558197,
-                                        "shakeDistance": 40.0,
+                                        "shakeTime": 0.18000000715255737,
+                                        "shakeDistance": 30.0,
                                         "shakeDir": {
                                             "y": -1.0
                                         },
                                         "extension": {
+                                            "cycleDamping": 0.18000000715255737,
                                             "rangeAttenuation": 0.20000000298023224
                                         }
                                     }
@@ -283,6 +630,16 @@
                             ]
                         }
                     ]
+                },
+                "Lightning_Lifetime_Manager": {
+                    "modifierName": "",
+                    "duration": 6.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ]
                 }
             },
             "onAdded": [
@@ -291,8 +648,33 @@
                     "modifierName": "Lightning_Timer"
                 },
                 {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Lightning_Lifetime_Manager"
+                },
+                {
                     "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByNot",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetWeatherName",
+                                    "MCILPAPPGOE": "Weather_Dq_HeGuan_Doom"
+                                }
+                            ]
+                        }
+                    ],
                     "effectPattern": "Eff_Thunder_EarlyWarning_01"
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetWeatherName",
+                            "MCILPAPPGOE": "Weather_Dq_HeGuan_Doom"
+                        }
+                    ],
+                    "effectPattern": "Eff_Thunder_EarlyWarning_01_Tsurumi"
                 }
             ]
         }
@@ -3262,7 +3644,7 @@
                             "modifierName": "Fire_Damge"
                         }
                     ],
-                    "onAvatarOut": [
+                    "NGGOAJMKDHM": [
                         {
                             "$type": "ApplyModifier",
                             "doOffStage": true,
@@ -3546,7 +3928,7 @@
                             "modifierName": "Ice_SpeedSlow"
                         }
                     ],
-                    "onAvatarOut": [
+                    "NGGOAJMKDHM": [
                         {
                             "$type": "ApplyModifier",
                             "doOffStage": true,

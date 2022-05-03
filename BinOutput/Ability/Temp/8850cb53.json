@@ -1,0 +1,72 @@
+[
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Activity_FlyItem",
+            "modifiers": {
+                "UNIQUE_Flying_SpeedUp_Team": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 30.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "target": "Team",
+                            "effectPattern": "Eff_SceneObj_Widget_FlySpeedUp_Use_Loop"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "target": "CurTeamAvatars",
+                            "modifierName": "AttachEffect_Fly"
+                        }
+                    ]
+                },
+                "AttachEffect_Fly": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachToStateIDMixin",
+                            "stateIDs": [
+                                "Fly",
+                                "Fall"
+                            ],
+                            "modifierName": "AttachEffect_Fly_FireEffect"
+                        }
+                    ],
+                    "properties": {
+                        "Actor_FlyForwardSpeedMaxRatio": 0.30000001192092896
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "target": "CurLocalAvatar",
+                            "effectPattern": "Eff_SceneObj_Widget_FlySpeedUp_Use"
+                        }
+                    ]
+                },
+                "AttachEffect_Fly_FireEffect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "target": "Team",
+                            "effectPattern": "Eff_SceneObj_Widget_FlySpeedUp"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "ApplyModifier",
+                    "target": "Team",
+                    "modifierName": "UNIQUE_Flying_SpeedUp_Team"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    }
+]

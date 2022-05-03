@@ -43,6 +43,10 @@
                 {
                     "$type": "SetPoseBool",
                     "boolID": "Watch"
+                },
+                {
+                    "$type": "SetPoseBool",
+                    "boolID": "Mining"
                 }
             ]
         }
@@ -365,6 +369,52 @@
                 {
                     "$type": "SetPoseBool",
                     "boolID": "Search"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Hili_None_TurnToMining",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        9017
+                    ],
+                    "modifierName": "Hili_Mining_Stone"
+                }
+            ],
+            "modifiers": {
+                "Hili_Mining_Stone": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Hili_Common_Mining_Stone"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "SetPoseBool",
+                    "boolID": "Mining",
+                    "value": true
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Hili_None_OutOfMining",
+            "onAbilityStart": [
+                {
+                    "$type": "SetPoseBool",
+                    "boolID": "Mining"
                 }
             ]
         }
@@ -1795,110 +1845,6 @@
                     ]
                 }
             ]
-        }
-    },
-    {
-        "Default": {
-            "$type": "ConfigAbility",
-            "abilityName": "Hili_None_Passive_Absolute_Defense",
-            "abilityMixins": [
-                {
-                    "$type": "AttachToPoseIDMixin",
-                    "poseIDs": [
-                        1001,
-                        1201,
-                        1101,
-                        1401,
-                        1402,
-                        1301
-                    ],
-                    "modifierName": "Passive_Absolute_Defense_Handler"
-                }
-            ],
-            "modifiers": {
-                "Passive_Absolute_Defense_Handler": {
-                    "modifierName": "",
-                    "elementDurability": 100.0,
-                    "modifierMixins": [
-                        {
-                            "$type": "RecycleModifierMixin",
-                            "modifierName": "UNIQUE_Passive_Absolute_Defense_A"
-                        }
-                    ]
-                },
-                "UNIQUE_Passive_Absolute_Defense_A": {
-                    "modifierName": "",
-                    "isUnique": true,
-                    "duration": 5.0,
-                    "elementDurability": 100.0,
-                    "state": "Invincible",
-                    "onBeingHit": [
-                        {
-                            "$type": "SetAnimatorTrigger",
-                            "triggerID": "PD_Blink"
-                        },
-                        {
-                            "$type": "ClearEndura"
-                        },
-                        {
-                            "$type": "RemoveUniqueModifier",
-                            "predicates": [
-                                {
-                                    "$type": "ByHitDamage",
-                                    "logic": "GreaterOrEqual",
-                                    "damage": 1.0
-                                }
-                            ],
-                            "modifierName": "UNIQUE_Passive_Absolute_Defense"
-                        }
-                    ]
-                },
-                "UNIQUE_Passive_Absolute_Defense_B": {
-                    "modifierName": "",
-                    "isUnique": true,
-                    "duration": 5.0,
-                    "elementDurability": 100.0,
-                    "onBeingHit": [
-                        {
-                            "$type": "ApplyModifier",
-                            "modifierName": "Passive_Absolute_Defense_Window"
-                        },
-                        {
-                            "$type": "RemoveUniqueModifier",
-                            "modifierName": "UNIQUE_Passive_Absolute_Defense"
-                        }
-                    ]
-                },
-                "Passive_Absolute_Defense_Window": {
-                    "modifierName": "",
-                    "duration": 0.5,
-                    "elementDurability": 100.0,
-                    "state": "Invincible",
-                    "onBeingHit": [
-                        {
-                            "$type": "SetAnimatorTrigger",
-                            "predicates": [
-                                {
-                                    "$type": "ByHitDamage",
-                                    "logic": "GreaterOrEqual",
-                                    "damage": 1.0
-                                }
-                            ],
-                            "triggerID": "PD_Blink"
-                        },
-                        {
-                            "$type": "ClearEndura",
-                            "predicates": [
-                                {
-                                    "$type": "ByHitEnBreak",
-                                    "logic": "GreaterOrEqual",
-                                    "enBreak": 1.0
-                                }
-                            ]
-                        }
-                    ]
-                }
-            }
         }
     }
 ]

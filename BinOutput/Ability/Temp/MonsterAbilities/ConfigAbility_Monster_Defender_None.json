@@ -17,7 +17,7 @@
                     "predicates": [
                         {
                             "$type": "ByAnimatorFloat",
-                            "logic": "Equal",
+                            "logic": "LesserOrEqual",
                             "value": 100.0,
                             "parameter": "PoseID"
                         }
@@ -233,6 +233,14 @@
                                 "BackBox"
                             ],
                             "setEnable": true
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "_MONSTER_AutoMatron_WeakTag",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
                         }
                     ],
                     "onRemoved": [
@@ -262,6 +270,14 @@
                                 "HeadBox",
                                 "BackBox"
                             ]
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_MONSTER_AutoMatron_WeakTag",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
                         }
                     ],
                     "onBeingHit": [
@@ -415,6 +431,19 @@
             },
             "onAbilityStart": [
                 {
+                    "$type": "SetOverrideMapValue",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_MONSTERAFFIX_Defender_WeaknessNerf_ForBuoyantCombat",
+                            "value": 1.0,
+                            "forceByCaster": true
+                        }
+                    ],
+                    "value": 50.0,
+                    "overrideMapKey": "WeaknessDurability"
+                },
+                {
                     "$type": "ApplyModifier",
                     "modifierName": "UNIQUE_Defender_Weakness"
                 }
@@ -517,11 +546,20 @@
         "Default": {
             "$type": "ConfigAbility",
             "abilityName": "Defender_None_Weak",
+            "abilitySpecials": {
+                "WeakTime_ExtraRatio": 0.0
+            },
             "modifiers": {
                 "UNIQUE_WeakTimer": {
                     "modifierName": "",
                     "isUnique": true,
-                    "duration": 15.0,
+                    "duration": [
+                        15.0,
+                        "WeakTime_ExtraRatio",
+                        "Mul",
+                        15.0,
+                        "Add"
+                    ],
                     "elementDurability": 100.0,
                     "onAdded": [
                         {
@@ -540,6 +578,11 @@
             },
             "onAbilityStart": [
                 {
+                    "$type": "SetGlobalValueToOverrideMap",
+                    "globalValueKey": "_MONSTER_WeakTime_ExtraRatio",
+                    "overrideMapKey": "WeakTime_ExtraRatio"
+                },
+                {
                     "$type": "ApplyModifier",
                     "modifierName": "UNIQUE_WeakTimer"
                 }
@@ -554,6 +597,8 @@
                 {
                     "$type": "AttachToPoseIDMixin",
                     "poseIDs": [
+                        98,
+                        99,
                         202,
                         203
                     ],
@@ -1113,7 +1158,8 @@
                                 "shakeDir": {
                                     "z": 1.0
                                 }
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -2006,118 +2052,6 @@
                         {
                             "$type": "EnableHeadControl",
                             "enable": true
-                        }
-                    ]
-                }
-            }
-        }
-    },
-    {
-        "Default": {
-            "$type": "ConfigAbility",
-            "abilityName": "Defender_None_Passive_Absolute_Defense",
-            "abilityMixins": [
-                {
-                    "$type": "AttachToPoseIDMixin",
-                    "poseIDs": [
-                        201,
-                        202,
-                        203
-                    ],
-                    "modifierName": "Passive_Absolute_Defense_Handler"
-                }
-            ],
-            "modifiers": {
-                "Passive_Absolute_Defense_Handler": {
-                    "modifierName": "",
-                    "elementDurability": 100.0,
-                    "modifierMixins": [
-                        {
-                            "$type": "RecycleModifierMixin",
-                            "modifierName": "UNIQUE_Passive_Absolute_Defense_B"
-                        }
-                    ]
-                },
-                "UNIQUE_Passive_Absolute_Defense_A": {
-                    "modifierName": "",
-                    "isUnique": true,
-                    "duration": 5.0,
-                    "elementDurability": 100.0,
-                    "state": "Invincible",
-                    "onBeingHit": [
-                        {
-                            "$type": "SetAnimatorTrigger",
-                            "triggerID": "PD_Blink"
-                        },
-                        {
-                            "$type": "ClearEndura"
-                        },
-                        {
-                            "$type": "RemoveUniqueModifier",
-                            "predicates": [
-                                {
-                                    "$type": "ByHitDamage",
-                                    "logic": "GreaterOrEqual",
-                                    "damage": 1.0
-                                }
-                            ],
-                            "modifierName": "UNIQUE_Passive_Absolute_Defense"
-                        }
-                    ]
-                },
-                "UNIQUE_Passive_Absolute_Defense_B": {
-                    "modifierName": "",
-                    "isUnique": true,
-                    "duration": 5.0,
-                    "elementDurability": 100.0,
-                    "onBeingHit": [
-                        {
-                            "$type": "ApplyModifier",
-                            "modifierName": "Passive_Absolute_Defense_Window"
-                        },
-                        {
-                            "$type": "RemoveUniqueModifier",
-                            "modifierName": "UNIQUE_Passive_Absolute_Defense"
-                        },
-                        {
-                            "$type": "RemoveUniqueModifier",
-                            "predicates": [
-                                {
-                                    "$type": "ByHitDamage",
-                                    "logic": "GreaterOrEqual",
-                                    "damage": 1.0
-                                }
-                            ],
-                            "modifierName": "UNIQUE_Passive_Absolute_Defense"
-                        }
-                    ]
-                },
-                "Passive_Absolute_Defense_Window": {
-                    "modifierName": "",
-                    "duration": 0.5,
-                    "elementDurability": 100.0,
-                    "state": "Invincible",
-                    "onBeingHit": [
-                        {
-                            "$type": "SetAnimatorTrigger",
-                            "predicates": [
-                                {
-                                    "$type": "ByHitDamage",
-                                    "logic": "GreaterOrEqual",
-                                    "damage": 1.0
-                                }
-                            ],
-                            "triggerID": "PD_Blink"
-                        },
-                        {
-                            "$type": "ClearEndura",
-                            "predicates": [
-                                {
-                                    "$type": "ByHitEnBreak",
-                                    "logic": "GreaterOrEqual",
-                                    "enBreak": 1.0
-                                }
-                            ]
                         }
                     ]
                 }

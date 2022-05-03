@@ -499,7 +499,8 @@
                                     "effectPattern": "Eff_Monster_Abyss_Fire_ElementShield_BS"
                                 }
                             ],
-                            "useMutiPlayerFixData": true
+                            "useMutiPlayerFixData": true,
+                            "EPMPAMOKMAI": true
                         },
                         {
                             "$type": "VelocityForceMixin",
@@ -521,8 +522,8 @@
                             "minValue": 0.0
                         },
                         {
-                            "$type": "EnableMonsterMoveOnWater",
-                            "enable": true
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Abyss_Fire_MoveOnWaterHandler"
                         },
                         {
                             "$type": "AttachAbilityStateResistance",
@@ -547,7 +548,16 @@
                             "minValue": 0.0
                         },
                         {
-                            "$type": "EnableMonsterMoveOnWater"
+                            "$type": "RemoveUniqueModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_RETURNTOBORN_TAG_",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Abyss_Fire_MoveOnWaterHandler"
                         },
                         {
                             "$type": "RemoveUniqueModifier",
@@ -644,6 +654,16 @@
                         {
                             "$type": "RemoveUniqueModifier",
                             "modifierName": "UNIQUE_Abyss_Fire_ElementShield"
+                        }
+                    ]
+                },
+                "UNIQUE_Abyss_Fire_MoveOnWaterHandler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "EnableCharacterMoveOnWaterMixin"
                         }
                     ]
                 }
@@ -969,12 +989,9 @@
                             "effectPattern": "Eff_Monster_Abyss_Fire_WeaponElement"
                         },
                         {
-                            "$type": "AddGlobalValue",
-                            "value": -1.0,
-                            "key": "_ABILITY_FIREIMPULSE_HIT",
-                            "useLimitRange": true,
-                            "maxValue": 1.0,
-                            "minValue": 0.0
+                            "$type": "ApplyModifier",
+                            "target": "Owner",
+                            "modifierName": "Abyss_Fire_FireImpulse_ReduceGV"
                         },
                         {
                             "$type": "AddGlobalValue",
@@ -1054,6 +1071,26 @@
                             "gadgetID": 42201007,
                             "campID": 4001,
                             "campTargetType": "Enemy"
+                        }
+                    ]
+                },
+                "Abyss_Fire_FireImpulse_ReduceGV": {
+                    "stacking": "MultipleRefresh",
+                    "stackingOption": {
+                        "abilitySpecialName": "",
+                        "maxModifierNumForMultipleType": 1.0
+                    },
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "_ABILITY_FIREIMPULSE_HIT",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
                         }
                     ]
                 }
@@ -1313,7 +1350,8 @@
                                             "y": 1.0
                                         },
                                         "extension": {}
-                                    }
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
                                 }
                             },
                             "targetType": "Enemy"
@@ -1321,13 +1359,9 @@
                     ],
                     "onAttackLanded": [
                         {
-                            "$type": "AddGlobalValue",
+                            "$type": "ApplyModifier",
                             "target": "Owner",
-                            "value": 1.0,
-                            "key": "_ABILITY_FIREIMPULSE_HIT",
-                            "useLimitRange": true,
-                            "maxValue": 1.0,
-                            "minValue": 0.0
+                            "modifierName": "Abyss_Fire_FireImpulse_AddGV"
                         },
                         {
                             "$type": "ApplyModifier",
@@ -1341,8 +1375,44 @@
                     "elementDurability": 100.0,
                     "onRemoved": [
                         {
-                            "$type": "AddGlobalValue",
+                            "$type": "ApplyModifier",
                             "target": "Owner",
+                            "modifierName": "Abyss_Fire_FireImpulse_ReduceGV"
+                        }
+                    ]
+                },
+                "Abyss_Fire_FireImpulse_AddGV": {
+                    "stacking": "MultipleRefresh",
+                    "stackingOption": {
+                        "abilitySpecialName": "",
+                        "maxModifierNumForMultipleType": 1.0
+                    },
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_ABILITY_FIREIMPULSE_HIT",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "Abyss_Fire_FireImpulse_ReduceGV": {
+                    "stacking": "MultipleRefresh",
+                    "stackingOption": {
+                        "abilitySpecialName": "",
+                        "maxModifierNumForMultipleType": 1.0
+                    },
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
                             "value": -1.0,
                             "key": "_ABILITY_FIREIMPULSE_HIT",
                             "useLimitRange": true,
@@ -1364,26 +1434,60 @@
         "Default": {
             "$type": "ConfigAbility",
             "abilityName": "Abyss_Fire_ImpulseArea",
+            "modifiers": {
+                "Abyss_Fire_ImpulseArea_AddGV": {
+                    "stacking": "MultipleRefresh",
+                    "stackingOption": {
+                        "abilitySpecialName": "",
+                        "maxModifierNumForMultipleType": 1.0
+                    },
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_ABILITY_FIREIMPULSE_TARGET",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "Abyss_Fire_ImpulseArea_ReduceGV": {
+                    "stacking": "MultipleRefresh",
+                    "stackingOption": {
+                        "abilitySpecialName": "",
+                        "maxModifierNumForMultipleType": 1.0
+                    },
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "_ABILITY_FIREIMPULSE_TARGET",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                }
+            },
             "onFieldEnter": [
                 {
-                    "$type": "AddGlobalValue",
+                    "$type": "ApplyModifier",
                     "target": "Owner",
-                    "value": 1.0,
-                    "key": "_ABILITY_FIREIMPULSE_TARGET",
-                    "useLimitRange": true,
-                    "maxValue": 1.0,
-                    "minValue": 0.0
+                    "modifierName": "Abyss_Fire_ImpulseArea_AddGV"
                 }
             ],
             "onFieldExit": [
                 {
-                    "$type": "AddGlobalValue",
+                    "$type": "ApplyModifier",
                     "target": "Owner",
-                    "value": -1.0,
-                    "key": "_ABILITY_FIREIMPULSE_TARGET",
-                    "useLimitRange": true,
-                    "maxValue": 1.0,
-                    "minValue": 0.0
+                    "modifierName": "Abyss_Fire_ImpulseArea_ReduceGV"
                 }
             ]
         }
@@ -1754,7 +1858,7 @@
                     "onRemoved": [
                         {
                             "$type": "RemoveUniqueModifier",
-                            "modifierName": "UNIQUE_Blink_Actions"
+                            "modifierName": "UNIQUE_ForceBlink_Actions"
                         }
                     ]
                 },
@@ -1927,6 +2031,13 @@
                     "elementDurability": 100.0,
                     "onAdded": [
                         {
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_RETURNTOBORN_TAG_",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
                             "$type": "AttachModifier",
                             "modifierName": "UNIQUE_ReturnToBorn_Shield"
                         },
@@ -1941,6 +2052,15 @@
                         {
                             "$type": "FireEffect",
                             "effectPattern": "Eff_Monster_Abyss_Fire_Blink_BS"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_RETURNTOBORN_TAG_",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
                         }
                     ]
                 },
@@ -1995,6 +2115,10 @@
                         {
                             "$type": "TriggerAbility",
                             "abilityName": "Abyss_Fire_ElementShield"
+                        },
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "Abyss_Fire_ElementShield_Effect"
                         }
                     ]
                 },
@@ -2074,7 +2198,16 @@
                     "elementDurability": 100.0,
                     "state": "DenyLockOn"
                 }
-            }
+            },
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "_RETURNTOBORN_TAG_",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ]
         }
     },
     {
@@ -2256,7 +2389,8 @@
                                 "shakeDir": {
                                     "z": 1.0
                                 }
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -2552,7 +2686,8 @@
                                 "shakeDir": {
                                     "z": 1.0
                                 }
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -2605,7 +2740,8 @@
                                 "shakeDir": {
                                     "z": 1.0
                                 }
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -2658,7 +2794,8 @@
                                 "shakeDir": {
                                     "z": 1.0
                                 }
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"

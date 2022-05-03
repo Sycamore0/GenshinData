@@ -131,7 +131,7 @@
                                     "useGyro": true
                                 }
                             },
-                            "vcam_fov": 30.0
+                            "vcamFov": 30.0
                         }
                     ],
                     "onRemoved": [
@@ -288,7 +288,7 @@
                                     "useGyro": true
                                 }
                             },
-                            "vcam_fov": 30.0
+                            "vcamFov": 30.0
                         }
                     ],
                     "onRemoved": [
@@ -381,6 +381,16 @@
                     "modifierName": "ShootAimingArrow_Charge_Handler"
                 },
                 {
+                    "$type": "AttachToNormalizedTimeMixin",
+                    "stateID": "AimLoop",
+                    "modifierName": "Aim_ChangeAlpha"
+                },
+                {
+                    "$type": "AttachToNormalizedTimeMixin",
+                    "stateID": "FastAimLoop",
+                    "modifierName": "FastAim_ChangeAlpha"
+                },
+                {
                     "$type": "AttachToStateIDMixin",
                     "stateIDs": [
                         "Aim",
@@ -457,6 +467,30 @@
                         {
                             "$type": "ApplyModifier",
                             "modifierName": "AimChargeMark"
+                        }
+                    ]
+                },
+                "Aim_ChangeAlpha": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "EffectChangeAlphaMixin",
+                            "target": "Team",
+                            "FAOMIAACPGM": 0.20000000298023224,
+                            "DFJOFJLKGPB": 0.30000001192092896
+                        }
+                    ]
+                },
+                "FastAim_ChangeAlpha": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "EffectChangeAlphaMixin",
+                            "target": "Team",
+                            "FAOMIAACPGM": 0.20000000298023224,
+                            "DFJOFJLKGPB": 0.30000001192092896
                         }
                     ]
                 },
@@ -720,7 +754,9 @@
                                         "direction": {
                                             "$type": "ConfigDirectionByDefault",
                                             "angleOffset": {
-                                                "x": 2.0
+                                                "x": 2.0,
+                                                "y": 0.0,
+                                                "z": 0.0
                                             }
                                         },
                                         "attachPointName": "FocusAnchor"
@@ -871,6 +907,7 @@
                 },
                 {
                     "$type": "SetOverrideMapValue",
+                    "value": 0.0,
                     "overrideMapKey": "_IS_FISCHL_ARROW_FIND_CROW"
                 }
             ],
@@ -2637,7 +2674,7 @@
                     "effectPattern": "Eff_Fischl_Talent_A_Loop"
                 }
             ],
-            "onAvatarOut": [
+            "NGGOAJMKDHM": [
                 {
                     "$type": "RemoveUniqueModifier",
                     "doOffStage": true,
@@ -2673,7 +2710,7 @@
                                 "offset": {
                                     "x": 0.0,
                                     "y": 0.0,
-                                    "z": -1.0
+                                    "z": -0.5
                                 }
                             },
                             "size": {
@@ -3130,7 +3167,9 @@
                                 "direction": {
                                     "$type": "ConfigDirectionByEntity",
                                     "angleOffset": {
-                                        "x": 1.0
+                                        "x": 1.0,
+                                        "y": 0.0,
+                                        "z": 0.0
                                     },
                                     "randomAngleHor": 45.0
                                 },
@@ -3278,6 +3317,48 @@
                             "$type": "AttachToAnimatorStateIDMixin",
                             "stateIDs": [
                                 "Gandalfr_Attack06"
+                            ],
+                            "modifierName": "UNIQUE_Fischl_Skill_S_Crow_DoCrowAttack"
+                        },
+                        {
+                            "$type": "AttachToAnimatorStateIDMixin",
+                            "stateIDs": [
+                                "Katana_Attack01"
+                            ],
+                            "modifierName": "UNIQUE_Fischl_Skill_S_Crow_DoCrowAttack"
+                        },
+                        {
+                            "$type": "AttachToAnimatorStateIDMixin",
+                            "stateIDs": [
+                                "Katana_Attack02"
+                            ],
+                            "modifierName": "UNIQUE_Fischl_Skill_S_Crow_DoCrowAttack"
+                        },
+                        {
+                            "$type": "AttachToAnimatorStateIDMixin",
+                            "stateIDs": [
+                                "Katana_Attack03"
+                            ],
+                            "modifierName": "UNIQUE_Fischl_Skill_S_Crow_DoCrowAttack"
+                        },
+                        {
+                            "$type": "AttachToAnimatorStateIDMixin",
+                            "stateIDs": [
+                                "Katana_Attack04"
+                            ],
+                            "modifierName": "UNIQUE_Fischl_Skill_S_Crow_DoCrowAttack"
+                        },
+                        {
+                            "$type": "AttachToAnimatorStateIDMixin",
+                            "stateIDs": [
+                                "Katana_Attack05"
+                            ],
+                            "modifierName": "UNIQUE_Fischl_Skill_S_Crow_DoCrowAttack"
+                        },
+                        {
+                            "$type": "AttachToAnimatorStateIDMixin",
+                            "stateIDs": [
+                                "Katana_Attack06"
                             ],
                             "modifierName": "UNIQUE_Fischl_Skill_S_Crow_DoCrowAttack"
                         }
@@ -3769,50 +3850,90 @@
                     "onAttackLanded": [
                         {
                             "$type": "Predicated",
-                            "target": "Target",
+                            "target": "Other",
                             "targetPredicates": [
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "Elemental_Art"
+                                    ]
+                                },
                                 {
                                     "$type": "ByEntityTypes",
                                     "entityTypes": [
                                         "Monster"
                                     ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ANIMAL_ENTITY_TYPE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "CasterOriginOwner",
+                                    "key": "_Ability_Fischl_ElementalArt_ElementBall_CD",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
                                 }
                             ],
                             "successActions": [
                                 {
-                                    "$type": "AttachModifier",
-                                    "target": "Target",
-                                    "modifierName": "Ball_01"
+                                    "$type": "SetGlobalPos",
+                                    "target": "Other",
+                                    "key": "_Ability_Fischl_ElementalArt_ElementBall_Pos",
+                                    "born": {
+                                        "$type": "ConfigBornByTarget"
+                                    },
+                                    "setTarget": false
+                                },
+                                {
+                                    "$type": "Randomed",
+                                    "target": "Caster",
+                                    "chance": 0.6700000166893005,
+                                    "successActions": [
+                                        {
+                                            "$type": "GenerateElemBall",
+                                            "configID": 2020,
+                                            "born": {
+                                                "$type": "ConfigBornByGlobalValue",
+                                                "positionKey": "_Ability_Fischl_ElementalArt_ElementBall_Pos",
+                                                "directionKey": ""
+                                            },
+                                            "ratio": 1.0,
+                                            "baseEnergy": 3.0
+                                        },
+                                        {
+                                            "$type": "ApplyModifier",
+                                            "target": "CasterOriginOwner",
+                                            "modifierName": "UNIQUE_ElemBall_CD"
+                                        }
+                                    ]
                                 }
                             ]
                         }
                     ]
                 },
-                "Ball_01": {
+                "UNIQUE_ElemBall_CD": {
                     "stacking": "Unique",
                     "modifierName": "",
+                    "isUnique": true,
                     "duration": 0.10000000149011612,
                     "elementDurability": 100.0,
                     "onAdded": [
                         {
-                            "$type": "Randomed",
-                            "chance": 0.6700000166893005,
-                            "successActions": [
-                                {
-                                    "$type": "GenerateElemBall",
-                                    "configID": 2020,
-                                    "born": {
-                                        "$type": "ConfigBornByTarget",
-                                        "offset": {
-                                            "x": 0.0,
-                                            "y": 0.0,
-                                            "z": 0.0
-                                        }
-                                    },
-                                    "ratio": 1.0,
-                                    "baseEnergy": 3.0
-                                }
-                            ]
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_Ability_Fischl_ElementalArt_ElementBall_CD",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ClearGlobalValue",
+                            "key": "_Ability_Fischl_ElementalArt_ElementBall_CD"
                         }
                     ]
                 },
@@ -3898,7 +4019,8 @@
                         "CrowQueen_Move",
                         "CrowQueen_MoveStandby"
                     ],
-                    "angularSpeed": 270.0
+                    "angularSpeed": 270.0,
+                    "FMPFDIBKDGP": true
                 }
             ],
             "abilitySpecials": {
@@ -4124,7 +4246,7 @@
                             "doOffStage": true
                         }
                     ],
-                    "onAvatarOut": [
+                    "NGGOAJMKDHM": [
                         {
                             "$type": "RemoveModifier",
                             "doOffStage": true,
@@ -4318,8 +4440,25 @@
                             "minValue": 1.0
                         },
                         {
-                            "$type": "AddGlobalValue",
+                            "$type": "ApplyModifier",
                             "target": "Caster",
+                            "modifierName": "CrowQueen_AddGlobalValue"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ClearGlobalValue",
+                            "key": "CrowQueen_BeAttacked"
+                        }
+                    ]
+                },
+                "CrowQueen_AddGlobalValue": {
+                    "modifierName": "",
+                    "duration": 0.20000000298023224,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
                             "value": 1.0,
                             "key": "CrowQueen_AttackTargetCount",
                             "useLimitRange": true,
@@ -4329,12 +4468,6 @@
                                 "Add"
                             ],
                             "minValue": 0.0
-                        }
-                    ],
-                    "onRemoved": [
-                        {
-                            "$type": "ClearGlobalValue",
-                            "key": "CrowQueen_BeAttacked"
                         }
                     ]
                 },

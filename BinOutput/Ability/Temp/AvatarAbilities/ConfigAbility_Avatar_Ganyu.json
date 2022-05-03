@@ -127,7 +127,7 @@
                                     "useGyro": true
                                 }
                             },
-                            "vcam_fov": 30.0
+                            "vcamFov": 30.0
                         }
                     ],
                     "onRemoved": [
@@ -276,7 +276,7 @@
                                     "useGyro": true
                                 }
                             },
-                            "vcam_fov": 30.0
+                            "vcamFov": 30.0
                         }
                     ],
                     "onRemoved": [
@@ -377,6 +377,16 @@
                         "AimShoot"
                     ],
                     "modifierName": "ShowAimingEffect"
+                },
+                {
+                    "$type": "AttachToNormalizedTimeMixin",
+                    "stateID": "AimLoop",
+                    "modifierName": "Aim_ChangeAlpha"
+                },
+                {
+                    "$type": "AttachToNormalizedTimeMixin",
+                    "stateID": "FastAimLoop",
+                    "modifierName": "FastAim_ChangeAlpha"
                 }
             ],
             "modifiers": {
@@ -401,6 +411,30 @@
                             "useLimitRange": true,
                             "maxValue": 10.0,
                             "minValue": 0.0
+                        }
+                    ]
+                },
+                "Aim_ChangeAlpha": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "EffectChangeAlphaMixin",
+                            "target": "Team",
+                            "FAOMIAACPGM": 0.20000000298023224,
+                            "DFJOFJLKGPB": 0.30000001192092896
+                        }
+                    ]
+                },
+                "FastAim_ChangeAlpha": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "EffectChangeAlphaMixin",
+                            "target": "Team",
+                            "FAOMIAACPGM": 0.20000000298023224,
+                            "DFJOFJLKGPB": 0.30000001192092896
                         }
                     ]
                 },
@@ -810,6 +844,96 @@
             "abilityName": "Avatar_Ganyu_ShootArrow_Aiming",
             "onAbilityStart": [
                 {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_Enchanted_Time",
+                            "value": 3.0,
+                            "compareType": "LessAndEqual"
+                        },
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_Enchanted_Talent",
+                            "value": 0.0,
+                            "compareType": "NoneOrEqual"
+                        }
+                    ],
+                    "effectPattern": "Eff_Ganyu_Arrow_IceCharge_Onshooting_Unsuccessful",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.8999999761581421
+                        },
+                        "attachPointName": "WeaponR"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_Enchanted_Time",
+                            "value": 4.0,
+                            "compareType": "MoreThanAndEqual"
+                        },
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_Enchanted_Time",
+                            "value": 5.0,
+                            "compareType": "LessAndEqual"
+                        },
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_Enchanted_Talent",
+                            "value": 0.0
+                        }
+                    ],
+                    "effectPattern": "Eff_Ganyu_Arrow_IceCharge_Onshooting",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.8999999761581421
+                        },
+                        "attachPointName": "WeaponR"
+                    }
+                },
+                {
+                    "$type": "FireEffect",
+                    "predicates": [
+                        {
+                            "$type": "ByAny",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_Enchanted_Time",
+                                    "value": 6.0,
+                                    "compareType": "MoreThanAndEqual"
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_Enchanted_Talent",
+                                    "value": 1.0
+                                }
+                            ]
+                        }
+                    ],
+                    "effectPattern": "Eff_Ganyu_Arrow_IceCharge_Onshooting_Fission",
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.8999999761581421
+                        },
+                        "attachPointName": "WeaponR"
+                    }
+                },
+                {
                     "$type": "TriggerBullet",
                     "predicates": [
                         {
@@ -953,96 +1077,6 @@
                         "extension": {
                             "baseOnCamera": true
                         }
-                    }
-                },
-                {
-                    "$type": "FireEffect",
-                    "predicates": [
-                        {
-                            "$type": "ByTargetGlobalValue",
-                            "key": "_Enchanted_Time",
-                            "value": 3.0,
-                            "compareType": "LessAndEqual"
-                        },
-                        {
-                            "$type": "ByTargetGlobalValue",
-                            "key": "_Enchanted_Talent",
-                            "value": 0.0,
-                            "compareType": "NoneOrEqual"
-                        }
-                    ],
-                    "effectPattern": "Eff_Ganyu_Arrow_IceCharge_Onshooting_Unsuccessful",
-                    "born": {
-                        "$type": "ConfigBornByAttachPoint",
-                        "offset": {
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": 0.8999999761581421
-                        },
-                        "attachPointName": "WeaponR"
-                    }
-                },
-                {
-                    "$type": "FireEffect",
-                    "predicates": [
-                        {
-                            "$type": "ByTargetGlobalValue",
-                            "key": "_Enchanted_Time",
-                            "value": 4.0,
-                            "compareType": "MoreThanAndEqual"
-                        },
-                        {
-                            "$type": "ByTargetGlobalValue",
-                            "key": "_Enchanted_Time",
-                            "value": 5.0,
-                            "compareType": "LessAndEqual"
-                        },
-                        {
-                            "$type": "ByTargetGlobalValue",
-                            "key": "_Enchanted_Talent",
-                            "value": 0.0
-                        }
-                    ],
-                    "effectPattern": "Eff_Ganyu_Arrow_IceCharge_Onshooting",
-                    "born": {
-                        "$type": "ConfigBornByAttachPoint",
-                        "offset": {
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": 0.8999999761581421
-                        },
-                        "attachPointName": "WeaponR"
-                    }
-                },
-                {
-                    "$type": "FireEffect",
-                    "predicates": [
-                        {
-                            "$type": "ByAny",
-                            "predicates": [
-                                {
-                                    "$type": "ByTargetGlobalValue",
-                                    "key": "_Enchanted_Time",
-                                    "value": 6.0,
-                                    "compareType": "MoreThanAndEqual"
-                                },
-                                {
-                                    "$type": "ByTargetGlobalValue",
-                                    "key": "_Enchanted_Talent",
-                                    "value": 1.0
-                                }
-                            ]
-                        }
-                    ],
-                    "effectPattern": "Eff_Ganyu_Arrow_IceCharge_Onshooting_Fission",
-                    "born": {
-                        "$type": "ConfigBornByAttachPoint",
-                        "offset": {
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": 0.8999999761581421
-                        },
-                        "attachPointName": "WeaponR"
                     }
                 }
             ]
@@ -2687,7 +2721,12 @@
                                             "z": 0.0
                                         },
                                         "direction": {
-                                            "$type": "ConfigDirectionByDefault"
+                                            "$type": "ConfigDirectionByDefault",
+                                            "angleOffset": {
+                                                "x": 0.0,
+                                                "y": 0.0,
+                                                "z": 0.0
+                                            }
                                         }
                                     },
                                     "height": 4.0,
@@ -2771,7 +2810,7 @@
                             }
                         }
                     ],
-                    "onAvatarOut": [
+                    "NGGOAJMKDHM": [
                         {
                             "$type": "AvatarExitCameraShot",
                             "doOffStage": true
@@ -3426,6 +3465,15 @@
                             "effectPattern": "Eff_Ganyu_UnbreakableIce_Iceberg1_AS1",
                             "born": {
                                 "$type": "ConfigBornByCollisionPoint"
+                            }
+                        },
+                        {
+                            "$type": "TriggerAudio",
+                            "operation": {
+                                "$type": "ConfigAudioEventOp",
+                                "operation": {
+                                    "text": "Play_sfx_char_chongyun_elementalSkill_hit"
+                                }
                             }
                         }
                     ],

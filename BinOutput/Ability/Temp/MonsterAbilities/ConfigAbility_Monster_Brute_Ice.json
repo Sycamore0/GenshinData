@@ -68,7 +68,8 @@
                                     "hitPattern": {
                                         "onHitEffectName": "default",
                                         "hitImpulseType": "LV5"
-                                    }
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
                                 }
                             },
                             "targetType": "Enemy"
@@ -180,7 +181,8 @@
                                     "hitPattern": {
                                         "onHitEffectName": "default",
                                         "hitImpulseType": "LV5"
-                                    }
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
                                 }
                             },
                             "targetType": "Enemy"
@@ -213,7 +215,8 @@
                                     "hitPattern": {
                                         "onHitEffectName": "default",
                                         "hitImpulseType": "LV5"
-                                    }
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
                                 }
                             },
                             "targetType": "Enemy"
@@ -303,7 +306,8 @@
                                 "extension": {
                                     "rangeAttenuation": 0.8999999761581421
                                 }
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -412,7 +416,8 @@
                                 "shakeRange": 2.0,
                                 "shakeTime": 0.20000000298023224,
                                 "shakeDistance": 35.0
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -827,7 +832,8 @@
                                     "hitPattern": {
                                         "onHitEffectName": "default",
                                         "hitImpulseType": "LV2"
-                                    }
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
                                 }
                             },
                             "targetType": "Enemy"
@@ -876,6 +882,34 @@
                         903
                     ],
                     "modifierName": "Monster_Brute_Ice_ExitBattle"
+                },
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_MONSTER_BRUTE_ICE_POWER_STATE",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5
+                    ],
+                    "modifierNameSteps": [
+                        "Monster_Brute_Ice_PowerStateOff",
+                        "Monster_Brute_Ice_PowerStateOn"
+                    ]
+                },
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_EXITPOWER_BOOL",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5
+                    ],
+                    "modifierNameSteps": [
+                        "ExitPower_Bool_False",
+                        "ExitPower_Bool_True"
+                    ]
                 }
             ],
             "modifiers": {
@@ -910,12 +944,22 @@
                             "value": 7.0
                         },
                         {
-                            "$type": "SetAnimatorBool",
-                            "boolID": "PowerState"
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_EXITPOWER_BOOL",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
                         },
                         {
                             "$type": "SetPoseBool",
                             "boolID": "ExitPower"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_MONSTER_BRUTE_ICE_POWER_STATE",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
                         }
                     ]
                 },
@@ -969,23 +1013,27 @@
                             "modifierName": "UNIQUE_Monster_Brute_Ice_SoundEffect"
                         },
                         {
-                            "$type": "SetAnimatorBool",
-                            "boolID": "PowerState",
-                            "value": true
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_WATCHER_82070_",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
                         },
                         {
                             "$type": "SetGlobalValue",
                             "value": 1.0,
-                            "key": "_WATCHER_82070_",
+                            "key": "_MONSTER_BRUTE_ICE_POWER_STATE",
                             "maxValue": 0.0,
                             "minValue": 0.0
                         }
                     ],
                     "onRemoved": [
                         {
-                            "$type": "SetPoseBool",
-                            "boolID": "ExitPower",
-                            "value": true
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_EXITPOWER_BOOL",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
                         },
                         {
                             "$type": "SetGlobalValue",
@@ -993,6 +1041,27 @@
                             "key": "_WATCHER_82070_",
                             "maxValue": 0.0,
                             "minValue": 0.0
+                        }
+                    ]
+                },
+                "ExitPower_Bool_False": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "ExitPower"
+                        }
+                    ]
+                },
+                "ExitPower_Bool_True": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "ExitPower",
+                            "value": true
                         }
                     ]
                 },
@@ -1029,10 +1098,9 @@
                                     "$type": "ByNot",
                                     "predicates": [
                                         {
-                                            "$type": "ByAnimatorFloat",
-                                            "logic": "Equal",
-                                            "value": 111.0,
-                                            "parameter": "PoseID"
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_MONSTER_BRUTE_ICE_POWER_STATE",
+                                            "value": 1.0
                                         }
                                     ]
                                 }
@@ -1065,10 +1133,9 @@
                                     "$type": "ByNot",
                                     "predicates": [
                                         {
-                                            "$type": "ByAnimatorFloat",
-                                            "logic": "Equal",
-                                            "value": 111.0,
-                                            "parameter": "PoseID"
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_MONSTER_BRUTE_ICE_POWER_STATE",
+                                            "value": 1.0
                                         }
                                     ]
                                 }
@@ -1084,15 +1151,61 @@
                                     "$type": "ByNot",
                                     "predicates": [
                                         {
-                                            "$type": "ByAnimatorFloat",
-                                            "logic": "Equal",
-                                            "value": 111.0,
-                                            "parameter": "PoseID"
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_MONSTER_BRUTE_ICE_POWER_STATE",
+                                            "value": 1.0
                                         }
                                     ]
                                 }
                             ],
                             "modifierName": "Monster_Brute_Ice_PowerUp"
+                        }
+                    ]
+                },
+                "Monster_Brute_Ice_PowerStateOff": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "PowerState"
+                        }
+                    ],
+                    "onReconnect": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "PowerState"
+                        }
+                    ],
+                    "onChangeAuthority": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "PowerState"
+                        }
+                    ]
+                },
+                "Monster_Brute_Ice_PowerStateOn": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "PowerState",
+                            "value": true
+                        }
+                    ],
+                    "onReconnect": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "PowerState",
+                            "value": true
+                        }
+                    ],
+                    "onChangeAuthority": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "PowerState",
+                            "value": true
                         }
                     ]
                 }
@@ -1185,12 +1298,22 @@
                             "value": 7.0
                         },
                         {
-                            "$type": "SetAnimatorBool",
-                            "boolID": "PowerState"
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_EXITPOWER_BOOL",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
                         },
                         {
                             "$type": "SetPoseBool",
                             "boolID": "ExitPower"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_MONSTER_BRUTE_ICE_POWER_STATE",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
                         }
                     ]
                 }
@@ -1355,7 +1478,8 @@
                                 "extension": {
                                     "rangeAttenuation": 0.8999999761581421
                                 }
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -1538,7 +1662,8 @@
                                 "extension": {
                                     "rangeAttenuation": 0.8999999761581421
                                 }
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"

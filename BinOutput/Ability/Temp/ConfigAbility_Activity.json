@@ -390,7 +390,8 @@
                                     "doOffStage": true,
                                     "modifierName": "Activity_Delivering_NoDamage_Handler"
                                 }
-                            ]
+                            ],
+                            "JNLGLIJLODK": ""
                         }
                     ],
                     "onBeingHit": [
@@ -816,7 +817,8 @@
                         {
                             "$type": "ModifyDamageMixin",
                             "ignoreEventInfo": true,
-                            "damagePercentageRatio": -10.0
+                            "damagePercentageRatio": -10.0,
+                            "damageExtra": -99999.0
                         },
                         {
                             "$type": "ReviveElemEnergyMixin",
@@ -836,8 +838,10 @@
                         "Actor_ElemReactElectricDelta": -10.0,
                         "Actor_ElemReactBurnDelta": -10.0,
                         "Actor_ElemReactFreezeDelta": -10.0,
-                        "Actor_ElemReactExplodeDelta": -10.0
-                    }
+                        "Actor_ElemReactExplodeDelta": -10.0,
+                        "Actor_ElemReactFrozenBrokenDelta": -10.0
+                    },
+                    "state": "IgnoreAddEnergy"
                 }
             },
             "onAdded": [
@@ -847,6 +851,4095 @@
                     "modifierName": "UNIQUE_ActivityAbility_TowerDefence_AvatarDebuff"
                 }
             ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Move_Electric_Stake_Play",
+            "modifiers": {
+                "UNIQUE_AddElectricStakeButtom": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixin",
+                            "modifierName": "UNIQUE_Extra_Ability"
+                        }
+                    ]
+                },
+                "UNIQUE_Avatar_Move_Electric_Stake_Play": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "AVATAR_Electric_Stake_Play",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                0.5,
+                                100.0
+                            ],
+                            "modifierNameSteps": [
+                                "UNIQUE_AddElectricStakeButtom"
+                            ]
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "target": "Team",
+                            "value": 0.0,
+                            "key": "AVATAR_Electric_Stake_Play",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByChildren",
+                                "configID": 70950069
+                            },
+                            "modifierName": "KILLSELF"
+                        }
+                    ]
+                },
+                "KILLSELF": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ]
+                },
+                "UNIQUE_Extra_Ability": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ShowExtraAbility",
+                            "skillID": 20007
+                        },
+                        {
+                            "$type": "DoWatcherSystemAction",
+                            "watcherId": 1116,
+                            "authorityOnly": true
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ShowExtraAbility"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "target": "Team",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Avatar_Move_Electric_Stake_Play"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Electric_Stake_Play",
+            "onAbilityStart": [
+                {
+                    "$type": "AddGlobalValue",
+                    "target": "Team",
+                    "value": -1.0,
+                    "key": "AVATAR_Electric_Stake_Play",
+                    "useLimitRange": true,
+                    "maxValue": 100.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "CreateGadget",
+                    "born": {
+                        "$type": "ConfigBornBySelf",
+                        "offset": {
+                            "x": 0.0,
+                            "y": -1.0,
+                            "z": 1.0
+                        },
+                        "onGroundIgnoreWater": true,
+                        "useRotation": true
+                    },
+                    "gadgetID": 70950069,
+                    "campID": 5001,
+                    "campTargetType": "Enemy"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Fly_Electric_Core_Play",
+            "modifiers": {
+                "UNIQUE_Fly_Electric_Core_Play": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixinV2",
+                            "modifierName": "UNIQUE_Electric_Core_Ability"
+                        }
+                    ]
+                },
+                "UNIQUE_Electric_Core_Ability": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ShowExtraAbility",
+                            "doOffStage": true,
+                            "skillID": 20008
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ShowExtraAbility",
+                            "doOffStage": true
+                        }
+                    ],
+                    "onAvatarIn": [
+                        {
+                            "$type": "ShowExtraAbility",
+                            "doOffStage": true,
+                            "skillID": 20008
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Electric_Core_Ability"
+                },
+                {
+                    "$type": "DoWatcherSystemAction",
+                    "watcherId": 1108,
+                    "authorityOnly": true
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Electric_Core",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "ActivitySkill_ElectricCoreFly"
+                    ],
+                    "modifierName": "Electric_Core_Fly_Handler"
+                }
+            ],
+            "modifiers": {
+                "UNIQUE_Electric_Core_Line": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixin",
+                            "modifierName": "LinePre"
+                        }
+                    ]
+                },
+                "ChangePlayMode": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ChangePlayMode",
+                            "doOffStage": true,
+                            "muteRemoteAction": true,
+                            "toPlayMode": "ElectricCoreState"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ChangePlayMode",
+                            "doOffStage": true,
+                            "muteRemoteAction": true
+                        }
+                    ]
+                },
+                "LinePre": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachToStateIDMixin",
+                            "stateIDs": [
+                                "Fly"
+                            ],
+                            "modifierName": "ChangePlayMode",
+                            "isCheckOnAttach": true
+                        },
+                        {
+                            "$type": "ElectricCoreLineMixin",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByTag",
+                                "topLimit": 1,
+                                "sortType": "Nearest",
+                                "tag": "_IS_ELECTRIC_CORE"
+                            },
+                            "CMEOAIMLBPJ": "AVATAR_Electric_Core",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "compareType": "XYZ",
+                                    "value": 15.0
+                                },
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHasElement",
+                                            "target": "Self",
+                                            "element": "Electric"
+                                        },
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "HAS_ELECTRIC_FAIRY_BUFF",
+                                            "value": 1.0
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "Electric_Core_Cd": {
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_IS_ELECTRIC_CORE",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "ChangeTag",
+                            "tag": "_IS_ELECTRIC_CORE"
+                        }
+                    ]
+                },
+                "Electric_Core_Effect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Property_Ani_Prop_TeleportHighway_01_Move"
+                        }
+                    ]
+                },
+                "ElectricAttach": {
+                    "modifierName": "",
+                    "duration": 10.0,
+                    "elementType": "Electric",
+                    "elementDurability": 60.0
+                },
+                "ElectricEndure": {
+                    "modifierName": "",
+                    "duration": 0.20000000298023224,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_EndureDelta": 0.0
+                    }
+                },
+                "UNIQUE_StreamingOptimization": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 4.0,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "StreamingModifierMixin"
+                        }
+                    ]
+                },
+                "Electric_Core_SwitchAirSkill": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AvatarChangeSkillMixin",
+                            "index": -1,
+                            "priority": "Playmode",
+                            "jumpSkillID": 20034,
+                            "flySkillID": 20034
+                        }
+                    ]
+                },
+                "UNIQUE_Electric_Core_Fly": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 4.0,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ElectricCoreMoveMixin",
+                            "IGLJDDKCJIN": 30.0,
+                            "NEGNEJMNEOL": -5.0,
+                            "NGLFIAGKADK": 20.0,
+                            "EHPNPFCOGBM": 0.75,
+                            "GAPANDADGHF": 1.0,
+                            "toPos": {
+                                "$type": "ConfigBornByGlobalValue",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "positionKey": "_Electric_Core_Pos",
+                                "directionKey": ""
+                            },
+                            "AOEEBICGDIN": [
+                                {
+                                    "$type": "TriggerSetVisible",
+                                    "visible": true
+                                },
+                                {
+                                    "$type": "RemoveModifier",
+                                    "modifierName": "Electric_Core_Effect"
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Property_Ani_Prop_TeleportHighway_01_Out"
+                                },
+                                {
+                                    "$type": "AvatarExitCameraShot",
+                                    "doOffStage": true
+                                },
+                                {
+                                    "$type": "SetVelocityIgnoreAirGY",
+                                    "doOffStage": true
+                                }
+                            ],
+                            "DLKHCNJMOKB": [
+                                {
+                                    "$type": "TriggerSetVisible",
+                                    "doOffStage": true,
+                                    "visible": true
+                                },
+                                {
+                                    "$type": "RemoveModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "Electric_Core_Effect"
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Property_Ani_Prop_TeleportHighway_01_Out"
+                                },
+                                {
+                                    "$type": "AvatarExitCameraShot",
+                                    "doOffStage": true
+                                },
+                                {
+                                    "$type": "SetVelocityIgnoreAirGY",
+                                    "doOffStage": true
+                                }
+                            ],
+                            "JFPEFDKIFDC": [
+                                {
+                                    "$type": "SetVelocityIgnoreAirGY",
+                                    "doOffStage": true,
+                                    "ignoreAirGY": true
+                                },
+                                {
+                                    "$type": "RemoveVelocityForce",
+                                    "forces": [
+                                        "SpeedupType"
+                                    ]
+                                },
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "target": "Team",
+                                    "value": 1.0,
+                                    "key": "_ELECTRIC_CORE_TRIGGER_COUNT",
+                                    "useLimitRange": true,
+                                    "maxValue": 3.0,
+                                    "minValue": 0.0
+                                },
+                                {
+                                    "$type": "AvatarCameraParam",
+                                    "cameraParam": {
+                                        "forceRadius": 6.0,
+                                        "forceRadiusDuration": 0.30000001192092896,
+                                        "shouldKeepForceRadius": true
+                                    }
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Property_Ani_Prop_TeleportHighway_01_In"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "Electric_Core_Effect"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "ElectricAttach"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "ElectricEndure"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "UNIQUE_StreamingOptimization"
+                                },
+                                {
+                                    "$type": "TriggerSetVisible"
+                                },
+                                {
+                                    "$type": "ActCameraShake",
+                                    "cameraShake": {
+                                        "shakeRange": 6.0,
+                                        "shakeTime": 0.20000000298023224,
+                                        "shakeDistance": 40.0,
+                                        "extension": {}
+                                    },
+                                    "born": {
+                                        "$type": "ConfigBornBySelf"
+                                    }
+                                },
+                                {
+                                    "$type": "Predicated",
+                                    "targetPredicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_ActivityAbility_ReviveStamina_1",
+                                            "value": 1.0
+                                        }
+                                    ],
+                                    "successActions": [
+                                        {
+                                            "$type": "ApplyModifier",
+                                            "doOffStage": true,
+                                            "modifierName": "UNIQUE_ActivityAbility_ReviveStamina"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "EntityDoSkill",
+                            "skillID": 20033
+                        },
+                        {
+                            "$type": "EntityDoSkill",
+                            "skillID": 20034
+                        }
+                    ]
+                },
+                "Electric_Core_Fly_Handler": {
+                    "stacking": "MultipleRefresh",
+                    "stackingOption": {
+                        "abilitySpecialName": "",
+                        "maxModifierNumForMultipleType": 1.0
+                    },
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SendEvtElectricCoreMoveEnterP1"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SendEvtElectricCoreMoveInterrupt"
+                        },
+                        {
+                            "$type": "RemoveVelocityForce",
+                            "forces": [
+                                "LightCoreTypeNormal",
+                                "LightCoreTypeAccelerate"
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_ActivityAbility_ReviveStamina": {
+                    "stacking": "RefreshUniqueDurability",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 5.0,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "ReviveStamina",
+                            "doOffStage": true,
+                            "value": 100.0
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "LinePre"
+                },
+                {
+                    "$type": "AddAvatarSkillInfo",
+                    "doOffStage": true,
+                    "skillID": 20033
+                },
+                {
+                    "$type": "AddAvatarSkillInfo",
+                    "doOffStage": true,
+                    "skillID": 20034
+                },
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "Electric_Core_SwitchAirSkill"
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "RemoveAvatarSkillInfo",
+                    "doOffStage": true,
+                    "skillID": 20033
+                },
+                {
+                    "$type": "RemoveAvatarSkillInfo",
+                    "doOffStage": true,
+                    "skillID": 20034
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "Predicated",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByAny",
+                            "predicates": [
+                                {
+                                    "$type": "ByHasElement",
+                                    "target": "Self",
+                                    "element": "Electric"
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "HAS_ELECTRIC_FAIRY_BUFF",
+                                    "value": 1.0
+                                }
+                            ]
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "ClearGlobalPos",
+                            "key": "_Electric_Core_Pos",
+                            "setTarget": false
+                        },
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByTag",
+                                "topLimit": 1,
+                                "sortType": "Nearest",
+                                "tag": "_IS_ELECTRIC_CORE"
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "compareType": "XYZ",
+                                    "value": 15.0
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_IS_ELECTRIC_CORE",
+                                    "value": 1.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Target",
+                                    "modifierName": "Electric_Core_Cd"
+                                },
+                                {
+                                    "$type": "SetGlobalPos",
+                                    "target": "Target",
+                                    "key": "_Electric_Core_Pos",
+                                    "born": {
+                                        "$type": "ConfigBornByTarget",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    },
+                                    "setTarget": false
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_Electric_Core_Pos_0",
+                                            "value": 0.0,
+                                            "compareType": "NoneOrEqual"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Electric_Core_Fly"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_Electric_Core_Pos_0",
+                                            "value": 0.0,
+                                            "compareType": "NoneOrEqual"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Electric_Core_Fly"
+                        }
+                    ]
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_Fly_Electric_Core_Play_Challenge",
+            "modifiers": {
+                "UNIQUE_Fly_Electric_Core_Play": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixinV2",
+                            "modifierName": "UNIQUE_Electric_Core_Ability"
+                        }
+                    ]
+                },
+                "UNIQUE_Electric_Core_Ability": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ShowExtraAbility",
+                            "doOffStage": true,
+                            "skillID": 20010
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ShowExtraAbility",
+                            "doOffStage": true
+                        }
+                    ],
+                    "onAvatarIn": [
+                        {
+                            "$type": "ShowExtraAbility",
+                            "doOffStage": true,
+                            "skillID": 20010
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "target": "Team",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Fly_Electric_Core_Play"
+                },
+                {
+                    "$type": "DoWatcherSystemAction",
+                    "watcherId": 1108,
+                    "authorityOnly": true
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Electric_Core_Challenge",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "ActivitySkill_ElectricCoreFly"
+                    ],
+                    "modifierName": "Electric_Core_Fly_Handler"
+                }
+            ],
+            "modifiers": {
+                "UNIQUE_Electric_Core_Line": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixin",
+                            "modifierName": "LinePre"
+                        }
+                    ]
+                },
+                "ChangePlayMode": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ChangePlayMode",
+                            "doOffStage": true,
+                            "muteRemoteAction": true,
+                            "toPlayMode": "ElectricCoreState"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ChangePlayMode",
+                            "doOffStage": true,
+                            "muteRemoteAction": true
+                        }
+                    ]
+                },
+                "LinePre": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachToStateIDMixin",
+                            "stateIDs": [
+                                "Fly"
+                            ],
+                            "modifierName": "ChangePlayMode",
+                            "isCheckOnAttach": true
+                        },
+                        {
+                            "$type": "ElectricCoreLineMixin",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByTag",
+                                "topLimit": 1,
+                                "sortType": "Nearest",
+                                "tag": "_IS_ELECTRIC_CORE"
+                            },
+                            "CMEOAIMLBPJ": "AVATAR_Electric_Core",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "compareType": "XYZ",
+                                    "value": 8.0
+                                },
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHasElement",
+                                            "target": "Self",
+                                            "element": "Electric"
+                                        },
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "HAS_ELECTRIC_FAIRY_BUFF",
+                                            "value": 1.0
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "Electric_Core_Cd": {
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_IS_ELECTRIC_CORE",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "ChangeTag",
+                            "tag": "_IS_ELECTRIC_CORE"
+                        }
+                    ]
+                },
+                "Electric_Core_Effect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Property_Ani_Prop_TeleportHighway_01_Move"
+                        }
+                    ]
+                },
+                "ElectricAttach": {
+                    "modifierName": "",
+                    "duration": 10.0,
+                    "elementType": "Electric",
+                    "elementDurability": 60.0
+                },
+                "ElectricEndure": {
+                    "modifierName": "",
+                    "duration": 0.20000000298023224,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_EndureDelta": 0.0
+                    }
+                },
+                "UNIQUE_StreamingOptimization": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 4.0,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "StreamingModifierMixin"
+                        }
+                    ]
+                },
+                "Electric_Core_SwitchAirSkill": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AvatarChangeSkillMixin",
+                            "index": -1,
+                            "priority": "Playmode",
+                            "jumpSkillID": 20034,
+                            "flySkillID": 20034
+                        }
+                    ]
+                },
+                "UNIQUE_Electric_Core_Fly": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 4.0,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ElectricCoreMoveMixin",
+                            "IGLJDDKCJIN": 30.0,
+                            "NEGNEJMNEOL": -5.0,
+                            "NGLFIAGKADK": 20.0,
+                            "EHPNPFCOGBM": 0.75,
+                            "GAPANDADGHF": 1.0,
+                            "toPos": {
+                                "$type": "ConfigBornByGlobalValue",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "positionKey": "_Electric_Core_Pos",
+                                "directionKey": ""
+                            },
+                            "AOEEBICGDIN": [
+                                {
+                                    "$type": "TriggerSetVisible",
+                                    "visible": true
+                                },
+                                {
+                                    "$type": "RemoveModifier",
+                                    "modifierName": "Electric_Core_Effect"
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Property_Ani_Prop_TeleportHighway_01_Out"
+                                },
+                                {
+                                    "$type": "AvatarExitCameraShot",
+                                    "doOffStage": true
+                                },
+                                {
+                                    "$type": "SetVelocityIgnoreAirGY",
+                                    "doOffStage": true
+                                }
+                            ],
+                            "DLKHCNJMOKB": [
+                                {
+                                    "$type": "TriggerSetVisible",
+                                    "doOffStage": true,
+                                    "visible": true
+                                },
+                                {
+                                    "$type": "RemoveModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "Electric_Core_Effect"
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Property_Ani_Prop_TeleportHighway_01_Out"
+                                },
+                                {
+                                    "$type": "AvatarExitCameraShot",
+                                    "doOffStage": true
+                                },
+                                {
+                                    "$type": "SetVelocityIgnoreAirGY",
+                                    "doOffStage": true
+                                }
+                            ],
+                            "JFPEFDKIFDC": [
+                                {
+                                    "$type": "SetVelocityIgnoreAirGY",
+                                    "doOffStage": true,
+                                    "ignoreAirGY": true
+                                },
+                                {
+                                    "$type": "RemoveVelocityForce",
+                                    "forces": [
+                                        "SpeedupType"
+                                    ]
+                                },
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "target": "Team",
+                                    "value": 1.0,
+                                    "key": "_ELECTRIC_CORE_TRIGGER_COUNT",
+                                    "useLimitRange": true,
+                                    "maxValue": 3.0,
+                                    "minValue": 0.0
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "CurTeamAvatars",
+                                    "modifierName": "UNIQUE_ArenaChallenge2_Atkup_Avatar"
+                                },
+                                {
+                                    "$type": "AvatarCameraParam",
+                                    "cameraParam": {
+                                        "forceRadius": 6.0,
+                                        "forceRadiusDuration": 0.30000001192092896,
+                                        "shouldKeepForceRadius": true
+                                    }
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Property_Ani_Prop_TeleportHighway_01_In"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "Electric_Core_Effect"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "UNIQUE_StreamingOptimization"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "ElectricAttach"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "ElectricEndure"
+                                },
+                                {
+                                    "$type": "TriggerSetVisible"
+                                },
+                                {
+                                    "$type": "ActCameraShake",
+                                    "cameraShake": {
+                                        "shakeRange": 6.0,
+                                        "shakeTime": 0.20000000298023224,
+                                        "shakeDistance": 40.0,
+                                        "extension": {}
+                                    },
+                                    "born": {
+                                        "$type": "ConfigBornBySelf"
+                                    }
+                                },
+                                {
+                                    "$type": "Predicated",
+                                    "targetPredicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_ActivityAbility_ReviveStamina_1",
+                                            "value": 1.0
+                                        }
+                                    ],
+                                    "successActions": [
+                                        {
+                                            "$type": "ApplyModifier",
+                                            "doOffStage": true,
+                                            "modifierName": "UNIQUE_ActivityAbility_ReviveStamina"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "EntityDoSkill",
+                            "skillID": 20033
+                        },
+                        {
+                            "$type": "EntityDoSkill",
+                            "skillID": 20034
+                        }
+                    ]
+                },
+                "Electric_Core_Fly_Handler": {
+                    "stacking": "MultipleRefresh",
+                    "stackingOption": {
+                        "abilitySpecialName": "",
+                        "maxModifierNumForMultipleType": 1.0
+                    },
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SendEvtElectricCoreMoveEnterP1"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SendEvtElectricCoreMoveInterrupt"
+                        },
+                        {
+                            "$type": "RemoveVelocityForce",
+                            "forces": [
+                                "LightCoreTypeNormal",
+                                "LightCoreTypeAccelerate"
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_ArenaChallenge2_Atkup_Avatar": {
+                    "stacking": "RefreshUniqueDurability",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 30.0,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackDelta": 1000.0
+                    },
+                    "state": "AttackUp",
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_ActivityAbility_ReviveStamina": {
+                    "stacking": "RefreshUniqueDurability",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 5.0,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "ReviveStamina",
+                            "doOffStage": true,
+                            "value": 100.0
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "target": "Team",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Electric_Core_Line"
+                },
+                {
+                    "$type": "AddAvatarSkillInfo",
+                    "doOffStage": true,
+                    "skillID": 20033
+                },
+                {
+                    "$type": "AddAvatarSkillInfo",
+                    "doOffStage": true,
+                    "skillID": 20034
+                },
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "Electric_Core_SwitchAirSkill"
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "RemoveAvatarSkillInfo",
+                    "doOffStage": true,
+                    "skillID": 20033
+                },
+                {
+                    "$type": "RemoveAvatarSkillInfo",
+                    "doOffStage": true,
+                    "skillID": 20034
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "Predicated",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByAny",
+                            "predicates": [
+                                {
+                                    "$type": "ByHasElement",
+                                    "target": "Self",
+                                    "element": "Electric"
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "HAS_ELECTRIC_FAIRY_BUFF",
+                                    "value": 1.0
+                                }
+                            ]
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "ClearGlobalPos",
+                            "key": "_Electric_Core_Pos",
+                            "setTarget": false
+                        },
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByTag",
+                                "topLimit": 1,
+                                "sortType": "Nearest",
+                                "tag": "_IS_ELECTRIC_CORE"
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "compareType": "XYZ",
+                                    "value": 8.0
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_IS_ELECTRIC_CORE",
+                                    "value": 1.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Target",
+                                    "modifierName": "Electric_Core_Cd"
+                                },
+                                {
+                                    "$type": "SetGlobalPos",
+                                    "target": "Target",
+                                    "key": "_Electric_Core_Pos",
+                                    "born": {
+                                        "$type": "ConfigBornByTarget",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    },
+                                    "setTarget": false
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_Electric_Core_Pos_0",
+                                            "value": 0.0,
+                                            "compareType": "NoneOrEqual"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Electric_Core_Fly"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_Electric_Core_Pos_0",
+                                            "value": 0.0,
+                                            "compareType": "NoneOrEqual"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Electric_Core_Fly"
+                        }
+                    ]
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Temari_Hide_Ball_Play",
+            "modifiers": {
+                "UNIQUE_Temari_Hide_ball": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "SwitchSkillIDMixin",
+                            "priority": "Playmode",
+                            "skillIndex": 1,
+                            "skillID": 20032
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AddAvatarSkillInfo",
+                    "target": "CurTeamAvatars",
+                    "doOffStage": true,
+                    "skillID": 20032
+                },
+                {
+                    "$type": "AvatarSkillStart",
+                    "target": "CurTeamAvatars",
+                    "skillID": 20032,
+                    "cdRatio": 0.05000000074505806,
+                    "costStaminaRatio": 1.0
+                },
+                {
+                    "$type": "AttachModifier",
+                    "target": "CurTeamAvatars",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Temari_Hide_ball"
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "DebugLog",
+                    "content": "TMR: Try to remove the set ball ability"
+                },
+                {
+                    "$type": "RemoveModifier",
+                    "target": "CurTeamAvatars",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Temari_Hide_ball"
+                },
+                {
+                    "$type": "RemoveAvatarSkillInfo",
+                    "target": "CurTeamAvatars",
+                    "doOffStage": true,
+                    "skillID": 20032
+                }
+            ],
+            "onAvatarIn": [
+                {
+                    "$type": "AddAvatarSkillInfo",
+                    "target": "CurTeamAvatars",
+                    "doOffStage": true,
+                    "skillID": 20032
+                },
+                {
+                    "$type": "AvatarSkillStart",
+                    "target": "CurTeamAvatars",
+                    "skillID": 20032,
+                    "cdRatio": 0.05000000074505806,
+                    "costStaminaRatio": 1.0
+                },
+                {
+                    "$type": "AttachModifier",
+                    "target": "CurTeamAvatars",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Temari_Hide_ball"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Temari_Hide_Ball",
+            "onAbilityStart": [
+                {
+                    "$type": "ServerLuaCall",
+                    "luaCallType": "CurChallengeGroup",
+                    "funcName": "SLC_Hide_Ball",
+                    "param1": 0.0,
+                    "param2": 0.0,
+                    "param3": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_ReviveStamina",
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 1.0,
+                    "key": "_ActivityAbility_ReviveStamina_1",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_BlitzRush_AvatarFlipCard",
+            "modifiers": {
+                "BlitzRush_Avatar_KillLatencyTrigger": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_Enigma_BossFight_Enhanced",
+                                    "value": 1.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Target",
+                                    "modifierName": "KillLatencyTrigger"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "KillLatencyTrigger": {
+                    "modifierName": "",
+                    "duration": 0.20000000298023224,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "target": "Applier",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "_FAKEDIE_Triggered",
+                                    "value": 2.0,
+                                    "compareType": "MoreThanAndEqual"
+                                }
+                            ],
+                            "modifierName": "KillLatencyTrigger_Massage"
+                        }
+                    ]
+                },
+                "KillLatencyTrigger_Massage": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ServerLuaCall",
+                            "luaCallType": "SpecificGroup",
+                            "CallParamList": [
+                                246001001
+                            ],
+                            "funcName": "SLC_Activity_BlitzRush_Enhanced_Killed",
+                            "param1": 0.0,
+                            "param2": 0.0,
+                            "param3": 0.0
+                        },
+                        {
+                            "$type": "DebugLog",
+                            "content": "SLC_Activity_BlitzRush_Enhanced_Killed!!!!!!!"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "BlitzRush_Avatar_KillLatencyTrigger"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "ActivityAbility_BlitzRush_MonsterFlipCard",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_GLOBALVALUE_EnigmaType",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        0.5,
+                        4.5
+                    ],
+                    "modifierNameSteps": [
+                        "ActivityAbility_BlitzRush_Monster_ExtraHP"
+                    ]
+                }
+            ],
+            "modifiers": {
+                "ActivityAbility_BlitzRush_MonsterTag": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_ACTIVITY_BlitzRush_Tag",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "_ACTIVITY_BlitzRush_Tag",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "ActivityAbility_BlitzRush_Monster_ExtraHP": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_MaxHPRatio": 1.0
+                    }
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "ActivityAbility_BlitzRush_MonsterTag"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "RoleElectricPowerSource_Play",
+            "abilitySpecials": {
+                "ElementLevelCo": 1.0,
+                "DamagePercentage": 10.0
+            },
+            "modifiers": {
+                "UNIQUE_RoleElectricPowerSourceBuffEffect": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "RoleElectricPowerSourceConnectCount",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5,
+                                2.5,
+                                3.5
+                            ],
+                            "modifierNameSteps": [
+                                "RoleElectricPowerSourceBuffHandleLevel0",
+                                "RoleElectricPowerSourceBuffHandleLevel1",
+                                "RoleElectricPowerSourceBuffHandleLevel2",
+                                "RoleElectricPowerSourceBuffHandleLevel3"
+                            ]
+                        },
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "CanUseRoleElectricPowerSourceSkill",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5
+                            ],
+                            "modifierNameSteps": [
+                                "RoleElectricPowerSourceBuffCD",
+                                "DoNothing"
+                            ]
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "RoleElectricPowerSourceConnectCount",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "DoNothing": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "RoleElectricPowerSourceBuffCD": {
+                    "modifierName": "",
+                    "duration": 2.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "target": "Team",
+                            "value": 1.0,
+                            "key": "CanUseRoleElectricPowerSourceSkill",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "RoleElectricPowerSourceBuffHandleLevel0": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "RoleElectricPowerSourceBuffHandleLevel1": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixinV2",
+                            "modifierName": "RoleElectricPowerSourceBuffLevel1"
+                        }
+                    ]
+                },
+                "RoleElectricPowerSourceBuffHandleLevel2": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixinV2",
+                            "modifierName": "RoleElectricPowerSourceBuffLevel2"
+                        }
+                    ]
+                },
+                "RoleElectricPowerSourceBuffHandleLevel3": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixinV2",
+                            "modifierName": "RoleElectricPowerSourceBuffLevel3"
+                        }
+                    ]
+                },
+                "RoleElectricPowerSourceBuffLevel1": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_RoleElecricPowerSource_01_Buff"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "ReviveElemEnergy",
+                            "doOffStage": true,
+                            "value": 2.0
+                        }
+                    ]
+                },
+                "RoleElectricPowerSourceBuffLevel2": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "Elemental_Burst"
+                            ],
+                            "damagePercentageRatio": 0.5
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_RoleElecricPowerSource_01_Buff"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "ReviveElemEnergy",
+                            "doOffStage": true,
+                            "value": 4.0
+                        }
+                    ]
+                },
+                "RoleElectricPowerSourceBuffLevel3": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "Elemental_Burst"
+                            ],
+                            "damagePercentageRatio": 1.0
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_RoleElecricPowerSource_01_Buff"
+                        }
+                    ],
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Other",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByEntityTypes",
+                                            "entityTypes": [
+                                                "None",
+                                                "Bush"
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "NormalAttack_01",
+                                        "NormalAttack_02",
+                                        "NormalAttack_03",
+                                        "NormalAttack_04",
+                                        "NormalAttack_05",
+                                        "NormalAttack_06",
+                                        "ExtraAttack",
+                                        "FallingAttack",
+                                        "Elemental_Art",
+                                        "Elemental_Art_Hold",
+                                        "Elemental_Art_Extra",
+                                        "Elemental_Burst"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Team",
+                                    "key": "CanUseRoleElectricPowerSourceSkill",
+                                    "value": 0.0,
+                                    "compareType": "MoreThan"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ServerLuaCall",
+                                    "luaCallType": "CurChallengeGroup",
+                                    "funcName": "SLC_RoleElectricPowerSource_AttackSum",
+                                    "param1": 0.0,
+                                    "param2": 0.0,
+                                    "param3": 0.0
+                                },
+                                {
+                                    "$type": "SetSystemValueToOverrideMap",
+                                    "key": "ElementLevelCo",
+                                    "type": "ElementLevelCo"
+                                },
+                                {
+                                    "$type": "TriggerAttackEvent",
+                                    "attackEvent": {
+                                        "attackPattern": {
+                                            "$type": "ConfigAttackSphere",
+                                            "triggerType": "TriggerNoRepeat",
+                                            "born": {
+                                                "$type": "ConfigBornByHitPoint"
+                                            },
+                                            "radius": 4.0
+                                        },
+                                        "attackInfo": {
+                                            "attackTag": "",
+                                            "attenuationTag": "",
+                                            "attenuationGroup": "default",
+                                            "attackProperty": {
+                                                "damagePercentageRatio": 0.0,
+                                                "elementDurability": 25.0,
+                                                "ignoreAttackerProperty": true,
+                                                "strikeType": "Default",
+                                                "damageExtra": [
+                                                    "ElementLevelCo",
+                                                    "DamagePercentage",
+                                                    "Mul"
+                                                ],
+                                                "trueDamage": true
+                                            },
+                                            "hitPattern": {
+                                                "onHitEffectName": "none",
+                                                "hitImpulseType": "LV2",
+                                                "hitHaltTimeScale": 0.009999999776482582
+                                            }
+                                        }
+                                    },
+                                    "targetType": "Enemy"
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Stages_GainWave_01",
+                                    "born": {
+                                        "$type": "ConfigBornByHitPoint"
+                                    }
+                                },
+                                {
+                                    "$type": "SetGlobalValue",
+                                    "target": "Team",
+                                    "value": 0.0,
+                                    "key": "CanUseRoleElectricPowerSourceSkill",
+                                    "maxValue": 0.0,
+                                    "minValue": 0.0
+                                }
+                            ]
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "ReviveElemEnergy",
+                            "doOffStage": true,
+                            "value": 8.0
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "SetSystemValueToOverrideMap",
+                    "key": "ElementLevelCo",
+                    "type": "ElementLevelCo"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_RoleElectricPowerSourceBuffEffect"
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "RoleElectricPowerSourceConnectCount",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "RoleElectricPowerSourceBigWorld_Play",
+            "abilitySpecials": {
+                "ElementLevelCo": 1.0,
+                "DamagePercentage": 10.0
+            },
+            "modifiers": {
+                "UNIQUE_RoleElectricPowerSourceBuffEffect": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "RoleElectricPowerSourceConnectCount",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5,
+                                2.5,
+                                3.5
+                            ],
+                            "modifierNameSteps": [
+                                "RoleElectricPowerSourceBuffHandleLevel0",
+                                "RoleElectricPowerSourceBuffHandleLevel1",
+                                "RoleElectricPowerSourceBuffHandleLevel2",
+                                "RoleElectricPowerSourceBuffHandleLevel3"
+                            ]
+                        },
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "CanUseRoleElectricPowerSourceSkill",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                1.5
+                            ],
+                            "modifierNameSteps": [
+                                "RoleElectricPowerSourceBuffCD",
+                                "DoNothing"
+                            ]
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "RoleElectricPowerSourceConnectCount",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "DoNothing": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "RoleElectricPowerSourceBuffCD": {
+                    "modifierName": "",
+                    "duration": 2.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "target": "Team",
+                            "value": 1.0,
+                            "key": "CanUseRoleElectricPowerSourceSkill",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "RoleElectricPowerSourceBuffHandleLevel0": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "RoleElectricPowerSourceBuffHandleLevel1": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixinV2",
+                            "modifierName": "RoleElectricPowerSourceBuffLevel1"
+                        }
+                    ]
+                },
+                "RoleElectricPowerSourceBuffHandleLevel2": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixinV2",
+                            "modifierName": "RoleElectricPowerSourceBuffLevel2"
+                        }
+                    ]
+                },
+                "RoleElectricPowerSourceBuffHandleLevel3": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixinV2",
+                            "modifierName": "RoleElectricPowerSourceBuffLevel3"
+                        }
+                    ]
+                },
+                "RoleElectricPowerSourceBuffLevel1": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_RoleElecricPowerSource_01_Buff"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "ReviveElemEnergy",
+                            "doOffStage": true,
+                            "value": 2.0
+                        }
+                    ]
+                },
+                "RoleElectricPowerSourceBuffLevel2": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "Elemental_Burst"
+                            ],
+                            "damagePercentageRatio": 0.5
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_RoleElecricPowerSource_01_Buff"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "ReviveElemEnergy",
+                            "doOffStage": true,
+                            "value": 4.0
+                        }
+                    ]
+                },
+                "RoleElectricPowerSourceBuffLevel3": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "Elemental_Burst"
+                            ],
+                            "damagePercentageRatio": 1.0
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_RoleElecricPowerSource_01_Buff"
+                        }
+                    ],
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Other",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByEntityTypes",
+                                            "entityTypes": [
+                                                "None",
+                                                "Bush"
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "NormalAttack_01",
+                                        "NormalAttack_02",
+                                        "NormalAttack_03",
+                                        "NormalAttack_04",
+                                        "NormalAttack_05",
+                                        "NormalAttack_06",
+                                        "ExtraAttack",
+                                        "FallingAttack",
+                                        "Elemental_Art",
+                                        "Elemental_Art_Hold",
+                                        "Elemental_Art_Extra",
+                                        "Elemental_Burst"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Team",
+                                    "key": "CanUseRoleElectricPowerSourceSkill",
+                                    "value": 0.0,
+                                    "compareType": "MoreThan"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetSystemValueToOverrideMap",
+                                    "key": "ElementLevelCo",
+                                    "type": "ElementLevelCo"
+                                },
+                                {
+                                    "$type": "TriggerAttackEvent",
+                                    "attackEvent": {
+                                        "attackPattern": {
+                                            "$type": "ConfigAttackSphere",
+                                            "triggerType": "TriggerNoRepeat",
+                                            "born": {
+                                                "$type": "ConfigBornByHitPoint"
+                                            },
+                                            "radius": 4.0
+                                        },
+                                        "attackInfo": {
+                                            "attackTag": "",
+                                            "attenuationTag": "",
+                                            "attenuationGroup": "default",
+                                            "attackProperty": {
+                                                "damagePercentageRatio": 0.0,
+                                                "elementDurability": 25.0,
+                                                "ignoreAttackerProperty": true,
+                                                "strikeType": "Default",
+                                                "damageExtra": [
+                                                    "ElementLevelCo",
+                                                    "DamagePercentage",
+                                                    "Mul"
+                                                ],
+                                                "trueDamage": true
+                                            },
+                                            "hitPattern": {
+                                                "onHitEffectName": "none",
+                                                "hitImpulseType": "LV2",
+                                                "hitHaltTimeScale": 0.009999999776482582
+                                            }
+                                        }
+                                    },
+                                    "targetType": "Enemy"
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Stages_GainWave_01",
+                                    "born": {
+                                        "$type": "ConfigBornByHitPoint"
+                                    }
+                                },
+                                {
+                                    "$type": "SetGlobalValue",
+                                    "target": "Team",
+                                    "value": 0.0,
+                                    "key": "CanUseRoleElectricPowerSourceSkill",
+                                    "maxValue": 0.0,
+                                    "minValue": 0.0
+                                }
+                            ]
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "ReviveElemEnergy",
+                            "doOffStage": true,
+                            "value": 8.0
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "SetSystemValueToOverrideMap",
+                    "key": "ElementLevelCo",
+                    "type": "ElementLevelCo"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_RoleElectricPowerSourceBuffEffect"
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "RoleElectricPowerSourceConnectCount",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Electric_Core_UGC",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToStateIDMixin",
+                    "stateIDs": [
+                        "ActivitySkill_ElectricCoreFly"
+                    ],
+                    "modifierName": "Electric_Core_Fly_Handler"
+                }
+            ],
+            "modifiers": {
+                "UNIQUE_Electric_Core_Line": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixin",
+                            "modifierName": "LinePre"
+                        }
+                    ]
+                },
+                "ChangePlayMode": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ChangePlayMode",
+                            "doOffStage": true,
+                            "muteRemoteAction": true,
+                            "toPlayMode": "ElectricCoreState"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ChangePlayMode",
+                            "doOffStage": true,
+                            "muteRemoteAction": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "SGV_UGCDungeon_ForbidSkill",
+                                    "value": 0.0
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "ChangePlayMode",
+                            "doOffStage": true,
+                            "muteRemoteAction": true,
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "SGV_UGCDungeon_ForbidSkill",
+                                    "value": 1.0
+                                }
+                            ],
+                            "toPlayMode": "UGCForbidSkill"
+                        }
+                    ]
+                },
+                "LinePre": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachToStateIDMixin",
+                            "stateIDs": [
+                                "Fly"
+                            ],
+                            "modifierName": "ChangePlayMode",
+                            "isCheckOnAttach": true
+                        },
+                        {
+                            "$type": "ElectricCoreLineMixin",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByTag",
+                                "topLimit": 1,
+                                "sortType": "Nearest",
+                                "tag": "_IS_ELECTRIC_CORE"
+                            },
+                            "CMEOAIMLBPJ": "AVATAR_Electric_Core",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "compareType": "XYZ",
+                                    "value": 15.0
+                                },
+                                {
+                                    "$type": "ByAny",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHasElement",
+                                            "target": "Self",
+                                            "element": "Electric"
+                                        },
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "HAS_ELECTRIC_FAIRY_BUFF",
+                                            "value": 1.0
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "Electric_Core_Cd": {
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_IS_ELECTRIC_CORE",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "ChangeTag",
+                            "tag": "_IS_ELECTRIC_CORE"
+                        }
+                    ]
+                },
+                "Electric_Core_Effect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Property_Ani_Prop_TeleportHighway_01_Move"
+                        }
+                    ]
+                },
+                "ElectricAttach": {
+                    "modifierName": "",
+                    "duration": 10.0,
+                    "elementType": "Electric",
+                    "elementDurability": 60.0
+                },
+                "ElectricEndure": {
+                    "modifierName": "",
+                    "duration": 0.20000000298023224,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_EndureDelta": 0.0
+                    }
+                },
+                "UNIQUE_StreamingOptimization": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 4.0,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "StreamingModifierMixin"
+                        }
+                    ]
+                },
+                "Electric_Core_SwitchAirSkill": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AvatarChangeSkillMixin",
+                            "index": -1,
+                            "priority": "Playmode",
+                            "jumpSkillID": 20034,
+                            "flySkillID": 20034
+                        }
+                    ]
+                },
+                "UNIQUE_Electric_Core_Fly": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 4.0,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ElectricCoreMoveMixin",
+                            "IGLJDDKCJIN": 30.0,
+                            "NEGNEJMNEOL": -5.0,
+                            "NGLFIAGKADK": 20.0,
+                            "EHPNPFCOGBM": 0.75,
+                            "GAPANDADGHF": 1.0,
+                            "toPos": {
+                                "$type": "ConfigBornByGlobalValue",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "positionKey": "_Electric_Core_Pos",
+                                "directionKey": ""
+                            },
+                            "AOEEBICGDIN": [
+                                {
+                                    "$type": "TriggerSetVisible",
+                                    "visible": true
+                                },
+                                {
+                                    "$type": "RemoveModifier",
+                                    "modifierName": "Electric_Core_Effect"
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Property_Ani_Prop_TeleportHighway_01_Out"
+                                },
+                                {
+                                    "$type": "AvatarExitCameraShot",
+                                    "doOffStage": true
+                                },
+                                {
+                                    "$type": "SetVelocityIgnoreAirGY",
+                                    "doOffStage": true
+                                }
+                            ],
+                            "DLKHCNJMOKB": [
+                                {
+                                    "$type": "TriggerSetVisible",
+                                    "doOffStage": true,
+                                    "visible": true
+                                },
+                                {
+                                    "$type": "RemoveModifier",
+                                    "doOffStage": true,
+                                    "modifierName": "Electric_Core_Effect"
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Property_Ani_Prop_TeleportHighway_01_Out"
+                                },
+                                {
+                                    "$type": "AvatarExitCameraShot",
+                                    "doOffStage": true
+                                },
+                                {
+                                    "$type": "SetVelocityIgnoreAirGY",
+                                    "doOffStage": true
+                                }
+                            ],
+                            "JFPEFDKIFDC": [
+                                {
+                                    "$type": "SetVelocityIgnoreAirGY",
+                                    "doOffStage": true,
+                                    "ignoreAirGY": true
+                                },
+                                {
+                                    "$type": "RemoveVelocityForce",
+                                    "forces": [
+                                        "SpeedupType"
+                                    ]
+                                },
+                                {
+                                    "$type": "AddGlobalValue",
+                                    "target": "Team",
+                                    "value": 1.0,
+                                    "key": "_ELECTRIC_CORE_TRIGGER_COUNT",
+                                    "useLimitRange": true,
+                                    "maxValue": 3.0,
+                                    "minValue": 0.0
+                                },
+                                {
+                                    "$type": "AvatarCameraParam",
+                                    "cameraParam": {
+                                        "forceRadius": 6.0,
+                                        "forceRadiusDuration": 0.30000001192092896,
+                                        "shouldKeepForceRadius": true
+                                    }
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Property_Ani_Prop_TeleportHighway_01_In"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "Electric_Core_Effect"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "ElectricAttach"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "ElectricEndure"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "modifierName": "UNIQUE_StreamingOptimization"
+                                },
+                                {
+                                    "$type": "TriggerSetVisible"
+                                },
+                                {
+                                    "$type": "ActCameraShake",
+                                    "cameraShake": {
+                                        "shakeRange": 6.0,
+                                        "shakeTime": 0.20000000298023224,
+                                        "shakeDistance": 40.0,
+                                        "extension": {}
+                                    },
+                                    "born": {
+                                        "$type": "ConfigBornBySelf"
+                                    }
+                                },
+                                {
+                                    "$type": "Predicated",
+                                    "targetPredicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_ActivityAbility_ReviveStamina_1",
+                                            "value": 1.0
+                                        }
+                                    ],
+                                    "successActions": [
+                                        {
+                                            "$type": "ApplyModifier",
+                                            "doOffStage": true,
+                                            "modifierName": "UNIQUE_ActivityAbility_ReviveStamina"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "EntityDoSkill",
+                            "skillID": 20033
+                        },
+                        {
+                            "$type": "EntityDoSkill",
+                            "skillID": 20034
+                        }
+                    ]
+                },
+                "Electric_Core_Fly_Handler": {
+                    "stacking": "MultipleRefresh",
+                    "stackingOption": {
+                        "abilitySpecialName": "",
+                        "maxModifierNumForMultipleType": 1.0
+                    },
+                    "modifierName": "",
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SendEvtElectricCoreMoveEnterP1"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SendEvtElectricCoreMoveInterrupt"
+                        },
+                        {
+                            "$type": "RemoveVelocityForce",
+                            "forces": [
+                                "LightCoreTypeNormal",
+                                "LightCoreTypeAccelerate"
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_ActivityAbility_ReviveStamina": {
+                    "stacking": "RefreshUniqueDurability",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 5.0,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "ReviveStamina",
+                            "doOffStage": true,
+                            "value": 100.0
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "LinePre"
+                },
+                {
+                    "$type": "AddAvatarSkillInfo",
+                    "doOffStage": true,
+                    "skillID": 20033
+                },
+                {
+                    "$type": "AddAvatarSkillInfo",
+                    "doOffStage": true,
+                    "skillID": 20034
+                },
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "Electric_Core_SwitchAirSkill"
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "RemoveAvatarSkillInfo",
+                    "doOffStage": true,
+                    "skillID": 20033
+                },
+                {
+                    "$type": "RemoveAvatarSkillInfo",
+                    "doOffStage": true,
+                    "skillID": 20034
+                },
+                {
+                    "$type": "ChangePlayMode",
+                    "doOffStage": true,
+                    "muteRemoteAction": true
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "Predicated",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByAny",
+                            "predicates": [
+                                {
+                                    "$type": "ByHasElement",
+                                    "target": "Self",
+                                    "element": "Electric"
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "HAS_ELECTRIC_FAIRY_BUFF",
+                                    "value": 1.0
+                                }
+                            ]
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "ClearGlobalPos",
+                            "key": "_Electric_Core_Pos",
+                            "setTarget": false
+                        },
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByTag",
+                                "topLimit": 1,
+                                "sortType": "Nearest",
+                                "tag": "_IS_ELECTRIC_CORE"
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "compareType": "XYZ",
+                                    "value": 15.0
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_IS_ELECTRIC_CORE",
+                                    "value": 1.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Target",
+                                    "modifierName": "Electric_Core_Cd"
+                                },
+                                {
+                                    "$type": "SetGlobalPos",
+                                    "target": "Target",
+                                    "key": "_Electric_Core_Pos",
+                                    "born": {
+                                        "$type": "ConfigBornByTarget",
+                                        "offset": {
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "z": 0.0
+                                        }
+                                    },
+                                    "setTarget": false
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_Electric_Core_Pos_0",
+                                            "value": 0.0,
+                                            "compareType": "NoneOrEqual"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Electric_Core_Fly"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "_Electric_Core_Pos_0",
+                                            "value": 0.0,
+                                            "compareType": "NoneOrEqual"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Electric_Core_Fly"
+                        }
+                    ]
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Light_Stone_Play",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionOnGlobalValueChangeMixin",
+                    "globalValueKey": "Light_Stone_Energy"
+                },
+                {
+                    "$type": "CurLocalAvatarMixinV2",
+                    "modifierName": "UNIQUE_Light_Point_Search"
+                },
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "Light_Stone_Level",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        2.5,
+                        10.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_LitResonancerSearch01",
+                        "UNIQUE_LitResonancerSearch02"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "ElementLevelCo": 1.0,
+                "DamagePercentage": 10.0
+            },
+            "modifiers": {
+                "UNIQUE_LitResonancerSearch01": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.5,
+                    "onThinkInterval": [
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByTag",
+                                "tag": "IS_LitResonancer"
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "compareType": "XYZ",
+                                    "value": 3.0
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "Light_Stone_Energy",
+                                    "value": 1.0,
+                                    "compareType": "MoreThanAndEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "TriggerAbility",
+                                    "target": "Target",
+                                    "abilityName": "SceneObj_Area_Common_Property_Ani_Prop_LitResonancer_01"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_LitResonancerSearch02": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.5,
+                    "onThinkInterval": [
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByTag",
+                                "tag": "IS_LitResonancer"
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "compareType": "XYZ",
+                                    "value": 5.0
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "Light_Stone_Energy",
+                                    "value": 1.0,
+                                    "compareType": "MoreThanAndEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "TriggerAbility",
+                                    "target": "Target",
+                                    "abilityName": "SceneObj_Area_Common_Property_Ani_Prop_LitResonancer_01"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Light_Point_Search": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.5,
+                    "onThinkInterval": [
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByTag",
+                                "topLimit": 1,
+                                "sortType": "Nearest",
+                                "tag": "IS_LIGHT_POINT"
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "compareType": "XYZ",
+                                    "value": 6.5
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Team",
+                                    "modifierName": "UNIQUE_LightBuff"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_LightBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.20000000298023224,
+                    "onThinkInterval": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "Light_Stone_Energy",
+                            "useLimitRange": true,
+                            "maxValue": 10.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Light_Stone_Skill": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0
+                },
+                "UNIQUE_LightStoneSkill0": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0
+                },
+                "UNIQUE_LightStoneSkill01": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixinV2",
+                            "modifierName": "UNIQUE_Extra_Ability01"
+                        }
+                    ]
+                },
+                "UNIQUE_Extra_Ability01": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ShowExtraAbility",
+                            "skillID": 20012
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ShowExtraAbility"
+                        }
+                    ]
+                },
+                "UNIQUE_LightStoneSkill02": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixinV2",
+                            "modifierName": "UNIQUE_Extra_Ability02"
+                        }
+                    ]
+                },
+                "UNIQUE_Extra_Ability02": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ShowExtraAbility",
+                            "skillID": 20013
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ShowExtraAbility"
+                        }
+                    ]
+                },
+                "UNIQUE_Light_Stone_Effect": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueMixin",
+                            "globalValueKey": "Light_Stone_Level",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                1.5,
+                                10.5
+                            ],
+                            "modifierNameSteps": [
+                                "UNIQUE_LightStoneLevel01",
+                                "UNIQUE_LightStoneLevel02"
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_LightStoneLevel01": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueAndTalkStateMixin",
+                            "globalValueKey": "Light_Stone_Energy",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                100.0
+                            ],
+                            "modifierNameSteps": [
+                                "UNIQUE_Dark",
+                                "UNIQUE_LightStoneEff01"
+                            ],
+                            "JPOAOKJFLIF": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_LightStoneLevel02": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueAndTalkStateMixin",
+                            "globalValueKey": "Light_Stone_Energy",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                100.0
+                            ],
+                            "modifierNameSteps": [
+                                "UNIQUE_Dark",
+                                "UNIQUE_LightStoneEff02"
+                            ],
+                            "JPOAOKJFLIF": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_LightStoneLevel03": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueAndTalkStateMixin",
+                            "globalValueKey": "Light_Stone_Energy",
+                            "defaultGlobalValueOnCreate": 0.0,
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                100.0
+                            ],
+                            "modifierNameSteps": [
+                                "UNIQUE_Dark",
+                                "UNIQUE_LightStoneEff03"
+                            ],
+                            "JPOAOKJFLIF": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Dark": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0
+                },
+                "UNIQUE_LightStoneEff01": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixinV2",
+                            "modifierName": "UNIQUE_LightStoneEff_Avatar01"
+                        }
+                    ]
+                },
+                "UNIQUE_LightStoneEff_Avatar01": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_LightStone01"
+                        }
+                    ]
+                },
+                "UNIQUE_LightStoneEff02": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixinV2",
+                            "modifierName": "UNIQUE_LightStoneEff_Avatar02"
+                        }
+                    ]
+                },
+                "UNIQUE_LightStoneEff_Avatar02": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_LightStone02"
+                        }
+                    ]
+                },
+                "UNIQUE_LightStoneEff03": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixinV2",
+                            "modifierName": "UNIQUE_LightStoneEff_Avatar03"
+                        }
+                    ]
+                },
+                "UNIQUE_LightStoneEff_Avatar03": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_LightStone03"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "CopyGlobalValue",
+                    "doOffStage": true,
+                    "srcTarget": "Self",
+                    "dstTarget": "Self",
+                    "srcKey": "Light_Stone_Level_Save",
+                    "dstKey": "Light_Stone_Level"
+                },
+                {
+                    "$type": "CopyGlobalValue",
+                    "doOffStage": true,
+                    "srcTarget": "Self",
+                    "dstTarget": "Self",
+                    "srcKey": "Light_Stone_Energy_Save",
+                    "dstKey": "Light_Stone_Energy"
+                },
+                {
+                    "$type": "SetSystemValueToOverrideMap",
+                    "key": "ElementLevelCo",
+                    "type": "ElementLevelCo"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Light_Stone_Effect"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Light_Stone_Skill"
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "CopyGlobalValue",
+                    "doOffStage": true,
+                    "srcTarget": "Self",
+                    "dstTarget": "Self",
+                    "srcKey": "Light_Stone_Level",
+                    "dstKey": "Light_Stone_Level_Save"
+                },
+                {
+                    "$type": "CopyGlobalValue",
+                    "doOffStage": true,
+                    "srcTarget": "Self",
+                    "dstTarget": "Self",
+                    "srcKey": "Light_Stone_Energy",
+                    "dstKey": "Light_Stone_Energy_Save"
+                },
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "Light_Stone_Level",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "Light_Stone_Energy",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_LightStone_Lv1",
+            "abilitySpecials": {
+                "ElementLevelCo": 1.0,
+                "DamagePercentage": 10.0
+            },
+            "modifiers": {
+                "DoSkill": {
+                    "modifierName": "",
+                    "duration": 0.5,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackSphere",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf"
+                                    },
+                                    "radius": 5.0
+                                },
+                                "attackInfo": {
+                                    "attackTag": "LightStoneSkillLv1",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentageRatio": 0.0,
+                                        "elementDurability": 25.0,
+                                        "ignoreAttackerProperty": true,
+                                        "strikeType": "Default",
+                                        "damageExtra": [
+                                            "ElementLevelCo",
+                                            "DamagePercentage",
+                                            "Mul"
+                                        ],
+                                        "trueDamage": true
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "none",
+                                        "hitImpulseType": "LV2",
+                                        "hitHaltTimeScale": 0.009999999776482582
+                                    }
+                                }
+                            },
+                            "targetType": "AllExceptSelf"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "SetSystemValueToOverrideMap",
+                    "key": "ElementLevelCo",
+                    "type": "ElementLevelCo"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "target": "CurLocalAvatar",
+                    "doOffStage": true,
+                    "modifierName": "DoSkill"
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Stages_GainWave_02",
+                    "born": {
+                        "$type": "ConfigBornBySelf"
+                    }
+                },
+                {
+                    "$type": "AddGlobalValue",
+                    "value": -1.0,
+                    "key": "Light_Stone_Energy",
+                    "useLimitRange": true,
+                    "maxValue": 10.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_LightStone_Lv2",
+            "abilitySpecials": {
+                "ElementLevelCo": 1.0,
+                "DamagePercentage": 10.0
+            },
+            "modifiers": {
+                "DoSkill": {
+                    "modifierName": "",
+                    "duration": 0.5,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackSphere",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf"
+                                    },
+                                    "radius": 10.0
+                                },
+                                "attackInfo": {
+                                    "attackTag": "LightStoneSkillLv2",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentageRatio": 0.0,
+                                        "elementDurability": 25.0,
+                                        "ignoreAttackerProperty": true,
+                                        "strikeType": "Default",
+                                        "damageExtra": [
+                                            "ElementLevelCo",
+                                            "DamagePercentage",
+                                            "Mul"
+                                        ],
+                                        "trueDamage": true
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "none",
+                                        "hitImpulseType": "LV2",
+                                        "hitHaltTimeScale": 0.009999999776482582
+                                    }
+                                }
+                            },
+                            "targetType": "AllExceptSelf"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "SetSystemValueToOverrideMap",
+                    "key": "ElementLevelCo",
+                    "type": "ElementLevelCo"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "target": "CurLocalAvatar",
+                    "doOffStage": true,
+                    "modifierName": "DoSkill"
+                },
+                {
+                    "$type": "FireEffect",
+                    "effectPattern": "Eff_Stages_GainWave_03",
+                    "born": {
+                        "$type": "ConfigBornBySelf"
+                    }
+                },
+                {
+                    "$type": "AddGlobalValue",
+                    "value": -1.0,
+                    "key": "Light_Stone_Energy",
+                    "useLimitRange": true,
+                    "maxValue": 10.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Light_Stone_Play_Widget",
+            "abilityMixins": [
+                {
+                    "$type": "CurLocalAvatarMixinV2",
+                    "modifierName": "UNIQUE_Light_Point_Search"
+                },
+                {
+                    "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+                    "globalValueKey": "SGV_Light_Stone_Level",
+                    "valueSteps": [
+                        -0.5,
+                        2.5,
+                        10.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_LitResonancerSearch01",
+                        "UNIQUE_LitResonancerSearch02"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "ElementLevelCo": 1.0,
+                "DamagePercentage": 10.0
+            },
+            "modifiers": {
+                "UNIQUE_LitResonancerSearch01": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.5,
+                    "onThinkInterval": [
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByTag",
+                                "tag": "IS_LitResonancer"
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "compareType": "XYZ",
+                                    "value": 3.0
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "SGV_Light_Stone_Energy",
+                                    "value": 1.0,
+                                    "compareType": "MoreThanAndEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "TriggerAbility",
+                                    "target": "Target",
+                                    "abilityName": "SceneObj_Area_Common_Property_Ani_Prop_LitResonancer_01"
+                                },
+                                {
+                                    "$type": "TriggerAbility",
+                                    "target": "Target",
+                                    "abilityName": "SceneObj_Area_Cyjy_Property_Ani_Prop_AbyssSummonSign_01"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_LitResonancerSearch02": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.5,
+                    "onThinkInterval": [
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByTag",
+                                "tag": "IS_LitResonancer"
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "compareType": "XYZ",
+                                    "value": 5.0
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "SGV_Light_Stone_Energy",
+                                    "value": 1.0,
+                                    "compareType": "MoreThanAndEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "TriggerAbility",
+                                    "target": "Target",
+                                    "abilityName": "SceneObj_Area_Common_Property_Ani_Prop_LitResonancer_01"
+                                },
+                                {
+                                    "$type": "TriggerAbility",
+                                    "target": "Target",
+                                    "abilityName": "SceneObj_Area_Cyjy_Property_Ani_Prop_AbyssSummonSign_01"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Light_Point_Search": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.5,
+                    "onThinkInterval": [
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByTag",
+                                "topLimit": 1,
+                                "sortType": "Nearest",
+                                "tag": "IS_LIGHT_POINT"
+                            },
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetPositionToSelfPosition",
+                                    "logic": "LesserOrEqual",
+                                    "compareType": "XYZ",
+                                    "value": 6.5
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Team",
+                                    "modifierName": "UNIQUE_LightBuff"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_LightBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 1.0,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.20000000298023224,
+                    "onThinkInterval": [
+                        {
+                            "$type": "AddRegionalPlayVarValue",
+                            "target": "CurLocalAvatar",
+                            "BBBPHHMNIBL": "LightStoneEnergy",
+                            "EDKFOOIMGOL": 1.0
+                        }
+                    ]
+                },
+                "UNIQUE_Black_Mud_Sprint_Enable": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+                            "globalValueKey": "SGV_Light_Stone_Level",
+                            "valueSteps": [
+                                8.5,
+                                10.5
+                            ],
+                            "modifierNameSteps": [
+                                "UNIQUE_Sprint_Enable_Team"
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Sprint_Enable_Team": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixinV2",
+                            "modifierName": "UNIQUE_Sprint_Enable_Avatar"
+                        }
+                    ]
+                },
+                "UNIQUE_Sprint_Enable_Avatar": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "EnableSprintInBlackMudMixin"
+                        }
+                    ]
+                },
+                "UNIQUE_Light_Stone_Effect": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+                            "globalValueKey": "SGV_Light_Stone_Level",
+                            "valueSteps": [
+                                -0.5,
+                                2.5,
+                                10.5
+                            ],
+                            "modifierNameSteps": [
+                                "UNIQUE_LightStoneLevel01",
+                                "UNIQUE_LightStoneLevel02"
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_LightStoneLevel01": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueAndTalkStateNoInitMixin",
+                            "globalValueKey": "SGV_Light_Stone_Energy",
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                100.0
+                            ],
+                            "modifierNameSteps": [
+                                "UNIQUE_Dark",
+                                "UNIQUE_LightStoneEff01"
+                            ],
+                            "JPOAOKJFLIF": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_LightStoneLevel02": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueAndTalkStateNoInitMixin",
+                            "globalValueKey": "SGV_Light_Stone_Energy",
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                100.0
+                            ],
+                            "modifierNameSteps": [
+                                "UNIQUE_Dark",
+                                "UNIQUE_LightStoneEff02"
+                            ],
+                            "JPOAOKJFLIF": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_LightStoneLevel03": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachModifierToSelfGlobalValueAndTalkStateNoInitMixin",
+                            "globalValueKey": "SGV_Light_Stone_Energy",
+                            "valueSteps": [
+                                -0.5,
+                                0.5,
+                                100.0
+                            ],
+                            "modifierNameSteps": [
+                                "UNIQUE_Dark",
+                                "UNIQUE_LightStoneEff03"
+                            ],
+                            "JPOAOKJFLIF": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Dark": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0
+                },
+                "UNIQUE_LightStoneEff01": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_LightStone01"
+                        }
+                    ]
+                },
+                "UNIQUE_LightStoneEff02": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_LightStone02"
+                        }
+                    ]
+                },
+                "UNIQUE_LightStoneEff03": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_LightStone03"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "SetSystemValueToOverrideMap",
+                    "key": "ElementLevelCo",
+                    "type": "ElementLevelCo"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Light_Stone_Effect"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Black_Mud_Sprint_Enable"
+                },
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 1.0,
+                    "key": "_LIGHT_STONE_EQUIPED",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "_LIGHT_STONE_EQUIPED",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_LightStone_Skill_Handle",
+            "onAbilityStart": [
+                {
+                    "$type": "Predicated",
+                    "target": "Team",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "SGV_Light_Stone_Level",
+                            "value": 1.0,
+                            "compareType": "MoreThan"
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Team",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "SGV_Light_Stone_Level",
+                                    "value": 5.0,
+                                    "compareType": "MoreThan"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "TriggerAbility",
+                                    "abilityName": "SceneObj_LightStone_Lv2_Widget"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "TriggerAbility",
+                                    "abilityName": "SceneObj_LightStone_Lv1_Widget"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_LightStone_Lv1_Widget",
+            "abilitySpecials": {
+                "ElementLevelCo": 1.0,
+                "DamagePercentage": 0.0
+            },
+            "modifiers": {
+                "DoSkill": {
+                    "modifierName": "",
+                    "duration": 0.5,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackSphere",
+                                    "triggerType": "TriggerNoRepeat",
+                                    "born": {
+                                        "$type": "ConfigBornBySelf"
+                                    },
+                                    "radius": 5.0
+                                },
+                                "attackInfo": {
+                                    "attackTag": "LightStoneSkillLv1",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentageRatio": 0.0,
+                                        "elementDurability": 25.0,
+                                        "ignoreAttackerProperty": true,
+                                        "strikeType": "Default",
+                                        "damageExtra": [
+                                            "ElementLevelCo",
+                                            "DamagePercentage",
+                                            "Mul"
+                                        ],
+                                        "trueDamage": true
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "none",
+                                        "hitImpulseType": "LV2",
+                                        "hitHaltTimeScale": 0.009999999776482582
+                                    }
+                                }
+                            },
+                            "targetType": "Enemy"
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "SetSystemValueToOverrideMap",
+                    "key": "ElementLevelCo",
+                    "type": "ElementLevelCo"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "target": "CurLocalAvatar",
+                    "doOffStage": true,
+                    "modifierName": "DoSkill"
+                },
+                {
+                    "$type": "FireEffect",
+                    "target": "CurLocalAvatar",
+                    "doOffStage": true,
+                    "effectPattern": "Eff_SceneObj_LuminousShard_01_Lv1"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_LightStone_Lv2_Widget",
+            "abilitySpecials": {
+                "ElementLevelCo": 1.0,
+                "DamagePercentage": 0.0
+            },
+            "modifiers": {
+                "DoSkill": {
+                    "modifierName": "",
+                    "duration": 0.5,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Team",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "SGV_Light_Stone_Level",
+                                    "value": 8.0,
+                                    "compareType": "MoreThan"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ReviveStamina",
+                                    "doOffStage": true,
+                                    "value": 10.0
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "target": "Team",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "SGV_Light_Stone_Level",
+                                    "value": 7.0,
+                                    "compareType": "MoreThan"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "TriggerAttackEvent",
+                                    "attackEvent": {
+                                        "attackPattern": {
+                                            "$type": "ConfigAttackSphere",
+                                            "triggerType": "TriggerNoRepeat",
+                                            "born": {
+                                                "$type": "ConfigBornBySelf"
+                                            },
+                                            "radius": 10.0
+                                        },
+                                        "attackInfo": {
+                                            "attackTag": "LightStoneSkillLv2",
+                                            "attenuationTag": "",
+                                            "attenuationGroup": "default",
+                                            "attackProperty": {
+                                                "damagePercentageRatio": 0.0,
+                                                "elementDurability": 25.0,
+                                                "ignoreAttackerProperty": true,
+                                                "strikeType": "Default",
+                                                "damageExtra": [
+                                                    "ElementLevelCo",
+                                                    "DamagePercentage",
+                                                    "Mul"
+                                                ],
+                                                "trueDamage": true
+                                            },
+                                            "hitPattern": {
+                                                "onHitEffectName": "none",
+                                                "hitImpulseType": "LV2",
+                                                "hitHaltTimeScale": 0.009999999776482582
+                                            }
+                                        }
+                                    },
+                                    "targetType": "Enemy"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "TriggerAttackEvent",
+                                    "attackEvent": {
+                                        "attackPattern": {
+                                            "$type": "ConfigAttackSphere",
+                                            "triggerType": "TriggerNoRepeat",
+                                            "born": {
+                                                "$type": "ConfigBornBySelf"
+                                            },
+                                            "radius": 5.0
+                                        },
+                                        "attackInfo": {
+                                            "attackTag": "LightStoneSkillLv2",
+                                            "attenuationTag": "",
+                                            "attenuationGroup": "default",
+                                            "attackProperty": {
+                                                "damagePercentageRatio": 0.0,
+                                                "elementDurability": 25.0,
+                                                "ignoreAttackerProperty": true,
+                                                "strikeType": "Default",
+                                                "damageExtra": [
+                                                    "ElementLevelCo",
+                                                    "DamagePercentage",
+                                                    "Mul"
+                                                ],
+                                                "trueDamage": true
+                                            },
+                                            "hitPattern": {
+                                                "onHitEffectName": "none",
+                                                "hitImpulseType": "LV2",
+                                                "hitHaltTimeScale": 0.009999999776482582
+                                            }
+                                        }
+                                    },
+                                    "targetType": "Enemy"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAbilityStart": [
+                {
+                    "$type": "SetSystemValueToOverrideMap",
+                    "key": "ElementLevelCo",
+                    "type": "ElementLevelCo"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "target": "CurLocalAvatar",
+                    "doOffStage": true,
+                    "modifierName": "DoSkill"
+                },
+                {
+                    "$type": "Predicated",
+                    "target": "Team",
+                    "targetPredicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "SGV_Light_Stone_Level",
+                            "value": 7.0,
+                            "compareType": "MoreThan"
+                        }
+                    ],
+                    "successActions": [
+                        {
+                            "$type": "FireEffect",
+                            "target": "CurLocalAvatar",
+                            "doOffStage": true,
+                            "effectPattern": "Eff_SceneObj_LuminousShard_01_Lv2"
+                        }
+                    ],
+                    "failActions": [
+                        {
+                            "$type": "FireEffect",
+                            "target": "CurLocalAvatar",
+                            "doOffStage": true,
+                            "effectPattern": "Eff_SceneObj_LuminousShard_02_Lv2"
+                        }
+                    ]
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "CYJY_Enter_TransPlayer_Handle_Tick",
+            "abilitySpecials": {
+                "ElementLevelCo": 1.0,
+                "DamagePercentage": 0.0
+            },
+            "modifiers": {
+                "CYJY_Enter_TransPlayer_Handle_Team": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "CurLocalAvatarMixinV2",
+                            "modifierName": "CYJY_Enter_TransPlayer_Handle_Avatar"
+                        }
+                    ]
+                },
+                "CYJY_Enter_TransPlayer_Handle_Avatar": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 0.5,
+                    "onAdded": [
+                        {
+                            "$type": "ServerLuaCall",
+                            "predicates": [
+                                {
+                                    "$type": "BySceneLoaded"
+                                }
+                            ],
+                            "luaCallType": "SpecificGroup",
+                            "CallParamList": [
+                                133106456
+                            ],
+                            "funcName": "SLC_Try_Trans_Player",
+                            "param1": 0.0,
+                            "param2": 0.0,
+                            "param3": 0.0
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "ServerLuaCall",
+                            "predicates": [
+                                {
+                                    "$type": "BySceneLoaded"
+                                }
+                            ],
+                            "luaCallType": "SpecificGroup",
+                            "CallParamList": [
+                                133106456
+                            ],
+                            "funcName": "SLC_Try_Trans_Player",
+                            "param1": 0.0,
+                            "param2": 0.0,
+                            "param3": 0.0
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "doOffStage": true,
+                    "modifierName": "CYJY_Enter_TransPlayer_Handle_Team"
+                }
+            ],
+            "isDynamicAbility": true
         }
     }
 ]

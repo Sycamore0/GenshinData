@@ -47,7 +47,13 @@
             "dieDisappearEffect": "Eff_Death_Common",
             "dieShaderData": "MonsterDie",
             "dieModelFadeDelay": 0.5,
-            "useRagDoll": true
+            "useRagDoll": true,
+            "JIEMJMIBGIP": true,
+            "GAFFCFHICFH": true,
+            "GDFEBBNDMOA": true,
+            "DGGFJHAJMMH": true,
+            "JELOILMDPDM": true,
+            "GFECLGIFADA": true
         },
         "animEvents": {
             "AtkL01": {
@@ -280,7 +286,9 @@
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
                             "angleOffset": {
-                                "y": -30.0
+                                "x": 0.0,
+                                "y": -30.0,
+                                "z": 0.0
                             }
                         }
                     },
@@ -342,11 +350,11 @@
         }
     },
     "equipController": {
+        "sheathPoint": "",
         "attachPoints": {
             "equip01": "WeaponR",
             "equip02": "WeaponL"
-        },
-        "sheathPoint": ""
+        }
     },
     "abilities": [
         {
@@ -517,6 +525,16 @@
         {
             "abilityID": "OutOfDance",
             "abilityName": "Hili_None_OutOfDance",
+            "abilityOverride": ""
+        },
+        {
+            "abilityID": "",
+            "abilityName": "Hili_None_TurnToMining",
+            "abilityOverride": ""
+        },
+        {
+            "abilityID": "",
+            "abilityName": "Hili_None_OutOfMining",
             "abilityOverride": ""
         }
     ],
@@ -1160,6 +1178,61 @@
                         "DoSkill"
                     ]
                 },
+                "TurnToMining": {
+                    "$type": "ConfigMonsterStateIDInfo",
+                    "animatorStates": {
+                        "TurnToMining": [
+                            "Monster_Hili_None_TurnToMining"
+                        ]
+                    },
+                    "canDoSkill": true,
+                    "resetAnimatorTriggerOnExit": [
+                        "BeHit",
+                        "DoSkill"
+                    ]
+                },
+                "OutOfMining": {
+                    "$type": "ConfigMonsterStateIDInfo",
+                    "animatorStates": {
+                        "OutOfMining": [
+                            "Monster_Hili_None_OutOfMining"
+                        ]
+                    },
+                    "canDoSkill": true,
+                    "resetAnimatorTriggerOnExit": [
+                        "BeHit",
+                        "DoSkill"
+                    ]
+                },
+                "Mining": {
+                    "$type": "ConfigMonsterStateIDInfo",
+                    "animatorStates": {
+                        "Mining": []
+                    },
+                    "canDoSkill": true,
+                    "resetAnimatorTriggerOnExit": [
+                        "BeHit",
+                        "DoSkill"
+                    ]
+                },
+                "MiningFree": {
+                    "$type": "ConfigMonsterStateIDInfo",
+                    "animatorStates": {
+                        "Mining_01": [
+                            "Monster_Hili_None_Mining_Sparkle_Weak",
+                            "Audio_Hili_Mining_01"
+                        ],
+                        "Mining_02": [
+                            "Monster_Hili_None_Mining_Sparkle_Strong",
+                            "Audio_Hili_Mining_02"
+                        ]
+                    },
+                    "canDoSkill": true,
+                    "resetAnimatorTriggerOnExit": [
+                        "BeHit",
+                        "DoSkill"
+                    ]
+                },
                 "Life_AwakeAlertBS": {
                     "$type": "ConfigMonsterStateIDInfo",
                     "animatorStates": {
@@ -1504,6 +1577,14 @@
                     "Surround": "true"
                 }
             }
+        },
+        "Mining": {
+            "initialPoseID": 9017,
+            "initialPoseParams": {
+                "boolParams": {
+                    "Mining": "true"
+                }
+            }
         }
     },
     "aibeta": {
@@ -1546,16 +1627,21 @@
                     "viewRange": 5.0,
                     "hearAttractionRange": 0.0,
                     "feelRange": 2.5
+                },
+                "HighFeel": {
+                    "viewRange": 40.0,
+                    "feelRange": 20.0
                 }
             },
-            "tempaltes": {
+            "templates": {
                 "DefaultTemplate": {
                     "DefaultPoses": "DefaultSetting",
                     "9002": "Sleep",
                     "9003": "Sit",
                     "9010": "Threat",
                     "9011": "Make",
-                    "9012": "Dance"
+                    "9012": "Dance",
+                    "9017": "Make"
                 },
                 "HighAlertTemplate": {
                     "DefaultPoses": "HighAlert",
@@ -1563,7 +1649,8 @@
                     "9003": "Sit",
                     "9010": "Threat",
                     "9011": "Make",
-                    "9012": "Dance"
+                    "9012": "Dance",
+                    "9017": "Make"
                 },
                 "NeverCombatTemplate": {
                     "DefaultPoses": "NeverCombat",
@@ -1580,6 +1667,14 @@
                     "9010": "LowAlertForMimiTomo",
                     "9011": "LowAlertForMimiTomo",
                     "9012": "LowAlertForMimiTomo"
+                },
+                "HighFeelTemplate": {
+                    "DefaultPoses": "HighFeel",
+                    "9002": "Sleep",
+                    "9003": "Sit",
+                    "9010": "Threat",
+                    "9011": "Make",
+                    "9012": "Dance"
                 }
             }
         },
@@ -1690,7 +1785,8 @@
                         9013,
                         9014,
                         9015,
-                        9016
+                        9016,
+                        9017
                     ]
                 },
                 "publicCDGroup": "",
@@ -2865,6 +2961,92 @@
                     "ASLEEP",
                     "WEATHER_BAD"
                 ]
+            },
+            "1701": {
+                "name": "TurnToMining",
+                "skillType": "ActionPoint",
+                "castCondition": {
+                    "pose": [
+                        1,
+                        101,
+                        201,
+                        301
+                    ]
+                },
+                "publicCDGroup": "",
+                "triggerGCD": false,
+                "stateIDs": [
+                    "TurnToMining"
+                ],
+                "skillQueryingTime": 3.0,
+                "flagTargetReachable": "10",
+                "flagSelfOnTemplateCollider": "01",
+                "flagSelfInZone": "10",
+                "flagTargetInZone": "11"
+            },
+            "1702": {
+                "name": "OutOfMining",
+                "skillType": "OnNerve",
+                "castCondition": {
+                    "pose": [
+                        9017
+                    ]
+                },
+                "publicCDGroup": "",
+                "triggerGCD": false,
+                "stateIDs": [
+                    "OutOfMining"
+                ],
+                "skillQueryingTime": 3.0,
+                "flagTargetReachable": "10",
+                "flagSelfOnTemplateCollider": "01",
+                "flagSelfInZone": "10",
+                "flagTargetInZone": "11",
+                "nerveTrigger": [
+                    "ASLEEP",
+                    "WEATHER_BAD"
+                ]
+            },
+            "1711": {
+                "name": "Mining_01",
+                "skillType": "Free",
+                "castCondition": {
+                    "pose": [
+                        9017
+                    ]
+                },
+                "cdUpperRange": 3.0,
+                "initialCD": 1.0,
+                "publicCDGroup": "",
+                "ignoreGCD": true,
+                "stateIDs": [
+                    "MiningFree"
+                ],
+                "flagTargetReachable": "10",
+                "flagSelfOnTemplateCollider": "01",
+                "flagSelfInZone": "10",
+                "flagTargetInZone": "11"
+            },
+            "1712": {
+                "name": "Mining_02",
+                "skillType": "Free",
+                "castCondition": {
+                    "pose": [
+                        9017
+                    ]
+                },
+                "cd": 2.0,
+                "cdUpperRange": 6.0,
+                "initialCD": 5.0,
+                "publicCDGroup": "",
+                "ignoreGCD": true,
+                "stateIDs": [
+                    "MiningFree"
+                ],
+                "flagTargetReachable": "10",
+                "flagSelfOnTemplateCollider": "01",
+                "flagSelfInZone": "10",
+                "flagTargetInZone": "11"
             }
         },
         "skillGCD": 3.0,
@@ -3050,6 +3232,22 @@
                             "DANCE"
                         ],
                         "skillID": 1601
+                    },
+                    {
+                        "pointType": "MiningPoint",
+                        "detectDistance": 15.0,
+                        "pose": [
+                            1,
+                            101,
+                            401,
+                            402,
+                            201,
+                            301
+                        ],
+                        "nerveTrigger": [
+                            "MAKE"
+                        ],
+                        "skillID": 1701
                     }
                 ]
             }

@@ -158,6 +158,23 @@
                         {
                             "$type": "ApplyModifier",
                             "modifierName": "UNIQUE_Monster_Hili_Ice_HoldBomb"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ELITEAFFIX_ATTACK_ENHANCE",
+                                    "value": 1.0
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_MONSTER_Hili_Electric_EliteTag_",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "modifierName": "Hili_Ice_Elite_CrazyBomber"
                         }
                     ]
                 },
@@ -193,8 +210,55 @@
                             "minValue": 0.0
                         }
                     ]
+                },
+                "Hili_Ice_Elite_CrazyBomber": {
+                    "modifierName": "",
+                    "duration": 15.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "EliteTrigger",
+                            "value": true
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_MONSTER_Hili_Electric_EliteTag_",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "EliteTrigger"
+                        },
+                        {
+                            "$type": "ReTriggerAISkillInitialCD",
+                            "skillIDs": [
+                                2003
+                            ]
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_MONSTER_Hili_Electric_EliteTag_",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
                 }
             },
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "_MONSTER_Hili_Electric_EliteTag_",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
             "onKill": [
                 {
                     "$type": "RemoveModifier",
@@ -517,7 +581,8 @@
                             "cameraShake": {
                                 "shakeRange": 2.0,
                                 "shakeTime": 0.15000000596046448
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -620,33 +685,10 @@
                         },
                         "direction": {
                             "$type": "ConfigDirectionByAttackTarget",
-                            "maxAngle": 60.0,
-                            "speedForPredictive": 30.0
-                        },
-                        "attachPointName": "WeaponR"
-                    }
-                },
-                {
-                    "$type": "TriggerBullet",
-                    "predicates": [
-                        {
-                            "$type": "ByTargetGlobalValue",
-                            "key": "_ELITEAFFIX_ATTACK_ENHANCE",
-                            "value": 1.0
-                        }
-                    ],
-                    "bulletID": 42101010,
-                    "born": {
-                        "$type": "ConfigBornByAttachPoint",
-                        "offset": {
-                            "x": 0.20000000298023224,
-                            "y": 0.0,
-                            "z": 0.10000000149011612
-                        },
-                        "direction": {
-                            "$type": "ConfigDirectionByAttackTarget",
                             "angleOffset": {
-                                "y": 5.0
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
                             },
                             "maxAngle": 60.0,
                             "speedForPredictive": 30.0
@@ -674,7 +716,9 @@
                         "direction": {
                             "$type": "ConfigDirectionByAttackTarget",
                             "angleOffset": {
-                                "y": 10.0
+                                "x": 0.0,
+                                "y": 5.0,
+                                "z": 0.0
                             },
                             "maxAngle": 60.0,
                             "speedForPredictive": 30.0
@@ -702,7 +746,9 @@
                         "direction": {
                             "$type": "ConfigDirectionByAttackTarget",
                             "angleOffset": {
-                                "y": -5.0
+                                "x": 0.0,
+                                "y": 10.0,
+                                "z": 0.0
                             },
                             "maxAngle": 60.0,
                             "speedForPredictive": 30.0
@@ -730,7 +776,39 @@
                         "direction": {
                             "$type": "ConfigDirectionByAttackTarget",
                             "angleOffset": {
-                                "y": -10.0
+                                "x": 0.0,
+                                "y": -5.0,
+                                "z": 0.0
+                            },
+                            "maxAngle": 60.0,
+                            "speedForPredictive": 30.0
+                        },
+                        "attachPointName": "WeaponR"
+                    }
+                },
+                {
+                    "$type": "TriggerBullet",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ELITEAFFIX_ATTACK_ENHANCE",
+                            "value": 1.0
+                        }
+                    ],
+                    "bulletID": 42101010,
+                    "born": {
+                        "$type": "ConfigBornByAttachPoint",
+                        "offset": {
+                            "x": 0.20000000298023224,
+                            "y": 0.0,
+                            "z": 0.10000000149011612
+                        },
+                        "direction": {
+                            "$type": "ConfigDirectionByAttackTarget",
+                            "angleOffset": {
+                                "x": 0.0,
+                                "y": -10.0,
+                                "z": 0.0
                             },
                             "maxAngle": 60.0,
                             "speedForPredictive": 30.0
@@ -818,7 +896,8 @@
                             "cameraShake": {
                                 "shakeRange": 0.05999999865889549,
                                 "shakeTime": 0.09000000357627869
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -867,7 +946,8 @@
                             "cameraShake": {
                                 "shakeRange": 0.05999999865889549,
                                 "shakeTime": 0.09000000357627869
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -925,7 +1005,8 @@
                                 "onHitEffectName": "default",
                                 "hitImpulseType": "LV1",
                                 "hitHaltTimeScale": 0.009999999776482582
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -982,7 +1063,8 @@
                                 "onHitEffectName": "default",
                                 "hitImpulseType": "LV1",
                                 "hitHaltTimeScale": 0.009999999776482582
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -1045,6 +1127,61 @@
                 {
                     "$type": "RemoveModifier",
                     "modifierName": "FireEffectModifier"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Hili_Ice_EliteSet",
+            "modifiers": {
+                "UNIQUE_MonsterEliteAffix_DefaultState": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "UseSkillEliteSet",
+                            "skillEliteSetID": 1
+                        }
+                    ]
+                },
+                "UNIQUE_MonsterEliteAffix_EliteState": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "UseSkillEliteSet",
+                            "skillEliteSetID": 2
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ELITEAFFIX_ATTACK_ENHANCE",
+                            "value": 0.0,
+                            "compareType": "NoneOrEqual"
+                        }
+                    ],
+                    "modifierName": "UNIQUE_MonsterEliteAffix_DefaultState"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ELITEAFFIX_ATTACK_ENHANCE",
+                            "value": 1.0
+                        }
+                    ],
+                    "modifierName": "UNIQUE_MonsterEliteAffix_EliteState"
                 }
             ]
         }

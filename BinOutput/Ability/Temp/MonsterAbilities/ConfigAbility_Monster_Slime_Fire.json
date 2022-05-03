@@ -128,7 +128,8 @@
                                         "extension": {
                                             "rangeAttenuation": 0.8999999761581421
                                         }
-                                    }
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
                                 }
                             },
                             "targetType": "Enemy"
@@ -234,7 +235,8 @@
                                         "extension": {
                                             "rangeAttenuation": 0.8999999761581421
                                         }
-                                    }
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
                                 }
                             },
                             "targetType": "Enemy"
@@ -353,7 +355,8 @@
                                         "extension": {
                                             "rangeAttenuation": 0.8999999761581421
                                         }
-                                    }
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
                                 }
                             },
                             "targetType": "Enemy"
@@ -626,6 +629,202 @@
                             ],
                             "campID": 4001,
                             "campTargetType": "Enemy"
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "FireReborn"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Slime_Fire_Burst_Middle"
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "FireState",
+                            "value": true
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "FireShader",
+                            "value": true
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Slime_Fire_Extinguish_Middle"
+                        },
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "FireState"
+                        },
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "FireShader"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "FireReborn"
+                        }
+                    ],
+                    "onBeingHit": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Monster_Slime_Fire_BeHit",
+                            "born": {
+                                "$type": "ConfigBornByHitPoint",
+                                "direction": {
+                                    "$type": "ConfigDirectionByBackToHitBoxCenter"
+                                },
+                                "alongGround": true
+                            }
+                        }
+                    ]
+                },
+                "FireReborn": {
+                    "modifierName": "",
+                    "duration": 7.5,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "RebornGCD",
+                            "value": true
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "RebornGCD"
+                        }
+                    ]
+                },
+                "WaterDetect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "IsWet",
+                            "value": true
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "IsWet"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "ImmuneToFire"
+                }
+            ],
+            "onAbilityStart": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "OnFire_Trigger"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Slime_Fire_02_FireBorn_Tutorial",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToElementTypeMixin",
+                    "elementTypes": [
+                        "Fire"
+                    ],
+                    "reject": true,
+                    "modifierName": "FireDetect"
+                },
+                {
+                    "$type": "AttachToElementTypeMixin",
+                    "elementTypes": [
+                        "Water"
+                    ],
+                    "modifierName": "WaterDetect"
+                }
+            ],
+            "modifiers": {
+                "ImmuneToFire": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "RejectAttackMixin",
+                            "attackTag": "BurningDamage"
+                        }
+                    ]
+                },
+                "OnFire_Trigger": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "duration": 0.800000011920929,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "FireShader",
+                            "value": true
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Monster_Slime_Fire_Absorption_Middle"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_FireBorn"
+                        }
+                    ]
+                },
+                "FireDetect": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onBeingHit": [
+                        {
+                            "$type": "TriggerAbility",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitElement",
+                                    "element": "Fire"
+                                },
+                                {
+                                    "$type": "ByAnimatorFloat",
+                                    "logic": "Lesser",
+                                    "value": 100.0,
+                                    "parameter": "PoseID"
+                                }
+                            ],
+                            "abilityName": "Slime_Fire_02_FireBorn_Tutorial"
+                        }
+                    ]
+                },
+                "UNIQUE_FireBorn": {
+                    "stacking": "Unique",
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementType": "Fire",
+                    "elementDurability": 25.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ReplaceEventPatternMixin",
+                            "oldPatterns": [
+                                "Monster_Slime_Fire_02_NormalAttack"
+                            ],
+                            "newPatterns": [
+                                "Monster_Slime_Fire_02_NormalAttack_Fire"
+                            ]
                         }
                     ],
                     "onAdded": [
@@ -1292,7 +1491,8 @@
                             "cameraShake": {
                                 "shakeRange": 0.05999999865889549,
                                 "shakeTime": 0.09000000357627869
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -1390,6 +1590,17 @@
         "Default": {
             "$type": "ConfigAbility",
             "abilityName": "Slime_Fire_02_TutorialGlobalValue",
+            "abilityMixins": [
+                {
+                    "$type": "ReplaceEventPatternMixin",
+                    "oldPatterns": [
+                        "Monster_Slime_Fire_02_FireReborn"
+                    ],
+                    "newPatterns": [
+                        "Monster_Slime_Fire_02_FireReborn_Tutorial"
+                    ]
+                }
+            ],
             "onAdded": [
                 {
                     "$type": "SetCanDieImmediately",

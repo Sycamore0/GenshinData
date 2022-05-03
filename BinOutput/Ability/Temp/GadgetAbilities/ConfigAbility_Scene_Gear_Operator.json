@@ -403,25 +403,7 @@
                 },
                 "Active": {
                     "modifierName": "",
-                    "elementDurability": 100.0,
-                    "onAdded": [
-                        {
-                            "$type": "FireEffect",
-                            "effectPattern": "Eff_Gear_Operator_Close",
-                            "born": {
-                                "$type": "ConfigBornByAttachPoint",
-                                "attachPointName": "EffectAttach"
-                            }
-                        },
-                        {
-                            "$type": "FireEffect",
-                            "effectPattern": "Eff_Gear_Operator_Open",
-                            "born": {
-                                "$type": "ConfigBornByAttachPoint",
-                                "attachPointName": "RootNode"
-                            }
-                        }
-                    ]
+                    "elementDurability": 100.0
                 }
             }
         }
@@ -554,22 +536,6 @@
                     "elementDurability": 100.0,
                     "onAdded": [
                         {
-                            "$type": "FireEffect",
-                            "effectPattern": "Eff_Gear_Operator_Close",
-                            "born": {
-                                "$type": "ConfigBornByAttachPoint",
-                                "attachPointName": "EffectAttach"
-                            }
-                        },
-                        {
-                            "$type": "FireEffect",
-                            "effectPattern": "Eff_Gear_Operator_Open",
-                            "born": {
-                                "$type": "ConfigBornByAttachPoint",
-                                "attachPointName": "RootNode"
-                            }
-                        },
-                        {
                             "$type": "AttachEffect",
                             "effectPattern": "Eff_SceneObj_Mamolu_ThunderySky_Stage_01",
                             "born": {
@@ -636,6 +602,13 @@
                 {
                     "$type": "AttachAbilityStateResistance",
                     "resistanceListID": 11002
+                },
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 1.0,
+                    "key": "_SCENEOBJ_PROTECTTARGET",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
                 }
             ]
         }
@@ -3065,6 +3038,71 @@
     {
         "Default": {
             "$type": "ConfigAbility",
+            "abilityName": "CYJY_RockTablet_Logic_Handle",
+            "modifiers": {
+                "Logic_Handle": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onBeingHit": [
+                        {
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "ChalcedonyBulletDamage",
+                                        "ChalcedonyBulletDamageBig"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ExecuteGadgetLua",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGadgetState",
+                                            "target": "Self",
+                                            "gadgetState": 901
+                                        }
+                                    ],
+                                    "param1": 902
+                                },
+                                {
+                                    "$type": "ExecuteGadgetLua",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByAny",
+                                            "predicates": [
+                                                {
+                                                    "$type": "ByTargetGadgetState",
+                                                    "target": "Self"
+                                                },
+                                                {
+                                                    "$type": "ByTargetGadgetState",
+                                                    "target": "Self",
+                                                    "gadgetState": 203
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "param1": 201
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Logic_Handle"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
             "abilityName": "SceneObj_Gear_Operator_WindTablet",
             "abilityMixins": [
                 {
@@ -4263,6 +4301,223 @@
                                 "attachPointName": "EffectPoint"
                             },
                             "effectTempleteID": 103
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Area_Dq_Property_Prop_StealInteractPoint_01",
+            "modifiers": {
+                "Normal": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Normal"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Area_Dq_Property_Prop_StealInteractPoint_01_Intee",
+            "abilityMixins": [
+                {
+                    "$type": "WidgetMpSupportMixin",
+                    "JIEEJKDIJHK": [
+                        {
+                            "$type": "ExecuteGadgetLua",
+                            "param1": 201
+                        }
+                    ],
+                    "failActions": [
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ],
+                    "predicates": [
+                        {
+                            "$type": "ByIsCombat",
+                            "target": "Other"
+                        }
+                    ]
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "ActiveState"
+                }
+            ],
+            "modifiers": {
+                "ActiveState": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ExecuteGadgetLua"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Area_Dq_Property_Prop_HumanLever_01",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "modifierName": "Close"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "Open"
+                }
+            ],
+            "modifiers": {
+                "Close": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                },
+                "Open": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Property_Stages_Prop_Challengestarter_PursinaActivity_02",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "modifierName": "PhaseNormal"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "PhaseReWard"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 202,
+                    "modifierName": "PhaseBattle"
+                }
+            ],
+            "modifiers": {
+                "PhaseNormal": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "_ABILITY_Floor_GadgetState",
+                                    "value": 201.0
+                                }
+                            ],
+                            "effectPattern": "Eff_SceneObj_NoChestChallenge_01_SuccessOpen"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_ABILITY_Floor_GadgetState",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_NoChestChallenge_01"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_Hint_03"
+                        },
+                        {
+                            "$type": "EnableGadgetIntee",
+                            "enable": true
+                        }
+                    ]
+                },
+                "PhaseBattle": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "_ABILITY_Floor_GadgetState",
+                                    "value": 0.0
+                                }
+                            ],
+                            "effectPattern": "Eff_SceneObj_NoChestChallenge_01_Disappear"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "target": "Self",
+                                    "key": "_ABILITY_Floor_GadgetState",
+                                    "value": 201.0
+                                }
+                            ],
+                            "effectPattern": "Eff_SceneObj_NoChestChallenge_01_Success_Disappear"
+                        },
+                        {
+                            "$type": "EnableGadgetIntee"
+                        }
+                    ]
+                },
+                "KillSelf": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ]
+                },
+                "PhaseReWard": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 201.0,
+                            "key": "_ABILITY_Floor_GadgetState",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_NoChestChallenge_01_Success"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_Hint_03"
+                        },
+                        {
+                            "$type": "EnableGadgetIntee",
+                            "enable": true
                         }
                     ]
                 }

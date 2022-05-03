@@ -429,7 +429,9 @@
                     "modifierMixins": [
                         {
                             "$type": "DoActionByElementReactionMixin",
-                            "range": 40.0,
+                            "entityTypes": [
+                                "Monster"
+                            ],
                             "reactionTypes": [
                                 "Explode",
                                 "Stream",
@@ -894,11 +896,12 @@
             "modifiers": {
                 "Qiqi_HealHP_Handler_Detector": {
                     "modifierName": "",
+                    "duration": 15.0,
                     "elementDurability": 100.0,
                     "thinkInterval": 1.0,
                     "onThinkInterval": [
                         {
-                            "$type": "ApplyModifier",
+                            "$type": "AttachModifier",
                             "target": "AllPlayerAvatars",
                             "doOffStage": true,
                             "modifierName": "UNIQUE_Qiqi_HealHP_Handler"
@@ -910,9 +913,9 @@
                     "elementDurability": 100.0,
                     "onAttackLanded": [
                         {
-                            "$type": "AttachModifier",
+                            "$type": "Predicated",
                             "target": "Target",
-                            "predicates": [
+                            "targetPredicates": [
                                 {
                                     "$type": "ByTargetGlobalValue",
                                     "key": "_PermanentSkill_2_Chance_CD",
@@ -949,7 +952,25 @@
                                     ]
                                 }
                             ],
-                            "modifierName": "Qiqi_Random_RuneModifier_Handler"
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "target": "Target",
+                                    "modifierName": "Qiqi_Random_RuneModifier_Handler"
+                                },
+                                {
+                                    "$type": "RemoveUniqueModifier",
+                                    "target": "AllPlayerAvatars",
+                                    "doOffStage": true,
+                                    "modifierName": "UNIQUE_Qiqi_HealHP_Handler"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "target": "AllPlayerAvatars",
+                                    "doOffStage": true,
+                                    "modifierName": "UNIQUE_Qiqi_HealHP_Handler"
+                                }
+                            ]
                         }
                     ]
                 },
@@ -1093,7 +1114,7 @@
                 "UNIQUE_Qiqi_HealHP_Handler": {
                     "modifierName": "",
                     "isUnique": true,
-                    "duration": 2.0,
+                    "duration": 15.5,
                     "elementDurability": 100.0,
                     "onAttackLanded": [
                         {
@@ -1152,10 +1173,6 @@
                         }
                     ],
                     "modifierName": "Qiqi_PermanentSkill_RuneModifier_Handler"
-                },
-                {
-                    "$type": "ApplyModifier",
-                    "modifierName": "Qiqi_HealHP_Handler_Detector"
                 }
             ],
             "onAbilityStart": [
@@ -1239,6 +1256,22 @@
                         }
                     ],
                     "modifierName": "UNIQUE_Qiqi_RuneModifier"
+                },
+                {
+                    "$type": "RemoveUniqueModifier",
+                    "target": "AllPlayerAvatars",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Qiqi_HealHP_Handler"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "target": "AllPlayerAvatars",
+                    "doOffStage": true,
+                    "modifierName": "UNIQUE_Qiqi_HealHP_Handler"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Qiqi_HealHP_Handler_Detector"
                 }
             ]
         }

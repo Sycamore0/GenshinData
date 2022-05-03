@@ -8,12 +8,14 @@
         "height": 0.75,
         "affectedByWorld": true,
         "checkInSurface": true,
-        "canTriggerElementReactionText": false
+        "canTriggerElementReactionText": false,
+        "clearAnimatorOnSetLightDeactive": true,
+        "clearAIOnSetLightDeactive": true
     },
     "model": {
         "bornEffect": "",
         "attachEffect": "",
-        "canBakeMesh": false
+        "EAOOHCKOMKJ": false
     },
     "dither": {
         "showDitherDuration": 1.0
@@ -71,6 +73,11 @@
         {
             "abilityID": "Animal_Thoarder_Weasel_State",
             "abilityName": "Animal_Thoarder_Weasel_State",
+            "abilityOverride": ""
+        },
+        {
+            "abilityID": "",
+            "abilityName": "Animal_Thoarder_Weasel_Drill_Exit",
             "abilityOverride": ""
         }
     ],
@@ -198,6 +205,10 @@
                         "Drill": [
                             "Animal_Thoarder_Weasel_Drill",
                             "Audio_Creature_Weasel_Drill"
+                        ],
+                        "Drill_Disappear": [
+                            "Animal_Thoarder_Weasel_Drill_Exit",
+                            "Audio_Creature_Weasel_Drill"
                         ]
                     },
                     "resetAnimatorTriggerOnExit": [
@@ -233,7 +244,23 @@
                 "boolParams": {
                     "FleeState": "false",
                     "Jump": "false",
-                    "Wander": "false"
+                    "Wander": "false",
+                    "OnlyFlee": "false",
+                    "CustomizedLoot": "false",
+                    "DrillExit": "false"
+                }
+            }
+        },
+        "OnlyFlee": {
+            "initialPoseID": 9,
+            "initialPoseParams": {
+                "boolParams": {
+                    "FleeState": "false",
+                    "Jump": "false",
+                    "Wander": "false",
+                    "OnlyFlee": "true",
+                    "CustomizedLoot": "false",
+                    "DrillExit": "false"
                 }
             }
         },
@@ -243,7 +270,49 @@
                 "boolParams": {
                     "FleeState": "true",
                     "Jump": "true",
-                    "Wander": "false"
+                    "Wander": "false",
+                    "OnlyFlee": "false",
+                    "CustomizedLoot": "false",
+                    "DrillExit": "false"
+                }
+            }
+        },
+        "OnlyFlee_AIFight": {
+            "initialPoseID": 911,
+            "initialPoseParams": {
+                "boolParams": {
+                    "FleeState": "false",
+                    "Jump": "false",
+                    "Wander": "false",
+                    "OnlyFlee": "true",
+                    "CustomizedLoot": "false",
+                    "DrillExit": "false"
+                }
+            }
+        },
+        "Customized_Loot": {
+            "initialPoseID": 921,
+            "initialPoseParams": {
+                "boolParams": {
+                    "FleeState": "false",
+                    "Jump": "false",
+                    "Wander": "false",
+                    "OnlyFlee": "false",
+                    "CustomizedLoot": "true",
+                    "DrillExit": "false"
+                }
+            }
+        },
+        "Drill_Exit": {
+            "initialPoseID": 102,
+            "initialPoseParams": {
+                "boolParams": {
+                    "FleeState": "false",
+                    "Jump": "false",
+                    "Wander": "false",
+                    "OnlyFlee": "false",
+                    "CustomizedLoot": "false",
+                    "DrillExit": "true"
                 }
             }
         }
@@ -257,18 +326,20 @@
         "sensing": {
             "settings": {
                 "Normal": {
+                    "viewRange": 15.0,
                     "horizontalFov": 90.0,
                     "verticalFov": 45.0,
-                    "feelRange": 25.0
+                    "feelRange": 10.0
                 },
                 "Jump": {
                     "feelRange": 40.0
                 }
             },
-            "tempaltes": {
+            "templates": {
                 "DefaultTemplate": {
                     "1": "Normal",
                     "2": "Normal",
+                    "9": "Normal",
                     "3": "Jump"
                 }
             }
@@ -308,7 +379,8 @@
                 "skillType": "Free",
                 "castCondition": {
                     "pose": [
-                        1
+                        1,
+                        9
                     ]
                 },
                 "cd": 25.0,
@@ -329,7 +401,8 @@
                 "skillType": "Free",
                 "castCondition": {
                     "pose": [
-                        1
+                        1,
+                        9
                     ]
                 },
                 "cd": 20.0,
@@ -350,7 +423,8 @@
                 "skillType": "Free",
                 "castCondition": {
                     "pose": [
-                        1
+                        1,
+                        9
                     ]
                 },
                 "cd": 12.5,
@@ -382,6 +456,23 @@
                 "flagSelfOnTemplateCollider": "01",
                 "flagSelfInZone": "10",
                 "flagTargetInZone": "11"
+            },
+            "402": {
+                "name": "Drill_Disappear",
+                "skillType": "ActionPoint",
+                "castCondition": {
+                    "pose": [
+                        102
+                    ]
+                },
+                "publicCDGroup": "",
+                "stateIDs": [
+                    "Drill_Disappear"
+                ],
+                "flagTargetReachable": "10",
+                "flagSelfOnTemplateCollider": "01",
+                "flagSelfInZone": "10",
+                "flagTargetInZone": "11"
             }
         },
         "skillGCD": 5.0,
@@ -407,7 +498,8 @@
             "enable": true,
             "condition": {
                 "pose": [
-                    101
+                    101,
+                    102
                 ]
             },
             "nerveTrigger": [
@@ -420,13 +512,25 @@
                 "detectDistance": 30.0,
                 "overtime": 10.0,
                 "skillID": 401
+            },
+            "specification": {
+                "102": {
+                    "pointType": "MoleHolePoint",
+                    "speedLevel": 2,
+                    "turnSpeedOverride": 2.5,
+                    "detectDistance": 30.0,
+                    "overtime": 10.0,
+                    "skillID": 402
+                }
             }
         },
         "fleeTactic": {
             "enable": true,
             "condition": {
                 "pose": [
-                    901
+                    901,
+                    911,
+                    921
                 ]
             },
             "defaultSetting": {

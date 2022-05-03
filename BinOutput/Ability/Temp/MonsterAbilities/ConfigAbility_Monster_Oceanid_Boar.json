@@ -120,7 +120,7 @@
                                     "radius": 1.75
                                 },
                                 "attackInfo": {
-                                    "attackTag": "",
+                                    "attackTag": "Oceanid_Boar_RushAtk",
                                     "attenuationTag": "",
                                     "attenuationGroup": "default",
                                     "attackProperty": {
@@ -141,9 +141,29 @@
                     ],
                     "onAttackLanded": [
                         {
-                            "$type": "ApplyModifier",
+                            "$type": "Predicated",
                             "target": "Target",
-                            "modifierName": "Oceanid_Boar_RushAtkFlag"
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Avatar"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "Oceanid_Boar_RushAtk"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "Target",
+                                    "modifierName": "Oceanid_Boar_RushAtkFlag"
+                                }
+                            ]
                         }
                     ],
                     "onThinkInterval": [
@@ -164,7 +184,7 @@
                                     "radius": 1.75
                                 },
                                 "attackInfo": {
-                                    "attackTag": "",
+                                    "attackTag": "Oceanid_Boar_RushAtk",
                                     "attenuationTag": "",
                                     "attenuationGroup": "default",
                                     "attackProperty": {
@@ -280,7 +300,8 @@
                                         "onHitEffectName": "default",
                                         "hitImpulseType": "LV8",
                                         "retreatType": "ByHitDirection"
-                                    }
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
                                 }
                             },
                             "targetType": "Enemy"
@@ -499,7 +520,7 @@
                         "offset": {
                             "x": 0.0,
                             "y": 0.20000000298023224,
-                            "z": 1.600000023841858
+                            "z": 1.2999999523162842
                         }
                     }
                 }
@@ -561,7 +582,7 @@
                             "born": {
                                 "$type": "ConfigBornByCollisionPoint"
                             },
-                            "radius": 2.0
+                            "radius": 2.5
                         },
                         "attackInfo": {
                             "attackTag": "",
@@ -580,7 +601,8 @@
                                 "hitImpulseType": "LV4",
                                 "retreatType": "ByHitDirection",
                                 "hitHaltTimeScale": 0.05000000074505806
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -617,7 +639,8 @@
                 }
             ],
             "abilitySpecials": {
-                "HealHP": 0.05000000074505806
+                "HealHP": 0.05000000074505806,
+                "HealHPHigh": 0.15000000596046448
             },
             "modifiers": {
                 "UNIQUE_Boar_Water_HealHp": {
@@ -627,40 +650,121 @@
                     "thinkInterval": 1.5,
                     "onBeingHit": [
                         {
-                            "$type": "ApplyModifier",
-                            "predicates": [
+                            "$type": "Predicated",
+                            "targetPredicates": [
                                 {
-                                    "$type": "ByAny",
-                                    "predicates": [
-                                        {
-                                            "$type": "ByHitElement",
-                                            "element": "Fire"
-                                        },
-                                        {
-                                            "$type": "ByTargetGlobalValue",
-                                            "key": "_OCEANID_ANIMAL_SP",
-                                            "value": 1.0
-                                        }
-                                    ]
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "SGV_MONSTERAFFIX_OCEANID_02_ANIMALHEAL_UP",
+                                    "value": 1.0
                                 }
                             ],
-                            "modifierName": "HealHP_Pause"
+                            "successActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByAny",
+                                            "predicates": [
+                                                {
+                                                    "$type": "ByHitElement",
+                                                    "element": "Fire"
+                                                },
+                                                {
+                                                    "$type": "ByTargetGlobalValue",
+                                                    "key": "_OCEANID_ANIMAL_SP",
+                                                    "value": 1.0
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "modifierName": "HealHP_Pause_AffixUp"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "ApplyModifier",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByAny",
+                                            "predicates": [
+                                                {
+                                                    "$type": "ByHitElement",
+                                                    "element": "Fire"
+                                                },
+                                                {
+                                                    "$type": "ByTargetGlobalValue",
+                                                    "key": "_OCEANID_ANIMAL_SP",
+                                                    "value": 1.0
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "modifierName": "HealHP_Pause"
+                                }
+                            ]
                         }
                     ],
                     "onThinkInterval": [
                         {
-                            "$type": "HealHP",
-                            "amountByCasterMaxHPRatio": "HealHP"
-                        },
-                        {
-                            "$type": "FireEffect",
-                            "effectPattern": "Eff_Monster_Oceanid_Boar_Heal"
+                            "$type": "Predicated",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "SGV_MONSTERAFFIX_OCEANID_02_ANIMALHEAL_UP",
+                                    "value": 1.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "HealHP",
+                                    "amountByCasterMaxHPRatio": "HealHPHigh"
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Monster_Oceanid_Boar_Heal"
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "HealHP",
+                                    "amountByCasterMaxHPRatio": "HealHP"
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Monster_Oceanid_Boar_Heal"
+                                }
+                            ]
                         }
                     ]
                 },
                 "HealHP_Pause": {
                     "modifierName": "",
                     "duration": 3.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 0.0,
+                            "key": "_HEALHP_STATE_",
+                            "useLimitRange": true,
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_HEALHP_STATE_",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 1.0
+                        }
+                    ]
+                },
+                "HealHP_Pause_AffixUp": {
+                    "modifierName": "",
+                    "duration": 1.5,
                     "elementDurability": 100.0,
                     "onAdded": [
                         {
@@ -734,6 +838,16 @@
                                 {
                                     "$type": "ByTargetGlobalValue",
                                     "key": "_MONSTERAFFIX_OCEANID_ANIMAL_SPMASK",
+                                    "value": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "ByNot",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_MONSTERAFFIX_OCEANID_ANIMAL_FOOTEFFECT_OFF",
                                     "value": 1.0
                                 }
                             ]

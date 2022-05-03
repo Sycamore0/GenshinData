@@ -50,21 +50,6 @@
     {
         "Default": {
             "$type": "ConfigAbility",
-            "abilityName": "Avatar_BeHit_Gauge",
-            "abilityMixins": [
-                {
-                    "$type": "HitLevelGaugeMixin",
-                    "minChargeDelta": 20.0,
-                    "maxChargeDelta": 30.0,
-                    "fadeTime": 0.10000000149011612
-                }
-            ],
-            "isDynamicAbility": true
-        }
-    },
-    {
-        "Default": {
-            "$type": "ConfigAbility",
             "abilityName": "Avatar_Freeze_Duration_Reducer",
             "onAdded": [
                 {
@@ -697,990 +682,271 @@
                 "Avatar_Sword_ReviveEnergy_Handler": {
                     "modifierName": "",
                     "elementDurability": 100.0,
-                    "onAdded": [
+                    "modifierMixins": [
                         {
-                            "$type": "AddGlobalValue",
-                            "value": -1.0,
-                            "key": "_Ability_Avatar_Sword_ReviveEnergy_Chance",
-                            "useLimitRange": true,
+                            "$type": "AttackReviveEnergyMixin",
+                            "attackTags": [
+                                "NormalAttack_01",
+                                "NormalAttack_02",
+                                "NormalAttack_03",
+                                "NormalAttack_04",
+                                "NormalAttack_05",
+                                "NormalAttack_06",
+                                "ExtraAttack"
+                            ],
                             "maxValue": 1.0,
-                            "minValue": 0.10000000149011612
-                        }
-                    ],
-                    "onAttackLanded": [
-                        {
-                            "$type": "SetGlobalValueToOverrideMap",
-                            "globalValueKey": "_Ability_Avatar_Sword_ReviveEnergy_Chance",
-                            "overrideMapKey": "Sword_ReviveEnergy_Chance"
-                        },
-                        {
-                            "$type": "Predicated",
-                            "target": "Target",
-                            "targetPredicates": [
-                                {
-                                    "$type": "ByAttackTags",
-                                    "attackTags": [
-                                        "NormalAttack_01",
-                                        "NormalAttack_02",
-                                        "NormalAttack_03",
-                                        "NormalAttack_04",
-                                        "NormalAttack_05",
-                                        "NormalAttack_06",
-                                        "ExtraAttack"
-                                    ]
-                                },
-                                {
-                                    "$type": "ByEntityTypes",
-                                    "entityTypes": [
-                                        "Monster"
-                                    ]
-                                },
-                                {
-                                    "$type": "ByTargetGlobalValue",
-                                    "key": "_ANIMAL_ENTITY_TYPE",
-                                    "value": 0.0,
-                                    "compareType": "NoneOrEqual"
-                                }
-                            ],
-                            "successActions": [
-                                {
-                                    "$type": "Randomed",
-                                    "chance": "Sword_ReviveEnergy_Chance",
-                                    "successActions": [
-                                        {
-                                            "$type": "ApplyModifier",
-                                            "modifierName": "Avatar_Sword_ReviveEnergy"
-                                        },
-                                        {
-                                            "$type": "AddGlobalValue",
-                                            "value": -1.0,
-                                            "key": "_Ability_Avatar_Sword_ReviveEnergy_Chance",
-                                            "useLimitRange": true,
-                                            "maxValue": 1.0,
-                                            "minValue": 0.10000000149011612
-                                        }
-                                    ],
-                                    "failActions": [
-                                        {
-                                            "$type": "AddGlobalValue",
-                                            "value": 0.05000000074505806,
-                                            "key": "_Ability_Avatar_Sword_ReviveEnergy_Chance",
-                                            "useLimitRange": true,
-                                            "maxValue": 1.0,
-                                            "minValue": 0.10000000149011612
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                "Avatar_Sword_ReviveEnergy": {
-                    "modifierName": "",
-                    "duration": 0.20000000298023224,
-                    "elementDurability": 100.0,
-                    "onAdded": [
-                        {
-                            "$type": "ReviveElemEnergy",
-                            "value": 1.0
-                        },
-                        {
-                            "$type": "Predicated",
-                            "targetPredicates": [
-                                {
-                                    "$type": "ByTargetElement",
-                                    "elementType": "Fire"
-                                }
-                            ],
-                            "successActions": [
-                                {
+                            "minValue": 0.10000000149011612,
+                            "EDKFOOIMGOL": 0.05000000074505806,
+                            "JCHOICGJEDL": {
+                                "$type": "ReviveElemEnergy",
+                                "value": 1.0
+                            },
+                            "NGKNMNEOCNK": {
+                                "Fire": {
                                     "$type": "FireEffect",
                                     "effectPattern": "Eff_Avatar_ReviveEnergy_Fire"
+                                },
+                                "Ice": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Ice"
+                                },
+                                "Electric": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Electric"
+                                },
+                                "Water": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Water"
+                                },
+                                "Wind": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Wind"
+                                },
+                                "Rock": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Rock"
+                                },
+                                "Grass": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Grass"
                                 }
-                            ],
-                            "failActions": [
-                                {
-                                    "$type": "Predicated",
-                                    "targetPredicates": [
-                                        {
-                                            "$type": "ByTargetElement",
-                                            "elementType": "Ice"
-                                        }
-                                    ],
-                                    "successActions": [
-                                        {
-                                            "$type": "FireEffect",
-                                            "effectPattern": "Eff_Avatar_ReviveEnergy_Ice"
-                                        }
-                                    ],
-                                    "failActions": [
-                                        {
-                                            "$type": "Predicated",
-                                            "targetPredicates": [
-                                                {
-                                                    "$type": "ByTargetElement",
-                                                    "elementType": "Electric"
-                                                }
-                                            ],
-                                            "successActions": [
-                                                {
-                                                    "$type": "FireEffect",
-                                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Electric"
-                                                }
-                                            ],
-                                            "failActions": [
-                                                {
-                                                    "$type": "Predicated",
-                                                    "targetPredicates": [
-                                                        {
-                                                            "$type": "ByTargetElement",
-                                                            "elementType": "Water"
-                                                        }
-                                                    ],
-                                                    "successActions": [
-                                                        {
-                                                            "$type": "FireEffect",
-                                                            "effectPattern": "Eff_Avatar_ReviveEnergy_Water"
-                                                        }
-                                                    ],
-                                                    "failActions": [
-                                                        {
-                                                            "$type": "Predicated",
-                                                            "targetPredicates": [
-                                                                {
-                                                                    "$type": "ByTargetElement",
-                                                                    "elementType": "Wind"
-                                                                }
-                                                            ],
-                                                            "successActions": [
-                                                                {
-                                                                    "$type": "FireEffect",
-                                                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Wind"
-                                                                }
-                                                            ],
-                                                            "failActions": [
-                                                                {
-                                                                    "$type": "Predicated",
-                                                                    "targetPredicates": [
-                                                                        {
-                                                                            "$type": "ByTargetElement",
-                                                                            "elementType": "Rock"
-                                                                        }
-                                                                    ],
-                                                                    "successActions": [
-                                                                        {
-                                                                            "$type": "FireEffect",
-                                                                            "effectPattern": "Eff_Avatar_ReviveEnergy_Rock"
-                                                                        }
-                                                                    ],
-                                                                    "failActions": [
-                                                                        {
-                                                                            "$type": "FireEffect",
-                                                                            "effectPattern": "Eff_Avatar_ReviveEnergy_Grass"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
+                            }
                         }
                     ]
                 },
                 "Avatar_Bow_ReviveEnergy_Handler": {
                     "modifierName": "",
                     "elementDurability": 100.0,
-                    "onAdded": [
+                    "modifierMixins": [
                         {
-                            "$type": "AddGlobalValue",
-                            "value": -1.0,
-                            "key": "_Ability_Avatar_Bow_ReviveEnergy_Chance",
-                            "useLimitRange": true,
+                            "$type": "AttackReviveEnergyMixin",
+                            "attackTags": [
+                                "NormalAttack_01",
+                                "NormalAttack_02",
+                                "NormalAttack_03",
+                                "NormalAttack_04",
+                                "NormalAttack_05",
+                                "NormalAttack_06",
+                                "ExtraAttack"
+                            ],
                             "maxValue": 1.0,
-                            "minValue": 0.0
-                        }
-                    ],
-                    "onAttackLanded": [
-                        {
-                            "$type": "SetGlobalValueToOverrideMap",
-                            "globalValueKey": "_Ability_Avatar_Bow_ReviveEnergy_Chance",
-                            "overrideMapKey": "Bow_ReviveEnergy_Chance"
-                        },
-                        {
-                            "$type": "Predicated",
-                            "target": "Target",
-                            "targetPredicates": [
-                                {
-                                    "$type": "ByAttackTags",
-                                    "attackTags": [
-                                        "NormalAttack_01",
-                                        "NormalAttack_02",
-                                        "NormalAttack_03",
-                                        "NormalAttack_04",
-                                        "NormalAttack_05",
-                                        "NormalAttack_06",
-                                        "ExtraAttack"
-                                    ]
-                                },
-                                {
-                                    "$type": "ByEntityTypes",
-                                    "entityTypes": [
-                                        "Monster"
-                                    ]
-                                },
-                                {
-                                    "$type": "ByTargetGlobalValue",
-                                    "key": "_ANIMAL_ENTITY_TYPE",
-                                    "value": 0.0,
-                                    "compareType": "NoneOrEqual"
-                                }
-                            ],
-                            "successActions": [
-                                {
-                                    "$type": "Randomed",
-                                    "chance": "Bow_ReviveEnergy_Chance",
-                                    "successActions": [
-                                        {
-                                            "$type": "ApplyModifier",
-                                            "modifierName": "Avatar_Bow_ReviveEnergy"
-                                        },
-                                        {
-                                            "$type": "AddGlobalValue",
-                                            "value": -1.0,
-                                            "key": "_Ability_Avatar_Bow_ReviveEnergy_Chance",
-                                            "useLimitRange": true,
-                                            "maxValue": 1.0,
-                                            "minValue": 0.0
-                                        }
-                                    ],
-                                    "failActions": [
-                                        {
-                                            "$type": "AddGlobalValue",
-                                            "value": 0.05000000074505806,
-                                            "key": "_Ability_Avatar_Bow_ReviveEnergy_Chance",
-                                            "useLimitRange": true,
-                                            "maxValue": 1.0,
-                                            "minValue": 0.0
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                "Avatar_Bow_ReviveEnergy": {
-                    "modifierName": "",
-                    "duration": 0.20000000298023224,
-                    "elementDurability": 100.0,
-                    "onAdded": [
-                        {
-                            "$type": "ReviveElemEnergy",
-                            "value": 1.0
-                        },
-                        {
-                            "$type": "Predicated",
-                            "targetPredicates": [
-                                {
-                                    "$type": "ByTargetElement",
-                                    "elementType": "Fire"
-                                }
-                            ],
-                            "successActions": [
-                                {
+                            "EDKFOOIMGOL": 0.05000000074505806,
+                            "JCHOICGJEDL": {
+                                "$type": "ReviveElemEnergy",
+                                "value": 1.0
+                            },
+                            "NGKNMNEOCNK": {
+                                "Fire": {
                                     "$type": "FireEffect",
                                     "effectPattern": "Eff_Avatar_ReviveEnergy_Fire"
+                                },
+                                "Ice": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Ice"
+                                },
+                                "Electric": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Electric"
+                                },
+                                "Water": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Water"
+                                },
+                                "Wind": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Wind"
+                                },
+                                "Rock": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Rock"
+                                },
+                                "Grass": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Grass"
                                 }
-                            ],
-                            "failActions": [
-                                {
-                                    "$type": "Predicated",
-                                    "targetPredicates": [
-                                        {
-                                            "$type": "ByTargetElement",
-                                            "elementType": "Ice"
-                                        }
-                                    ],
-                                    "successActions": [
-                                        {
-                                            "$type": "FireEffect",
-                                            "effectPattern": "Eff_Avatar_ReviveEnergy_Ice"
-                                        }
-                                    ],
-                                    "failActions": [
-                                        {
-                                            "$type": "Predicated",
-                                            "targetPredicates": [
-                                                {
-                                                    "$type": "ByTargetElement",
-                                                    "elementType": "Electric"
-                                                }
-                                            ],
-                                            "successActions": [
-                                                {
-                                                    "$type": "FireEffect",
-                                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Electric"
-                                                }
-                                            ],
-                                            "failActions": [
-                                                {
-                                                    "$type": "Predicated",
-                                                    "targetPredicates": [
-                                                        {
-                                                            "$type": "ByTargetElement",
-                                                            "elementType": "Water"
-                                                        }
-                                                    ],
-                                                    "successActions": [
-                                                        {
-                                                            "$type": "FireEffect",
-                                                            "effectPattern": "Eff_Avatar_ReviveEnergy_Water"
-                                                        }
-                                                    ],
-                                                    "failActions": [
-                                                        {
-                                                            "$type": "Predicated",
-                                                            "targetPredicates": [
-                                                                {
-                                                                    "$type": "ByTargetElement",
-                                                                    "elementType": "Wind"
-                                                                }
-                                                            ],
-                                                            "successActions": [
-                                                                {
-                                                                    "$type": "FireEffect",
-                                                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Wind"
-                                                                }
-                                                            ],
-                                                            "failActions": [
-                                                                {
-                                                                    "$type": "Predicated",
-                                                                    "targetPredicates": [
-                                                                        {
-                                                                            "$type": "ByTargetElement",
-                                                                            "elementType": "Rock"
-                                                                        }
-                                                                    ],
-                                                                    "successActions": [
-                                                                        {
-                                                                            "$type": "FireEffect",
-                                                                            "effectPattern": "Eff_Avatar_ReviveEnergy_Rock"
-                                                                        }
-                                                                    ],
-                                                                    "failActions": [
-                                                                        {
-                                                                            "$type": "FireEffect",
-                                                                            "effectPattern": "Eff_Avatar_ReviveEnergy_Grass"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
+                            }
                         }
                     ]
                 },
                 "Avatar_Claymore_ReviveEnergy_Handler": {
                     "modifierName": "",
                     "elementDurability": 100.0,
-                    "onAdded": [
+                    "modifierMixins": [
                         {
-                            "$type": "AddGlobalValue",
-                            "value": -1.0,
-                            "key": "_Ability_Avatar_Claymore_ReviveEnergy_Chance",
-                            "useLimitRange": true,
+                            "$type": "AttackReviveEnergyMixin",
+                            "attackTags": [
+                                "NormalAttack_01",
+                                "NormalAttack_02",
+                                "NormalAttack_03",
+                                "NormalAttack_04",
+                                "NormalAttack_05",
+                                "NormalAttack_06",
+                                "ExtraAttack"
+                            ],
                             "maxValue": 1.0,
-                            "minValue": 0.0
-                        }
-                    ],
-                    "onAttackLanded": [
-                        {
-                            "$type": "SetGlobalValueToOverrideMap",
-                            "globalValueKey": "_Ability_Avatar_Claymore_ReviveEnergy_Chance",
-                            "overrideMapKey": "Claymore_ReviveEnergy_Chance"
-                        },
-                        {
-                            "$type": "Predicated",
-                            "target": "Target",
-                            "targetPredicates": [
-                                {
-                                    "$type": "ByAttackTags",
-                                    "attackTags": [
-                                        "NormalAttack_01",
-                                        "NormalAttack_02",
-                                        "NormalAttack_03",
-                                        "NormalAttack_04",
-                                        "NormalAttack_05",
-                                        "NormalAttack_06",
-                                        "ExtraAttack"
-                                    ]
-                                },
-                                {
-                                    "$type": "ByEntityTypes",
-                                    "entityTypes": [
-                                        "Monster"
-                                    ]
-                                },
-                                {
-                                    "$type": "ByTargetGlobalValue",
-                                    "key": "_ANIMAL_ENTITY_TYPE",
-                                    "value": 0.0,
-                                    "compareType": "NoneOrEqual"
-                                }
-                            ],
-                            "successActions": [
-                                {
-                                    "$type": "Randomed",
-                                    "chance": "Claymore_ReviveEnergy_Chance",
-                                    "successActions": [
-                                        {
-                                            "$type": "ApplyModifier",
-                                            "modifierName": "Avatar_Claymore_ReviveEnergy"
-                                        },
-                                        {
-                                            "$type": "AddGlobalValue",
-                                            "value": -1.0,
-                                            "key": "_Ability_Avatar_Claymore_ReviveEnergy_Chance",
-                                            "useLimitRange": true,
-                                            "maxValue": 1.0,
-                                            "minValue": 0.0
-                                        }
-                                    ],
-                                    "failActions": [
-                                        {
-                                            "$type": "AddGlobalValue",
-                                            "value": 0.10000000149011612,
-                                            "key": "_Ability_Avatar_Claymore_ReviveEnergy_Chance",
-                                            "useLimitRange": true,
-                                            "maxValue": 1.0,
-                                            "minValue": 0.0
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                "Avatar_Claymore_ReviveEnergy": {
-                    "modifierName": "",
-                    "duration": 0.20000000298023224,
-                    "elementDurability": 100.0,
-                    "onAdded": [
-                        {
-                            "$type": "ReviveElemEnergy",
-                            "value": 1.0
-                        },
-                        {
-                            "$type": "Predicated",
-                            "targetPredicates": [
-                                {
-                                    "$type": "ByTargetElement",
-                                    "elementType": "Fire"
-                                }
-                            ],
-                            "successActions": [
-                                {
+                            "EDKFOOIMGOL": 0.10000000149011612,
+                            "JCHOICGJEDL": {
+                                "$type": "ReviveElemEnergy",
+                                "value": 1.0
+                            },
+                            "NGKNMNEOCNK": {
+                                "Fire": {
                                     "$type": "FireEffect",
                                     "effectPattern": "Eff_Avatar_ReviveEnergy_Fire"
+                                },
+                                "Ice": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Ice"
+                                },
+                                "Electric": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Electric"
+                                },
+                                "Water": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Water"
+                                },
+                                "Wind": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Wind"
+                                },
+                                "Rock": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Rock"
+                                },
+                                "Grass": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Grass"
                                 }
-                            ],
-                            "failActions": [
-                                {
-                                    "$type": "Predicated",
-                                    "targetPredicates": [
-                                        {
-                                            "$type": "ByTargetElement",
-                                            "elementType": "Ice"
-                                        }
-                                    ],
-                                    "successActions": [
-                                        {
-                                            "$type": "FireEffect",
-                                            "effectPattern": "Eff_Avatar_ReviveEnergy_Ice"
-                                        }
-                                    ],
-                                    "failActions": [
-                                        {
-                                            "$type": "Predicated",
-                                            "targetPredicates": [
-                                                {
-                                                    "$type": "ByTargetElement",
-                                                    "elementType": "Electric"
-                                                }
-                                            ],
-                                            "successActions": [
-                                                {
-                                                    "$type": "FireEffect",
-                                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Electric"
-                                                }
-                                            ],
-                                            "failActions": [
-                                                {
-                                                    "$type": "Predicated",
-                                                    "targetPredicates": [
-                                                        {
-                                                            "$type": "ByTargetElement",
-                                                            "elementType": "Water"
-                                                        }
-                                                    ],
-                                                    "successActions": [
-                                                        {
-                                                            "$type": "FireEffect",
-                                                            "effectPattern": "Eff_Avatar_ReviveEnergy_Water"
-                                                        }
-                                                    ],
-                                                    "failActions": [
-                                                        {
-                                                            "$type": "Predicated",
-                                                            "targetPredicates": [
-                                                                {
-                                                                    "$type": "ByTargetElement",
-                                                                    "elementType": "Wind"
-                                                                }
-                                                            ],
-                                                            "successActions": [
-                                                                {
-                                                                    "$type": "FireEffect",
-                                                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Wind"
-                                                                }
-                                                            ],
-                                                            "failActions": [
-                                                                {
-                                                                    "$type": "Predicated",
-                                                                    "targetPredicates": [
-                                                                        {
-                                                                            "$type": "ByTargetElement",
-                                                                            "elementType": "Rock"
-                                                                        }
-                                                                    ],
-                                                                    "successActions": [
-                                                                        {
-                                                                            "$type": "FireEffect",
-                                                                            "effectPattern": "Eff_Avatar_ReviveEnergy_Rock"
-                                                                        }
-                                                                    ],
-                                                                    "failActions": [
-                                                                        {
-                                                                            "$type": "FireEffect",
-                                                                            "effectPattern": "Eff_Avatar_ReviveEnergy_Grass"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
+                            }
                         }
                     ]
                 },
                 "Avatar_Pole_ReviveEnergy_Handler": {
                     "modifierName": "",
                     "elementDurability": 100.0,
-                    "onAdded": [
+                    "modifierMixins": [
                         {
-                            "$type": "AddGlobalValue",
-                            "value": -1.0,
-                            "key": "_Ability_Avatar_Pole_ReviveEnergy_Chance",
-                            "useLimitRange": true,
+                            "$type": "AttackReviveEnergyMixin",
+                            "attackTags": [
+                                "NormalAttack_01",
+                                "NormalAttack_02",
+                                "NormalAttack_03",
+                                "NormalAttack_04",
+                                "NormalAttack_05",
+                                "NormalAttack_06",
+                                "ExtraAttack"
+                            ],
                             "maxValue": 1.0,
-                            "minValue": 0.0
-                        }
-                    ],
-                    "onAttackLanded": [
-                        {
-                            "$type": "SetGlobalValueToOverrideMap",
-                            "globalValueKey": "_Ability_Avatar_Pole_ReviveEnergy_Chance",
-                            "overrideMapKey": "Pole_ReviveEnergy_Chance"
-                        },
-                        {
-                            "$type": "Predicated",
-                            "target": "Target",
-                            "targetPredicates": [
-                                {
-                                    "$type": "ByAttackTags",
-                                    "attackTags": [
-                                        "NormalAttack_01",
-                                        "NormalAttack_02",
-                                        "NormalAttack_03",
-                                        "NormalAttack_04",
-                                        "NormalAttack_05",
-                                        "NormalAttack_06",
-                                        "ExtraAttack"
-                                    ]
-                                },
-                                {
-                                    "$type": "ByEntityTypes",
-                                    "entityTypes": [
-                                        "Monster"
-                                    ]
-                                },
-                                {
-                                    "$type": "ByTargetGlobalValue",
-                                    "key": "_ANIMAL_ENTITY_TYPE",
-                                    "value": 0.0,
-                                    "compareType": "NoneOrEqual"
-                                }
-                            ],
-                            "successActions": [
-                                {
-                                    "$type": "Randomed",
-                                    "chance": "Pole_ReviveEnergy_Chance",
-                                    "successActions": [
-                                        {
-                                            "$type": "ApplyModifier",
-                                            "modifierName": "Avatar_Pole_ReviveEnergy"
-                                        },
-                                        {
-                                            "$type": "AddGlobalValue",
-                                            "value": -1.0,
-                                            "key": "_Ability_Avatar_Pole_ReviveEnergy_Chance",
-                                            "useLimitRange": true,
-                                            "maxValue": 1.0,
-                                            "minValue": 0.0
-                                        }
-                                    ],
-                                    "failActions": [
-                                        {
-                                            "$type": "AddGlobalValue",
-                                            "value": 0.03999999910593033,
-                                            "key": "_Ability_Avatar_Pole_ReviveEnergy_Chance",
-                                            "useLimitRange": true,
-                                            "maxValue": 1.0,
-                                            "minValue": 0.0
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                "Avatar_Pole_ReviveEnergy": {
-                    "modifierName": "",
-                    "duration": 0.20000000298023224,
-                    "elementDurability": 100.0,
-                    "onAdded": [
-                        {
-                            "$type": "ReviveElemEnergy",
-                            "value": 1.0
-                        },
-                        {
-                            "$type": "Predicated",
-                            "targetPredicates": [
-                                {
-                                    "$type": "ByTargetElement",
-                                    "elementType": "Fire"
-                                }
-                            ],
-                            "successActions": [
-                                {
+                            "EDKFOOIMGOL": 0.03999999910593033,
+                            "JCHOICGJEDL": {
+                                "$type": "ReviveElemEnergy",
+                                "value": 1.0
+                            },
+                            "NGKNMNEOCNK": {
+                                "Fire": {
                                     "$type": "FireEffect",
                                     "effectPattern": "Eff_Avatar_ReviveEnergy_Fire"
+                                },
+                                "Ice": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Ice"
+                                },
+                                "Electric": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Electric"
+                                },
+                                "Water": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Water"
+                                },
+                                "Wind": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Wind"
+                                },
+                                "Rock": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Rock"
+                                },
+                                "Grass": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Grass"
                                 }
-                            ],
-                            "failActions": [
-                                {
-                                    "$type": "Predicated",
-                                    "targetPredicates": [
-                                        {
-                                            "$type": "ByTargetElement",
-                                            "elementType": "Ice"
-                                        }
-                                    ],
-                                    "successActions": [
-                                        {
-                                            "$type": "FireEffect",
-                                            "effectPattern": "Eff_Avatar_ReviveEnergy_Ice"
-                                        }
-                                    ],
-                                    "failActions": [
-                                        {
-                                            "$type": "Predicated",
-                                            "targetPredicates": [
-                                                {
-                                                    "$type": "ByTargetElement",
-                                                    "elementType": "Electric"
-                                                }
-                                            ],
-                                            "successActions": [
-                                                {
-                                                    "$type": "FireEffect",
-                                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Electric"
-                                                }
-                                            ],
-                                            "failActions": [
-                                                {
-                                                    "$type": "Predicated",
-                                                    "targetPredicates": [
-                                                        {
-                                                            "$type": "ByTargetElement",
-                                                            "elementType": "Water"
-                                                        }
-                                                    ],
-                                                    "successActions": [
-                                                        {
-                                                            "$type": "FireEffect",
-                                                            "effectPattern": "Eff_Avatar_ReviveEnergy_Water"
-                                                        }
-                                                    ],
-                                                    "failActions": [
-                                                        {
-                                                            "$type": "Predicated",
-                                                            "targetPredicates": [
-                                                                {
-                                                                    "$type": "ByTargetElement",
-                                                                    "elementType": "Wind"
-                                                                }
-                                                            ],
-                                                            "successActions": [
-                                                                {
-                                                                    "$type": "FireEffect",
-                                                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Wind"
-                                                                }
-                                                            ],
-                                                            "failActions": [
-                                                                {
-                                                                    "$type": "Predicated",
-                                                                    "targetPredicates": [
-                                                                        {
-                                                                            "$type": "ByTargetElement",
-                                                                            "elementType": "Rock"
-                                                                        }
-                                                                    ],
-                                                                    "successActions": [
-                                                                        {
-                                                                            "$type": "FireEffect",
-                                                                            "effectPattern": "Eff_Avatar_ReviveEnergy_Rock"
-                                                                        }
-                                                                    ],
-                                                                    "failActions": [
-                                                                        {
-                                                                            "$type": "FireEffect",
-                                                                            "effectPattern": "Eff_Avatar_ReviveEnergy_Grass"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
+                            }
                         }
                     ]
                 },
                 "Avatar_Catalyst_ReviveEnergy_Handler": {
                     "modifierName": "",
                     "elementDurability": 100.0,
-                    "onAdded": [
+                    "modifierMixins": [
                         {
-                            "$type": "AddGlobalValue",
-                            "value": -1.0,
-                            "key": "_Ability_Avatar_Catalyst_ReviveEnergy_Chance",
-                            "useLimitRange": true,
+                            "$type": "AttackReviveEnergyMixin",
+                            "attackTags": [
+                                "NormalAttack_01",
+                                "NormalAttack_02",
+                                "NormalAttack_03",
+                                "NormalAttack_04",
+                                "NormalAttack_05",
+                                "NormalAttack_06",
+                                "ExtraAttack"
+                            ],
                             "maxValue": 1.0,
-                            "minValue": 0.0
-                        }
-                    ],
-                    "onAttackLanded": [
-                        {
-                            "$type": "SetGlobalValueToOverrideMap",
-                            "globalValueKey": "_Ability_Avatar_Catalyst_ReviveEnergy_Chance",
-                            "overrideMapKey": "Catalyst_ReviveEnergy_Chance"
-                        },
-                        {
-                            "$type": "Predicated",
-                            "target": "Target",
-                            "targetPredicates": [
-                                {
-                                    "$type": "ByAttackTags",
-                                    "attackTags": [
-                                        "NormalAttack_01",
-                                        "NormalAttack_02",
-                                        "NormalAttack_03",
-                                        "NormalAttack_04",
-                                        "NormalAttack_05",
-                                        "NormalAttack_06",
-                                        "ExtraAttack"
-                                    ]
-                                },
-                                {
-                                    "$type": "ByEntityTypes",
-                                    "entityTypes": [
-                                        "Monster"
-                                    ]
-                                },
-                                {
-                                    "$type": "ByTargetGlobalValue",
-                                    "key": "_ANIMAL_ENTITY_TYPE",
-                                    "value": 0.0,
-                                    "compareType": "NoneOrEqual"
-                                }
-                            ],
-                            "successActions": [
-                                {
-                                    "$type": "Randomed",
-                                    "chance": "Catalyst_ReviveEnergy_Chance",
-                                    "successActions": [
-                                        {
-                                            "$type": "ApplyModifier",
-                                            "modifierName": "Avatar_Catalyst_ReviveEnergy"
-                                        },
-                                        {
-                                            "$type": "AddGlobalValue",
-                                            "value": -1.0,
-                                            "key": "_Ability_Avatar_Catalyst_ReviveEnergy_Chance",
-                                            "useLimitRange": true,
-                                            "maxValue": 1.0,
-                                            "minValue": 0.0
-                                        }
-                                    ],
-                                    "failActions": [
-                                        {
-                                            "$type": "AddGlobalValue",
-                                            "value": 0.10000000149011612,
-                                            "key": "_Ability_Avatar_Catalyst_ReviveEnergy_Chance",
-                                            "useLimitRange": true,
-                                            "maxValue": 1.0,
-                                            "minValue": 0.0
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                "Avatar_Catalyst_ReviveEnergy": {
-                    "modifierName": "",
-                    "duration": 0.20000000298023224,
-                    "elementDurability": 100.0,
-                    "onAdded": [
-                        {
-                            "$type": "ReviveElemEnergy",
-                            "value": 1.0
-                        },
-                        {
-                            "$type": "Predicated",
-                            "targetPredicates": [
-                                {
-                                    "$type": "ByTargetElement",
-                                    "elementType": "Fire"
-                                }
-                            ],
-                            "successActions": [
-                                {
+                            "EDKFOOIMGOL": 0.10000000149011612,
+                            "JCHOICGJEDL": {
+                                "$type": "ReviveElemEnergy",
+                                "value": 1.0
+                            },
+                            "NGKNMNEOCNK": {
+                                "Fire": {
                                     "$type": "FireEffect",
                                     "effectPattern": "Eff_Avatar_ReviveEnergy_Fire"
+                                },
+                                "Ice": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Ice"
+                                },
+                                "Electric": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Electric"
+                                },
+                                "Water": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Water"
+                                },
+                                "Wind": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Wind"
+                                },
+                                "Rock": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Rock"
+                                },
+                                "Grass": {
+                                    "$type": "FireEffect",
+                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Grass"
                                 }
-                            ],
-                            "failActions": [
-                                {
-                                    "$type": "Predicated",
-                                    "targetPredicates": [
-                                        {
-                                            "$type": "ByTargetElement",
-                                            "elementType": "Ice"
-                                        }
-                                    ],
-                                    "successActions": [
-                                        {
-                                            "$type": "FireEffect",
-                                            "effectPattern": "Eff_Avatar_ReviveEnergy_Ice"
-                                        }
-                                    ],
-                                    "failActions": [
-                                        {
-                                            "$type": "Predicated",
-                                            "targetPredicates": [
-                                                {
-                                                    "$type": "ByTargetElement",
-                                                    "elementType": "Electric"
-                                                }
-                                            ],
-                                            "successActions": [
-                                                {
-                                                    "$type": "FireEffect",
-                                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Electric"
-                                                }
-                                            ],
-                                            "failActions": [
-                                                {
-                                                    "$type": "Predicated",
-                                                    "targetPredicates": [
-                                                        {
-                                                            "$type": "ByTargetElement",
-                                                            "elementType": "Water"
-                                                        }
-                                                    ],
-                                                    "successActions": [
-                                                        {
-                                                            "$type": "FireEffect",
-                                                            "effectPattern": "Eff_Avatar_ReviveEnergy_Water"
-                                                        }
-                                                    ],
-                                                    "failActions": [
-                                                        {
-                                                            "$type": "Predicated",
-                                                            "targetPredicates": [
-                                                                {
-                                                                    "$type": "ByTargetElement",
-                                                                    "elementType": "Wind"
-                                                                }
-                                                            ],
-                                                            "successActions": [
-                                                                {
-                                                                    "$type": "FireEffect",
-                                                                    "effectPattern": "Eff_Avatar_ReviveEnergy_Wind"
-                                                                }
-                                                            ],
-                                                            "failActions": [
-                                                                {
-                                                                    "$type": "Predicated",
-                                                                    "targetPredicates": [
-                                                                        {
-                                                                            "$type": "ByTargetElement",
-                                                                            "elementType": "Rock"
-                                                                        }
-                                                                    ],
-                                                                    "successActions": [
-                                                                        {
-                                                                            "$type": "FireEffect",
-                                                                            "effectPattern": "Eff_Avatar_ReviveEnergy_Rock"
-                                                                        }
-                                                                    ],
-                                                                    "failActions": [
-                                                                        {
-                                                                            "$type": "FireEffect",
-                                                                            "effectPattern": "Eff_Avatar_ReviveEnergy_Grass"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
+                            }
                         }
                     ]
                 }
@@ -1778,6 +1044,21 @@
                             "canBeHandledOnRecover": true
                         }
                     ]
+                },
+                "ElectricFairy_Initializer_Handler": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "target": "Team",
+                            "doOffStage": true,
+                            "value": 0.0,
+                            "key": "HAS_ELECTRIC_FAIRY_BUFF_Team",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
                 }
             },
             "onAdded": [
@@ -1790,6 +1071,11 @@
                     "$type": "ApplyModifier",
                     "doOffStage": true,
                     "modifierName": "PushCollider_Initializer_Handler"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "doOffStage": true,
+                    "modifierName": "ElectricFairy_Initializer_Handler"
                 }
             ],
             "isDynamicAbility": true
@@ -1853,6 +1139,17 @@
                                     "sceneIds": [
                                         43006
                                     ]
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByIsTargetCamp",
+                                    "campBaseOn": "Caster",
+                                    "campTargetType": "Enemy"
                                 }
                             ],
                             "successActions": [
@@ -1865,6 +1162,52 @@
                             ]
                         }
                     ]
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Avatar_RockGadget_KillByBlunt",
+            "modifiers": {
+                "RockDurability_Handler": {
+                    "modifierName": "",
+                    "elementType": "Rock",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ],
+                    "onBeingHit": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "Recover_RockDurability"
+                        }
+                    ]
+                },
+                "Recover_RockDurability": {
+                    "modifierName": "",
+                    "duration": 0.5,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddElementDurability",
+                            "value": 100.0,
+                            "modifierName": "RockDurability_Handler",
+                            "elementType": "Rock",
+                            "useLimitRange": true,
+                            "maxValue": 100.0
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "RockDurability_Handler"
                 }
             ],
             "isDynamicAbility": true

@@ -862,6 +862,142 @@
     {
         "Default": {
             "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Level_Common_Property_Prop_RealThunderFall_01_Ability",
+            "modifiers": {
+                "Thunder": {
+                    "modifierName": "",
+                    "duration": 1.5,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Thunder_EarlyWarning_01"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Quest_EnviroLightning_01"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "DelayShakeScreen"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "KillSelfModifier"
+                        }
+                    ]
+                },
+                "DelayShakeScreen": {
+                    "modifierName": "",
+                    "duration": 0.20000000298023224,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerAttackEvent",
+                            "attackEvent": {
+                                "attackPattern": {
+                                    "$type": "ConfigAttackSphere",
+                                    "radius": 1.0
+                                },
+                                "attackInfo": {
+                                    "attackTag": "",
+                                    "attenuationTag": "",
+                                    "attenuationGroup": "default",
+                                    "attackProperty": {
+                                        "damagePercentageRatio": 0.0,
+                                        "elementType": "Electric",
+                                        "elementDurability": 25.0,
+                                        "ignoreAttackerProperty": true,
+                                        "enBreak": 0.0,
+                                        "damageExtra": 0.0,
+                                        "trueDamage": true,
+                                        "KFEKOPMJDEJ": true
+                                    },
+                                    "hitPattern": {
+                                        "onHitEffectName": "default",
+                                        "hitImpulseType": "LV8",
+                                        "hitHaltTimeScale": 0.05000000074505806
+                                    },
+                                    "forceCameraShake": true,
+                                    "cameraShake": {
+                                        "shakeType": "CustomVector",
+                                        "shakeRange": 1.100000023841858,
+                                        "shakeTime": 0.5,
+                                        "shakeDistance": 50.0,
+                                        "shakeDir": {
+                                            "y": -1.0
+                                        },
+                                        "extension": {
+                                            "rangeAttenuation": 0.20000000298023224
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                "KillSelfModifier": {
+                    "modifierName": "",
+                    "duration": 5.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Thunder"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Level_Common_Property_Prop_FireworksExplosion_01_Ability",
+            "modifiers": {
+                "Fireworks": {
+                    "modifierName": "",
+                    "duration": 5.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Quest_Yoimiya_Explosion_01"
+                        },
+                        {
+                            "$type": "ActCameraShake",
+                            "cameraShake": {
+                                "shakeRange": 1.100000023841858,
+                                "shakeTime": 0.20000000298023224,
+                                "shakeDistance": 30.0
+                            }
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Fireworks"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
             "abilityName": "SceneObj_Area_Common_Property_Prop_AbyssChain_01_Ability",
             "abilityMixins": [
                 {
@@ -908,6 +1044,345 @@
                 {
                     "$type": "ApplyModifier",
                     "modifierName": "Exist"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Environment_FireMaterial_CookingPotSnowMountain_Interact_Louder",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "modifierName": "Fire_Off"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "Fire_On"
+                }
+            ],
+            "modifiers": {
+                "Fire_Off": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onBeingHit": [
+                        {
+                            "$type": "ExecuteGadgetLua",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitElement",
+                                    "element": "Fire"
+                                },
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHasElement",
+                                            "element": "Water"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "param1": 201
+                        }
+                    ]
+                },
+                "Fire_On": {
+                    "modifierName": "",
+                    "elementType": "Fire",
+                    "elementDurability": 25.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "TileComplexMixin",
+                            "attackID": "TileAttack_FireSource",
+                            "attachPointName": "attachPoint",
+                            "shape": {
+                                "$type": "SphereTileShapeInfo",
+                                "radius": 0.10000000149011612
+                            }
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "IS_WARM_POINT",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Quest_CookingFireLoud_01"
+                        },
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_Cooking_01_Smoke",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "offset": {
+                                    "z": 0.0
+                                },
+                                "attachPointName": "RootNode"
+                            }
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ExecuteGadgetLua"
+                        },
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -1.0,
+                            "key": "IS_WARM_POINT",
+                            "useLimitRange": true,
+                            "maxValue": 1.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "FireBasin_Smoke",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "attachPoint"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Area_Dq_Property_Ani_Prop_DqBonfire_01",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "modifierName": "Fire_Off"
+                },
+                {
+                    "$type": "AttachToGadgetStateMixin",
+                    "gadgetState": 201,
+                    "modifierName": "Fire_On"
+                }
+            ],
+            "modifiers": {
+                "Fire_Off": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onBeingHit": [
+                        {
+                            "$type": "ExecuteGadgetLua",
+                            "predicates": [
+                                {
+                                    "$type": "ByHitElement",
+                                    "element": "Fire"
+                                },
+                                {
+                                    "$type": "ByNot",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByHasElement",
+                                            "element": "Water"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "param1": 201
+                        }
+                    ]
+                },
+                "Fire_On": {
+                    "modifierName": "",
+                    "elementType": "Fire",
+                    "elementDurability": 25.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "TileComplexMixin",
+                            "attackID": "TileAttack_FireSource",
+                            "attachPointName": "attachPoint",
+                            "shape": {
+                                "$type": "SphereTileShapeInfo",
+                                "radius": 0.699999988079071
+                            }
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Quest_DqBonfire_01"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "ExecuteGadgetLua"
+                        },
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "FireBasin_Smoke",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "attachPoint"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Area_Dq_Property_Prop_ShogunTeaSet_01_Ability",
+            "modifiers": {
+                "Smoke1": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Quest_ShogunTeaset_02_Smoke",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "Point1"
+                            }
+                        }
+                    ]
+                },
+                "Smoke2": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Quest_ShogunTeaset_02_Smoke",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "Point2"
+                            }
+                        }
+                    ]
+                },
+                "Smoke3": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_Quest_ShogunTeaset_02_Smoke",
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "attachPointName": "Point3"
+                            }
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Smoke1"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Smoke2"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Smoke3"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Quest_AbyssGate_01",
+            "modifiers": {
+                "AbyssGate01": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_ScenObj_AbyssPortal_01"
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_ScenObj_AbyssPortal_01_Disappear"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "AbyssGate01"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Quest_EnergyRay_01",
+            "modifiers": {
+                "EnergyRay01": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_ScenObj_EnergyRay_01"
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_ScenObj_EnergyRay_01_Disappear"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "EnergyRay01"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Quest_EnergyRay_02",
+            "modifiers": {
+                "EnergyRay02": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_ScenObj_EnergyRay_02"
+                        }
+                    ],
+                    "onKill": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_ScenObj_EnergyRay_02_Disappear"
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "EnergyRay02"
                 }
             ]
         }

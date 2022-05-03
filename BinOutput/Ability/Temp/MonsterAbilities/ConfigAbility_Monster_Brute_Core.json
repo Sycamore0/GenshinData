@@ -114,7 +114,9 @@
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
                             "angleOffset": {
-                                "y": 10.0
+                                "x": 0.0,
+                                "y": 10.0,
+                                "z": 0.0
                             }
                         }
                     }
@@ -132,7 +134,9 @@
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
                             "angleOffset": {
-                                "y": -10.0
+                                "x": 0.0,
+                                "y": -10.0,
+                                "z": 0.0
                             }
                         }
                     }
@@ -203,7 +207,8 @@
                                         "hitImpulseType": "LV6",
                                         "retreatType": "ByHitDirection",
                                         "hitHaltTimeScale": 0.009999999776482582
-                                    }
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
                                 }
                             },
                             "targetType": "Enemy"
@@ -253,7 +258,8 @@
                                 "hitImpulseType": "LV6",
                                 "retreatType": "ByHitDirection",
                                 "hitHaltTimeScale": 0.009999999776482582
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -317,7 +323,8 @@
                                         "hitImpulseType": "LV6",
                                         "retreatType": "ByHitDirection",
                                         "hitHaltTimeScale": 0.009999999776482582
-                                    }
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
                                 }
                             },
                             "targetType": "Enemy"
@@ -384,7 +391,8 @@
                                 "hitImpulseType": "LV6",
                                 "retreatType": "ByHitDirection",
                                 "hitHaltTimeScale": 0.009999999776482582
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -443,7 +451,8 @@
                                 "hitImpulseType": "LV8",
                                 "retreatType": "ByHitDirection",
                                 "hitHaltTimeScale": 0.009999999776482582
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -495,7 +504,8 @@
                     "poseIDs": [
                         111,
                         113,
-                        114
+                        114,
+                        115
                     ],
                     "modifierName": "NoWeapon_Steer"
                 }
@@ -743,6 +753,20 @@
                         903
                     ],
                     "modifierName": "Monster_Brute_Rock_ExitBattle"
+                },
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_MONSTER_BRUTE_ROCK_POWER_STATE",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5
+                    ],
+                    "modifierNameSteps": [
+                        "Monster_Brute_Rock_PowerStateOff",
+                        "Monster_Brute_Rock_PowerStateOn"
+                    ]
                 }
             ],
             "modifiers": {
@@ -778,12 +802,15 @@
                             "value": 7.0
                         },
                         {
-                            "$type": "SetAnimatorBool",
-                            "boolID": "PowerState"
-                        },
-                        {
                             "$type": "SetPoseBool",
                             "boolID": "ExitPower"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_MONSTER_BRUTE_ROCK_POWER_STATE",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
                         }
                     ]
                 },
@@ -827,9 +854,11 @@
                             "modifierName": "UNIQUE_Monster_Brute_Rock_SoundEffect"
                         },
                         {
-                            "$type": "SetAnimatorBool",
-                            "boolID": "PowerState",
-                            "value": true
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_MONSTER_BRUTE_ROCK_POWER_STATE",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
                         }
                     ],
                     "onRemoved": [
@@ -880,10 +909,9 @@
                                     "$type": "ByNot",
                                     "predicates": [
                                         {
-                                            "$type": "ByAnimatorFloat",
-                                            "logic": "Equal",
-                                            "value": 111.0,
-                                            "parameter": "PoseID"
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_MONSTER_BRUTE_ROCK_POWER_STATE",
+                                            "value": 1.0
                                         }
                                     ]
                                 }
@@ -916,10 +944,9 @@
                                     "$type": "ByNot",
                                     "predicates": [
                                         {
-                                            "$type": "ByAnimatorFloat",
-                                            "logic": "Equal",
-                                            "value": 111.0,
-                                            "parameter": "PoseID"
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_MONSTER_BRUTE_ROCK_POWER_STATE",
+                                            "value": 1.0
                                         }
                                     ]
                                 }
@@ -935,15 +962,61 @@
                                     "$type": "ByNot",
                                     "predicates": [
                                         {
-                                            "$type": "ByAnimatorFloat",
-                                            "logic": "Equal",
-                                            "value": 111.0,
-                                            "parameter": "PoseID"
+                                            "$type": "ByTargetGlobalValue",
+                                            "key": "_MONSTER_BRUTE_ROCK_POWER_STATE",
+                                            "value": 1.0
                                         }
                                     ]
                                 }
                             ],
                             "modifierName": "UNIQUE_Brute_Rock_CoreOn"
+                        }
+                    ]
+                },
+                "Monster_Brute_Rock_PowerStateOff": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "PowerState"
+                        }
+                    ],
+                    "onReconnect": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "PowerState"
+                        }
+                    ],
+                    "onChangeAuthority": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "PowerState"
+                        }
+                    ]
+                },
+                "Monster_Brute_Rock_PowerStateOn": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "PowerState",
+                            "value": true
+                        }
+                    ],
+                    "onReconnect": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "PowerState",
+                            "value": true
+                        }
+                    ],
+                    "onChangeAuthority": [
+                        {
+                            "$type": "SetAnimatorBool",
+                            "boolID": "PowerState",
+                            "value": true
                         }
                     ]
                 }
@@ -1018,12 +1091,15 @@
                             "value": 7.0
                         },
                         {
-                            "$type": "SetAnimatorBool",
-                            "boolID": "PowerState"
-                        },
-                        {
                             "$type": "SetPoseBool",
                             "boolID": "ExitPower"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_MONSTER_BRUTE_ROCK_POWER_STATE",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
                         }
                     ]
                 }
@@ -1159,7 +1235,9 @@
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
                             "angleOffset": {
-                                "y": -45.0
+                                "x": 0.0,
+                                "y": -45.0,
+                                "z": 0.0
                             }
                         }
                     }
@@ -1177,7 +1255,9 @@
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
                             "angleOffset": {
-                                "y": 45.0
+                                "x": 0.0,
+                                "y": 45.0,
+                                "z": 0.0
                             }
                         }
                     }
@@ -1195,7 +1275,9 @@
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
                             "angleOffset": {
-                                "y": 135.0
+                                "x": 0.0,
+                                "y": 135.0,
+                                "z": 0.0
                             }
                         }
                     }
@@ -1213,7 +1295,9 @@
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
                             "angleOffset": {
-                                "y": -135.0
+                                "x": 0.0,
+                                "y": -135.0,
+                                "z": 0.0
                             }
                         }
                     }
@@ -1728,7 +1812,12 @@
                             "z": 3.5
                         },
                         "direction": {
-                            "$type": "ConfigDirectionByEntity"
+                            "$type": "ConfigDirectionByEntity",
+                            "angleOffset": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            }
                         }
                     }
                 },
@@ -1745,7 +1834,9 @@
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
                             "angleOffset": {
-                                "y": 30.0
+                                "x": 0.0,
+                                "y": 30.0,
+                                "z": 0.0
                             }
                         }
                     }
@@ -1763,7 +1854,9 @@
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
                             "angleOffset": {
-                                "y": -30.0
+                                "x": 0.0,
+                                "y": -30.0,
+                                "z": 0.0
                             }
                         }
                     }
@@ -1824,7 +1917,12 @@
                             "z": 1.0
                         },
                         "direction": {
-                            "$type": "ConfigDirectionByEntity"
+                            "$type": "ConfigDirectionByEntity",
+                            "angleOffset": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            }
                         }
                     }
                 },
@@ -1841,7 +1939,9 @@
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
                             "angleOffset": {
-                                "y": 30.0
+                                "x": 0.0,
+                                "y": 30.0,
+                                "z": 0.0
                             }
                         }
                     }
@@ -1859,7 +1959,9 @@
                         "direction": {
                             "$type": "ConfigDirectionByEntity",
                             "angleOffset": {
-                                "y": -30.0
+                                "x": 0.0,
+                                "y": -30.0,
+                                "z": 0.0
                             }
                         }
                     }
@@ -2049,7 +2151,8 @@
                                 "extension": {
                                     "rangeAttenuation": 0.8999999761581421
                                 }
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -2144,7 +2247,8 @@
                                 "extension": {
                                     "rangeAttenuation": 0.8999999761581421
                                 }
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -2156,6 +2260,56 @@
                         "$type": "ConfigBornByCollisionPoint",
                         "alongGround": true
                     }
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Brute_TowerDefence_Affix_PowerUp",
+            "modifiers": {
+                "Monster_Brute_TowerDefence_Affix_PowerUp": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "Predicated",
+                            "canBeHandledOnRecover": true,
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_MONSTERAFFIX_BRUTE_TOWER_POWERUP",
+                                    "value": 1.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "UseSkillEliteSet",
+                                    "skillEliteSetID": 2
+                                }
+                            ],
+                            "failActions": [
+                                {
+                                    "$type": "UseSkillEliteSet",
+                                    "skillEliteSetID": 1
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AddGlobalValue",
+                    "value": 0.0,
+                    "key": "_MONSTERAFFIX_BRUTE_TOWER_POWERUP",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Monster_Brute_TowerDefence_Affix_PowerUp"
                 }
             ]
         }

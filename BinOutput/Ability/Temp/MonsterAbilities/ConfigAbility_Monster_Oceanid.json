@@ -46,6 +46,14 @@
                         "ReturnToBorn"
                     ],
                     "modifierName": "Oceanid_ReturnToBornEnd"
+                },
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        901,
+                        902
+                    ],
+                    "modifierName": "Oceanid_ReturnToBorn_ServerluaCall"
                 }
             ],
             "modifiers": {
@@ -243,17 +251,6 @@
                             "triggerID": "ReturnToBorn",
                             "MPTriggerOnRemote": true
                         }
-                    ],
-                    "onRemoved": [
-                        {
-                            "$type": "ExecuteGadgetLua",
-                            "otherTargets": {
-                                "$type": "SelectTargetsBySelfGroup",
-                                "operation": "XOR",
-                                "value": 26
-                            },
-                            "param1": 202
-                        }
                     ]
                 },
                 "Oceanid_ReturnToBornState": {
@@ -291,6 +288,20 @@
                         {
                             "$type": "RemoveModifier",
                             "modifierName": "Oceanid_ReturnToBornState"
+                        }
+                    ]
+                },
+                "Oceanid_ReturnToBorn_ServerluaCall": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "ServerLuaCall",
+                            "luaCallType": "FromGroup",
+                            "funcName": "SLC_OCEANID_ESCAPE",
+                            "param1": 0.0,
+                            "param2": 0.0,
+                            "param3": 0.0
                         }
                     ]
                 }
@@ -550,57 +561,7 @@
                 },
                 "Avatar_Checker": {
                     "modifierName": "",
-                    "elementDurability": 100.0,
-                    "thinkInterval": 5.0,
-                    "onThinkInterval": [
-                        {
-                            "$type": "AddGlobalValue",
-                            "value": 0.0,
-                            "key": "_OCEANID_COMBATAREA_HASAVATAR",
-                            "useLimitRange": true,
-                            "maxValue": 0.0,
-                            "minValue": 0.0
-                        },
-                        {
-                            "$type": "Predicated",
-                            "otherTargets": {
-                                "$type": "SelectTargetsByShape",
-                                "shapeName": "CircleR62",
-                                "campTargetType": "Enemy",
-                                "sizeRatio": 1.0
-                            },
-                            "targetPredicates": [
-                                {
-                                    "$type": "ByEntityTypes",
-                                    "entityTypes": [
-                                        "Avatar"
-                                    ]
-                                }
-                            ],
-                            "successActions": [
-                                {
-                                    "$type": "AddGlobalValue",
-                                    "value": 1.0,
-                                    "key": "_OCEANID_COMBATAREA_HASAVATAR",
-                                    "useLimitRange": true,
-                                    "maxValue": 1.0,
-                                    "minValue": 1.0
-                                }
-                            ]
-                        },
-                        {
-                            "$type": "ExecuteGadgetLua",
-                            "predicates": [
-                                {
-                                    "$type": "ByTargetGlobalValue",
-                                    "key": "_OCEANID_COMBATAREA_HASAVATAR",
-                                    "value": 0.0,
-                                    "compareType": "NoneOrEqual"
-                                }
-                            ],
-                            "param1": 201
-                        }
-                    ]
+                    "elementDurability": 100.0
                 },
                 "Oceanid_Stage1": {
                     "modifierName": "",
@@ -956,6 +917,11 @@
                                         },
                                         "direction": {
                                             "$type": "ConfigDirectionByEntity",
+                                            "angleOffset": {
+                                                "x": 0.0,
+                                                "y": 0.0,
+                                                "z": 0.0
+                                            },
                                             "randomAngleHor": 15.0,
                                             "randomAngleVer": 15.0
                                         },
@@ -1520,6 +1486,11 @@
                                 },
                                 "direction": {
                                     "$type": "ConfigDirectionByGlobalValue",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
                                     "directionKey": "_JUMPPOS_"
                                 },
                                 "positionKey": "_JUMPPOS_",
@@ -1618,6 +1589,11 @@
                                 },
                                 "direction": {
                                     "$type": "ConfigDirectionByGlobalValue",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
                                     "directionKey": "_JUMPPOS_"
                                 },
                                 "positionKey": "_JUMPPOS_",
@@ -1933,11 +1909,11 @@
                     "onRemoved": [
                         {
                             "$type": "ApplyModifier",
-                            "modifierName": "SummonMonster"
+                            "modifierName": "UNIQUE_SummonMonster"
                         }
                     ]
                 },
-                "SummonMonster": {
+                "UNIQUE_SummonMonster": {
                     "modifierName": "",
                     "isUnique": true,
                     "duration": 1.0,

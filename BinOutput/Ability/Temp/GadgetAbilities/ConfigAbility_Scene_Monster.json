@@ -1348,13 +1348,15 @@
                 },
                 "DelayRemove": {
                     "modifierName": "",
-                    "duration": 0.10000000149011612,
+                    "duration": 0.05000000074505806,
                     "elementDurability": 100.0,
-                    "onRemoved": [
+                    "onAdded": [
                         {
                             "$type": "RemoveModifier",
                             "modifierName": "EffectModifier"
-                        },
+                        }
+                    ],
+                    "onRemoved": [
                         {
                             "$type": "KillSelf"
                         }
@@ -1427,8 +1429,7 @@
                             "modifierName": "DelayRemove"
                         },
                         {
-                            "$type": "KillSelf",
-                            "target": "Target"
+                            "$type": "KillSelf"
                         }
                     ]
                 }
@@ -2299,6 +2300,460 @@
                     "elementDurability": 100.0
                 }
             }
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Monster_Hound_CleanUpCorruption",
+            "modifiers": {
+                "Hound_CleanUpCorruption_LifeTimeHandler": {
+                    "modifierName": "",
+                    "duration": 2.0,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "KillSelf"
+                        }
+                    ]
+                },
+                "Hound_CleanUpCorruption_Actions": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR20",
+                                "campTargetType": "All",
+                                "sizeRatio": 1.0
+                            },
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Avatar"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "SetGlobalValue",
+                                    "target": "TargetTeam",
+                                    "value": 0.0,
+                                    "key": "_CORRUPTION_TAG_",
+                                    "maxValue": 0.0,
+                                    "minValue": 0.0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Hound_CleanUpCorruption_LifeTimeHandler"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Hound_CleanUpCorruption_Actions"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "SceneObj_Monster_Sylph_AttackEnhance",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueNoInitMixin",
+                    "globalValueKey": "SGV_EnergyDisk_Level",
+                    "valueSteps": [
+                        -0.5,
+                        0.5,
+                        1.5,
+                        2.5,
+                        3.5,
+                        99.0
+                    ],
+                    "modifierNameSteps": [
+                        "Blank",
+                        "Sylph_ChannellerSlab_AttackEnhance_Handler_Level_1",
+                        "Sylph_ChannellerSlab_AttackEnhance_Handler_Level_2",
+                        "Sylph_ChannellerSlab_AttackEnhance_Handler_Level_3",
+                        "Sylph_ChannellerSlab_AttackEnhance_Handler_Level_4"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "SylphAttackEnhanceRatio": 0.0
+            },
+            "modifiers": {
+                "Sylph_ChannellerSlab_AttackEnhance_Refresh": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onThinkInterval": [
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR50",
+                                "campTargetType": "All",
+                                "sizeRatio": 1.0
+                            },
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "target": "Target",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "SGV_EnergyDisk_Level",
+                                            "value": 0.0,
+                                            "compareType": "NoneOrEqual"
+                                        }
+                                    ],
+                                    "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_0"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "target": "Target",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "SGV_EnergyDisk_Level",
+                                            "value": 1.0
+                                        }
+                                    ],
+                                    "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_1"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "target": "Target",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "SGV_EnergyDisk_Level",
+                                            "value": 2.0
+                                        }
+                                    ],
+                                    "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_2"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "target": "Target",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "SGV_EnergyDisk_Level",
+                                            "value": 3.0
+                                        }
+                                    ],
+                                    "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_3"
+                                },
+                                {
+                                    "$type": "AttachModifier",
+                                    "target": "Target",
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetGlobalValue",
+                                            "target": "Self",
+                                            "key": "SGV_EnergyDisk_Level",
+                                            "value": 4.0,
+                                            "compareType": "MoreThanAndEqual"
+                                        }
+                                    ],
+                                    "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_4"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "Sylph_ChannellerSlab_AttackEnhance_Handler_Level_1": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR50",
+                                "campTargetType": "All",
+                                "sizeRatio": 1.0
+                            },
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "target": "Target",
+                                    "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_1"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "Sylph_ChannellerSlab_AttackEnhance_Handler_Level_2": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR50",
+                                "campTargetType": "All",
+                                "sizeRatio": 1.0
+                            },
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "target": "Target",
+                                    "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_2"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "Sylph_ChannellerSlab_AttackEnhance_Handler_Level_3": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR50",
+                                "campTargetType": "All",
+                                "sizeRatio": 1.0
+                            },
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "target": "Target",
+                                    "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_3"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "Sylph_ChannellerSlab_AttackEnhance_Handler_Level_4": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "Predicated",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByShape",
+                                "shapeName": "CircleR50",
+                                "campTargetType": "All",
+                                "sizeRatio": 1.0
+                            },
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "target": "Target",
+                                    "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_4"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "Sylph_ChannellerSlab_AttackEnhance_Level_0": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_1"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_2"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_3"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_4"
+                        }
+                    ]
+                },
+                "Sylph_ChannellerSlab_AttackEnhance_Level_1": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            1.0,
+                            "SylphAttackEnhanceRatio",
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_0"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_2"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_3"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_4"
+                        }
+                    ]
+                },
+                "Sylph_ChannellerSlab_AttackEnhance_Level_2": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            2.0,
+                            "SylphAttackEnhanceRatio",
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_0"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_1"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_3"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_4"
+                        }
+                    ]
+                },
+                "Sylph_ChannellerSlab_AttackEnhance_Level_3": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            3.0,
+                            "SylphAttackEnhanceRatio",
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_0"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_1"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_2"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_4"
+                        }
+                    ]
+                },
+                "Sylph_ChannellerSlab_AttackEnhance_Level_4": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": [
+                            4.0,
+                            "SylphAttackEnhanceRatio",
+                            "Mul"
+                        ]
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_0"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_1"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_2"
+                        },
+                        {
+                            "$type": "RemoveModifier",
+                            "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Level_3"
+                        }
+                    ]
+                },
+                "Blank": {
+                    "modifierName": "",
+                    "elementDurability": 100.0
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "Sylph_ChannellerSlab_AttackEnhance_Refresh"
+                }
+            ]
         }
     }
 ]

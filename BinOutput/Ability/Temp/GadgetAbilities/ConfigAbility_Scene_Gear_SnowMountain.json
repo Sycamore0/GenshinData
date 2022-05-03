@@ -826,7 +826,8 @@
                     "stateIDs": [
                         "IdleEffect"
                     ],
-                    "modifierName": "Effect"
+                    "modifierName": "Effect",
+                    "isCheckOnAttach": true
                 },
                 {
                     "$type": "AttachToStateIDMixin",
@@ -834,14 +835,16 @@
                         "Warm",
                         "IdleEffect"
                     ],
-                    "modifierName": "Active"
+                    "modifierName": "Active",
+                    "isCheckOnAttach": true
                 },
                 {
                     "$type": "AttachToStateIDMixin",
                     "stateIDs": [
                         "Lock"
                     ],
-                    "modifierName": "LockEffect"
+                    "modifierName": "LockEffect",
+                    "isCheckOnAttach": true
                 }
             ],
             "modifiers": {
@@ -944,7 +947,16 @@
                         }
                     ]
                 }
-            }
+            },
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 1.0,
+                    "key": "_ABILITY_SceneObj_ToMoon_WarmTag",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ]
         }
     },
     {
@@ -1250,7 +1262,7 @@
                         },
                         {
                             "$type": "FireEffect",
-                            "effectPattern": "Eff_SceneObj_RockTotem_Destroy"
+                            "effectPattern": "Eff_SceneObj_IceTotem_Destroy"
                         },
                         {
                             "$type": "RemoveModifier",
@@ -1904,9 +1916,9 @@
                     "modifierName": "LowTemperature_Avatar"
                 },
                 {
-                    "$type": "ShowReminder",
-                    "target": "Target",
-                    "id": 400030
+                    "$type": "DebugLog",
+                    "doOffStage": true,
+                    "content": "IceRegionBorn"
                 }
             ],
             "onFieldExit": [
@@ -2205,7 +2217,10 @@
                         {
                             "$type": "ServerLuaCall",
                             "luaCallType": "FromGroup",
-                            "funcName": "DistoryIceShield"
+                            "funcName": "DistoryIceShield",
+                            "param1": 0.0,
+                            "param2": 0.0,
+                            "param3": 0.0
                         }
                     ],
                     "onThinkInterval": [
@@ -2802,12 +2817,12 @@
                                     "attenuationTag": "",
                                     "attenuationGroup": "default",
                                     "attackProperty": {
-                                        "damagePercentage": 0.0,
+                                        "damagePercentage": 0.014999999664723873,
                                         "damagePercentageRatio": 0.0,
                                         "elementType": "Ice",
                                         "elementDurability": 5.0,
                                         "strikeType": "Default",
-                                        "damageExtra": 5.0
+                                        "damageExtra": 0.0
                                     },
                                     "hitPattern": {
                                         "onHitEffectName": "none",
@@ -2952,7 +2967,7 @@
                             "modifierName": "BombBoxLoop"
                         }
                     ],
-                    "onCrash": [
+                    "AADEPCPKHII": [
                         {
                             "$type": "RemoveModifier",
                             "modifierName": "BombBoxLoop"
@@ -3079,7 +3094,7 @@
                             "modifierName": "BombBoxLoop"
                         }
                     ],
-                    "onCrash": [
+                    "AADEPCPKHII": [
                         {
                             "$type": "RemoveModifier",
                             "modifierName": "BombBoxLoop"
@@ -3342,7 +3357,7 @@
                             "modifierName": "BombBoxLoop"
                         }
                     ],
-                    "onCrash": [
+                    "AADEPCPKHII": [
                         {
                             "$type": "RemoveModifier",
                             "modifierName": "BombBoxLoop"
@@ -3383,7 +3398,7 @@
                             "modifierName": "BombBoxLoop"
                         }
                     ],
-                    "onCrash": [
+                    "AADEPCPKHII": [
                         {
                             "$type": "RemoveModifier",
                             "modifierName": "BombBoxLoop"
@@ -3424,7 +3439,7 @@
                             "modifierName": "BombBoxLoop"
                         }
                     ],
-                    "onCrash": [
+                    "AADEPCPKHII": [
                         {
                             "$type": "RemoveModifier",
                             "modifierName": "BombBoxLoop"
@@ -4038,6 +4053,25 @@
                 "Default_0": {
                     "modifierName": "",
                     "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "AttachEffect",
+                            "effectPattern": "Eff_SceneObj_DropIce_01_Drop"
+                        },
+                        {
+                            "$type": "TriggerBullet",
+                            "bulletID": 70310026,
+                            "born": {
+                                "$type": "ConfigBornByAttachPoint",
+                                "offset": {
+                                    "x": 0.0,
+                                    "y": -0.30000001192092896,
+                                    "z": 0.0
+                                },
+                                "attachPointName": "AttachPoint"
+                            }
+                        }
+                    ],
                     "onBeingHit": [
                         {
                             "$type": "ExecuteGadgetLua",
@@ -4057,26 +4091,7 @@
                 },
                 "Active": {
                     "modifierName": "",
-                    "elementDurability": 100.0,
-                    "onAdded": [
-                        {
-                            "$type": "AttachEffect",
-                            "effectPattern": "Eff_SceneObj_DropIce_01_Drop"
-                        },
-                        {
-                            "$type": "TriggerBullet",
-                            "bulletID": 70310026,
-                            "born": {
-                                "$type": "ConfigBornByAttachPoint",
-                                "offset": {
-                                    "x": 0.0,
-                                    "y": -0.30000001192092896,
-                                    "z": 0.0
-                                },
-                                "attachPointName": "AttachPoint"
-                            }
-                        }
-                    ]
+                    "elementDurability": 100.0
                 }
             }
         }
@@ -4838,7 +4853,9 @@
                                 "direction": {
                                     "$type": "ConfigDirectionByEntity",
                                     "angleOffset": {
-                                        "x": 90.0
+                                        "x": 90.0,
+                                        "y": 0.0,
+                                        "z": 0.0
                                     }
                                 },
                                 "positionKey": "IcePos",
@@ -4869,7 +4886,9 @@
                                 "direction": {
                                     "$type": "ConfigDirectionByEntity",
                                     "angleOffset": {
-                                        "x": 90.0
+                                        "x": 90.0,
+                                        "y": 0.0,
+                                        "z": 0.0
                                     }
                                 },
                                 "positionKey": "IcePos",

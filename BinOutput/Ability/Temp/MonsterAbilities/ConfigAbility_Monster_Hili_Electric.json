@@ -93,6 +93,11 @@
                                 },
                                 "direction": {
                                     "$type": "ConfigDirectionByAttackTarget",
+                                    "angleOffset": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
                                     "maxAngle": 60.0,
                                     "speedForPredictive": 30.0
                                 },
@@ -119,7 +124,9 @@
                                 "direction": {
                                     "$type": "ConfigDirectionByAttackTarget",
                                     "angleOffset": {
-                                        "y": 5.0
+                                        "x": 0.0,
+                                        "y": 5.0,
+                                        "z": 0.0
                                     }
                                 },
                                 "attachPointName": "WeaponR"
@@ -145,7 +152,9 @@
                                 "direction": {
                                     "$type": "ConfigDirectionByAttackTarget",
                                     "angleOffset": {
-                                        "y": 10.0
+                                        "x": 0.0,
+                                        "y": 10.0,
+                                        "z": 0.0
                                     },
                                     "maxAngle": 60.0,
                                     "speedForPredictive": 30.0
@@ -173,7 +182,9 @@
                                 "direction": {
                                     "$type": "ConfigDirectionByAttackTarget",
                                     "angleOffset": {
-                                        "y": -5.0
+                                        "x": 0.0,
+                                        "y": -5.0,
+                                        "z": 0.0
                                     },
                                     "maxAngle": 60.0,
                                     "speedForPredictive": 30.0
@@ -201,7 +212,9 @@
                                 "direction": {
                                     "$type": "ConfigDirectionByAttackTarget",
                                     "angleOffset": {
-                                        "y": -10.0
+                                        "x": 0.0,
+                                        "y": -10.0,
+                                        "z": 0.0
                                     },
                                     "maxAngle": 60.0,
                                     "speedForPredictive": 30.0
@@ -291,7 +304,8 @@
                             "cameraShake": {
                                 "shakeRange": 0.05999999865889549,
                                 "shakeTime": 0.09000000357627869
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -340,7 +354,8 @@
                             "cameraShake": {
                                 "shakeRange": 0.05999999865889549,
                                 "shakeTime": 0.09000000357627869
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -398,7 +413,8 @@
                                 "onHitEffectName": "default",
                                 "hitImpulseType": "LV1",
                                 "hitHaltTimeScale": 0.009999999776482582
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -455,7 +471,8 @@
                                 "onHitEffectName": "default",
                                 "hitImpulseType": "LV1",
                                 "hitHaltTimeScale": 0.009999999776482582
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -611,12 +628,6 @@
                     "modifierName": "",
                     "duration": 1.5,
                     "elementDurability": 100.0,
-                    "onAdded": [
-                        {
-                            "$type": "ResetAnimatorTrigger",
-                            "triggerID": "ThrowBomb"
-                        }
-                    ],
                     "onRemoved": [
                         {
                             "$type": "SetAnimatorTrigger",
@@ -658,6 +669,23 @@
                         {
                             "$type": "ResetAnimatorTrigger",
                             "triggerID": "CreateBombEnd"
+                        },
+                        {
+                            "$type": "ApplyModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ELITEAFFIX_ATTACK_ENHANCE",
+                                    "value": 1.0
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_MONSTER_Hili_Electric_EliteTag_",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "modifierName": "Hili_Electric_Elite_CrazyBomber"
                         }
                     ]
                 },
@@ -666,12 +694,6 @@
                     "isUnique": true,
                     "duration": "RandomHoldTime",
                     "elementDurability": 100.0,
-                    "onAdded": [
-                        {
-                            "$type": "FireEffect",
-                            "effectPattern": "Eff_Monster_Hili_Electric_Bomb_Electric"
-                        }
-                    ],
                     "onRemoved": [
                         {
                             "$type": "SetGlobalValue",
@@ -679,14 +701,57 @@
                             "key": "_MONSTER_Hili_Electric_BombHoldTime_",
                             "maxValue": 0.0,
                             "minValue": 0.0
+                        }
+                    ]
+                },
+                "Hili_Electric_Elite_CrazyBomber": {
+                    "modifierName": "",
+                    "duration": 15.0,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "EliteTag",
+                            "value": true
                         },
                         {
-                            "$type": "SetAnimatorTrigger",
-                            "triggerID": "ThrowBomb"
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_MONSTER_Hili_Electric_EliteTag_",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetPoseBool",
+                            "boolID": "EliteTag"
+                        },
+                        {
+                            "$type": "ReTriggerAISkillInitialCD",
+                            "skillIDs": [
+                                203
+                            ]
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_MONSTER_Hili_Electric_EliteTag_",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
                         }
                     ]
                 }
             },
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "_MONSTER_Hili_Electric_EliteTag_",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
             "onKill": [
                 {
                     "$type": "RemoveModifier",
@@ -709,35 +774,59 @@
                     "angularSpeed": 150.0,
                     "attackTrigger": "",
                     "attackDistance": 2.0
+                },
+                {
+                    "$type": "AttachToAnimatorStateIDMixin",
+                    "stateIDs": [
+                        "ThrowBomb"
+                    ],
+                    "modifierName": "ThrowBomb_Handler"
                 }
             ],
-            "onAbilityStart": [
-                {
-                    "$type": "TriggerAbility",
-                    "abilityName": "Monster_Hili_Electric_BombDrop"
-                },
-                {
-                    "$type": "TriggerAbility",
-                    "otherTargets": {
-                        "$type": "SelectTargetsByChildren",
-                        "topLimit": 1,
-                        "configID": 42101026
-                    },
-                    "abilityName": "Hili_Electric_SlimeThrow_Handler"
-                },
-                {
-                    "$type": "TriggerThrowEquipPart",
-                    "equipPart": "equip01",
-                    "born": {
-                        "$type": "ConfigBornByTarget",
-                        "direction": {
-                            "$type": "ConfigDirectionByAttackTarget",
-                            "maxAngleType": "Horizontal",
-                            "maxAngle": 50.0
+            "modifiers": {
+                "ThrowBomb_Handler": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "ThrowBomb_Timer"
                         }
-                    }
+                    ]
+                },
+                "ThrowBomb_Timer": {
+                    "modifierName": "",
+                    "duration": 0.7900000214576721,
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "Monster_Hili_Electric_BombDrop"
+                        },
+                        {
+                            "$type": "TriggerAbility",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByChildren",
+                                "topLimit": 1,
+                                "configID": 42101026
+                            },
+                            "abilityName": "Hili_Electric_SlimeThrow_Handler"
+                        },
+                        {
+                            "$type": "TriggerThrowEquipPart",
+                            "equipPart": "equip01",
+                            "born": {
+                                "$type": "ConfigBornByTarget",
+                                "direction": {
+                                    "$type": "ConfigDirectionByAttackTarget",
+                                    "maxAngleType": "Horizontal",
+                                    "maxAngle": 50.0
+                                }
+                            }
+                        }
+                    ]
                 }
-            ]
+            }
         }
     },
     {
@@ -763,20 +852,9 @@
                         }
                     ]
                 },
-                "SlimeThrow_LifeOverAnimator": {
-                    "modifierName": "",
-                    "duration": 6.400000095367432,
-                    "elementDurability": 100.0,
-                    "onRemoved": [
-                        {
-                            "$type": "SetAnimatorTrigger",
-                            "triggerID": "DieTrigger"
-                        }
-                    ]
-                },
                 "SlimeThrow_LifeOverExplode": {
                     "modifierName": "",
-                    "duration": 8.0,
+                    "duration": 9.0,
                     "elementDurability": 100.0,
                     "onRemoved": [
                         {
@@ -793,10 +871,6 @@
                 {
                     "$type": "AttachModifier",
                     "modifierName": "SlimeThrow_AddElement"
-                },
-                {
-                    "$type": "ApplyModifier",
-                    "modifierName": "SlimeThrow_LifeOverAnimator"
                 },
                 {
                     "$type": "ApplyModifier",
@@ -862,19 +936,75 @@
                             "cameraShake": {
                                 "shakeRange": 2.0,
                                 "shakeTime": 0.15000000596046448
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
-                },
-                {
-                    "$type": "TriggerSetVisible"
                 },
                 {
                     "$type": "KillSelf",
                     "duration": 1.2999999523162842,
                     "banDrop": true,
                     "banExp": true
+                },
+                {
+                    "$type": "TriggerSetVisible"
+                }
+            ]
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Monster_Hili_Electric_EliteSet",
+            "modifiers": {
+                "UNIQUE_MonsterEliteAffix_DefaultState": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "UseSkillEliteSet",
+                            "skillEliteSetID": 1
+                        }
+                    ]
+                },
+                "UNIQUE_MonsterEliteAffix_EliteState": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "UseSkillEliteSet",
+                            "skillEliteSetID": 2
+                        }
+                    ]
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "ApplyModifier",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ELITEAFFIX_ATTACK_ENHANCE",
+                            "value": 0.0,
+                            "compareType": "NoneOrEqual"
+                        }
+                    ],
+                    "modifierName": "UNIQUE_MonsterEliteAffix_DefaultState"
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ELITEAFFIX_ATTACK_ENHANCE",
+                            "value": 1.0
+                        }
+                    ],
+                    "modifierName": "UNIQUE_MonsterEliteAffix_EliteState"
                 }
             ]
         }

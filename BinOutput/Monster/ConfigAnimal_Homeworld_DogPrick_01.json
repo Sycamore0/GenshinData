@@ -34,7 +34,7 @@
     "model": {
         "bornEffect": "",
         "attachEffect": "",
-        "canBakeMesh": false
+        "EAOOHCKOMKJ": false
     },
     "dither": {
         "showDitherDuration": 1.0
@@ -61,6 +61,13 @@
             "dieDisappearEffect": ""
         }
     },
+    "abilities": [
+        {
+            "abilityID": "Homeworld_CommonInitial",
+            "abilityName": "Animal_Homeworld_Common_Initial",
+            "abilityOverride": ""
+        }
+    ],
     "stateLayers": {
         "defaultLayer": {
             "$type": "ConfigNormalStateLayer",
@@ -92,6 +99,9 @@
                     },
                     "canDoSkill": true,
                     "canSyncMove": true,
+                    "resetAnimatorTriggerOnEnter": [
+                        "BeHitTrigger"
+                    ],
                     "resetAnimatorTriggerOnExit": [
                         "DoSkill"
                     ]
@@ -110,6 +120,9 @@
                         ]
                     },
                     "canSyncMove": true,
+                    "resetAnimatorTriggerOnEnter": [
+                        "BeHitTrigger"
+                    ],
                     "resetAnimatorTriggerOnExit": [
                         "DoSkill"
                     ],
@@ -128,39 +141,6 @@
                     ],
                     "canSteer": true
                 },
-                "Flee": {
-                    "$type": "ConfigMonsterStateIDInfo",
-                    "animatorStates": {
-                        "Flee": [
-                            "Audio_Dog_Run"
-                        ],
-                        "Disappear": [
-                            "Audio_Dog_Run"
-                        ]
-                    },
-                    "canSyncMove": true,
-                    "resetAnimatorTriggerOnExit": [
-                        "DoSkill"
-                    ],
-                    "canSteer": true
-                },
-                "BeHit": {
-                    "$type": "ConfigMonsterStateIDInfo",
-                    "animatorStates": {
-                        "Hit_L": [
-                            "Animal_Homeworld_DogPrick_BeHit",
-                            "Audio_Dog_Hit_L"
-                        ]
-                    },
-                    "resetAnimatorTriggerOnEnter": [
-                        "BeHit",
-                        "BeHitTrigger"
-                    ],
-                    "resetAnimatorTriggerOnExit": [
-                        "DoSkill",
-                        "BeHitTrigger"
-                    ]
-                },
                 "Die": {
                     "$type": "ConfigMonsterStateIDInfo",
                     "animatorStates": {
@@ -170,6 +150,24 @@
                         ]
                     }
                 },
+                "Dodge": {
+                    "$type": "ConfigMonsterStateIDInfo",
+                    "animatorStates": {
+                        "Dodge": [
+                            "Animal_Homeworld_DogPrick_BeHit",
+                            "Audio_Dog_Hit_L"
+                        ]
+                    },
+                    "resetAnimatorTriggerOnEnter": [
+                        "BeHit",
+                        "BeHitTrigger"
+                    ],
+                    "resetAnimatorTriggerOnExit": [
+                        "BeHit",
+                        "DoSkill",
+                        "BeHitTrigger"
+                    ]
+                },
                 "Bark": {
                     "$type": "ConfigMonsterStateIDInfo",
                     "animatorStates": {
@@ -177,6 +175,10 @@
                             "Audio_Dog_Bark"
                         ]
                     },
+                    "resetAnimatorTriggerOnEnter": [
+                        "BeHit",
+                        "BeHitTrigger"
+                    ],
                     "resetAnimatorTriggerOnExit": [
                         "BeHit",
                         "DoSkill",
@@ -348,11 +350,13 @@
         },
         "threat": {
             "clearThreatTargetDistance": 15.0,
+            "clearThreatEdgeDistance": 0.0,
+            "clearThreatByTargetOutOfZone": true,
             "clearThreatTimerByDistance": 1.0,
             "threatDecreaseSpeed": 500.0
         },
         "defendArea": {
-            "defendRange": 25.0
+            "defendRange": 100.0
         },
         "poseControl": {
             "items": [
@@ -387,8 +391,8 @@
                     "switchOnlyInCanDoSkillState": true
                 },
                 {
-                    "minTime": 5.0,
-                    "maxTime": 15.0,
+                    "minTime": 1.0,
+                    "maxTime": 5.0,
                     "poseID": 201,
                     "RandomPose": [
                         1
@@ -423,7 +427,7 @@
                     "switchOnlyInCanDoSkillState": true
                 },
                 {
-                    "minTime": 7.0,
+                    "minTime": 5.0,
                     "maxTime": 15.0,
                     "poseID": 301,
                     "RandomPose": [
@@ -439,6 +443,24 @@
                         2
                     ],
                     "switchOnlyInCanDoSkillState": true
+                },
+                {
+                    "minTime": 15.0,
+                    "maxTime": 30.0,
+                    "poseID": 4,
+                    "RandomPose": [
+                        1
+                    ],
+                    "switchOnlyInCanDoSkillState": true
+                },
+                {
+                    "minTime": 30.0,
+                    "maxTime": 60.0,
+                    "poseID": 401,
+                    "RandomPose": [
+                        1
+                    ],
+                    "switchOnlyInCanDoSkillState": true
                 }
             ]
         },
@@ -446,42 +468,6 @@
             "hasDirectionIndicator": false
         },
         "skills": {
-            "1": {
-                "name": "ProneOnAware",
-                "skillType": "OnAware",
-                "castCondition": {
-                    "pose": [
-                        3
-                    ]
-                },
-                "publicCDGroup": "",
-                "stateIDs": [
-                    "ProneToStandby"
-                ],
-                "skillQueryingTime": 3.0,
-                "flagTargetReachable": "10",
-                "flagSelfOnTemplateCollider": "01",
-                "flagSelfInZone": "10",
-                "flagTargetInZone": "11"
-            },
-            "2": {
-                "name": "SitOnAware",
-                "skillType": "OnAware",
-                "castCondition": {
-                    "pose": [
-                        2
-                    ]
-                },
-                "publicCDGroup": "",
-                "stateIDs": [
-                    "SitToStandby"
-                ],
-                "skillQueryingTime": 3.0,
-                "flagTargetReachable": "10",
-                "flagSelfOnTemplateCollider": "01",
-                "flagSelfInZone": "10",
-                "flagTargetInZone": "11"
-            },
             "201": {
                 "name": "PersonalitySit1",
                 "skillType": "Free",
@@ -535,8 +521,8 @@
                     "needReInitCD": true,
                     "pickRangeMax": 5.0
                 },
-                "cd": 20.0,
-                "cdUpperRange": 20.0,
+                "cd": 5.0,
+                "cdUpperRange": 25.0,
                 "initialCD": 10.0,
                 "initialCDUpperRange": 15.0,
                 "publicCDGroup": "",
@@ -559,8 +545,8 @@
                 },
                 "cd": 15.0,
                 "cdUpperRange": 15.0,
-                "initialCD": 7.5,
-                "initialCDUpperRange": 10.0,
+                "initialCD": 1.0,
+                "initialCDUpperRange": 4.0,
                 "publicCDGroup": "",
                 "stateIDs": [
                     "Personality_Sit1"
@@ -581,8 +567,8 @@
                 },
                 "cd": 20.0,
                 "cdUpperRange": 20.0,
-                "initialCD": 7.5,
-                "initialCDUpperRange": 10.0,
+                "initialCD": 1.0,
+                "initialCDUpperRange": 4.0,
                 "publicCDGroup": "",
                 "stateIDs": [
                     "Personality_Sit2"
@@ -594,14 +580,24 @@
             }
         },
         "skillGCD": 5.0,
-        "returnToBornTactic": {},
+        "returnToBornTactic": {
+            "enable": true,
+            "defaultSetting": {}
+        },
         "wanderTactic": {
             "enable": true,
             "condition": {
                 "pose": [
-                    1
+                    1,
+                    4,
+                    401
                 ]
             },
+            "threatLevelLimit": [
+                0,
+                1,
+                2
+            ],
             "defaultSetting": {
                 "turnSpeedOverride": 0.75,
                 "cdMax": 12.5,
@@ -647,19 +643,42 @@
                     3,
                     101,
                     201,
-                    301
+                    301,
+                    401
                 ]
             },
             "nerveTrigger": [
                 "HIT"
             ],
             "defaultSetting": {
+                "speedLevel": 5,
                 "turnSpeedOverride": 1.0,
-                "cd": 3.0,
+                "cd": 0.5,
                 "triggerDistance": 0.0,
                 "fleeAngle": 75.0,
                 "fleeDistanceMin": 7.5,
                 "fleeDistanceMax": 10.0
+            },
+            "specification": {
+                "401": {
+                    "speedLevel": 5,
+                    "turnSpeedOverride": 1.0,
+                    "cd": 1.0,
+                    "fleeAngle": 75.0,
+                    "fleeDistanceMin": 7.5,
+                    "fleeDistanceMax": 10.0
+                }
+            }
+        },
+        "LHKINHJEBIE": {
+            "enable": true,
+            "defaultSetting": {
+                "turnSpeedOverride": 1.0,
+                "triggerDistance": 2.0,
+                "fleeAngle": 75.0,
+                "fleeDistanceMin": 7.5,
+                "fleeDistanceMax": 10.0,
+                "BKOKNCFCMBI": 0.5
             }
         },
         "mixin": {
@@ -682,15 +701,10 @@
                                 "Bullet"
                             ],
                             "onSuccess": {
-                                "setPoseBool": [
-                                    {
-                                        "boolID": "FleeHasTarget",
-                                        "value": true
-                                    }
-                                ],
                                 "setPoseInt": [
                                     {
-                                        "intID": ""
+                                        "intID": "RandomPose",
+                                        "value": 4
                                     }
                                 ],
                                 "setAnimatorTrigger": [
@@ -700,21 +714,15 @@
                                 ]
                             },
                             "onFail": {
-                                "setPoseBool": [
-                                    {
-                                        "boolID": "FleeNoTarget",
-                                        "value": true
-                                    }
-                                ],
                                 "setPoseInt": [
                                     {
-                                        "intID": ""
+                                        "intID": "RandomPose",
+                                        "value": 4
                                     }
                                 ],
-                                "setAnimatorBool": [
+                                "setAnimatorTrigger": [
                                     {
-                                        "boolID": "FleeState",
-                                        "value": true
+                                        "triggerID": "BeHitTrigger"
                                     }
                                 ]
                             }
@@ -724,8 +732,11 @@
             ]
         }
     },
+    "move": {
+        "$type": "ConfigAnimatorMove",
+        "positionModifyState": "Walk"
+    },
     "animal": {
-        "hasAbility": false,
         "tickAbilityElement": false,
         "hasCharacterRenderering": false
     }

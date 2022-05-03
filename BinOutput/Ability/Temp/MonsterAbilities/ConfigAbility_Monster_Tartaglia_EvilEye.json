@@ -7,9 +7,9 @@
                 "UNIQUE_Tartaglia_EvilEye_Debut": {
                     "modifierName": "",
                     "isUnique": true,
-                    "duration": 1.0,
+                    "duration": 0.800000011920929,
                     "elementDurability": 100.0,
-                    "onAdded": [
+                    "onRemoved": [
                         {
                             "$type": "RemoveUniqueModifier",
                             "modifierName": "UNIQUE_Tartaglia_Transform_Effect"
@@ -42,9 +42,7 @@
                 {
                     "$type": "ApplyModifier",
                     "modifierName": "Tartaglia_CommonState"
-                }
-            ],
-            "onAbilityStart": [
+                },
                 {
                     "$type": "ApplyModifier",
                     "otherTargets": {
@@ -457,7 +455,7 @@
                             "modifierName": "UNIQUE_Tartaglia_ThunderClap_TeamSearcher"
                         },
                         {
-                            "$type": "SetGlobalValue",
+                            "$type": "ApplyModifier",
                             "target": "Target",
                             "predicates": [
                                 {
@@ -473,29 +471,26 @@
                                     "value": 1.0
                                 }
                             ],
+                            "modifierName": "UNIQUE_Tartaglia_ThunderClap_Explosion"
+                        }
+                    ]
+                },
+                "UNIQUE_Tartaglia_ThunderClap_Explosion": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalValue",
                             "value": 1.0,
-                            "key": "_MONSTER_TARTAGLIA_THUNDERCLAP_EXPLOAION",
+                            "key": "_MONSTER_TARTAGLIA_THUNDERCLAP_EXPLOSION",
                             "useLimitRange": true,
                             "maxValue": 1.0,
                             "minValue": 0.0
                         },
                         {
                             "$type": "RemoveUniqueModifier",
-                            "target": "Target",
-                            "predicates": [
-                                {
-                                    "$type": "ByAttackTags",
-                                    "attackTags": [
-                                        "Tartaglia_ThunderClap_Explosion",
-                                        "Tartaglia_Hiraishin"
-                                    ]
-                                },
-                                {
-                                    "$type": "ByTargetGlobalValue",
-                                    "key": "_MONSTER_TARTAGLIA_THUNDERCLAP_AVATAR",
-                                    "value": 1.0
-                                }
-                            ],
                             "modifierName": "UNIQUE_Tartaglia_ThunderClap"
                         }
                     ]
@@ -615,7 +610,7 @@
                             "targetPredicates": [
                                 {
                                     "$type": "ByTargetGlobalValue",
-                                    "key": "_MONSTER_TARTAGLIA_THUNDERCLAP_EXPLOAION",
+                                    "key": "_MONSTER_TARTAGLIA_THUNDERCLAP_EXPLOSION",
                                     "value": 0.0,
                                     "compareType": "NoneOrEqual"
                                 }
@@ -624,7 +619,7 @@
                                 {
                                     "$type": "SetGlobalValue",
                                     "value": 0.0,
-                                    "key": "_MONSTER_TARTAGLIA_THUNDERCLAP_EXPLOAION",
+                                    "key": "_MONSTER_TARTAGLIA_THUNDERCLAP_EXPLOSION",
                                     "useLimitRange": true,
                                     "maxValue": 1.0,
                                     "minValue": 0.0
@@ -2209,13 +2204,26 @@
                     ],
                     "onRemoved": [
                         {
-                            "$type": "SetGlobalPos",
+                            "$type": "ApplyModifier",
                             "target": "Caster",
+                            "modifierName": "Tartaglia_EvilEye_Hiraishin_SetPos"
+                        }
+                    ]
+                },
+                "Tartaglia_EvilEye_Hiraishin_SetPos": {
+                    "modifierName": "",
+                    "duration": 0.10000000149011612,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SetGlobalPos",
+                            "target": "Applier",
                             "key": "_MONSTER_TARTAGLIA_EVILEYE_HIRAISHIN_POS",
                             "born": {
-                                "$type": "ConfigBornBySelf",
+                                "$type": "ConfigBornByTarget",
                                 "onGround": true
-                            }
+                            },
+                            "setTarget": false
                         }
                     ]
                 }

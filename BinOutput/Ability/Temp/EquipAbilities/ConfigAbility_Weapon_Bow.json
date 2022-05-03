@@ -1777,6 +1777,7 @@
                 },
                 {
                     "$type": "SetOverrideMapValue",
+                    "value": 0.0,
                     "overrideMapKey": "Buff_Level"
                 },
                 {
@@ -1808,7 +1809,7 @@
                     "modifierName": "UNIQUE_Weapon_Bow_Outlaw_OnStage"
                 }
             ],
-            "onAvatarOut": [
+            "NGGOAJMKDHM": [
                 {
                     "$type": "RemoveUniqueModifier",
                     "doOffStage": true,
@@ -1917,7 +1918,12 @@
                                             "z": 0.0
                                         },
                                         "direction": {
-                                            "$type": "ConfigDirectionByEntity"
+                                            "$type": "ConfigDirectionByEntity",
+                                            "angleOffset": {
+                                                "x": 0.0,
+                                                "y": 0.0,
+                                                "z": 0.0
+                                            }
                                         }
                                     }
                                 },
@@ -1989,6 +1995,140 @@
     {
         "Default": {
             "$type": "ConfigAbility",
+            "abilityName": "Weapon_Bow_NormalAttackAndElementalArt",
+            "abilitySpecials": {
+                "Rate_1": 0.0,
+                "Duration_1": 0.0,
+                "Rate_2": 0.0,
+                "Duration_2": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Weapon_Bow_NormalAttackAndElementalArt_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "NormalAttack_01",
+                                        "NormalAttack_02",
+                                        "NormalAttack_03",
+                                        "NormalAttack_04",
+                                        "NormalAttack_05",
+                                        "NormalAttack_06"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ANIMAL_ENTITY_TYPE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Bow_NormalAttack_HitBuff"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "Elemental_Art",
+                                        "Elemental_Art_Hold",
+                                        "Elemental_Art_Extra"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ANIMAL_ENTITY_TYPE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Bow_ElementalArt_HitBuff"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Bow_NormalAttack_HitBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Duration_1",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "Elemental_Art",
+                                "Elemental_Art_Hold",
+                                "Elemental_Art_Extra"
+                            ],
+                            "damagePercentageRatio": "Rate_1"
+                        }
+                    ],
+                    "state": "AttackUp"
+                },
+                "UNIQUE_Bow_ElementalArt_HitBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Duration_2",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "NormalAttack_01",
+                                "NormalAttack_02",
+                                "NormalAttack_03",
+                                "NormalAttack_04",
+                                "NormalAttack_05",
+                                "NormalAttack_06"
+                            ],
+                            "damagePercentageRatio": "Rate_2"
+                        }
+                    ],
+                    "state": "AttackUp"
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Weapon_Bow_NormalAttackAndElementalArt_Handler"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
             "abilityName": "Weapon_Bow_Fleurfair",
             "abilityMixins": [
                 {
@@ -1998,7 +2138,8 @@
                             "$type": "AttachModifier",
                             "modifierName": "UNIQUE_Weapon_Bow_Fleurfair_Buff"
                         }
-                    ]
+                    ],
+                    "OIIDACCCPKO": 0.20000000298023224
                 }
             ],
             "abilitySpecials": {
@@ -2023,6 +2164,113 @@
                     "isLimitedProperties": true
                 }
             },
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Bow_Predator",
+            "abilitySpecials": {
+                "DamageUp": 0.0,
+                "Dura": 0.0,
+                "Atk": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Bow_Predator_Atk": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackDelta": "Atk"
+                    },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Bow_Predator_Handler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ANIMAL_ENTITY_TYPE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                },
+                                {
+                                    "$type": "ByHitElement",
+                                    "element": "Ice"
+                                },
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Bow_Predator_Buff"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Bow_Predator_Buff": {
+                    "stacking": "MultipleAllRefresh",
+                    "stackingOption": {
+                        "abilitySpecialName": "",
+                        "maxModifierNumForMultipleType": 2.0
+                    },
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Dura",
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "NormalAttack_01",
+                                "NormalAttack_02",
+                                "NormalAttack_03",
+                                "NormalAttack_04",
+                                "NormalAttack_05",
+                                "NormalAttack_06",
+                                "ExtraAttack"
+                            ],
+                            "damagePercentageRatio": "DamageUp"
+                        }
+                    ],
+                    "state": "AttackUp"
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "predicates": [
+                        {
+                            "$type": "ByHasFeatureTag",
+                            "featureTagIDs": [
+                                10062
+                            ]
+                        }
+                    ],
+                    "modifierName": "UNIQUE_Bow_Predator_Atk"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Bow_Predator_Handler"
+                }
+            ],
             "isDynamicAbility": true
         }
     },
@@ -2120,7 +2368,12 @@
                                                     "z": 0.0
                                                 },
                                                 "direction": {
-                                                    "$type": "ConfigDirectionByEntity"
+                                                    "$type": "ConfigDirectionByEntity",
+                                                    "angleOffset": {
+                                                        "x": 0.0,
+                                                        "y": 0.0,
+                                                        "z": 0.0
+                                                    }
                                                 }
                                             }
                                         },
@@ -2406,388 +2659,6 @@
     {
         "Default": {
             "$type": "ConfigAbility",
-            "abilityName": "Weapon_Bow_EnergyPoem",
-            "abilityMixins": [
-                {
-                    "$type": "DoActionByEnergyChangeMixin",
-                    "elementTypes": [
-                        "Electric",
-                        "Fire",
-                        "Water",
-                        "Grass",
-                        "Ice",
-                        "Wind",
-                        "Rock"
-                    ],
-                    "doWhenEnergyMax": true,
-                    "onGainEnergyByBall": [
-                        {
-                            "$type": "ApplyModifier",
-                            "modifierName": "UNIQUE_Bow_EnergyPoem_Trigger"
-                        },
-                        {
-                            "$type": "Predicated",
-                            "targetPredicates": [
-                                {
-                                    "$type": "ByTargetGlobalValue",
-                                    "key": "_ABILITY_Weapon_Bow_EnergyPoem",
-                                    "value": 5.0
-                                }
-                            ],
-                            "successActions": [
-                                {
-                                    "$type": "Predicated",
-                                    "targetPredicates": [
-                                        {
-                                            "$type": "ByEquipAffixReady",
-                                            "target": "Self",
-                                            "equipAffixDataID": 115503
-                                        }
-                                    ],
-                                    "successActions": [
-                                        {
-                                            "$type": "AttachModifier",
-                                            "modifierName": "UNIQUE_Bow_EnergyPoem_Extra"
-                                        }
-                                    ],
-                                    "failActions": [
-                                        {
-                                            "$type": "Predicated",
-                                            "targetPredicates": [
-                                                {
-                                                    "$type": "ByTargetGlobalValue",
-                                                    "key": "_ABILITY_Weapon_Bow_EnergyPoem_BurstTrigger",
-                                                    "value": 0.0
-                                                }
-                                            ],
-                                            "successActions": [
-                                                {
-                                                    "$type": "AttachModifier",
-                                                    "modifierName": "UNIQUE_Bow_EnergyPoem_4"
-                                                },
-                                                {
-                                                    "$type": "AddGlobalValue",
-                                                    "value": -1.0,
-                                                    "key": "_ABILITY_Weapon_Bow_EnergyPoem",
-                                                    "useLimitRange": true,
-                                                    "maxValue": 4.0,
-                                                    "minValue": 4.0
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "$type": "ApplyModifier",
-                            "modifierName": "UNIQUE_Bow_EnergyPoem_Timer"
-                        }
-                    ]
-                },
-                {
-                    "$type": "AttachModifierToSelfGlobalValueMixin",
-                    "globalValueKey": "_ABILITY_Weapon_Bow_EnergyPoem",
-                    "defaultGlobalValueOnCreate": 0.0,
-                    "valueSteps": [
-                        -0.5,
-                        0.5,
-                        1.5,
-                        2.5,
-                        3.5,
-                        4.5,
-                        5.5
-                    ],
-                    "modifierNameSteps": [
-                        "UNIQUE_Bow_EnergyPoem_0",
-                        "UNIQUE_Bow_EnergyPoem_1",
-                        "UNIQUE_Bow_EnergyPoem_2",
-                        "UNIQUE_Bow_EnergyPoem_3",
-                        "UNIQUE_Bow_EnergyPoem_4",
-                        "UNIQUE_Bow_EnergyPoem_0"
-                    ]
-                }
-            ],
-            "abilitySpecials": {
-                "Rate": 0.0,
-                "Timer": 0.0,
-                "CritHurtRate": 0.0,
-                "SpeedRate": 0.0,
-                "Dura": 0.0,
-                "CDTime": 0.0
-            },
-            "modifiers": {
-                "UNIQUE_Bow_EnergyPoem_Trigger": {
-                    "stacking": "Unique",
-                    "modifierName": "",
-                    "isUnique": true,
-                    "duration": 0.5,
-                    "elementDurability": 100.0,
-                    "onAdded": [
-                        {
-                            "$type": "AddGlobalValue",
-                            "predicates": [
-                                {
-                                    "$type": "ByTargetGlobalValue",
-                                    "key": "_ABILITY_Weapon_Bow_EnergyPoem",
-                                    "value": 4.0,
-                                    "compareType": "LessAndEqual"
-                                }
-                            ],
-                            "value": 1.0,
-                            "key": "_ABILITY_Weapon_Bow_EnergyPoem",
-                            "useLimitRange": true,
-                            "maxValue": 5.0,
-                            "minValue": 0.0
-                        }
-                    ]
-                },
-                "UNIQUE_Bow_EnergyPoem_Timer": {
-                    "modifierName": "",
-                    "isUnique": true,
-                    "duration": "Timer",
-                    "elementDurability": 100.0,
-                    "onRemoved": [
-                        {
-                            "$type": "AddGlobalValue",
-                            "doOffStage": true,
-                            "predicates": [
-                                {
-                                    "$type": "ByTargetGlobalValue",
-                                    "key": "_ABILITY_Weapon_Bow_EnergyPoem",
-                                    "value": 4.0,
-                                    "compareType": "LessAndEqual"
-                                }
-                            ],
-                            "value": -100.0,
-                            "key": "_ABILITY_Weapon_Bow_EnergyPoem",
-                            "useLimitRange": true,
-                            "maxValue": 0.0,
-                            "minValue": 0.0
-                        }
-                    ]
-                },
-                "UNIQUE_Bow_EnergyPoem_0": {
-                    "stacking": "Unique",
-                    "modifierName": "",
-                    "isUnique": true,
-                    "elementDurability": 100.0
-                },
-                "UNIQUE_Bow_EnergyPoem_1": {
-                    "modifierName": "",
-                    "isUnique": true,
-                    "elementDurability": 100.0,
-                    "properties": {
-                        "Actor_AttackRatio": [
-                            "Rate",
-                            1.0,
-                            "Mul"
-                        ]
-                    },
-                    "onAdded": [
-                        {
-                            "$type": "AttachEffect",
-                            "effectPattern": "Eff_Weapon_EnergyPoem_Stack1"
-                        }
-                    ],
-                    "isLimitedProperties": true
-                },
-                "UNIQUE_Bow_EnergyPoem_2": {
-                    "modifierName": "",
-                    "isUnique": true,
-                    "elementDurability": 100.0,
-                    "properties": {
-                        "Actor_AttackRatio": [
-                            "Rate",
-                            2.0,
-                            "Mul"
-                        ]
-                    },
-                    "onAdded": [
-                        {
-                            "$type": "AttachEffect",
-                            "effectPattern": "Eff_Weapon_EnergyPoem_Stack2"
-                        }
-                    ],
-                    "isLimitedProperties": true
-                },
-                "UNIQUE_Bow_EnergyPoem_3": {
-                    "modifierName": "",
-                    "isUnique": true,
-                    "elementDurability": 100.0,
-                    "properties": {
-                        "Actor_AttackRatio": [
-                            "Rate",
-                            3.0,
-                            "Mul"
-                        ]
-                    },
-                    "onAdded": [
-                        {
-                            "$type": "AttachEffect",
-                            "effectPattern": "Eff_Weapon_EnergyPoem_Stack3"
-                        }
-                    ],
-                    "isLimitedProperties": true
-                },
-                "UNIQUE_Bow_EnergyPoem_4": {
-                    "modifierName": "",
-                    "isUnique": true,
-                    "elementDurability": 100.0,
-                    "properties": {
-                        "Actor_AttackRatio": [
-                            "Rate",
-                            4.0,
-                            "Mul"
-                        ]
-                    },
-                    "onAdded": [
-                        {
-                            "$type": "AttachEffect",
-                            "effectPattern": "Eff_Weapon_EnergyPoem_Stack4"
-                        }
-                    ],
-                    "isLimitedProperties": true
-                },
-                "UNIQUE_Bow_EnergyPoem_Extra": {
-                    "stacking": "Unique",
-                    "modifierName": "",
-                    "isUnique": true,
-                    "duration": "Dura",
-                    "elementDurability": 100.0,
-                    "properties": {
-                        "Actor_AttackRatio": [
-                            "Rate",
-                            4.0,
-                            "Mul"
-                        ],
-                        "Actor_CriticalHurtDelta": "CritHurtRate",
-                        "Animator_AttackSpeedRatio": "SpeedRate"
-                    },
-                    "state": "AttackUp",
-                    "onAdded": [
-                        {
-                            "$type": "FireEffect",
-                            "effectPattern": "Eff_Weapon_EnergyPoem_Burst"
-                        },
-                        {
-                            "$type": "EquipAffixStart",
-                            "CD": "CDTime",
-                            "equipAffixDataID": 115503
-                        },
-                        {
-                            "$type": "AttachEffect",
-                            "otherTargets": {
-                                "$type": "SelectTargetsByEquipParts",
-                                "equipPartNames": [
-                                    "equip01",
-                                    "equip02",
-                                    "sheathPoint"
-                                ]
-                            },
-                            "effectPattern": "Eff_Weapon_Bow_Widsith"
-                        },
-                        {
-                            "$type": "SetAnimatorBool",
-                            "otherTargets": {
-                                "$type": "SelectTargetsByEquipParts",
-                                "equipPartNames": [
-                                    "equip01",
-                                    "equip02",
-                                    "sheathPoint"
-                                ]
-                            },
-                            "boolID": "Equip_Lighting",
-                            "value": true
-                        },
-                        {
-                            "$type": "AddGlobalValue",
-                            "doOffStage": true,
-                            "value": 1.0,
-                            "key": "_ABILITY_Weapon_Bow_EnergyPoem_BurstTrigger",
-                            "useLimitRange": true,
-                            "maxValue": 1.0,
-                            "minValue": 1.0
-                        }
-                    ],
-                    "onRemoved": [
-                        {
-                            "$type": "AddGlobalValue",
-                            "doOffStage": true,
-                            "value": -100.0,
-                            "key": "_ABILITY_Weapon_Bow_EnergyPoem",
-                            "useLimitRange": true,
-                            "maxValue": 0.0,
-                            "minValue": 0.0
-                        },
-                        {
-                            "$type": "AddGlobalValue",
-                            "doOffStage": true,
-                            "value": -1.0,
-                            "key": "_ABILITY_Weapon_Bow_EnergyPoem_BurstTrigger",
-                            "useLimitRange": true,
-                            "maxValue": 0.0,
-                            "minValue": 0.0
-                        },
-                        {
-                            "$type": "SetAnimatorBool",
-                            "otherTargets": {
-                                "$type": "SelectTargetsByEquipParts",
-                                "equipPartNames": [
-                                    "equip01",
-                                    "equip02",
-                                    "sheathPoint"
-                                ]
-                            },
-                            "doOffStage": true,
-                            "boolID": "Equip_Lighting"
-                        },
-                        {
-                            "$type": "SendEffectTrigger",
-                            "otherTargets": {
-                                "$type": "SelectTargetsByEquipParts",
-                                "equipPartNames": [
-                                    "equip01",
-                                    "equip02",
-                                    "sheathPoint"
-                                ]
-                            },
-                            "doOffStage": true,
-                            "parameter": "Trigger_Kill_Effect",
-                            "effectPattern": "Eff_Weapon_Bow_Widsith"
-                        }
-                    ],
-                    "isLimitedProperties": true
-                }
-            },
-            "onAdded": [
-                {
-                    "$type": "AddGlobalValue",
-                    "doOffStage": true,
-                    "value": -1.0,
-                    "key": "_ABILITY_Weapon_Bow_EnergyPoem_BurstTrigger",
-                    "useLimitRange": true,
-                    "maxValue": 0.0,
-                    "minValue": 0.0
-                }
-            ],
-            "onRemoved": [
-                {
-                    "$type": "AddGlobalValue",
-                    "doOffStage": true,
-                    "value": 0.0,
-                    "key": "_ABILITY_Weapon_Bow_EnergyPoem",
-                    "useLimitRange": true,
-                    "maxValue": 0.0,
-                    "minValue": 0.0
-                }
-            ],
-            "isDynamicAbility": true
-        }
-    },
-    {
-        "Default": {
-            "$type": "ConfigAbility",
             "abilityName": "Weapon_Bow_Widsith",
             "abilityMixins": [
                 {
@@ -2836,7 +2707,26 @@
                 "UNIQUE_Weapon_Bow_Widsith_CD": {
                     "modifierName": "",
                     "isUnique": true,
-                    "elementDurability": 100.0
+                    "duration": "CDTime",
+                    "elementDurability": 100.0,
+                    "onRemoved": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "value": 0.0,
+                            "key": "_ABILITY_Weapon_Bow_Widsith",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "value": 0.0,
+                            "key": "_ABILITY_Weapon_Bow_Widsith_Check",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        }
+                    ]
                 },
                 "UNIQUE_Weapon_Bow_Widsith_Handler": {
                     "modifierName": "",
@@ -2898,13 +2788,111 @@
                             "value": 1.0,
                             "key": "_ABILITY_Weapon_Bow_Widsith",
                             "useLimitRange": true,
-                            "maxValue": 5.0,
+                            "maxValue": 4.0,
                             "minValue": 0.0
                         },
                         {
                             "$type": "ApplyModifier",
                             "doOffStage": true,
                             "modifierName": "UNIQUE_Weapon_Bow_Widsith_Timer"
+                        },
+                        {
+                            "$type": "Predicated",
+                            "doOffStage": true,
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_Weapon_Bow_Widsith",
+                                    "value": 4.0,
+                                    "compareType": "MoreThanAndEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "EquipAffixStart",
+                                    "doOffStage": true,
+                                    "CD": "CDTime",
+                                    "equipAffixDataID": 115503
+                                },
+                                {
+                                    "$type": "SetGlobalValue",
+                                    "doOffStage": true,
+                                    "value": -1.0,
+                                    "key": "_ABILITY_Weapon_Bow_Widsith_Check",
+                                    "maxValue": 0.0,
+                                    "minValue": 0.0
+                                },
+                                {
+                                    "$type": "FireEffect",
+                                    "doOffStage": true,
+                                    "effectPattern": "Eff_Weapon_Widsith_Bow_Burst"
+                                },
+                                {
+                                    "$type": "RemoveUniqueModifier",
+                                    "target": "AllPlayerAvatars",
+                                    "doOffStage": true,
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetPositionToSelfPosition",
+                                            "logic": "LesserOrEqual",
+                                            "value": 40.0
+                                        }
+                                    ],
+                                    "modifierName": "UNIQUE_Weapon_Widsith_CommonBuff"
+                                },
+                                {
+                                    "$type": "RemoveUniqueModifier",
+                                    "target": "AllPlayerAvatars",
+                                    "doOffStage": true,
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetPositionToSelfPosition",
+                                            "logic": "LesserOrEqual",
+                                            "value": 40.0
+                                        }
+                                    ],
+                                    "modifierName": "UNIQUE_Weapon_Bow_Widsith_BowBuff"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "AllPlayerAvatars",
+                                    "doOffStage": true,
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetPositionToSelfPosition",
+                                            "logic": "LesserOrEqual",
+                                            "value": 40.0
+                                        }
+                                    ],
+                                    "modifierName": "UNIQUE_Weapon_Widsith_CommonBuff"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "AllPlayerAvatars",
+                                    "doOffStage": true,
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetPositionToSelfPosition",
+                                            "logic": "LesserOrEqual",
+                                            "value": 40.0
+                                        }
+                                    ],
+                                    "modifierName": "UNIQUE_Weapon_Bow_Widsith_BowBuff"
+                                },
+                                {
+                                    "$type": "ApplyModifier",
+                                    "target": "AllPlayerAvatars",
+                                    "doOffStage": true,
+                                    "predicates": [
+                                        {
+                                            "$type": "ByTargetPositionToSelfPosition",
+                                            "logic": "LesserOrEqual",
+                                            "value": 40.0
+                                        }
+                                    ],
+                                    "modifierName": "UNIQUE_Weapon_Bow_Widsith_BuffEffect"
+                                }
+                            ]
                         }
                     ]
                 },
@@ -2974,102 +2962,9 @@
                     ]
                 },
                 "UNIQUE_Weapon_Bow_Widsith_Full": {
-                    "stacking": "Unique",
                     "modifierName": "",
                     "isUnique": true,
-                    "duration": "Dura",
-                    "elementDurability": 100.0,
-                    "onAdded": [
-                        {
-                            "$type": "EquipAffixStart",
-                            "doOffStage": true,
-                            "CD": "CDTime",
-                            "equipAffixDataID": 115503
-                        },
-                        {
-                            "$type": "SetGlobalValue",
-                            "doOffStage": true,
-                            "value": -1.0,
-                            "key": "_ABILITY_Weapon_Bow_Widsith_Check",
-                            "maxValue": 0.0,
-                            "minValue": 0.0
-                        },
-                        {
-                            "$type": "FireEffect",
-                            "doOffStage": true,
-                            "effectPattern": "Eff_Weapon_Widsith_Bow_Burst"
-                        },
-                        {
-                            "$type": "RemoveUniqueModifier",
-                            "target": "AllPlayerAvatars",
-                            "doOffStage": true,
-                            "predicates": [
-                                {
-                                    "$type": "ByTargetPositionToSelfPosition",
-                                    "logic": "LesserOrEqual",
-                                    "value": 40.0
-                                }
-                            ],
-                            "modifierName": "UNIQUE_Weapon_Widsith_CommonBuff"
-                        },
-                        {
-                            "$type": "RemoveUniqueModifier",
-                            "target": "AllPlayerAvatars",
-                            "doOffStage": true,
-                            "predicates": [
-                                {
-                                    "$type": "ByTargetPositionToSelfPosition",
-                                    "logic": "LesserOrEqual",
-                                    "value": 40.0
-                                }
-                            ],
-                            "modifierName": "UNIQUE_Weapon_Bow_Widsith_BowBuff"
-                        },
-                        {
-                            "$type": "ApplyModifier",
-                            "target": "AllPlayerAvatars",
-                            "doOffStage": true,
-                            "predicates": [
-                                {
-                                    "$type": "ByTargetPositionToSelfPosition",
-                                    "logic": "LesserOrEqual",
-                                    "value": 40.0
-                                }
-                            ],
-                            "modifierName": "UNIQUE_Weapon_Widsith_CommonBuff"
-                        },
-                        {
-                            "$type": "ApplyModifier",
-                            "target": "AllPlayerAvatars",
-                            "doOffStage": true,
-                            "predicates": [
-                                {
-                                    "$type": "ByTargetPositionToSelfPosition",
-                                    "logic": "LesserOrEqual",
-                                    "value": 40.0
-                                }
-                            ],
-                            "modifierName": "UNIQUE_Weapon_Bow_Widsith_BowBuff"
-                        }
-                    ],
-                    "onRemoved": [
-                        {
-                            "$type": "SetGlobalValue",
-                            "doOffStage": true,
-                            "value": 0.0,
-                            "key": "_ABILITY_Weapon_Bow_Widsith",
-                            "maxValue": 0.0,
-                            "minValue": 0.0
-                        },
-                        {
-                            "$type": "SetGlobalValue",
-                            "doOffStage": true,
-                            "value": 0.0,
-                            "key": "_ABILITY_Weapon_Bow_Widsith_Check",
-                            "maxValue": 0.0,
-                            "minValue": 0.0
-                        }
-                    ]
+                    "elementDurability": 100.0
                 },
                 "UNIQUE_Weapon_Widsith_CommonBuff": {
                     "modifierName": "",
@@ -3080,12 +2975,6 @@
                         "Actor_AttackRatio": "CommonBuff"
                     },
                     "state": "AttackUp",
-                    "onAdded": [
-                        {
-                            "$type": "FireEffect",
-                            "effectPattern": "Eff_Weapon_Widsith_Common_TeamBuff"
-                        }
-                    ],
                     "isLimitedProperties": true,
                     "buffID": 10001
                 },
@@ -3097,13 +2986,23 @@
                     "properties": {
                         "Actor_ElemMasteryDelta": "BowBuff"
                     },
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Bow_Widsith_BuffEffect": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 0.30000001192092896,
+                    "elementDurability": 100.0,
                     "onAdded": [
+                        {
+                            "$type": "FireEffect",
+                            "effectPattern": "Eff_Weapon_Widsith_Common_TeamBuff"
+                        },
                         {
                             "$type": "FireEffect",
                             "effectPattern": "Eff_Weapon_Widsith_Bow_TeamBuff"
                         }
-                    ],
-                    "isLimitedProperties": true
+                    ]
                 }
             },
             "onAdded": [
@@ -3170,12 +3069,19 @@
                         {
                             "$type": "Predicated",
                             "target": "Target",
+                            "doOffStage": true,
                             "targetPredicates": [
                                 {
                                     "$type": "ByEntityTypes",
                                     "entityTypes": [
                                         "Monster"
                                     ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ANIMAL_ENTITY_TYPE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
                                 }
                             ],
                             "successActions": [
@@ -3601,7 +3507,8 @@
                             "doOffStage": true,
                             "modifierName": "UNIQUE_Bow_Morax_HpToAtk_Buff"
                         }
-                    ]
+                    ],
+                    "JNLGLIJLODK": ""
                 }
             ],
             "abilitySpecials": {
@@ -3680,6 +3587,1086 @@
                     "$type": "AttachModifier",
                     "doOffStage": true,
                     "modifierName": "UNIQUE_Bow_Morax_Handler"
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Bow_Bakufu",
+            "abilityMixins": [
+                {
+                    "$type": "ModifyDamageMixin",
+                    "attackTags": [
+                        "NormalAttack_01",
+                        "NormalAttack_02",
+                        "NormalAttack_03",
+                        "NormalAttack_04",
+                        "NormalAttack_05",
+                        "NormalAttack_06"
+                    ],
+                    "damagePercentageRatio": "NormalUp"
+                },
+                {
+                    "$type": "ModifyDamageMixin",
+                    "attackTags": [
+                        "ExtraAttack"
+                    ],
+                    "damagePercentageRatio": "ExtraUp"
+                },
+                {
+                    "$type": "AttachModifierToPredicateMixin",
+                    "predicates": [
+                        {
+                            "$type": "ByEnergyRatio",
+                            "logic": "GreaterOrEqual",
+                            "ratio": 1.0
+                        }
+                    ],
+                    "modifierName": "UNIQUE_Weapon_Bow_Bakufu_EnergyCheck"
+                }
+            ],
+            "abilitySpecials": {
+                "NormalUp": 0.0,
+                "ExtraUp": 0.0,
+                "Rate": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Weapon_Bow_Bakufu_EnergyCheck": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "NormalAttack_01",
+                                "NormalAttack_02",
+                                "NormalAttack_03",
+                                "NormalAttack_04",
+                                "NormalAttack_05",
+                                "NormalAttack_06"
+                            ],
+                            "damagePercentageRatio": [
+                                "NormalUp",
+                                "Rate",
+                                "Mul"
+                            ]
+                        },
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "ExtraAttack"
+                            ],
+                            "damagePercentageRatio": [
+                                "ExtraUp",
+                                "Rate",
+                                "Mul"
+                            ]
+                        }
+                    ]
+                }
+            },
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Bow_Narukami",
+            "abilityMixins": [
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Bow_Narukami_BuffLevel",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        0.5,
+                        1.5,
+                        2.5,
+                        3.5
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Weapon_Bow_Narukami_Buff1",
+                        "UNIQUE_Weapon_Bow_Narukami_Buff2",
+                        "UNIQUE_Weapon_Bow_Narukami_Buff3"
+                    ]
+                },
+                {
+                    "$type": "AttachModifierToPredicateMixin",
+                    "predicates": [
+                        {
+                            "$type": "ByEnergyRatio",
+                            "logic": "Lesser",
+                            "ratio": 1.0
+                        }
+                    ],
+                    "modifierName": "UNIQUE_Bow_Narukami_Mark1"
+                },
+                {
+                    "$type": "OnAvatarUseSkillMixin",
+                    "onTriggerSkill": [
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Bow_Narukami_Mark3"
+                        }
+                    ],
+                    "OIIDACCCPKO": 0.20000000298023224
+                }
+            ],
+            "abilitySpecials": {
+                "Rate1": 0.0,
+                "Rate2": 0.0,
+                "Rate3": 0.0,
+                "Dura2": 0.0,
+                "Dura3": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Bow_Narukami_Check": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "NormalAttack_01",
+                                        "NormalAttack_02",
+                                        "NormalAttack_03",
+                                        "NormalAttack_04",
+                                        "NormalAttack_05",
+                                        "NormalAttack_06"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ANIMAL_ENTITY_TYPE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                },
+                                {
+                                    "$type": "ByHitDamage",
+                                    "damage": 0.0
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Bow_Narukami_Mark2"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Bow_Narukami_Mark1": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Bow_Narukami_BuffLevel",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -1.0,
+                            "key": "_ABILITY_Bow_Narukami_BuffLevel",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Bow_Narukami_Mark2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Dura2",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Bow_Narukami_BuffLevel",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -1.0,
+                            "key": "_ABILITY_Bow_Narukami_BuffLevel",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Bow_Narukami_Mark3": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Dura3",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": 1.0,
+                            "key": "_ABILITY_Bow_Narukami_BuffLevel",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -1.0,
+                            "key": "_ABILITY_Bow_Narukami_BuffLevel",
+                            "useLimitRange": true,
+                            "maxValue": 3.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Bow_Narukami_Buff1": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "NormalAttack_01",
+                                "NormalAttack_02",
+                                "NormalAttack_03",
+                                "NormalAttack_04",
+                                "NormalAttack_05",
+                                "NormalAttack_06"
+                            ],
+                            "damagePercentageRatio": "Rate1"
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "AttachModifier",
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Bow_Narukami_Buff1_EffectDelay"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "RemoveUniqueModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Bow_Narukami_Buff1_Effect"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Bow_Narukami_Buff1_EffectDelay": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 5.5,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Bow_Narukami_Buff1_Effect"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Bow_Narukami_Buff1_Effect"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Bow_Narukami_Buff1_Effect": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Weapon_NarukamiBuff_Bow_1"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Bow_Narukami_Buff2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "NormalAttack_01",
+                                "NormalAttack_02",
+                                "NormalAttack_03",
+                                "NormalAttack_04",
+                                "NormalAttack_05",
+                                "NormalAttack_06"
+                            ],
+                            "damagePercentageRatio": "Rate2"
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Weapon_NarukamiBuff_Bow_2"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Weapon_Bow_Narukami_Buff3": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "ModifyDamageMixin",
+                            "attackTags": [
+                                "NormalAttack_01",
+                                "NormalAttack_02",
+                                "NormalAttack_03",
+                                "NormalAttack_04",
+                                "NormalAttack_05",
+                                "NormalAttack_06"
+                            ],
+                            "damagePercentageRatio": "Rate3"
+                        }
+                    ],
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Weapon_NarukamiBuff_Bow_3"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Bow_Narukami_Check"
+                },
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "_ABILITY_Bow_Narukami_BuffLevel",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "_ABILITY_Bow_Narukami_BuffLevel",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Bow_Worldbane",
+            "abilityMixins": [
+                {
+                    "$type": "ModifyDamageMixin",
+                    "attackTags": [
+                        "Elemental_Art",
+                        "Elemental_Art_Hold",
+                        "Elemental_Art_Extra",
+                        "Elemental_Burst"
+                    ],
+                    "damagePercentageRatio": "Passive_Rate"
+                },
+                {
+                    "$type": "AttachModifierToSelfGlobalValueMixin",
+                    "globalValueKey": "_ABILITY_Weapon_Bow_Worldbane",
+                    "defaultGlobalValueOnCreate": 0.0,
+                    "valueSteps": [
+                        -10.0,
+                        0.5,
+                        1.5,
+                        2.5,
+                        3.5,
+                        10.0
+                    ],
+                    "modifierNameSteps": [
+                        "UNIQUE_Bow_Worldbane_Buff0",
+                        "UNIQUE_Bow_Worldbane_Buff1",
+                        "UNIQUE_Bow_Worldbane_Buff2",
+                        "UNIQUE_Bow_Worldbane_Buff3",
+                        "UNIQUE_Bow_Worldbane_Buff4"
+                    ]
+                }
+            ],
+            "abilitySpecials": {
+                "Passive_Rate": 0.0,
+                "Time": 0.0,
+                "Rate1": 0.0,
+                "Rate2": 0.0,
+                "Rate3": 0.0,
+                "Rate4": 0.0
+            },
+            "modifiers": {
+                "UNIQUE_Weapon_Bow_Worldbane_EffectDelay": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": 5.5,
+                    "elementDurability": 100.0,
+                    "thinkInterval": 1.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Bow_Worldbane_Effect_Init"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "ApplyModifier",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "modifierName": "UNIQUE_Weapon_Bow_Worldbane_Effect_Init"
+                        }
+                    ]
+                },
+                "UNIQUE_Weapon_Bow_Worldbane_Effect_Init": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AttachEffect",
+                            "doOffStage": true,
+                            "effectPattern": "Eff_Weapon_Worldbane"
+                        }
+                    ]
+                },
+                "UNIQUE_Bow_Worldbane_Check": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAttackLanded": [
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "NormalAttack_01",
+                                        "NormalAttack_02",
+                                        "NormalAttack_03",
+                                        "NormalAttack_04",
+                                        "NormalAttack_05",
+                                        "NormalAttack_06"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ANIMAL_ENTITY_TYPE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Bow_Worldbane_NormalAttackBuff"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "Elemental_Art",
+                                        "Elemental_Art_Hold",
+                                        "Elemental_Art_Extra"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ANIMAL_ENTITY_TYPE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Bow_Worldbane_ElementalArtBuff"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "ExtraAttack"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ANIMAL_ENTITY_TYPE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Bow_Worldbane_ExtraAttackBuff"
+                                }
+                            ]
+                        },
+                        {
+                            "$type": "Predicated",
+                            "target": "Target",
+                            "targetPredicates": [
+                                {
+                                    "$type": "ByAttackTags",
+                                    "attackTags": [
+                                        "Elemental_Burst"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByEntityTypes",
+                                    "entityTypes": [
+                                        "Monster"
+                                    ]
+                                },
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ANIMAL_ENTITY_TYPE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "successActions": [
+                                {
+                                    "$type": "AttachModifier",
+                                    "modifierName": "UNIQUE_Bow_Worldbane_ElementalBurstBuff"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "UNIQUE_Bow_Worldbane_NormalAttackBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Time",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Bow_Worldbane",
+                            "useLimitRange": true,
+                            "maxValue": 4.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -1.0,
+                            "key": "_ABILITY_Weapon_Bow_Worldbane",
+                            "useLimitRange": true,
+                            "maxValue": 4.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Bow_Worldbane_ExtraAttackBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Time",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Bow_Worldbane",
+                            "useLimitRange": true,
+                            "maxValue": 4.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -1.0,
+                            "key": "_ABILITY_Weapon_Bow_Worldbane",
+                            "useLimitRange": true,
+                            "maxValue": 4.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Bow_Worldbane_ElementalArtBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Time",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Bow_Worldbane",
+                            "useLimitRange": true,
+                            "maxValue": 4.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -1.0,
+                            "key": "_ABILITY_Weapon_Bow_Worldbane",
+                            "useLimitRange": true,
+                            "maxValue": 4.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Bow_Worldbane_ElementalBurstBuff": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "duration": "Time",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": 1.0,
+                            "key": "_ABILITY_Weapon_Bow_Worldbane",
+                            "useLimitRange": true,
+                            "maxValue": 4.0,
+                            "minValue": 0.0
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "doOffStage": true,
+                            "value": -1.0,
+                            "key": "_ABILITY_Weapon_Bow_Worldbane",
+                            "useLimitRange": true,
+                            "maxValue": 4.0,
+                            "minValue": 0.0
+                        }
+                    ]
+                },
+                "UNIQUE_Bow_Worldbane_Buff0": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "parameter": "Level",
+                            "type": "Int",
+                            "effectPattern": "Eff_Weapon_Worldbane"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "parameter": "Change",
+                            "effectPattern": "Eff_Weapon_Worldbane"
+                        }
+                    ]
+                },
+                "UNIQUE_Bow_Worldbane_Buff1": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Rate1"
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "parameter": "Level",
+                            "type": "Int",
+                            "value": 1,
+                            "effectPattern": "Eff_Weapon_Worldbane"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "parameter": "Change",
+                            "effectPattern": "Eff_Weapon_Worldbane"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Bow_Worldbane_Buff2": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Rate2"
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "parameter": "Level",
+                            "type": "Int",
+                            "value": 2,
+                            "effectPattern": "Eff_Weapon_Worldbane"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "parameter": "Change",
+                            "effectPattern": "Eff_Weapon_Worldbane"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Bow_Worldbane_Buff3": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Rate3"
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "parameter": "Level",
+                            "type": "Int",
+                            "value": 3,
+                            "effectPattern": "Eff_Weapon_Worldbane"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "parameter": "Change",
+                            "effectPattern": "Eff_Weapon_Worldbane"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                },
+                "UNIQUE_Bow_Worldbane_Buff4": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "properties": {
+                        "Actor_AttackRatio": "Rate4"
+                    },
+                    "onAdded": [
+                        {
+                            "$type": "SendEffectTrigger",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "parameter": "Level",
+                            "type": "Int",
+                            "value": 4,
+                            "effectPattern": "Eff_Weapon_Worldbane"
+                        },
+                        {
+                            "$type": "SendEffectTrigger",
+                            "otherTargets": {
+                                "$type": "SelectTargetsByEquipParts",
+                                "equipPartNames": [
+                                    "equip01",
+                                    "equip02",
+                                    "sheathPoint"
+                                ]
+                            },
+                            "doOffStage": true,
+                            "parameter": "Change",
+                            "effectPattern": "Eff_Weapon_Worldbane"
+                        }
+                    ],
+                    "isLimitedProperties": true
+                }
+            },
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "_ABILITY_Weapon_Bow_Worldbane",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                },
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Weapon_Bow_Worldbane_EffectDelay"
+                },
+                {
+                    "$type": "AttachModifier",
+                    "modifierName": "UNIQUE_Bow_Worldbane_Check"
+                }
+            ],
+            "onRemoved": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "_ABILITY_Weapon_Bow_Worldbane",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ],
+            "isDynamicAbility": true
+        }
+    },
+    {
+        "Default": {
+            "$type": "ConfigAbility",
+            "abilityName": "Weapon_Bow_Maria",
+            "abilityMixins": [
+                {
+                    "$type": "DoActionByTeamStatusMixin",
+                    "actions": [
+                        {
+                            "$type": "GetTeamTotalMaxEnergyToOverridemap",
+                            "doOffStage": true,
+                            "EDAPHGNANPI": "BigTeam",
+                            "overrideMapKey": "Bow_Maria_TeamEnergy"
+                        },
+                        {
+                            "$type": "SetGlobalValue",
+                            "doOffStage": true,
+                            "value": [
+                                "Bow_Maria_TeamEnergy",
+                                "Ratio",
+                                "Mul",
+                                100.0,
+                                "Div"
+                            ],
+                            "key": "_ABILITY_Bow_Maria_BuffValue",
+                            "useLimitRange": true,
+                            "maxValue": "Max_Value",
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "SetGlobalValueToOverrideMap",
+                            "doOffStage": true,
+                            "globalValueKey": "_ABILITY_Bow_Maria_BuffValue",
+                            "overrideMapKey": "Bow_Maria_BuffValue"
+                        }
+                    ],
+                    "OAMDEEGEDBM": 20.0,
+                    "NCHNIFILGEL": true,
+                    "CIDAALBNDIG": true
+                },
+                {
+                    "$type": "ModifyDamageMixin",
+                    "attackTags": [
+                        "Elemental_Burst"
+                    ],
+                    "damagePercentageRatio": "Bow_Maria_BuffValue"
+                }
+            ],
+            "abilitySpecials": {
+                "Ratio": 0.0,
+                "Max_Value": 0.0,
+                "Bow_Maria_TeamEnergy": 0.0,
+                "Bow_Maria_BuffValue": 0.0
+            },
+            "onRemoved": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "_ABILITY_Bow_Maria_BuffValue",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
                 }
             ],
             "isDynamicAbility": true

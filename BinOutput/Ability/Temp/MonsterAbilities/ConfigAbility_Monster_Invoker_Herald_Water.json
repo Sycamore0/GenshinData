@@ -358,13 +358,61 @@
                 "Invoker_Herald_Water_ReturnToBorn": {
                     "modifierName": "",
                     "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "AttachActionToModifierMixin",
+                            "onAdded": [
+                                {
+                                    "$type": "TriggerSetVisible"
+                                },
+                                {
+                                    "$type": "HideUIBillBoard",
+                                    "hide": true
+                                },
+                                {
+                                    "$type": "EnableHitBoxByName",
+                                    "hitBoxNames": [
+                                        "HitBox",
+                                        "HeadBox"
+                                    ]
+                                },
+                                {
+                                    "$type": "EnablePushColliderName",
+                                    "pushColliderNames": [
+                                        "PushCollider"
+                                    ]
+                                }
+                            ],
+                            "onRemoved": [
+                                {
+                                    "$type": "TriggerSetVisible",
+                                    "visible": true
+                                },
+                                {
+                                    "$type": "HideUIBillBoard"
+                                },
+                                {
+                                    "$type": "EnableHitBoxByName",
+                                    "hitBoxNames": [
+                                        "HitBox",
+                                        "HeadBox"
+                                    ],
+                                    "setEnable": true
+                                },
+                                {
+                                    "$type": "EnablePushColliderName",
+                                    "pushColliderNames": [
+                                        "PushCollider"
+                                    ],
+                                    "setEnable": true
+                                }
+                            ]
+                        }
+                    ],
                     "onAdded": [
                         {
                             "$type": "FireEffect",
                             "effectPattern": "Eff_Monster_Invoker_BornHigh"
-                        },
-                        {
-                            "$type": "TriggerSetVisible"
                         }
                     ],
                     "onRemoved": [
@@ -376,10 +424,6 @@
                         {
                             "$type": "FireEffect",
                             "effectPattern": "Eff_Monster_Invoker_BornHigh"
-                        },
-                        {
-                            "$type": "TriggerSetVisible",
-                            "visible": true
                         }
                     ]
                 }
@@ -536,7 +580,8 @@
                             "hitPattern": {
                                 "onHitEffectName": "none",
                                 "hitImpulseType": "LV4"
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -806,7 +851,8 @@
                             "hitPattern": {
                                 "onHitEffectName": "none",
                                 "hitImpulseType": "LV4"
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -867,7 +913,8 @@
                             "hitPattern": {
                                 "onHitEffectName": "none",
                                 "hitImpulseType": "LV4"
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -1099,7 +1146,7 @@
                     "isUnique": true,
                     "elementDurability": 100.0,
                     "properties": {
-                        "Actor_HpThresholdRatio": 0.0
+                        "Actor_HpThresholdRatio": 0.15000000596046448
                     },
                     "state": "Limbo"
                 },
@@ -1170,11 +1217,34 @@
                 "Invoker_Herald_Water_Transform": {
                     "modifierName": "",
                     "elementDurability": 100.0,
+                    "thinkInterval": 5.0,
                     "onAdded": [
                         {
                             "$type": "SetAnimatorTrigger",
                             "triggerID": "TransformTrigger",
                             "MPTriggerOnRemote": true
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "Invoker_Herald_Water_Transform_LockHP"
+                        },
+                        {
+                            "$type": "AttachModifier",
+                            "modifierName": "Invoker_Herald_Water_Transform_NoHeal"
+                        }
+                    ],
+                    "onThinkInterval": [
+                        {
+                            "$type": "ApplyModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_MONSTER_INVOKER_HERALD_WATER_ELEMENTSTATE",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Invoker_Herald_Water_ElementShield"
                         }
                     ],
                     "onReconnect": [
@@ -1183,6 +1253,16 @@
                             "modifierName": "UNIQUE_Invoker_Herald_Water_ElementShield"
                         }
                     ]
+                },
+                "Invoker_Herald_Water_Transform_LockHP": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "LockHP"
+                },
+                "Invoker_Herald_Water_Transform_NoHeal": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "state": "NoHeal"
                 },
                 "UNIQUE_Invoker_Herald_Water_ElementShield": {
                     "stacking": "Unique",
@@ -1243,6 +1323,13 @@
                     "onAdded": [
                         {
                             "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_MONSTER_INVOKER_HERALD_WATER_ELEMENTSTATE",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
+                            "$type": "SetGlobalValue",
                             "value": 0.0,
                             "key": "_MONSTER_INVOKER_HERALD_WATER_DISAPPEAR",
                             "maxValue": 0.0,
@@ -1259,6 +1346,13 @@
                         }
                     ],
                     "onRemoved": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_MONSTER_INVOKER_HERALD_WATER_ELEMENTSTATE",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
                         {
                             "$type": "SetPoseBool",
                             "boolID": "ElementState"

@@ -34,8 +34,17 @@
                     ],
                     "exitActions": [
                         {
+                            "$type": "SetPoseInt",
+                            "intID": "ElementState",
+                            "value": 2
+                        },
+                        {
                             "$type": "TriggerAbility",
                             "abilityName": "Abyss_Ice_ElementShield"
+                        },
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "Abyss_Ice_ElementShield_Effect"
                         }
                     ]
                 }
@@ -69,8 +78,17 @@
             "abilityName": "Abyss_Ice_SacrificeAlert",
             "onAbilityStart": [
                 {
+                    "$type": "SetPoseInt",
+                    "intID": "ElementState",
+                    "value": 2
+                },
+                {
                     "$type": "TriggerAbility",
                     "abilityName": "Abyss_Ice_ElementShield"
+                },
+                {
+                    "$type": "TriggerAbility",
+                    "abilityName": "Abyss_Ice_ElementShield_Effect"
                 }
             ]
         }
@@ -124,12 +142,31 @@
                         "target": "Other",
                         "modifierName": "UNIQUE_IceSurface"
                     }
+                },
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        300,
+                        301,
+                        302
+                    ],
+                    "modifierName": "Abyss_Ice_ElementShield_RecoverHandler"
                 }
             ],
             "abilitySpecials": {
                 "ElementShield_DurabilityImprove": 0.0
             },
             "modifiers": {
+                "Abyss_Ice_ElementShield_RecoverHandler": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onReconnect": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Abyss_Ice_ElementShield"
+                        }
+                    ]
+                },
                 "UNIQUE_MonsterEliteAffix_DefaultState": {
                     "modifierName": "",
                     "isUnique": true,
@@ -283,7 +320,8 @@
                                     "effectPattern": "Eff_Monster_Abyss_Ice_ElementShield_BS"
                                 }
                             ],
-                            "useMutiPlayerFixData": true
+                            "useMutiPlayerFixData": true,
+                            "EPMPAMOKMAI": true
                         },
                         {
                             "$type": "VelocityForceMixin",
@@ -297,11 +335,6 @@
                     },
                     "onAdded": [
                         {
-                            "$type": "SetPoseInt",
-                            "intID": "ElementState",
-                            "value": 2
-                        },
-                        {
                             "$type": "AddGlobalValue",
                             "value": 1.0,
                             "key": "_ABILITY_ABYSS_ICE_ELEMENTSHIELD",
@@ -310,16 +343,12 @@
                             "minValue": 0.0
                         },
                         {
-                            "$type": "TriggerAbility",
-                            "abilityName": "Abyss_Ice_ElementShield_Effect"
-                        },
-                        {
                             "$type": "AttachAbilityStateResistance",
                             "resistanceListID": 14002
                         },
                         {
-                            "$type": "EnableMonsterMoveOnWater",
-                            "enable": true
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Abyss_Ice_MoveOnWaterHandler"
                         },
                         {
                             "$type": "AttachAbilityStateResistance",
@@ -344,11 +373,16 @@
                             "minValue": 0.0
                         },
                         {
-                            "$type": "TriggerAbility",
-                            "abilityName": "Abyss_Ice_DizzyTimer"
-                        },
-                        {
-                            "$type": "EnableMonsterMoveOnWater"
+                            "$type": "RemoveUniqueModifier",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_RETURNTOBORN_TAG_",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
+                            "modifierName": "UNIQUE_Abyss_Ice_MoveOnWaterHandler"
                         },
                         {
                             "$type": "RemoveUniqueModifier",
@@ -447,6 +481,16 @@
                             "modifierName": "UNIQUE_Abyss_Ice_ElementShield"
                         }
                     ]
+                },
+                "UNIQUE_Abyss_Ice_MoveOnWaterHandler": {
+                    "modifierName": "",
+                    "isUnique": true,
+                    "elementDurability": 100.0,
+                    "modifierMixins": [
+                        {
+                            "$type": "EnableCharacterMoveOnWaterMixin"
+                        }
+                    ]
                 }
             },
             "onAdded": [
@@ -466,11 +510,25 @@
                         }
                     ],
                     "modifierName": "UNIQUE_MonsterEliteAffix_DefaultState"
+                },
+                {
+                    "$type": "SetPoseInt",
+                    "intID": "ElementState",
+                    "value": 2
+                },
+                {
+                    "$type": "ApplyModifier",
+                    "modifierName": "UNIQUE_Abyss_Ice_ElementShield"
                 }
             ],
             "onAbilityStart": [
                 {
-                    "$type": "AttachModifier",
+                    "$type": "SetPoseInt",
+                    "intID": "ElementState",
+                    "value": 2
+                },
+                {
+                    "$type": "ApplyModifier",
                     "modifierName": "UNIQUE_Abyss_Ice_ElementShield"
                 }
             ]
@@ -480,7 +538,28 @@
         "Default": {
             "$type": "ConfigAbility",
             "abilityName": "Abyss_Ice_ElementShield_Effect",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        300,
+                        301,
+                        302
+                    ],
+                    "modifierName": "Abyss_Ice_ElementShield_Effect_RecoverHandler"
+                }
+            ],
             "modifiers": {
+                "Abyss_Ice_ElementShield_Effect_RecoverHandler": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onReconnect": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Abyss_Ice_ElementShield_Effect"
+                        }
+                    ]
+                },
                 "UNIQUE_Abyss_Ice_ElementShield_Effect": {
                     "stacking": "Unique",
                     "modifierName": "",
@@ -539,7 +618,14 @@
             },
             "onAbilityStart": [
                 {
-                    "$type": "AttachModifier",
+                    "$type": "ApplyModifier",
+                    "predicates": [
+                        {
+                            "$type": "ByTargetGlobalValue",
+                            "key": "_ABILITY_ABYSS_ICE_ELEMENTSHIELD",
+                            "value": 1.0
+                        }
+                    ],
                     "modifierName": "UNIQUE_Abyss_Ice_ElementShield_Effect"
                 }
             ]
@@ -561,11 +647,38 @@
         "Default": {
             "$type": "ConfigAbility",
             "abilityName": "Abyss_Ice_DizzyTimer",
+            "abilityMixins": [
+                {
+                    "$type": "AttachToPoseIDMixin",
+                    "poseIDs": [
+                        100,
+                        101
+                    ],
+                    "modifierName": "Abyss_Ice_DizzyTimer_Handler"
+                }
+            ],
             "abilitySpecials": {
                 "ElementShield_GapReduce": 0.0
             },
             "modifiers": {
-                "UNIQUE_DizzyTimer": {
+                "Abyss_Ice_DizzyTimer_Handler": {
+                    "modifierName": "",
+                    "elementDurability": 100.0,
+                    "onAdded": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Abyss_Ice_DizzyTimer"
+                        }
+                    ],
+                    "onReconnect": [
+                        {
+                            "$type": "ApplyModifier",
+                            "modifierName": "UNIQUE_Abyss_Ice_DizzyTimer"
+                        }
+                    ]
+                },
+                "UNIQUE_Abyss_Ice_DizzyTimer": {
+                    "stacking": "Unique",
                     "modifierName": "",
                     "isUnique": true,
                     "duration": [
@@ -582,6 +695,14 @@
                     "onRemoved": [
                         {
                             "$type": "SetPoseInt",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_ABYSS_ICE_ELEMENTSHIELD",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
                             "intID": "ElementState",
                             "value": 1
                         }
@@ -593,12 +714,6 @@
                     "$type": "SetGlobalValueToOverrideMap",
                     "globalValueKey": "_MONSTERAFFIX_ELEMENTSHIELD_GAPREDUCE",
                     "overrideMapKey": "ElementShield_GapReduce"
-                }
-            ],
-            "onAbilityStart": [
-                {
-                    "$type": "AttachModifier",
-                    "modifierName": "UNIQUE_DizzyTimer"
                 }
             ]
         }
@@ -649,11 +764,15 @@
                     "onRemoved": [
                         {
                             "$type": "SetPoseInt",
+                            "predicates": [
+                                {
+                                    "$type": "ByTargetGlobalValue",
+                                    "key": "_ABILITY_ABYSS_ICE_ELEMENTSHIELD",
+                                    "value": 0.0,
+                                    "compareType": "NoneOrEqual"
+                                }
+                            ],
                             "intID": "ElementState"
-                        },
-                        {
-                            "$type": "TriggerAbility",
-                            "abilityName": "Abyss_Ice_DizzyTimer"
                         },
                         {
                             "$type": "TriggerAbility",
@@ -757,7 +876,9 @@
                                 "direction": {
                                     "$type": "ConfigDirectionByLookAtEntity",
                                     "angleOffset": {
-                                        "y": 90.0
+                                        "x": 0.0,
+                                        "y": 90.0,
+                                        "z": 0.0
                                     }
                                 }
                             },
@@ -785,7 +906,9 @@
                                 "direction": {
                                     "$type": "ConfigDirectionByLookAtEntity",
                                     "angleOffset": {
-                                        "y": 90.0
+                                        "x": 0.0,
+                                        "y": 90.0,
+                                        "z": 0.0
                                     }
                                 }
                             },
@@ -813,11 +936,23 @@
                                 "direction": {
                                     "$type": "ConfigDirectionByLookAtEntity",
                                     "angleOffset": {
-                                        "y": 90.0
+                                        "x": 0.0,
+                                        "y": 90.0,
+                                        "z": 0.0
                                     }
                                 }
                             },
                             "trackTarget": "Self"
+                        }
+                    ],
+                    "onReconnect": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -10.0,
+                            "key": "_ABILITY_SURROUNDCONE_02",
+                            "useLimitRange": true,
+                            "maxValue": 5.0,
+                            "minValue": 0.0
                         }
                     ]
                 },
@@ -858,7 +993,9 @@
                                 "direction": {
                                     "$type": "ConfigDirectionByLookAtEntity",
                                     "angleOffset": {
-                                        "y": 90.0
+                                        "x": 0.0,
+                                        "y": 90.0,
+                                        "z": 0.0
                                     }
                                 }
                             },
@@ -886,7 +1023,9 @@
                                 "direction": {
                                     "$type": "ConfigDirectionByLookAtEntity",
                                     "angleOffset": {
-                                        "y": 90.0
+                                        "x": 0.0,
+                                        "y": 90.0,
+                                        "z": 0.0
                                     }
                                 }
                             },
@@ -914,11 +1053,23 @@
                                 "direction": {
                                     "$type": "ConfigDirectionByLookAtEntity",
                                     "angleOffset": {
-                                        "y": 90.0
+                                        "x": 0.0,
+                                        "y": 90.0,
+                                        "z": 0.0
                                     }
                                 }
                             },
                             "trackTarget": "Self"
+                        }
+                    ],
+                    "onReconnect": [
+                        {
+                            "$type": "AddGlobalValue",
+                            "value": -10.0,
+                            "key": "_ABILITY_SURROUNDCONE_04",
+                            "useLimitRange": true,
+                            "maxValue": 5.0,
+                            "minValue": 0.0
                         }
                     ]
                 }
@@ -959,7 +1110,7 @@
             "onAbilityStart": [
                 {
                     "$type": "RemoveUniqueModifier",
-                    "modifierName": "UNIQUE_DizzyTimer"
+                    "modifierName": "UNIQUE_Abyss_Ice_DizzyTimer"
                 },
                 {
                     "$type": "FireEffect",
@@ -1470,7 +1621,7 @@
                     "onRemoved": [
                         {
                             "$type": "RemoveUniqueModifier",
-                            "modifierName": "UNIQUE_Blink_Actions"
+                            "modifierName": "UNIQUE_ForceBlink_Actions"
                         }
                     ]
                 },
@@ -1560,7 +1711,7 @@
             "onAbilityStart": [
                 {
                     "$type": "RemoveUniqueModifier",
-                    "modifierName": "UNIQUE_DizzyTimer"
+                    "modifierName": "UNIQUE_Abyss_Ice_DizzyTimer"
                 },
                 {
                     "$type": "TryFindBlinkPoint",
@@ -1643,6 +1794,13 @@
                     "elementDurability": 100.0,
                     "onAdded": [
                         {
+                            "$type": "SetGlobalValue",
+                            "value": 1.0,
+                            "key": "_RETURNTOBORN_TAG_",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
+                        },
+                        {
                             "$type": "AttachModifier",
                             "modifierName": "UNIQUE_ReturnToBorn_Shield"
                         },
@@ -1657,6 +1815,15 @@
                         {
                             "$type": "FireEffect",
                             "effectPattern": "Eff_Monster_Abyss_Ice_Blink_BS"
+                        }
+                    ],
+                    "onRemoved": [
+                        {
+                            "$type": "SetGlobalValue",
+                            "value": 0.0,
+                            "key": "_RETURNTOBORN_TAG_",
+                            "maxValue": 0.0,
+                            "minValue": 0.0
                         }
                     ]
                 },
@@ -1674,10 +1841,6 @@
                             "triggerID": "ShiledBrokenTrigger"
                         },
                         {
-                            "$type": "RemoveUniqueModifier",
-                            "modifierName": "UNIQUE_DizzyTimer"
-                        },
-                        {
                             "$type": "AttachModifier",
                             "modifierName": "ReturnToBorn_Invincible"
                         },
@@ -1688,8 +1851,13 @@
                     ],
                     "onRemoved": [
                         {
+                            "$type": "SetPoseInt",
+                            "intID": "ElementState",
+                            "value": 2
+                        },
+                        {
                             "$type": "TriggerAbility",
-                            "abilityName": "Abyss_Ice_ElementShield"
+                            "abilityName": "Abyss_Ice_ElementShield_Effect"
                         }
                     ]
                 },
@@ -1700,7 +1868,20 @@
                     "onRemoved": [
                         {
                             "$type": "RemoveUniqueModifier",
-                            "modifierName": "UNIQUE_DizzyTimer"
+                            "modifierName": "UNIQUE_Abyss_Ice_DizzyTimer"
+                        },
+                        {
+                            "$type": "SetPoseInt",
+                            "intID": "ElementState",
+                            "value": 2
+                        },
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "Abyss_Ice_ElementShield"
+                        },
+                        {
+                            "$type": "TriggerAbility",
+                            "abilityName": "Abyss_Ice_ElementShield_Effect"
                         }
                     ]
                 },
@@ -1780,7 +1961,16 @@
                     "elementDurability": 100.0,
                     "state": "DenyLockOn"
                 }
-            }
+            },
+            "onAdded": [
+                {
+                    "$type": "SetGlobalValue",
+                    "value": 0.0,
+                    "key": "_RETURNTOBORN_TAG_",
+                    "maxValue": 0.0,
+                    "minValue": 0.0
+                }
+            ]
         }
     },
     {
@@ -1956,7 +2146,8 @@
                                 "shakeRange": 0.11999999731779099,
                                 "shakeTime": 0.10000000149011612,
                                 "shakeDistance": 25.0
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -2258,7 +2449,8 @@
                                 "shakeDir": {
                                     "y": -1.0
                                 }
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -2314,7 +2506,8 @@
                                         "onHitEffectName": "",
                                         "hitImpulseType": "LV1",
                                         "hitHaltTimeScale": 0.05000000074505806
-                                    }
+                                    },
+                                    "canBeModifiedBy": "OriginOwner"
                                 }
                             },
                             "targetType": "Enemy"
@@ -2471,7 +2664,8 @@
                                 "shakeDir": {
                                     "x": 1.0
                                 }
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
@@ -2529,7 +2723,8 @@
                                 "shakeRange": 0.1599999964237213,
                                 "shakeTime": 0.15000000596046448,
                                 "shakeDistance": 25.0
-                            }
+                            },
+                            "canBeModifiedBy": "OriginOwner"
                         }
                     },
                     "targetType": "Enemy"
