@@ -1,5 +1,5 @@
 # GenshinData
-Repository containing the data for Genshin Impact. This repository is a work between [FZFalzar](https://github.com/FZFalzar) and [Dimbreath](https://github.com/Dimbreath). If Mihoyo wants to request for a file to be taken down, please contact us.
+Repository containing the data for Genshin Impact. This repository is a work between [FZFalzar](https://github.com/FZFalzar) and [Dimbreath](https://github.com/Dimbreath). If Mihoyo wants to request for a file to be taken down, please contact me.
 
 ## There isn't full data!I just commit it for fun.
 
