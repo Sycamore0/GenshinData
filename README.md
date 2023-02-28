@@ -3,4 +3,7 @@ Repository containing the data for Genshin Impact. This repository is a work bet
 
 Update will be obtained from Dim's warehouse from time to time
 
+# Notice
+DialogExcelConfigData.json zipped in `.\ExcelBinOutput\DialogExcelConfigData.zip`
+
 > Sometimes I also submit beta data</br>小孩子不懂事，乱提交着玩的。
